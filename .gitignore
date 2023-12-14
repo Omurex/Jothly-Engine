@@ -1,5 +1,3 @@
-raylib-master
-_build
 _bin
 .vs
 
@@ -401,3 +399,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+premake*
+raylib_premake*
