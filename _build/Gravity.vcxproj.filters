@@ -30,6 +30,9 @@
     <ClInclude Include="ShapeRenderer.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -41,5 +44,6 @@
     <ClCompile Include="ShapeRenderer.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Component.cpp" />
   </ItemGroup>
 </Project>

@@ -6,7 +6,11 @@
 
 class ShapeRenderer : Component
 {
-	ComponentID GetID() override { return ComponentID::SHAPE_RENDERER; }
+	public:
+
+	ShapeRenderer(GameObject* _owner);
+	
+	ComponentID GetID() const override { return ComponentID::SHAPE_RENDERER; }
 
 	void Draw() override;
 };

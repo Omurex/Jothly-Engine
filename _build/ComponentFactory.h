@@ -7,9 +7,11 @@
 
 class ComponentFactory
 {
-	//public:
-	//static bool CreateShapeRenderer(GameObject* owner, ShapeRenderer* &out_component)
-	//{
-	//	ShapeRenderer* component = new 
-	//}
+	protected:
+
+	bool LinkComponentToGameObject(GameObject* obj, Component* comp);
+
+
+	public:
+
 };
