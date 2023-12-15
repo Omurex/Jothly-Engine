@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Components">
       <UniqueIdentifier>{6eacddf2-da49-4156-a785-b23ae9b309e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{4644dca2-9a4a-4d10-8c4a-6bbf0bd4bae8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -33,6 +36,7 @@
     <ClInclude Include="ComponentFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Constants.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">

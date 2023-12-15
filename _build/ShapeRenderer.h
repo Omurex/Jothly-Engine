@@ -7,8 +7,7 @@
 class ShapeRenderer : Component
 {
 	public:
-
-	ShapeRenderer(GameObject* _owner);
+	ShapeRenderer(GameObject* owner);
 	
 	ComponentID GetID() const override { return ComponentID::SHAPE_RENDERER; }
 

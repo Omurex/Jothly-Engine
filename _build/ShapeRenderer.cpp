@@ -1,7 +1,7 @@
 #include "ShapeRenderer.h"
 
 
-ShapeRenderer::ShapeRenderer(GameObject* _owner) : Component(_owner, GetID())
+ShapeRenderer::ShapeRenderer(GameObject* _owner) : Component(_owner)
 {
 }
 

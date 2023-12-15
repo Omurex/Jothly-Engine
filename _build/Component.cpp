@@ -3,26 +3,17 @@
 #include <string>
 
 
-Component::Component(GameObject* _owner, ComponentID id) : owner(_owner), enabled(true)
+Component::Component(GameObject* _owner) : owner(_owner), enabled(true)
 {
-	if (owner == nullptr) // Owner doesn't exists
+	// Would like to put id into debug string but not worth it atm since we'd have to
+	// give this constructor an extra parameter since the abstract function GetID can't be called from here
+	if (owner == nullptr) // Owner doesn't exist
 	{
 		std::string errorStr = "Owner of component cannot be null!";
-		errorStr += "\nComponent ID: " + std::to_string((int) id);
 		errorStr += "\n";
 
 		throw std::invalid_argument(errorStr);
 	}
 
-	if (owner->components.count(id) > 0) // Component already exists
-	{
-		std::string errorStr = "GameObject already has component of same type!";
-		errorStr += "\nGameObject Name: " + owner->name;
-		errorStr += "\nComponent ID: " + std::to_string((int) id);
-		errorStr += "\n";
-
-		throw std::invalid_argument(errorStr);
-	}
-
-	owner->components.insert(std::make_pair(id, this));
+	owner = _owner;
 }

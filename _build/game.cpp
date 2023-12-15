@@ -8,13 +8,13 @@ GameObject testObj;
 
 void Update()
 {
-
+	testObj.Update(GetFrameTime());
 }
 
 
 void Draw()
 {
-
+	testObj.Draw();
 }
 
 
@@ -23,7 +23,7 @@ void Init()
 	InitWindow(400, 400, "Gravity");
 	SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
 
-	new ShapeRenderer(&testObj);
+	testObj.CreateComponent<ShapeRenderer>();
 
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key

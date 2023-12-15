@@ -14,7 +14,7 @@ class Component
 	GameObject* owner;
 	bool enabled;
 
-	Component(GameObject* _owner, ComponentID id);
+	Component(GameObject* _owner);
 
 	// Actual update and draw logic that does things in the game
 	virtual void Update(float dt) {};

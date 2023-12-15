@@ -262,6 +262,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentFactory.h" />
     <ClInclude Include="ComponentID.hpp" />
+    <ClInclude Include="Constants.hpp" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ShapeRenderer.h" />
   </ItemGroup>
