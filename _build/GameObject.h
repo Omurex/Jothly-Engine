@@ -11,56 +11,60 @@
 #include "Component.h"
 #include "Constants.hpp"
 
-class Component;
 
-class GameObject
+namespace jothly
 {
-	std::unordered_map<ComponentID, Component*> components;
+	class Component;
+
+	class GameObject
+	{
+		std::unordered_map<ComponentID, Component*> components;
 
 
-	public:
+		public:
 
-	std::string name;
-	Transform transform;
+		std::string name;
+		Transform transform;
 
-	GameObject(std::string _name = "New Object", Transform _transform = con::DefaultTransform) : name(_name),
-		transform(_transform) {}
+		GameObject(std::string _name = "New Object", Transform _transform = con::DefaultTransform) : name(_name),
+			transform(_transform) {}
 
-	// Calls update and draw on all components
-	void Update(float dt);
-	void Draw();
+		// Calls update and draw on all components
+		void Update(float dt);
+		void Draw();
+
+		template<typename T>
+		T* CreateComponent();
+		Component* GetComponent(ComponentID id);
+		bool DestroyComponent(ComponentID id);
+	};
+
 
 	template<typename T>
-	T* CreateComponent();
-	Component* GetComponent(ComponentID id);
-	bool DestroyComponent(ComponentID id);
-};
-
-
-template<typename T>
-inline T* GameObject::CreateComponent()
-{
-	// Make sure passed in type is a component
-	bool isComponent = std::is_base_of<Component, T>();
-	assert(isComponent);
-	
-	T* specificComp = new T(this); // Will be ShapeRenderer, etc.
-	Component* comp = (Component*) specificComp; // Use this for general component set up
-
-	// Component already exists, throw error
-	if (components.count(comp->GetID()) > 0)
+	inline T* GameObject::CreateComponent()
 	{
-		delete comp;
+		// Make sure passed in type is a component
+		bool isComponent = std::is_base_of<Component, T>();
+		assert(isComponent);
+	
+		T* specificComp = new T(this); // Will be ShapeRenderer, etc.
+		Component* comp = (Component*) specificComp; // Use this for general component set up
 
-		std::string errorStr = "GameObject already has component of same type!";
-		errorStr += "\nGameObject Name: " + name;
-		errorStr += "\nComponent ID: " + std::to_string((int) comp->GetID());
-		errorStr += "\n";
+		// Component already exists, throw error
+		if (components.count(comp->GetID()) > 0)
+		{
+			delete comp;
 
-		throw std::invalid_argument(errorStr);
+			std::string errorStr = "GameObject already has component of same type!";
+			errorStr += "\nGameObject Name: " + name;
+			errorStr += "\nComponent ID: " + std::to_string((int) comp->GetID());
+			errorStr += "\n";
+
+			throw std::invalid_argument(errorStr);
+		}
+
+		components.insert(std::make_pair(comp->GetID(), comp));
+
+		return specificComp;
 	}
-
-	components.insert(std::make_pair(comp->GetID(), comp));
-
-	return specificComp;
 }

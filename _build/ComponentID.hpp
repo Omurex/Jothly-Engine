@@ -1,6 +1,9 @@
 #pragma once
 
-enum class ComponentID
+namespace jothly
 {
-	SHAPE_RENDERER
-};
+	enum class ComponentID
+	{
+		SHAPE_RENDERER
+	};
+}

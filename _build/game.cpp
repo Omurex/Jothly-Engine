@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include "GameObject.h"
-#include "ShapeRenderer.h"
+#include "ShapeRenderer2D.h"
+
+using namespace jothly;
 
 
 GameObject testObj;
@@ -23,7 +25,8 @@ void Init()
 	InitWindow(400, 400, "Gravity");
 	SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
 
-	testObj.CreateComponent<ShapeRenderer>();
+	ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>();
+	sr2D->SetOffset({ 100, 100 });
 
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key

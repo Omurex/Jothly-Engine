@@ -3,32 +3,34 @@
 #include "GameObject.h"
 #include "ComponentID.hpp"
 
-class GameObject;
-
-
-// Note: GameObjects are always in charge of managing the deletion of created components, so 
-class Component
+namespace jothly
 {
-	protected:
+	class GameObject;
 
-	GameObject* owner;
-	bool enabled;
+	// Note: GameObjects are always in charge of managing the deletion of created components, so 
+	class Component
+	{
+		protected:
 
-	Component(GameObject* _owner);
+		GameObject* owner;
+		bool enabled;
 
-	// Actual update and draw logic that does things in the game
-	virtual void Update(float dt) {};
-	virtual void Draw() {};
+		Component(GameObject* _owner);
+
+		// Actual update and draw logic that does things in the game
+		virtual void Update(float dt) {};
+		virtual void Draw() {};
 
 
-	public:
+		public:
 
-	void UpdateComponent(float dt) { if(enabled) Update(dt); };
-	void DrawComponent() { if(enabled) Draw(); };
+		void UpdateComponent(float dt) { if(enabled) Update(dt); };
+		void DrawComponent() { if(enabled) Draw(); };
 
-	virtual ComponentID GetID() const = 0;
-	GameObject* GetOwner() { return owner; }
+		virtual ComponentID GetID() const = 0;
+		GameObject* GetOwner() { return owner; }
 
-	bool IsEnabled() { return enabled; }
-	void SetEnabled(bool _enabled) { enabled = _enabled; }
-};
+		bool IsEnabled() { return enabled; }
+		void SetEnabled(bool _enabled) { enabled = _enabled; }
+	};
+}

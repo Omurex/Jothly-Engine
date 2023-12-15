@@ -260,17 +260,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
-    <ClInclude Include="ComponentFactory.h" />
     <ClInclude Include="ComponentID.hpp" />
     <ClInclude Include="Constants.hpp" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="ShapeRenderer.h" />
+    <ClInclude Include="ShapeRenderer2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="ShapeRenderer.cpp" />
+    <ClCompile Include="ShapeRenderer2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="raylib.vcxproj">

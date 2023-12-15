@@ -3,17 +3,20 @@
 #include <string>
 
 
-Component::Component(GameObject* _owner) : owner(_owner), enabled(true)
+namespace jothly
 {
-	// Would like to put id into debug string but not worth it atm since we'd have to
-	// give this constructor an extra parameter since the abstract function GetID can't be called from here
-	if (owner == nullptr) // Owner doesn't exist
+	Component::Component(GameObject* _owner) : owner(_owner), enabled(true)
 	{
-		std::string errorStr = "Owner of component cannot be null!";
-		errorStr += "\n";
+		// Would like to put id into debug string but not worth it atm since we'd have to
+		// give this constructor an extra parameter since the abstract function GetID can't be called from here
+		if (owner == nullptr) // Owner doesn't exist
+		{
+			std::string errorStr = "Owner of component cannot be null!";
+			errorStr += "\n";
 
-		throw std::invalid_argument(errorStr);
+			throw std::invalid_argument(errorStr);
+		}
+
+		owner = _owner;
 	}
-
-	owner = _owner;
 }
