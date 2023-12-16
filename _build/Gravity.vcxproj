@@ -264,12 +264,14 @@
     <ClInclude Include="Constants.hpp" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ShapeRenderer2D.h" />
+    <ClInclude Include="Vector2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ShapeRenderer2D.cpp" />
+    <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="raylib.vcxproj">

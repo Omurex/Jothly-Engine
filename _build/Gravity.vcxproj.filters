@@ -19,6 +19,12 @@
     <Filter Include="Global">
       <UniqueIdentifier>{4644dca2-9a4a-4d10-8c4a-6bbf0bd4bae8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Structures">
+      <UniqueIdentifier>{7d0e0376-47db-4edc-b0e2-bddacd3bb0af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Structures">
+      <UniqueIdentifier>{772f4532-7819-4f5f-ab0c-c1294478c66f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -36,6 +42,9 @@
     <ClInclude Include="Constants.hpp">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Header Files\Structures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -47,6 +56,11 @@
     <ClCompile Include="ShapeRenderer2D.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Source Files\Structures</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
