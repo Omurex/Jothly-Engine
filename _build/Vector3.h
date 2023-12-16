@@ -27,7 +27,8 @@ namespace jothly
 		operator Vector4() const;
 
 		// Convert to RayLib version
-		operator rlb_Vector2() const { return { x, y }; };
-		operator rlb_Vector3() const { return { x, y, z }; };
+		operator rlb_Vector2() const { return { x, y }; }
+		operator rlb_Vector3() const { return { x, y, z }; }
+		operator rlb_Vector4() const { return {x, y, z, 0 }; }
 	};
 }

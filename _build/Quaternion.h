@@ -7,6 +7,6 @@ namespace jothly
 {
 	class Quaternion
 	{
-		Vector4
+		//Vector4 
 	};
 }
