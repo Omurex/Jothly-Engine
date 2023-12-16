@@ -147,25 +147,25 @@
 // Module specific Functions Declaration
 //----------------------------------------------------------------------------------
 #if defined(SUPPORT_FILEFORMAT_OBJ)
-static Model LoadOBJ(const char *fileName);     // Load OBJ mesh data
+static rlb_Model LoadOBJ(const char *fileName);     // Load OBJ mesh data
 #endif
 #if defined(SUPPORT_FILEFORMAT_IQM)
-static Model LoadIQM(const char *fileName);     // Load IQM mesh data
-static ModelAnimation *LoadModelAnimationsIQM(const char *fileName, int *animCount);   // Load IQM animation data
+static rlb_Model LoadIQM(const char *fileName);     // Load IQM mesh data
+static rlb_ModelAnimation *LoadModelAnimationsIQM(const char *fileName, int *animCount);   // Load IQM animation data
 #endif
 #if defined(SUPPORT_FILEFORMAT_GLTF)
-static Model LoadGLTF(const char *fileName);    // Load GLTF mesh data
-static ModelAnimation *LoadModelAnimationsGLTF(const char *fileName, int *animCount);  // Load GLTF animation data
+static rlb_Model LoadGLTF(const char *fileName);    // Load GLTF mesh data
+static rlb_ModelAnimation *LoadModelAnimationsGLTF(const char *fileName, int *animCount);  // Load GLTF animation data
 #endif
 #if defined(SUPPORT_FILEFORMAT_VOX)
-static Model LoadVOX(const char *filename);     // Load VOX mesh data
+static rlb_Model LoadVOX(const char *filename);     // Load VOX mesh data
 #endif
 #if defined(SUPPORT_FILEFORMAT_M3D)
-static Model LoadM3D(const char *filename);     // Load M3D mesh data
-static ModelAnimation *LoadModelAnimationsM3D(const char *fileName, int *animCount);   // Load M3D animation data
+static rlb_Model LoadM3D(const char *filename);     // Load M3D mesh data
+static rlb_ModelAnimation *LoadModelAnimationsM3D(const char *fileName, int *animCount);   // Load M3D animation data
 #endif
 #if defined(SUPPORT_FILEFORMAT_OBJ) || defined(SUPPORT_FILEFORMAT_MTL)
-static void ProcessMaterialsOBJ(Material *rayMaterials, tinyobj_material_t *materials, int materialCount);  // Process obj materials
+static void ProcessMaterialsOBJ(rlb_Material *rayMaterials, tinyobj_material_t *materials, int materialCount);  // Process obj materials
 #endif
 
 //----------------------------------------------------------------------------------
@@ -173,7 +173,7 @@ static void ProcessMaterialsOBJ(Material *rayMaterials, tinyobj_material_t *mate
 //----------------------------------------------------------------------------------
 
 // Draw a line in 3D world space
-void DrawLine3D(Vector3 startPos, Vector3 endPos, Color color)
+void DrawLine3D(rlb_Vector3 startPos, rlb_Vector3 endPos, rlb_Color color)
 {
     rlBegin(RL_LINES);
         rlColor4ub(color.r, color.g, color.b, color.a);
@@ -183,7 +183,7 @@ void DrawLine3D(Vector3 startPos, Vector3 endPos, Color color)
 }
 
 // Draw a point in 3D space, actually a small line
-void DrawPoint3D(Vector3 position, Color color)
+void DrawPoint3D(rlb_Vector3 position, rlb_Color color)
 {
     rlPushMatrix();
         rlTranslatef(position.x, position.y, position.z);
@@ -196,7 +196,7 @@ void DrawPoint3D(Vector3 position, Color color)
 }
 
 // Draw a circle in 3D world space
-void DrawCircle3D(Vector3 center, float radius, Vector3 rotationAxis, float rotationAngle, Color color)
+void DrawCircle3D(rlb_Vector3 center, float radius, rlb_Vector3 rotationAxis, float rotationAngle, rlb_Color color)
 {
     rlPushMatrix();
         rlTranslatef(center.x, center.y, center.z);
@@ -215,7 +215,7 @@ void DrawCircle3D(Vector3 center, float radius, Vector3 rotationAxis, float rota
 }
 
 // Draw a color-filled triangle (vertex in counter-clockwise order!)
-void DrawTriangle3D(Vector3 v1, Vector3 v2, Vector3 v3, Color color)
+void DrawTriangle3D(rlb_Vector3 v1, rlb_Vector3 v2, rlb_Vector3 v3, rlb_Color color)
 {
     rlBegin(RL_TRIANGLES);
         rlColor4ub(color.r, color.g, color.b, color.a);
@@ -226,7 +226,7 @@ void DrawTriangle3D(Vector3 v1, Vector3 v2, Vector3 v3, Color color)
 }
 
 // Draw a triangle strip defined by points
-void DrawTriangleStrip3D(Vector3 *points, int pointCount, Color color)
+void DrawTriangleStrip3D(rlb_Vector3 *points, int pointCount, rlb_Color color)
 {
     if (pointCount < 3) return;
 
@@ -253,7 +253,7 @@ void DrawTriangleStrip3D(Vector3 *points, int pointCount, Color color)
 
 // Draw cube
 // NOTE: Cube position is the center position
-void DrawCube(Vector3 position, float width, float height, float length, Color color)
+void DrawCube(rlb_Vector3 position, float width, float height, float length, rlb_Color color)
 {
     float x = 0.0f;
     float y = 0.0f;
@@ -326,13 +326,13 @@ void DrawCube(Vector3 position, float width, float height, float length, Color c
 }
 
 // Draw cube (Vector version)
-void DrawCubeV(Vector3 position, Vector3 size, Color color)
+void DrawCubeV(rlb_Vector3 position, rlb_Vector3 size, rlb_Color color)
 {
     DrawCube(position, size.x, size.y, size.z, color);
 }
 
 // Draw cube wires
-void DrawCubeWires(Vector3 position, float width, float height, float length, Color color)
+void DrawCubeWires(rlb_Vector3 position, float width, float height, float length, rlb_Color color)
 {
     float x = 0.0f;
     float y = 0.0f;
@@ -404,19 +404,19 @@ void DrawCubeWires(Vector3 position, float width, float height, float length, Co
 }
 
 // Draw cube wires (vector version)
-void DrawCubeWiresV(Vector3 position, Vector3 size, Color color)
+void DrawCubeWiresV(rlb_Vector3 position, rlb_Vector3 size, rlb_Color color)
 {
     DrawCubeWires(position, size.x, size.y, size.z, color);
 }
 
 // Draw sphere
-void DrawSphere(Vector3 centerPos, float radius, Color color)
+void DrawSphere(rlb_Vector3 centerPos, float radius, rlb_Color color)
 {
     DrawSphereEx(centerPos, radius, 16, 16, color);
 }
 
 // Draw sphere with extended parameters
-void DrawSphereEx(Vector3 centerPos, float radius, int rings, int slices, Color color)
+void DrawSphereEx(rlb_Vector3 centerPos, float radius, int rings, int slices, rlb_Color color)
 {
     rlPushMatrix();
         // NOTE: Transformation is applied in inverse order (scale -> translate)
@@ -456,7 +456,7 @@ void DrawSphereEx(Vector3 centerPos, float radius, int rings, int slices, Color 
 }
 
 // Draw sphere wires
-void DrawSphereWires(Vector3 centerPos, float radius, int rings, int slices, Color color)
+void DrawSphereWires(rlb_Vector3 centerPos, float radius, int rings, int slices, rlb_Color color)
 {
     rlPushMatrix();
         // NOTE: Transformation is applied in inverse order (scale -> translate)
@@ -498,7 +498,7 @@ void DrawSphereWires(Vector3 centerPos, float radius, int rings, int slices, Col
 
 // Draw a cylinder
 // NOTE: It could be also used for pyramid and cone
-void DrawCylinder(Vector3 position, float radiusTop, float radiusBottom, float height, int sides, Color color)
+void DrawCylinder(rlb_Vector3 position, float radiusTop, float radiusBottom, float height, int sides, rlb_Color color)
 {
     if (sides < 3) sides = 3;
 
@@ -554,16 +554,16 @@ void DrawCylinder(Vector3 position, float radiusTop, float radiusBottom, float h
 
 // Draw a cylinder with base at startPos and top at endPos
 // NOTE: It could be also used for pyramid and cone
-void DrawCylinderEx(Vector3 startPos, Vector3 endPos, float startRadius, float endRadius, int sides, Color color)
+void DrawCylinderEx(rlb_Vector3 startPos, rlb_Vector3 endPos, float startRadius, float endRadius, int sides, rlb_Color color)
 {
     if (sides < 3) sides = 3;
 
-    Vector3 direction = { endPos.x - startPos.x, endPos.y - startPos.y, endPos.z - startPos.z };
+    rlb_Vector3 direction = { endPos.x - startPos.x, endPos.y - startPos.y, endPos.z - startPos.z };
     if ((direction.x == 0) && (direction.y == 0) && (direction.z == 0)) return;
 
     // Construct a basis of the base and the top face:
-    Vector3 b1 = Vector3Normalize(Vector3Perpendicular(direction));
-    Vector3 b2 = Vector3Normalize(Vector3CrossProduct(b1, direction));
+    rlb_Vector3 b1 = Vector3Normalize(Vector3Perpendicular(direction));
+    rlb_Vector3 b2 = Vector3Normalize(Vector3CrossProduct(b1, direction));
 
     float baseAngle = (2.0f*PI)/sides;
 
@@ -574,16 +574,16 @@ void DrawCylinderEx(Vector3 startPos, Vector3 endPos, float startRadius, float e
             // compute the four vertices
             float s1 = sinf(baseAngle*(i + 0))*startRadius;
             float c1 = cosf(baseAngle*(i + 0))*startRadius;
-            Vector3 w1 = { startPos.x + s1*b1.x + c1*b2.x, startPos.y + s1*b1.y + c1*b2.y, startPos.z + s1*b1.z + c1*b2.z };
+            rlb_Vector3 w1 = { startPos.x + s1*b1.x + c1*b2.x, startPos.y + s1*b1.y + c1*b2.y, startPos.z + s1*b1.z + c1*b2.z };
             float s2 = sinf(baseAngle*(i + 1))*startRadius;
             float c2 = cosf(baseAngle*(i + 1))*startRadius;
-            Vector3 w2 = { startPos.x + s2*b1.x + c2*b2.x, startPos.y + s2*b1.y + c2*b2.y, startPos.z + s2*b1.z + c2*b2.z };
+            rlb_Vector3 w2 = { startPos.x + s2*b1.x + c2*b2.x, startPos.y + s2*b1.y + c2*b2.y, startPos.z + s2*b1.z + c2*b2.z };
             float s3 = sinf(baseAngle*(i + 0))*endRadius;
             float c3 = cosf(baseAngle*(i + 0))*endRadius;
-            Vector3 w3 = { endPos.x + s3*b1.x + c3*b2.x, endPos.y + s3*b1.y + c3*b2.y, endPos.z + s3*b1.z + c3*b2.z };
+            rlb_Vector3 w3 = { endPos.x + s3*b1.x + c3*b2.x, endPos.y + s3*b1.y + c3*b2.y, endPos.z + s3*b1.z + c3*b2.z };
             float s4 = sinf(baseAngle*(i + 1))*endRadius;
             float c4 = cosf(baseAngle*(i + 1))*endRadius;
-            Vector3 w4 = { endPos.x + s4*b1.x + c4*b2.x, endPos.y + s4*b1.y + c4*b2.y, endPos.z + s4*b1.z + c4*b2.z };
+            rlb_Vector3 w4 = { endPos.x + s4*b1.x + c4*b2.x, endPos.y + s4*b1.y + c4*b2.y, endPos.z + s4*b1.z + c4*b2.z };
 
             if (startRadius > 0) {                              //
                 rlVertex3f(startPos.x, startPos.y, startPos.z); // |
@@ -610,7 +610,7 @@ void DrawCylinderEx(Vector3 startPos, Vector3 endPos, float startRadius, float e
 
 // Draw a wired cylinder
 // NOTE: It could be also used for pyramid and cone
-void DrawCylinderWires(Vector3 position, float radiusTop, float radiusBottom, float height, int sides, Color color)
+void DrawCylinderWires(rlb_Vector3 position, float radiusTop, float radiusBottom, float height, int sides, rlb_Color color)
 {
     if (sides < 3) sides = 3;
 
@@ -641,16 +641,16 @@ void DrawCylinderWires(Vector3 position, float radiusTop, float radiusBottom, fl
 
 // Draw a wired cylinder with base at startPos and top at endPos
 // NOTE: It could be also used for pyramid and cone
-void DrawCylinderWiresEx(Vector3 startPos, Vector3 endPos, float startRadius, float endRadius, int sides, Color color)
+void DrawCylinderWiresEx(rlb_Vector3 startPos, rlb_Vector3 endPos, float startRadius, float endRadius, int sides, rlb_Color color)
 {
     if (sides < 3) sides = 3;
 
-    Vector3 direction = { endPos.x - startPos.x, endPos.y - startPos.y, endPos.z - startPos.z };
+    rlb_Vector3 direction = { endPos.x - startPos.x, endPos.y - startPos.y, endPos.z - startPos.z };
     if ((direction.x == 0) && (direction.y == 0) && (direction.z == 0))return;
 
     // Construct a basis of the base and the top face:
-    Vector3 b1 = Vector3Normalize(Vector3Perpendicular(direction));
-    Vector3 b2 = Vector3Normalize(Vector3CrossProduct(b1, direction));
+    rlb_Vector3 b1 = Vector3Normalize(Vector3Perpendicular(direction));
+    rlb_Vector3 b2 = Vector3Normalize(Vector3CrossProduct(b1, direction));
 
     float baseAngle = (2.0f*PI)/sides;
 
@@ -661,16 +661,16 @@ void DrawCylinderWiresEx(Vector3 startPos, Vector3 endPos, float startRadius, fl
             // compute the four vertices
             float s1 = sinf(baseAngle*(i + 0))*startRadius;
             float c1 = cosf(baseAngle*(i + 0))*startRadius;
-            Vector3 w1 = { startPos.x + s1*b1.x + c1*b2.x, startPos.y + s1*b1.y + c1*b2.y, startPos.z + s1*b1.z + c1*b2.z };
+            rlb_Vector3 w1 = { startPos.x + s1*b1.x + c1*b2.x, startPos.y + s1*b1.y + c1*b2.y, startPos.z + s1*b1.z + c1*b2.z };
             float s2 = sinf(baseAngle*(i + 1))*startRadius;
             float c2 = cosf(baseAngle*(i + 1))*startRadius;
-            Vector3 w2 = { startPos.x + s2*b1.x + c2*b2.x, startPos.y + s2*b1.y + c2*b2.y, startPos.z + s2*b1.z + c2*b2.z };
+            rlb_Vector3 w2 = { startPos.x + s2*b1.x + c2*b2.x, startPos.y + s2*b1.y + c2*b2.y, startPos.z + s2*b1.z + c2*b2.z };
             float s3 = sinf(baseAngle*(i + 0))*endRadius;
             float c3 = cosf(baseAngle*(i + 0))*endRadius;
-            Vector3 w3 = { endPos.x + s3*b1.x + c3*b2.x, endPos.y + s3*b1.y + c3*b2.y, endPos.z + s3*b1.z + c3*b2.z };
+            rlb_Vector3 w3 = { endPos.x + s3*b1.x + c3*b2.x, endPos.y + s3*b1.y + c3*b2.y, endPos.z + s3*b1.z + c3*b2.z };
             float s4 = sinf(baseAngle*(i + 1))*endRadius;
             float c4 = cosf(baseAngle*(i + 1))*endRadius;
-            Vector3 w4 = { endPos.x + s4*b1.x + c4*b2.x, endPos.y + s4*b1.y + c4*b2.y, endPos.z + s4*b1.z + c4*b2.z };
+            rlb_Vector3 w4 = { endPos.x + s4*b1.x + c4*b2.x, endPos.y + s4*b1.y + c4*b2.y, endPos.z + s4*b1.z + c4*b2.z };
 
             rlVertex3f(w1.x, w1.y, w1.z);
             rlVertex3f(w2.x, w2.y, w2.z);
@@ -685,21 +685,21 @@ void DrawCylinderWiresEx(Vector3 startPos, Vector3 endPos, float startRadius, fl
 }
 
 // Draw a capsule with the center of its sphere caps at startPos and endPos
-void DrawCapsule(Vector3 startPos, Vector3 endPos, float radius, int slices, int rings, Color color)
+void DrawCapsule(rlb_Vector3 startPos, rlb_Vector3 endPos, float radius, int slices, int rings, rlb_Color color)
 {
     if (slices < 3) slices = 3;
 
-    Vector3 direction = { endPos.x - startPos.x, endPos.y - startPos.y, endPos.z - startPos.z };
+    rlb_Vector3 direction = { endPos.x - startPos.x, endPos.y - startPos.y, endPos.z - startPos.z };
 
     // draw a sphere if start and end points are the same
     bool sphereCase = (direction.x == 0) && (direction.y == 0) && (direction.z == 0);
-    if (sphereCase) direction = (Vector3){0.0f, 1.0f, 0.0f};
+    if (sphereCase) direction = (rlb_Vector3){0.0f, 1.0f, 0.0f};
 
     // Construct a basis of the base and the caps:
-    Vector3 b0 = Vector3Normalize(direction);
-    Vector3 b1 = Vector3Normalize(Vector3Perpendicular(direction));
-    Vector3 b2 = Vector3Normalize(Vector3CrossProduct(b1, direction));
-    Vector3 capCenter = endPos;
+    rlb_Vector3 b0 = Vector3Normalize(direction);
+    rlb_Vector3 b1 = Vector3Normalize(Vector3Perpendicular(direction));
+    rlb_Vector3 b2 = Vector3Normalize(Vector3CrossProduct(b1, direction));
+    rlb_Vector3 capCenter = endPos;
 
     float baseSliceAngle = (2.0f*PI)/slices;
     float baseRingAngle  = PI * 0.5f / rings;
@@ -723,14 +723,14 @@ void DrawCapsule(Vector3 startPos, Vector3 endPos, float radius, int slices, int
                     // compute the four vertices
                     float ringSin1 = sinf(baseSliceAngle*(j + 0))*cosf(baseRingAngle * ( i + 0 ));
                     float ringCos1 = cosf(baseSliceAngle*(j + 0))*cosf(baseRingAngle * ( i + 0 ));
-                    Vector3 w1 = (Vector3){
+                    rlb_Vector3 w1 = (rlb_Vector3){
                         capCenter.x + (sinf(baseRingAngle * ( i + 0 ))*b0.x + ringSin1*b1.x + ringCos1*b2.x) * radius,
                         capCenter.y + (sinf(baseRingAngle * ( i + 0 ))*b0.y + ringSin1*b1.y + ringCos1*b2.y) * radius,
                         capCenter.z + (sinf(baseRingAngle * ( i + 0 ))*b0.z + ringSin1*b1.z + ringCos1*b2.z) * radius
                     };
                     float ringSin2 = sinf(baseSliceAngle*(j + 1))*cosf(baseRingAngle * ( i + 0 ));
                     float ringCos2 = cosf(baseSliceAngle*(j + 1))*cosf(baseRingAngle * ( i + 0 ));
-                    Vector3 w2 = (Vector3){
+                    rlb_Vector3 w2 = (rlb_Vector3){
                         capCenter.x + (sinf(baseRingAngle * ( i + 0 ))*b0.x + ringSin2*b1.x + ringCos2*b2.x) * radius,
                         capCenter.y + (sinf(baseRingAngle * ( i + 0 ))*b0.y + ringSin2*b1.y + ringCos2*b2.y) * radius,
                         capCenter.z + (sinf(baseRingAngle * ( i + 0 ))*b0.z + ringSin2*b1.z + ringCos2*b2.z) * radius
@@ -738,14 +738,14 @@ void DrawCapsule(Vector3 startPos, Vector3 endPos, float radius, int slices, int
 
                     float ringSin3 = sinf(baseSliceAngle*(j + 0))*cosf(baseRingAngle * ( i + 1 ));
                     float ringCos3 = cosf(baseSliceAngle*(j + 0))*cosf(baseRingAngle * ( i + 1 ));
-                    Vector3 w3 = (Vector3){
+                    rlb_Vector3 w3 = (rlb_Vector3){
                         capCenter.x + (sinf(baseRingAngle * ( i + 1 ))*b0.x + ringSin3*b1.x + ringCos3*b2.x) * radius,
                         capCenter.y + (sinf(baseRingAngle * ( i + 1 ))*b0.y + ringSin3*b1.y + ringCos3*b2.y) * radius,
                         capCenter.z + (sinf(baseRingAngle * ( i + 1 ))*b0.z + ringSin3*b1.z + ringCos3*b2.z) * radius
                     };
                     float ringSin4 = sinf(baseSliceAngle*(j + 1))*cosf(baseRingAngle * ( i + 1 ));
                     float ringCos4 = cosf(baseSliceAngle*(j + 1))*cosf(baseRingAngle * ( i + 1 ));
-                    Vector3 w4 = (Vector3){
+                    rlb_Vector3 w4 = (rlb_Vector3){
                         capCenter.x + (sinf(baseRingAngle * ( i + 1 ))*b0.x + ringSin4*b1.x + ringCos4*b2.x) * radius,
                         capCenter.y + (sinf(baseRingAngle * ( i + 1 ))*b0.y + ringSin4*b1.y + ringCos4*b2.y) * radius,
                         capCenter.z + (sinf(baseRingAngle * ( i + 1 ))*b0.z + ringSin4*b1.z + ringCos4*b2.z) * radius
@@ -785,14 +785,14 @@ void DrawCapsule(Vector3 startPos, Vector3 endPos, float radius, int slices, int
                 // compute the four vertices
                 float ringSin1 = sinf(baseSliceAngle*(j + 0))*radius;
                 float ringCos1 = cosf(baseSliceAngle*(j + 0))*radius;
-                Vector3 w1 = {
+                rlb_Vector3 w1 = {
                     startPos.x + ringSin1*b1.x + ringCos1*b2.x,
                     startPos.y + ringSin1*b1.y + ringCos1*b2.y,
                     startPos.z + ringSin1*b1.z + ringCos1*b2.z
                 };
                 float ringSin2 = sinf(baseSliceAngle*(j + 1))*radius;
                 float ringCos2 = cosf(baseSliceAngle*(j + 1))*radius;
-                Vector3 w2 = {
+                rlb_Vector3 w2 = {
                     startPos.x + ringSin2*b1.x + ringCos2*b2.x,
                     startPos.y + ringSin2*b1.y + ringCos2*b2.y,
                     startPos.z + ringSin2*b1.z + ringCos2*b2.z
@@ -800,14 +800,14 @@ void DrawCapsule(Vector3 startPos, Vector3 endPos, float radius, int slices, int
 
                 float ringSin3 = sinf(baseSliceAngle*(j + 0))*radius;
                 float ringCos3 = cosf(baseSliceAngle*(j + 0))*radius;
-                Vector3 w3 = {
+                rlb_Vector3 w3 = {
                     endPos.x + ringSin3*b1.x + ringCos3*b2.x,
                     endPos.y + ringSin3*b1.y + ringCos3*b2.y,
                     endPos.z + ringSin3*b1.z + ringCos3*b2.z
                 };
                 float ringSin4 = sinf(baseSliceAngle*(j + 1))*radius;
                 float ringCos4 = cosf(baseSliceAngle*(j + 1))*radius;
-                Vector3 w4 = {
+                rlb_Vector3 w4 = {
                     endPos.x + ringSin4*b1.x + ringCos4*b2.x,
                     endPos.y + ringSin4*b1.y + ringCos4*b2.y,
                     endPos.z + ringSin4*b1.z + ringCos4*b2.z
@@ -828,21 +828,21 @@ void DrawCapsule(Vector3 startPos, Vector3 endPos, float radius, int slices, int
 }
 
 // Draw capsule wires with the center of its sphere caps at startPos and endPos
-void DrawCapsuleWires(Vector3 startPos, Vector3 endPos, float radius, int slices, int rings, Color color)
+void DrawCapsuleWires(rlb_Vector3 startPos, rlb_Vector3 endPos, float radius, int slices, int rings, rlb_Color color)
 {
     if (slices < 3) slices = 3;
 
-    Vector3 direction = { endPos.x - startPos.x, endPos.y - startPos.y, endPos.z - startPos.z };
+    rlb_Vector3 direction = { endPos.x - startPos.x, endPos.y - startPos.y, endPos.z - startPos.z };
 
     // draw a sphere if start and end points are the same
     bool sphereCase = (direction.x == 0) && (direction.y == 0) && (direction.z == 0);
-    if (sphereCase) direction = (Vector3){0.0f, 1.0f, 0.0f};
+    if (sphereCase) direction = (rlb_Vector3){0.0f, 1.0f, 0.0f};
 
     // Construct a basis of the base and the caps:
-    Vector3 b0 = Vector3Normalize(direction);
-    Vector3 b1 = Vector3Normalize(Vector3Perpendicular(direction));
-    Vector3 b2 = Vector3Normalize(Vector3CrossProduct(b1, direction));
-    Vector3 capCenter = endPos;
+    rlb_Vector3 b0 = Vector3Normalize(direction);
+    rlb_Vector3 b1 = Vector3Normalize(Vector3Perpendicular(direction));
+    rlb_Vector3 b2 = Vector3Normalize(Vector3CrossProduct(b1, direction));
+    rlb_Vector3 capCenter = endPos;
 
     float baseSliceAngle = (2.0f*PI)/slices;
     float baseRingAngle  = PI * 0.5f / rings;
@@ -866,14 +866,14 @@ void DrawCapsuleWires(Vector3 startPos, Vector3 endPos, float radius, int slices
                     // compute the four vertices
                     float ringSin1 = sinf(baseSliceAngle*(j + 0))*cosf(baseRingAngle * ( i + 0 ));
                     float ringCos1 = cosf(baseSliceAngle*(j + 0))*cosf(baseRingAngle * ( i + 0 ));
-                    Vector3 w1 = (Vector3){
+                    rlb_Vector3 w1 = (rlb_Vector3){
                         capCenter.x + (sinf(baseRingAngle * ( i + 0 ))*b0.x + ringSin1*b1.x + ringCos1*b2.x) * radius,
                         capCenter.y + (sinf(baseRingAngle * ( i + 0 ))*b0.y + ringSin1*b1.y + ringCos1*b2.y) * radius,
                         capCenter.z + (sinf(baseRingAngle * ( i + 0 ))*b0.z + ringSin1*b1.z + ringCos1*b2.z) * radius
                     };
                     float ringSin2 = sinf(baseSliceAngle*(j + 1))*cosf(baseRingAngle * ( i + 0 ));
                     float ringCos2 = cosf(baseSliceAngle*(j + 1))*cosf(baseRingAngle * ( i + 0 ));
-                    Vector3 w2 = (Vector3){
+                    rlb_Vector3 w2 = (rlb_Vector3){
                         capCenter.x + (sinf(baseRingAngle * ( i + 0 ))*b0.x + ringSin2*b1.x + ringCos2*b2.x) * radius,
                         capCenter.y + (sinf(baseRingAngle * ( i + 0 ))*b0.y + ringSin2*b1.y + ringCos2*b2.y) * radius,
                         capCenter.z + (sinf(baseRingAngle * ( i + 0 ))*b0.z + ringSin2*b1.z + ringCos2*b2.z) * radius
@@ -881,14 +881,14 @@ void DrawCapsuleWires(Vector3 startPos, Vector3 endPos, float radius, int slices
 
                     float ringSin3 = sinf(baseSliceAngle*(j + 0))*cosf(baseRingAngle * ( i + 1 ));
                     float ringCos3 = cosf(baseSliceAngle*(j + 0))*cosf(baseRingAngle * ( i + 1 ));
-                    Vector3 w3 = (Vector3){
+                    rlb_Vector3 w3 = (rlb_Vector3){
                         capCenter.x + (sinf(baseRingAngle * ( i + 1 ))*b0.x + ringSin3*b1.x + ringCos3*b2.x) * radius,
                         capCenter.y + (sinf(baseRingAngle * ( i + 1 ))*b0.y + ringSin3*b1.y + ringCos3*b2.y) * radius,
                         capCenter.z + (sinf(baseRingAngle * ( i + 1 ))*b0.z + ringSin3*b1.z + ringCos3*b2.z) * radius
                     };
                     float ringSin4 = sinf(baseSliceAngle*(j + 1))*cosf(baseRingAngle * ( i + 1 ));
                     float ringCos4 = cosf(baseSliceAngle*(j + 1))*cosf(baseRingAngle * ( i + 1 ));
-                    Vector3 w4 = (Vector3){
+                    rlb_Vector3 w4 = (rlb_Vector3){
                         capCenter.x + (sinf(baseRingAngle * ( i + 1 ))*b0.x + ringSin4*b1.x + ringCos4*b2.x) * radius,
                         capCenter.y + (sinf(baseRingAngle * ( i + 1 ))*b0.y + ringSin4*b1.y + ringCos4*b2.y) * radius,
                         capCenter.z + (sinf(baseRingAngle * ( i + 1 ))*b0.z + ringSin4*b1.z + ringCos4*b2.z) * radius
@@ -921,14 +921,14 @@ void DrawCapsuleWires(Vector3 startPos, Vector3 endPos, float radius, int slices
                 // compute the four vertices
                 float ringSin1 = sinf(baseSliceAngle*(j + 0))*radius;
                 float ringCos1 = cosf(baseSliceAngle*(j + 0))*radius;
-                Vector3 w1 = {
+                rlb_Vector3 w1 = {
                     startPos.x + ringSin1*b1.x + ringCos1*b2.x,
                     startPos.y + ringSin1*b1.y + ringCos1*b2.y,
                     startPos.z + ringSin1*b1.z + ringCos1*b2.z
                 };
                 float ringSin2 = sinf(baseSliceAngle*(j + 1))*radius;
                 float ringCos2 = cosf(baseSliceAngle*(j + 1))*radius;
-                Vector3 w2 = {
+                rlb_Vector3 w2 = {
                     startPos.x + ringSin2*b1.x + ringCos2*b2.x,
                     startPos.y + ringSin2*b1.y + ringCos2*b2.y,
                     startPos.z + ringSin2*b1.z + ringCos2*b2.z
@@ -936,14 +936,14 @@ void DrawCapsuleWires(Vector3 startPos, Vector3 endPos, float radius, int slices
 
                 float ringSin3 = sinf(baseSliceAngle*(j + 0))*radius;
                 float ringCos3 = cosf(baseSliceAngle*(j + 0))*radius;
-                Vector3 w3 = {
+                rlb_Vector3 w3 = {
                     endPos.x + ringSin3*b1.x + ringCos3*b2.x,
                     endPos.y + ringSin3*b1.y + ringCos3*b2.y,
                     endPos.z + ringSin3*b1.z + ringCos3*b2.z
                 };
                 float ringSin4 = sinf(baseSliceAngle*(j + 1))*radius;
                 float ringCos4 = cosf(baseSliceAngle*(j + 1))*radius;
-                Vector3 w4 = {
+                rlb_Vector3 w4 = {
                     endPos.x + ringSin4*b1.x + ringCos4*b2.x,
                     endPos.y + ringSin4*b1.y + ringCos4*b2.y,
                     endPos.z + ringSin4*b1.z + ringCos4*b2.z
@@ -963,7 +963,7 @@ void DrawCapsuleWires(Vector3 startPos, Vector3 endPos, float radius, int slices
 }
 
 // Draw a plane
-void DrawPlane(Vector3 centerPos, Vector2 size, Color color)
+void DrawPlane(rlb_Vector3 centerPos, rlb_Vector2 size, rlb_Color color)
 {
     // NOTE: Plane is always created on XZ ground
     rlPushMatrix();
@@ -983,7 +983,7 @@ void DrawPlane(Vector3 centerPos, Vector2 size, Color color)
 }
 
 // Draw a ray line
-void DrawRay(Ray ray, Color color)
+void DrawRay(rlb_Ray ray, rlb_Color color)
 {
     float scale = 10000;
 
@@ -1029,9 +1029,9 @@ void DrawGrid(int slices, float spacing)
 }
 
 // Load model from files (mesh and material)
-Model LoadModel(const char *fileName)
+rlb_Model LoadModel(const char *fileName)
 {
-    Model model = { 0 };
+    rlb_Model model = { 0 };
 
 #if defined(SUPPORT_FILEFORMAT_OBJ)
     if (IsFileExtension(fileName, ".obj")) model = LoadOBJ(fileName);
@@ -1064,7 +1064,7 @@ Model LoadModel(const char *fileName)
         TRACELOG(LOG_WARNING, "MATERIAL: [%s] Failed to load model material data, default to white material", fileName);
 
         model.materialCount = 1;
-        model.materials = (Material *)RL_CALLOC(model.materialCount, sizeof(Material));
+        model.materials = (rlb_Material *)RL_CALLOC(model.materialCount, sizeof(rlb_Material));
         model.materials[0] = LoadMaterialDefault();
 
         if (model.meshMaterial == NULL) model.meshMaterial = (int *)RL_CALLOC(model.meshCount, sizeof(int));
@@ -1077,18 +1077,18 @@ Model LoadModel(const char *fileName)
 // WARNING: A shallow copy of mesh is generated, passed by value,
 // as long as struct contains pointers to data and some values, we get a copy
 // of mesh pointing to same data as original version... be careful!
-Model LoadModelFromMesh(Mesh mesh)
+rlb_Model LoadModelFromMesh(rlb_Mesh mesh)
 {
-    Model model = { 0 };
+    rlb_Model model = { 0 };
 
     model.transform = MatrixIdentity();
 
     model.meshCount = 1;
-    model.meshes = (Mesh *)RL_CALLOC(model.meshCount, sizeof(Mesh));
+    model.meshes = (rlb_Mesh *)RL_CALLOC(model.meshCount, sizeof(rlb_Mesh));
     model.meshes[0] = mesh;
 
     model.materialCount = 1;
-    model.materials = (Material *)RL_CALLOC(model.materialCount, sizeof(Material));
+    model.materials = (rlb_Material *)RL_CALLOC(model.materialCount, sizeof(rlb_Material));
     model.materials[0] = LoadMaterialDefault();
 
     model.meshMaterial = (int *)RL_CALLOC(model.meshCount, sizeof(int));
@@ -1098,7 +1098,7 @@ Model LoadModelFromMesh(Mesh mesh)
 }
 
 // Check if a model is ready
-bool IsModelReady(Model model)
+bool IsModelReady(rlb_Model model)
 {
     return ((model.meshes != NULL) &&           // Validate model contains some mesh
             (model.materials != NULL) &&        // Validate model contains some material (at least default one)
@@ -1112,7 +1112,7 @@ bool IsModelReady(Model model)
 // Unload model (meshes/materials) from memory (RAM and/or VRAM)
 // NOTE: This function takes care of all model elements, for a detailed control
 // over them, use UnloadMesh() and UnloadMaterial()
-void UnloadModel(Model model)
+void UnloadModel(rlb_Model model)
 {
     // Unload meshes
     for (int i = 0; i < model.meshCount; i++) UnloadMesh(model.meshes[i]);
@@ -1136,18 +1136,18 @@ void UnloadModel(Model model)
 }
 
 // Compute model bounding box limits (considers all meshes)
-BoundingBox GetModelBoundingBox(Model model)
+rlb_BoundingBox GetModelBoundingBox(rlb_Model model)
 {
-    BoundingBox bounds = { 0 };
+    rlb_BoundingBox bounds = { 0 };
 
     if (model.meshCount > 0)
     {
-        Vector3 temp = { 0 };
+        rlb_Vector3 temp = { 0 };
         bounds = GetMeshBoundingBox(model.meshes[0]);
 
         for (int i = 1; i < model.meshCount; i++)
         {
-            BoundingBox tempBounds = GetMeshBoundingBox(model.meshes[i]);
+            rlb_BoundingBox tempBounds = GetMeshBoundingBox(model.meshes[i]);
 
             temp.x = (bounds.min.x < tempBounds.min.x)? bounds.min.x : tempBounds.min.x;
             temp.y = (bounds.min.y < tempBounds.min.y)? bounds.min.y : tempBounds.min.y;
@@ -1171,7 +1171,7 @@ BoundingBox GetModelBoundingBox(Model model)
 }
 
 // Upload vertex data into a VAO (if supported) and VBO
-void UploadMesh(Mesh *mesh, bool dynamic)
+void UploadMesh(rlb_Mesh *mesh, bool dynamic)
 {
     if (mesh->vaoId > 0)
     {
@@ -1289,13 +1289,13 @@ void UploadMesh(Mesh *mesh, bool dynamic)
 }
 
 // Update mesh vertex data in GPU for a specific buffer index
-void UpdateMeshBuffer(Mesh mesh, int index, const void *data, int dataSize, int offset)
+void UpdateMeshBuffer(rlb_Mesh mesh, int index, const void *data, int dataSize, int offset)
 {
     rlUpdateVertexBuffer(mesh.vboId[index], data, dataSize, offset);
 }
 
 // Draw a 3d mesh with material and transform
-void DrawMesh(Mesh mesh, Material material, Matrix transform)
+void DrawMesh(rlb_Mesh mesh, rlb_Material material, rlb_Matrix transform)
 {
 #if defined(GRAPHICS_API_OPENGL_11)
     #define GL_VERTEX_ARRAY         0x8074
@@ -1366,10 +1366,10 @@ void DrawMesh(Mesh mesh, Material material, Matrix transform)
     // NOTE: At this point the modelview matrix just contains the view matrix (camera)
     // That's because BeginMode3D() sets it and there is no model-drawing function
     // that modifies it, all use rlPushMatrix() and rlPopMatrix()
-    Matrix matModel = MatrixIdentity();
-    Matrix matView = rlGetMatrixModelview();
-    Matrix matModelView = MatrixIdentity();
-    Matrix matProjection = rlGetMatrixProjection();
+    rlb_Matrix matModel = MatrixIdentity();
+    rlb_Matrix matView = rlGetMatrixModelview();
+    rlb_Matrix matModelView = MatrixIdentity();
+    rlb_Matrix matProjection = rlGetMatrixProjection();
 
     // Upload view and projection matrices (if locations available)
     if (material.shader.locs[SHADER_LOC_MATRIX_VIEW] != -1) rlSetUniformMatrix(material.shader.locs[SHADER_LOC_MATRIX_VIEW], matView);
@@ -1479,7 +1479,7 @@ void DrawMesh(Mesh mesh, Material material, Matrix transform)
     for (int eye = 0; eye < eyeCount; eye++)
     {
         // Calculate model-view-projection matrix (MVP)
-        Matrix matModelViewProjection = MatrixIdentity();
+        rlb_Matrix matModelViewProjection = MatrixIdentity();
         if (eyeCount == 1) matModelViewProjection = MatrixMultiply(matModelView, matProjection);
         else
         {
@@ -1527,7 +1527,7 @@ void DrawMesh(Mesh mesh, Material material, Matrix transform)
 }
 
 // Draw multiple mesh instances with material and different transforms
-void DrawMeshInstanced(Mesh mesh, Material material, const Matrix *transforms, int instances)
+void DrawMeshInstanced(rlb_Mesh mesh, rlb_Material material, const rlb_Matrix *transforms, int instances)
 {
 #if defined(GRAPHICS_API_OPENGL_33) || defined(GRAPHICS_API_OPENGL_ES2)
     // Instancing required variables
@@ -1570,10 +1570,10 @@ void DrawMeshInstanced(Mesh mesh, Material material, const Matrix *transforms, i
     // NOTE: At this point the modelview matrix just contains the view matrix (camera)
     // That's because BeginMode3D() sets it and there is no model-drawing function
     // that modifies it, all use rlPushMatrix() and rlPopMatrix()
-    Matrix matModel = MatrixIdentity();
-    Matrix matView = rlGetMatrixModelview();
-    Matrix matModelView = MatrixIdentity();
-    Matrix matProjection = rlGetMatrixProjection();
+    rlb_Matrix matModel = MatrixIdentity();
+    rlb_Matrix matView = rlGetMatrixModelview();
+    rlb_Matrix matModelView = MatrixIdentity();
+    rlb_Matrix matProjection = rlGetMatrixProjection();
 
     // Upload view and projection matrices (if locations available)
     if (material.shader.locs[SHADER_LOC_MATRIX_VIEW] != -1) rlSetUniformMatrix(material.shader.locs[SHADER_LOC_MATRIX_VIEW], matView);
@@ -1598,7 +1598,7 @@ void DrawMeshInstanced(Mesh mesh, Material material, const Matrix *transforms, i
     for (unsigned int i = 0; i < 4; i++)
     {
         rlEnableVertexAttribute(material.shader.locs[SHADER_LOC_MATRIX_MODEL] + i);
-        rlSetVertexAttribute(material.shader.locs[SHADER_LOC_MATRIX_MODEL] + i, 4, RL_FLOAT, 0, sizeof(Matrix), (void *)(i*sizeof(Vector4)));
+        rlSetVertexAttribute(material.shader.locs[SHADER_LOC_MATRIX_MODEL] + i, 4, RL_FLOAT, 0, sizeof(rlb_Matrix), (void *)(i*sizeof(rlb_Vector4)));
         rlSetVertexAttributeDivisor(material.shader.locs[SHADER_LOC_MATRIX_MODEL] + i, 1);
     }
 
@@ -1700,7 +1700,7 @@ void DrawMeshInstanced(Mesh mesh, Material material, const Matrix *transforms, i
     for (int eye = 0; eye < eyeCount; eye++)
     {
         // Calculate model-view-projection matrix (MVP)
-        Matrix matModelViewProjection = MatrixIdentity();
+        rlb_Matrix matModelViewProjection = MatrixIdentity();
         if (eyeCount == 1) matModelViewProjection = MatrixMultiply(matModelView, matProjection);
         else
         {
@@ -1748,7 +1748,7 @@ void DrawMeshInstanced(Mesh mesh, Material material, const Matrix *transforms, i
 }
 
 // Unload mesh from memory (RAM and VRAM)
-void UnloadMesh(Mesh mesh)
+void UnloadMesh(rlb_Mesh mesh)
 {
     // Unload rlgl mesh vboId data
     rlUnloadVertexArray(mesh.vaoId);
@@ -1771,7 +1771,7 @@ void UnloadMesh(Mesh mesh)
 }
 
 // Export mesh data to file
-bool ExportMesh(Mesh mesh, const char *fileName)
+bool ExportMesh(rlb_Mesh mesh, const char *fileName)
 {
     bool success = false;
 
@@ -1851,7 +1851,7 @@ bool ExportMesh(Mesh mesh, const char *fileName)
 }
 
 // Export mesh as code file (.h) defining multiple arrays of vertex attributes
-bool ExportMeshAsCode(Mesh mesh, const char *fileName)
+bool ExportMeshAsCode(rlb_Mesh mesh, const char *fileName)
 {
     bool success = false;
 
@@ -1950,7 +1950,7 @@ bool ExportMeshAsCode(Mesh mesh, const char *fileName)
 
 #if defined(SUPPORT_FILEFORMAT_OBJ) || defined(SUPPORT_FILEFORMAT_MTL)
 // Process obj materials
-static void ProcessMaterialsOBJ(Material *materials, tinyobj_material_t *mats, int materialCount)
+static void ProcessMaterialsOBJ(rlb_Material *materials, tinyobj_material_t *mats, int materialCount)
 {
     // Init model mats
     for (int m = 0; m < materialCount; m++)
@@ -1961,21 +1961,21 @@ static void ProcessMaterialsOBJ(Material *materials, tinyobj_material_t *mats, i
 
         // Get default texture, in case no texture is defined
         // NOTE: rlgl default texture is a 1x1 pixel UNCOMPRESSED_R8G8B8A8
-        materials[m].maps[MATERIAL_MAP_DIFFUSE].texture = (Texture2D){ rlGetTextureIdDefault(), 1, 1, 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
+        materials[m].maps[MATERIAL_MAP_DIFFUSE].texture = (rlb_Texture2D){ rlGetTextureIdDefault(), 1, 1, 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
 
         if (mats[m].diffuse_texname != NULL) materials[m].maps[MATERIAL_MAP_DIFFUSE].texture = LoadTexture(mats[m].diffuse_texname);  //char *diffuse_texname; // map_Kd
-        else materials[m].maps[MATERIAL_MAP_DIFFUSE].color = (Color){ (unsigned char)(mats[m].diffuse[0]*255.0f), (unsigned char)(mats[m].diffuse[1]*255.0f), (unsigned char)(mats[m].diffuse[2] * 255.0f), 255 }; //float diffuse[3];
+        else materials[m].maps[MATERIAL_MAP_DIFFUSE].color = (rlb_Color){ (unsigned char)(mats[m].diffuse[0]*255.0f), (unsigned char)(mats[m].diffuse[1]*255.0f), (unsigned char)(mats[m].diffuse[2] * 255.0f), 255 }; //float diffuse[3];
         materials[m].maps[MATERIAL_MAP_DIFFUSE].value = 0.0f;
 
         if (mats[m].specular_texname != NULL) materials[m].maps[MATERIAL_MAP_SPECULAR].texture = LoadTexture(mats[m].specular_texname);  //char *specular_texname; // map_Ks
-        materials[m].maps[MATERIAL_MAP_SPECULAR].color = (Color){ (unsigned char)(mats[m].specular[0]*255.0f), (unsigned char)(mats[m].specular[1]*255.0f), (unsigned char)(mats[m].specular[2] * 255.0f), 255 }; //float specular[3];
+        materials[m].maps[MATERIAL_MAP_SPECULAR].color = (rlb_Color){ (unsigned char)(mats[m].specular[0]*255.0f), (unsigned char)(mats[m].specular[1]*255.0f), (unsigned char)(mats[m].specular[2] * 255.0f), 255 }; //float specular[3];
         materials[m].maps[MATERIAL_MAP_SPECULAR].value = 0.0f;
 
         if (mats[m].bump_texname != NULL) materials[m].maps[MATERIAL_MAP_NORMAL].texture = LoadTexture(mats[m].bump_texname);  //char *bump_texname; // map_bump, bump
         materials[m].maps[MATERIAL_MAP_NORMAL].color = WHITE;
         materials[m].maps[MATERIAL_MAP_NORMAL].value = mats[m].shininess;
 
-        materials[m].maps[MATERIAL_MAP_EMISSION].color = (Color){ (unsigned char)(mats[m].emission[0]*255.0f), (unsigned char)(mats[m].emission[1]*255.0f), (unsigned char)(mats[m].emission[2] * 255.0f), 255 }; //float emission[3];
+        materials[m].maps[MATERIAL_MAP_EMISSION].color = (rlb_Color){ (unsigned char)(mats[m].emission[0]*255.0f), (unsigned char)(mats[m].emission[1]*255.0f), (unsigned char)(mats[m].emission[2] * 255.0f), 255 }; //float emission[3];
 
         if (mats[m].displacement_texname != NULL) materials[m].maps[MATERIAL_MAP_HEIGHT].texture = LoadTexture(mats[m].displacement_texname);  //char *displacement_texname; // disp
     }
@@ -1983,9 +1983,9 @@ static void ProcessMaterialsOBJ(Material *materials, tinyobj_material_t *mats, i
 #endif
 
 // Load materials from model file
-Material *LoadMaterials(const char *fileName, int *materialCount)
+rlb_Material *LoadMaterials(const char *fileName, int *materialCount)
 {
-    Material *materials = NULL;
+    rlb_Material *materials = NULL;
     unsigned int count = 0;
 
     // TODO: Support IQM and GLTF for materials parsing
@@ -1998,7 +1998,7 @@ Material *LoadMaterials(const char *fileName, int *materialCount)
         int result = tinyobj_parse_mtl_file(&mats, &count, fileName);
         if (result != TINYOBJ_SUCCESS) TRACELOG(LOG_WARNING, "MATERIAL: [%s] Failed to parse materials file", fileName);
 
-        materials = RL_MALLOC(count*sizeof(Material));
+        materials = RL_MALLOC(count*sizeof(rlb_Material));
         ProcessMaterialsOBJ(materials, mats, count);
 
         tinyobj_materials_free(mats, count);
@@ -2012,17 +2012,17 @@ Material *LoadMaterials(const char *fileName, int *materialCount)
 }
 
 // Load default material (Supports: DIFFUSE, SPECULAR, NORMAL maps)
-Material LoadMaterialDefault(void)
+rlb_Material LoadMaterialDefault(void)
 {
-    Material material = { 0 };
-    material.maps = (MaterialMap *)RL_CALLOC(MAX_MATERIAL_MAPS, sizeof(MaterialMap));
+    rlb_Material material = { 0 };
+    material.maps = (rlb_MaterialMap *)RL_CALLOC(MAX_MATERIAL_MAPS, sizeof(rlb_MaterialMap));
 
     // Using rlgl default shader
     material.shader.id = rlGetShaderIdDefault();
     material.shader.locs = rlGetShaderLocsDefault();
 
     // Using rlgl default texture (1x1 pixel, UNCOMPRESSED_R8G8B8A8, 1 mipmap)
-    material.maps[MATERIAL_MAP_DIFFUSE].texture = (Texture2D){ rlGetTextureIdDefault(), 1, 1, 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
+    material.maps[MATERIAL_MAP_DIFFUSE].texture = (rlb_Texture2D){ rlGetTextureIdDefault(), 1, 1, 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
     //material.maps[MATERIAL_MAP_NORMAL].texture;         // NOTE: By default, not set
     //material.maps[MATERIAL_MAP_SPECULAR].texture;       // NOTE: By default, not set
 
@@ -2033,14 +2033,14 @@ Material LoadMaterialDefault(void)
 }
 
 // Check if a material is ready
-bool IsMaterialReady(Material material)
+bool IsMaterialReady(rlb_Material material)
 {
     return ((material.maps != NULL) &&      // Validate material contain some map
             (material.shader.id > 0));      // Validate material shader is valid
 }
 
 // Unload material from memory
-void UnloadMaterial(Material material)
+void UnloadMaterial(rlb_Material material)
 {
     // Unload material shader (avoid unloading default shader, managed by raylib)
     if (material.shader.id != rlGetShaderIdDefault()) UnloadShader(material.shader);
@@ -2059,13 +2059,13 @@ void UnloadMaterial(Material material)
 
 // Set texture for a material map type (MATERIAL_MAP_DIFFUSE, MATERIAL_MAP_SPECULAR...)
 // NOTE: Previous texture should be manually unloaded
-void SetMaterialTexture(Material *material, int mapType, Texture2D texture)
+void SetMaterialTexture(rlb_Material *material, int mapType, rlb_Texture2D texture)
 {
     material->maps[mapType].texture = texture;
 }
 
 // Set the material for a mesh
-void SetModelMeshMaterial(Model *model, int meshId, int materialId)
+void SetModelMeshMaterial(rlb_Model *model, int meshId, int materialId)
 {
     if (meshId >= model->meshCount) TRACELOG(LOG_WARNING, "MESH: Id greater than mesh count");
     else if (materialId >= model->materialCount) TRACELOG(LOG_WARNING, "MATERIAL: Id greater than material count");
@@ -2073,9 +2073,9 @@ void SetModelMeshMaterial(Model *model, int meshId, int materialId)
 }
 
 // Load model animations from file
-ModelAnimation *LoadModelAnimations(const char *fileName, int *animCount)
+rlb_ModelAnimation *LoadModelAnimations(const char *fileName, int *animCount)
 {
-    ModelAnimation *animations = NULL;
+    rlb_ModelAnimation *animations = NULL;
 
 #if defined(SUPPORT_FILEFORMAT_IQM)
     if (IsFileExtension(fileName, ".iqm")) animations = LoadModelAnimationsIQM(fileName, animCount);
@@ -2092,7 +2092,7 @@ ModelAnimation *LoadModelAnimations(const char *fileName, int *animCount)
 
 // Update model animated vertex data (positions and normals) for a given frame
 // NOTE: Updated data is uploaded to GPU
-void UpdateModelAnimation(Model model, ModelAnimation anim, int frame)
+void UpdateModelAnimation(rlb_Model model, rlb_ModelAnimation anim, int frame)
 {
     if ((anim.frameCount > 0) && (anim.bones != NULL) && (anim.framePoses != NULL))
     {
@@ -2100,7 +2100,7 @@ void UpdateModelAnimation(Model model, ModelAnimation anim, int frame)
 
         for (int m = 0; m < model.meshCount; m++)
         {
-            Mesh mesh = model.meshes[m];
+            rlb_Mesh mesh = model.meshes[m];
 
             if (mesh.boneIds == NULL || mesh.boneWeights == NULL)
             {
@@ -2109,16 +2109,16 @@ void UpdateModelAnimation(Model model, ModelAnimation anim, int frame)
             }
 
             bool updated = false;           // Flag to check when anim vertex information is updated
-            Vector3 animVertex = { 0 };
-            Vector3 animNormal = { 0 };
+            rlb_Vector3 animVertex = { 0 };
+            rlb_Vector3 animNormal = { 0 };
 
-            Vector3 inTranslation = { 0 };
-            Quaternion inRotation = { 0 };
+            rlb_Vector3 inTranslation = { 0 };
+            rlb_Quaternion inRotation = { 0 };
             // Vector3 inScale = { 0 };
 
-            Vector3 outTranslation = { 0 };
-            Quaternion outRotation = { 0 };
-            Vector3 outScale = { 0 };
+            rlb_Vector3 outTranslation = { 0 };
+            rlb_Quaternion outRotation = { 0 };
+            rlb_Vector3 outScale = { 0 };
 
             int boneId = 0;
             int boneCounter = 0;
@@ -2157,7 +2157,7 @@ void UpdateModelAnimation(Model model, ModelAnimation anim, int frame)
 
                     // Vertices processing
                     // NOTE: We use meshes.vertices (default vertex position) to calculate meshes.animVertices (animated vertex position)
-                    animVertex = (Vector3){ mesh.vertices[vCounter], mesh.vertices[vCounter + 1], mesh.vertices[vCounter + 2] };
+                    animVertex = (rlb_Vector3){ mesh.vertices[vCounter], mesh.vertices[vCounter + 1], mesh.vertices[vCounter + 2] };
                     animVertex = Vector3Subtract(animVertex, inTranslation);
                     animVertex = Vector3Multiply(animVertex, outScale);
                     animVertex = Vector3RotateByQuaternion(animVertex, QuaternionMultiply(outRotation, QuaternionInvert(inRotation)));
@@ -2172,7 +2172,7 @@ void UpdateModelAnimation(Model model, ModelAnimation anim, int frame)
                     // NOTE: We use meshes.baseNormals (default normal) to calculate meshes.normals (animated normals)
                     if (mesh.normals != NULL)
                     {
-                        animNormal = (Vector3){ mesh.normals[vCounter], mesh.normals[vCounter + 1], mesh.normals[vCounter + 2] };
+                        animNormal = (rlb_Vector3){ mesh.normals[vCounter], mesh.normals[vCounter + 1], mesh.normals[vCounter + 2] };
                         animNormal = Vector3RotateByQuaternion(animNormal, QuaternionMultiply(outRotation, QuaternionInvert(inRotation)));
                         mesh.animNormals[vCounter] += animNormal.x*boneWeight;
                         mesh.animNormals[vCounter + 1] += animNormal.y*boneWeight;
@@ -2193,14 +2193,14 @@ void UpdateModelAnimation(Model model, ModelAnimation anim, int frame)
 }
 
 // Unload animation array data
-void UnloadModelAnimations(ModelAnimation *animations, int animCount)
+void UnloadModelAnimations(rlb_ModelAnimation *animations, int animCount)
 {
     for (int i = 0; i < animCount; i++) UnloadModelAnimation(animations[i]);
     RL_FREE(animations);
 }
 
 // Unload animation data
-void UnloadModelAnimation(ModelAnimation anim)
+void UnloadModelAnimation(rlb_ModelAnimation anim)
 {
     for (int i = 0; i < anim.frameCount; i++) RL_FREE(anim.framePoses[i]);
 
@@ -2210,7 +2210,7 @@ void UnloadModelAnimation(ModelAnimation anim)
 
 // Check model animation skeleton match
 // NOTE: Only number of bones and parent connections are checked
-bool IsModelAnimationValid(Model model, ModelAnimation anim)
+bool IsModelAnimationValid(rlb_Model model, rlb_ModelAnimation anim)
 {
     int result = true;
 
@@ -2228,33 +2228,33 @@ bool IsModelAnimationValid(Model model, ModelAnimation anim)
 
 #if defined(SUPPORT_MESH_GENERATION)
 // Generate polygonal mesh
-Mesh GenMeshPoly(int sides, float radius)
+rlb_Mesh GenMeshPoly(int sides, float radius)
 {
-    Mesh mesh = { 0 };
+    rlb_Mesh mesh = { 0 };
 
     if (sides < 3) return mesh;
 
     int vertexCount = sides*3;
 
     // Vertices definition
-    Vector3 *vertices = (Vector3 *)RL_MALLOC(vertexCount*sizeof(Vector3));
+    rlb_Vector3 *vertices = (rlb_Vector3 *)RL_MALLOC(vertexCount*sizeof(rlb_Vector3));
 
     float d = 0.0f, dStep = 360.0f/sides;
     for (int v = 0; v < vertexCount - 2; v += 3)
     {
-        vertices[v] = (Vector3){ 0.0f, 0.0f, 0.0f };
-        vertices[v + 1] = (Vector3){ sinf(DEG2RAD*d)*radius, 0.0f, cosf(DEG2RAD*d)*radius };
-        vertices[v + 2] = (Vector3){ sinf(DEG2RAD*(d+dStep))*radius, 0.0f, cosf(DEG2RAD*(d+dStep))*radius };
+        vertices[v] = (rlb_Vector3){ 0.0f, 0.0f, 0.0f };
+        vertices[v + 1] = (rlb_Vector3){ sinf(DEG2RAD*d)*radius, 0.0f, cosf(DEG2RAD*d)*radius };
+        vertices[v + 2] = (rlb_Vector3){ sinf(DEG2RAD*(d+dStep))*radius, 0.0f, cosf(DEG2RAD*(d+dStep))*radius };
         d += dStep;
     }
 
     // Normals definition
-    Vector3 *normals = (Vector3 *)RL_MALLOC(vertexCount*sizeof(Vector3));
-    for (int n = 0; n < vertexCount; n++) normals[n] = (Vector3){ 0.0f, 1.0f, 0.0f };   // Vector3.up;
+    rlb_Vector3 *normals = (rlb_Vector3 *)RL_MALLOC(vertexCount*sizeof(rlb_Vector3));
+    for (int n = 0; n < vertexCount; n++) normals[n] = (rlb_Vector3){ 0.0f, 1.0f, 0.0f };   // Vector3.up;
 
     // TexCoords definition
-    Vector2 *texcoords = (Vector2 *)RL_MALLOC(vertexCount*sizeof(Vector2));
-    for (int n = 0; n < vertexCount; n++) texcoords[n] = (Vector2){ 0.0f, 0.0f };
+    rlb_Vector2 *texcoords = (rlb_Vector2 *)RL_MALLOC(vertexCount*sizeof(rlb_Vector2));
+    for (int n = 0; n < vertexCount; n++) texcoords[n] = (rlb_Vector2){ 0.0f, 0.0f };
 
     mesh.vertexCount = vertexCount;
     mesh.triangleCount = sides;
@@ -2297,9 +2297,9 @@ Mesh GenMeshPoly(int sides, float radius)
 }
 
 // Generate plane mesh (with subdivisions)
-Mesh GenMeshPlane(float width, float length, int resX, int resZ)
+rlb_Mesh GenMeshPlane(float width, float length, int resX, int resZ)
 {
-    Mesh mesh = { 0 };
+    rlb_Mesh mesh = { 0 };
 
 #define CUSTOM_MESH_GEN_PLANE
 #if defined(CUSTOM_MESH_GEN_PLANE)
@@ -2309,7 +2309,7 @@ Mesh GenMeshPlane(float width, float length, int resX, int resZ)
     // Vertices definition
     int vertexCount = resX*resZ; // vertices get reused for the faces
 
-    Vector3 *vertices = (Vector3 *)RL_MALLOC(vertexCount*sizeof(Vector3));
+    rlb_Vector3 *vertices = (rlb_Vector3 *)RL_MALLOC(vertexCount*sizeof(rlb_Vector3));
     for (int z = 0; z < resZ; z++)
     {
         // [-length/2, length/2]
@@ -2318,21 +2318,21 @@ Mesh GenMeshPlane(float width, float length, int resX, int resZ)
         {
             // [-width/2, width/2]
             float xPos = ((float)x/(resX - 1) - 0.5f)*width;
-            vertices[x + z*resX] = (Vector3){ xPos, 0.0f, zPos };
+            vertices[x + z*resX] = (rlb_Vector3){ xPos, 0.0f, zPos };
         }
     }
 
     // Normals definition
-    Vector3 *normals = (Vector3 *)RL_MALLOC(vertexCount*sizeof(Vector3));
-    for (int n = 0; n < vertexCount; n++) normals[n] = (Vector3){ 0.0f, 1.0f, 0.0f };   // Vector3.up;
+    rlb_Vector3 *normals = (rlb_Vector3 *)RL_MALLOC(vertexCount*sizeof(rlb_Vector3));
+    for (int n = 0; n < vertexCount; n++) normals[n] = (rlb_Vector3){ 0.0f, 1.0f, 0.0f };   // Vector3.up;
 
     // TexCoords definition
-    Vector2 *texcoords = (Vector2 *)RL_MALLOC(vertexCount*sizeof(Vector2));
+    rlb_Vector2 *texcoords = (rlb_Vector2 *)RL_MALLOC(vertexCount*sizeof(rlb_Vector2));
     for (int v = 0; v < resZ; v++)
     {
         for (int u = 0; u < resX; u++)
         {
-            texcoords[u + v*resX] = (Vector2){ (float)u/(resX - 1), (float)v/(resZ - 1) };
+            texcoords[u + v*resX] = (rlb_Vector2){ (float)u/(resX - 1), (float)v/(resZ - 1) };
         }
     }
 
@@ -2430,9 +2430,9 @@ Mesh GenMeshPlane(float width, float length, int resX, int resZ)
 }
 
 // Generated cuboid mesh
-Mesh GenMeshCube(float width, float height, float length)
+rlb_Mesh GenMeshCube(float width, float height, float length)
 {
-    Mesh mesh = { 0 };
+    rlb_Mesh mesh = { 0 };
 
 #define CUSTOM_MESH_GEN_CUBE
 #if defined(CUSTOM_MESH_GEN_CUBE)
@@ -2595,9 +2595,9 @@ par_shapes_mesh* par_shapes_create_icosahedron();       // 20 sides polyhedron
 }
 
 // Generate sphere mesh (standard sphere)
-Mesh GenMeshSphere(float radius, int rings, int slices)
+rlb_Mesh GenMeshSphere(float radius, int rings, int slices)
 {
-    Mesh mesh = { 0 };
+    rlb_Mesh mesh = { 0 };
 
     if ((rings >= 3) && (slices >= 3))
     {
@@ -2637,9 +2637,9 @@ Mesh GenMeshSphere(float radius, int rings, int slices)
 }
 
 // Generate hemisphere mesh (half sphere, no bottom cap)
-Mesh GenMeshHemiSphere(float radius, int rings, int slices)
+rlb_Mesh GenMeshHemiSphere(float radius, int rings, int slices)
 {
-    Mesh mesh = { 0 };
+    rlb_Mesh mesh = { 0 };
 
     if ((rings >= 3) && (slices >= 3))
     {
@@ -2681,9 +2681,9 @@ Mesh GenMeshHemiSphere(float radius, int rings, int slices)
 }
 
 // Generate cylinder mesh
-Mesh GenMeshCylinder(float radius, float height, int slices)
+rlb_Mesh GenMeshCylinder(float radius, float height, int slices)
 {
-    Mesh mesh = { 0 };
+    rlb_Mesh mesh = { 0 };
 
     if (slices >= 3)
     {
@@ -2745,9 +2745,9 @@ Mesh GenMeshCylinder(float radius, float height, int slices)
 }
 
 // Generate cone/pyramid mesh
-Mesh GenMeshCone(float radius, float height, int slices)
+rlb_Mesh GenMeshCone(float radius, float height, int slices)
 {
-    Mesh mesh = { 0 };
+    rlb_Mesh mesh = { 0 };
 
     if (slices >= 3)
     {
@@ -2800,9 +2800,9 @@ Mesh GenMeshCone(float radius, float height, int slices)
 }
 
 // Generate torus mesh
-Mesh GenMeshTorus(float radius, float size, int radSeg, int sides)
+rlb_Mesh GenMeshTorus(float radius, float size, int radSeg, int sides)
 {
-    Mesh mesh = { 0 };
+    rlb_Mesh mesh = { 0 };
 
     if ((sides >= 3) && (radSeg >= 3))
     {
@@ -2846,9 +2846,9 @@ Mesh GenMeshTorus(float radius, float size, int radSeg, int sides)
 }
 
 // Generate trefoil knot mesh
-Mesh GenMeshKnot(float radius, float size, int radSeg, int sides)
+rlb_Mesh GenMeshKnot(float radius, float size, int radSeg, int sides)
 {
-    Mesh mesh = { 0 };
+    rlb_Mesh mesh = { 0 };
 
     if ((sides >= 3) && (radSeg >= 3))
     {
@@ -2891,16 +2891,16 @@ Mesh GenMeshKnot(float radius, float size, int radSeg, int sides)
 
 // Generate a mesh from heightmap
 // NOTE: Vertex data is uploaded to GPU
-Mesh GenMeshHeightmap(Image heightmap, Vector3 size)
+rlb_Mesh GenMeshHeightmap(rlb_Image heightmap, rlb_Vector3 size)
 {
     #define GRAY_VALUE(c) ((float)(c.r + c.g + c.b)/3.0f)
 
-    Mesh mesh = { 0 };
+    rlb_Mesh mesh = { 0 };
 
     int mapX = heightmap.width;
     int mapZ = heightmap.height;
 
-    Color *pixels = LoadImageColors(heightmap);
+    rlb_Color *pixels = LoadImageColors(heightmap);
 
     // NOTE: One vertex per pixel
     mesh.triangleCount = (mapX - 1)*(mapZ - 1)*2;    // One quad every four pixels
@@ -2916,12 +2916,12 @@ Mesh GenMeshHeightmap(Image heightmap, Vector3 size)
     int tcCounter = 0;      // Used to count texcoords float by float
     int nCounter = 0;       // Used to count normals float by float
 
-    Vector3 scaleFactor = { size.x/(mapX - 1), size.y/255.0f, size.z/(mapZ - 1) };
+    rlb_Vector3 scaleFactor = { size.x/(mapX - 1), size.y/255.0f, size.z/(mapZ - 1) };
 
-    Vector3 vA = { 0 };
-    Vector3 vB = { 0 };
-    Vector3 vC = { 0 };
-    Vector3 vN = { 0 };
+    rlb_Vector3 vA = { 0 };
+    rlb_Vector3 vB = { 0 };
+    rlb_Vector3 vC = { 0 };
+    rlb_Vector3 vN = { 0 };
 
     for (int z = 0; z < mapZ-1; z++)
     {
@@ -3023,13 +3023,13 @@ Mesh GenMeshHeightmap(Image heightmap, Vector3 size)
 
 // Generate a cubes mesh from pixel data
 // NOTE: Vertex data is uploaded to GPU
-Mesh GenMeshCubicmap(Image cubicmap, Vector3 cubeSize)
+rlb_Mesh GenMeshCubicmap(rlb_Image cubicmap, rlb_Vector3 cubeSize)
 {
     #define COLOR_EQUAL(col1, col2) ((col1.r == col2.r)&&(col1.g == col2.g)&&(col1.b == col2.b)&&(col1.a == col2.a))
 
-    Mesh mesh = { 0 };
+    rlb_Mesh mesh = { 0 };
 
-    Color *pixels = LoadImageColors(cubicmap);
+    rlb_Color *pixels = LoadImageColors(cubicmap);
 
     // NOTE: Max possible number of triangles numCubes*(12 triangles by cube)
     int maxTriangles = cubicmap.width * cubicmap.height * 12;
@@ -3042,17 +3042,17 @@ Mesh GenMeshCubicmap(Image cubicmap, Vector3 cubeSize)
     float h = cubeSize.z;
     float h2 = cubeSize.y;
 
-    Vector3 *mapVertices = (Vector3 *)RL_MALLOC(maxTriangles*3*sizeof(Vector3));
-    Vector2 *mapTexcoords = (Vector2 *)RL_MALLOC(maxTriangles*3*sizeof(Vector2));
-    Vector3 *mapNormals = (Vector3 *)RL_MALLOC(maxTriangles*3*sizeof(Vector3));
+    rlb_Vector3 *mapVertices = (rlb_Vector3 *)RL_MALLOC(maxTriangles*3*sizeof(rlb_Vector3));
+    rlb_Vector2 *mapTexcoords = (rlb_Vector2 *)RL_MALLOC(maxTriangles*3*sizeof(rlb_Vector2));
+    rlb_Vector3 *mapNormals = (rlb_Vector3 *)RL_MALLOC(maxTriangles*3*sizeof(rlb_Vector3));
 
     // Define the 6 normals of the cube, we will combine them accordingly later...
-    Vector3 n1 = { 1.0f, 0.0f, 0.0f };
-    Vector3 n2 = { -1.0f, 0.0f, 0.0f };
-    Vector3 n3 = { 0.0f, 1.0f, 0.0f };
-    Vector3 n4 = { 0.0f, -1.0f, 0.0f };
-    Vector3 n5 = { 0.0f, 0.0f, -1.0f };
-    Vector3 n6 = { 0.0f, 0.0f, 1.0f };
+    rlb_Vector3 n1 = { 1.0f, 0.0f, 0.0f };
+    rlb_Vector3 n2 = { -1.0f, 0.0f, 0.0f };
+    rlb_Vector3 n3 = { 0.0f, 1.0f, 0.0f };
+    rlb_Vector3 n4 = { 0.0f, -1.0f, 0.0f };
+    rlb_Vector3 n5 = { 0.0f, 0.0f, -1.0f };
+    rlb_Vector3 n6 = { 0.0f, 0.0f, 1.0f };
 
     // NOTE: We use texture rectangles to define different textures for top-bottom-front-back-right-left (6)
     typedef struct RectangleF {
@@ -3074,14 +3074,14 @@ Mesh GenMeshCubicmap(Image cubicmap, Vector3 cubeSize)
         for (int x = 0; x < cubicmap.width; ++x)
         {
             // Define the 8 vertex of the cube, we will combine them accordingly later...
-            Vector3 v1 = { w*(x - 0.5f), h2, h*(z - 0.5f) };
-            Vector3 v2 = { w*(x - 0.5f), h2, h*(z + 0.5f) };
-            Vector3 v3 = { w*(x + 0.5f), h2, h*(z + 0.5f) };
-            Vector3 v4 = { w*(x + 0.5f), h2, h*(z - 0.5f) };
-            Vector3 v5 = { w*(x + 0.5f), 0, h*(z - 0.5f) };
-            Vector3 v6 = { w*(x - 0.5f), 0, h*(z - 0.5f) };
-            Vector3 v7 = { w*(x - 0.5f), 0, h*(z + 0.5f) };
-            Vector3 v8 = { w*(x + 0.5f), 0, h*(z + 0.5f) };
+            rlb_Vector3 v1 = { w*(x - 0.5f), h2, h*(z - 0.5f) };
+            rlb_Vector3 v2 = { w*(x - 0.5f), h2, h*(z + 0.5f) };
+            rlb_Vector3 v3 = { w*(x + 0.5f), h2, h*(z + 0.5f) };
+            rlb_Vector3 v4 = { w*(x + 0.5f), h2, h*(z - 0.5f) };
+            rlb_Vector3 v5 = { w*(x + 0.5f), 0, h*(z - 0.5f) };
+            rlb_Vector3 v6 = { w*(x - 0.5f), 0, h*(z - 0.5f) };
+            rlb_Vector3 v7 = { w*(x - 0.5f), 0, h*(z + 0.5f) };
+            rlb_Vector3 v8 = { w*(x + 0.5f), 0, h*(z + 0.5f) };
 
             // We check pixel color to be WHITE -> draw full cube
             if (COLOR_EQUAL(pixels[z*cubicmap.width + x], WHITE))
@@ -3107,12 +3107,12 @@ Mesh GenMeshCubicmap(Image cubicmap, Vector3 cubeSize)
                 mapNormals[nCounter + 5] = n3;
                 nCounter += 6;
 
-                mapTexcoords[tcCounter] = (Vector2){ topTexUV.x, topTexUV.y };
-                mapTexcoords[tcCounter + 1] = (Vector2){ topTexUV.x, topTexUV.y + topTexUV.height };
-                mapTexcoords[tcCounter + 2] = (Vector2){ topTexUV.x + topTexUV.width, topTexUV.y + topTexUV.height };
-                mapTexcoords[tcCounter + 3] = (Vector2){ topTexUV.x, topTexUV.y };
-                mapTexcoords[tcCounter + 4] = (Vector2){ topTexUV.x + topTexUV.width, topTexUV.y + topTexUV.height };
-                mapTexcoords[tcCounter + 5] = (Vector2){ topTexUV.x + topTexUV.width, topTexUV.y };
+                mapTexcoords[tcCounter] = (rlb_Vector2){ topTexUV.x, topTexUV.y };
+                mapTexcoords[tcCounter + 1] = (rlb_Vector2){ topTexUV.x, topTexUV.y + topTexUV.height };
+                mapTexcoords[tcCounter + 2] = (rlb_Vector2){ topTexUV.x + topTexUV.width, topTexUV.y + topTexUV.height };
+                mapTexcoords[tcCounter + 3] = (rlb_Vector2){ topTexUV.x, topTexUV.y };
+                mapTexcoords[tcCounter + 4] = (rlb_Vector2){ topTexUV.x + topTexUV.width, topTexUV.y + topTexUV.height };
+                mapTexcoords[tcCounter + 5] = (rlb_Vector2){ topTexUV.x + topTexUV.width, topTexUV.y };
                 tcCounter += 6;
 
                 // Define bottom triangles (2 tris, 6 vertex --> v6-v8-v7, v6-v5-v8)
@@ -3132,12 +3132,12 @@ Mesh GenMeshCubicmap(Image cubicmap, Vector3 cubeSize)
                 mapNormals[nCounter + 5] = n4;
                 nCounter += 6;
 
-                mapTexcoords[tcCounter] = (Vector2){ bottomTexUV.x + bottomTexUV.width, bottomTexUV.y };
-                mapTexcoords[tcCounter + 1] = (Vector2){ bottomTexUV.x, bottomTexUV.y + bottomTexUV.height };
-                mapTexcoords[tcCounter + 2] = (Vector2){ bottomTexUV.x + bottomTexUV.width, bottomTexUV.y + bottomTexUV.height };
-                mapTexcoords[tcCounter + 3] = (Vector2){ bottomTexUV.x + bottomTexUV.width, bottomTexUV.y };
-                mapTexcoords[tcCounter + 4] = (Vector2){ bottomTexUV.x, bottomTexUV.y };
-                mapTexcoords[tcCounter + 5] = (Vector2){ bottomTexUV.x, bottomTexUV.y + bottomTexUV.height };
+                mapTexcoords[tcCounter] = (rlb_Vector2){ bottomTexUV.x + bottomTexUV.width, bottomTexUV.y };
+                mapTexcoords[tcCounter + 1] = (rlb_Vector2){ bottomTexUV.x, bottomTexUV.y + bottomTexUV.height };
+                mapTexcoords[tcCounter + 2] = (rlb_Vector2){ bottomTexUV.x + bottomTexUV.width, bottomTexUV.y + bottomTexUV.height };
+                mapTexcoords[tcCounter + 3] = (rlb_Vector2){ bottomTexUV.x + bottomTexUV.width, bottomTexUV.y };
+                mapTexcoords[tcCounter + 4] = (rlb_Vector2){ bottomTexUV.x, bottomTexUV.y };
+                mapTexcoords[tcCounter + 5] = (rlb_Vector2){ bottomTexUV.x, bottomTexUV.y + bottomTexUV.height };
                 tcCounter += 6;
 
                 // Checking cube on bottom of current cube
@@ -3161,12 +3161,12 @@ Mesh GenMeshCubicmap(Image cubicmap, Vector3 cubeSize)
                     mapNormals[nCounter + 5] = n6;
                     nCounter += 6;
 
-                    mapTexcoords[tcCounter] = (Vector2){ frontTexUV.x, frontTexUV.y };
-                    mapTexcoords[tcCounter + 1] = (Vector2){ frontTexUV.x, frontTexUV.y + frontTexUV.height };
-                    mapTexcoords[tcCounter + 2] = (Vector2){ frontTexUV.x + frontTexUV.width, frontTexUV.y };
-                    mapTexcoords[tcCounter + 3] = (Vector2){ frontTexUV.x + frontTexUV.width, frontTexUV.y };
-                    mapTexcoords[tcCounter + 4] = (Vector2){ frontTexUV.x, frontTexUV.y + frontTexUV.height };
-                    mapTexcoords[tcCounter + 5] = (Vector2){ frontTexUV.x + frontTexUV.width, frontTexUV.y + frontTexUV.height };
+                    mapTexcoords[tcCounter] = (rlb_Vector2){ frontTexUV.x, frontTexUV.y };
+                    mapTexcoords[tcCounter + 1] = (rlb_Vector2){ frontTexUV.x, frontTexUV.y + frontTexUV.height };
+                    mapTexcoords[tcCounter + 2] = (rlb_Vector2){ frontTexUV.x + frontTexUV.width, frontTexUV.y };
+                    mapTexcoords[tcCounter + 3] = (rlb_Vector2){ frontTexUV.x + frontTexUV.width, frontTexUV.y };
+                    mapTexcoords[tcCounter + 4] = (rlb_Vector2){ frontTexUV.x, frontTexUV.y + frontTexUV.height };
+                    mapTexcoords[tcCounter + 5] = (rlb_Vector2){ frontTexUV.x + frontTexUV.width, frontTexUV.y + frontTexUV.height };
                     tcCounter += 6;
                 }
 
@@ -3191,12 +3191,12 @@ Mesh GenMeshCubicmap(Image cubicmap, Vector3 cubeSize)
                     mapNormals[nCounter + 5] = n5;
                     nCounter += 6;
 
-                    mapTexcoords[tcCounter] = (Vector2){ backTexUV.x + backTexUV.width, backTexUV.y };
-                    mapTexcoords[tcCounter + 1] = (Vector2){ backTexUV.x, backTexUV.y + backTexUV.height };
-                    mapTexcoords[tcCounter + 2] = (Vector2){ backTexUV.x + backTexUV.width, backTexUV.y + backTexUV.height };
-                    mapTexcoords[tcCounter + 3] = (Vector2){ backTexUV.x + backTexUV.width, backTexUV.y };
-                    mapTexcoords[tcCounter + 4] = (Vector2){ backTexUV.x, backTexUV.y };
-                    mapTexcoords[tcCounter + 5] = (Vector2){ backTexUV.x, backTexUV.y + backTexUV.height };
+                    mapTexcoords[tcCounter] = (rlb_Vector2){ backTexUV.x + backTexUV.width, backTexUV.y };
+                    mapTexcoords[tcCounter + 1] = (rlb_Vector2){ backTexUV.x, backTexUV.y + backTexUV.height };
+                    mapTexcoords[tcCounter + 2] = (rlb_Vector2){ backTexUV.x + backTexUV.width, backTexUV.y + backTexUV.height };
+                    mapTexcoords[tcCounter + 3] = (rlb_Vector2){ backTexUV.x + backTexUV.width, backTexUV.y };
+                    mapTexcoords[tcCounter + 4] = (rlb_Vector2){ backTexUV.x, backTexUV.y };
+                    mapTexcoords[tcCounter + 5] = (rlb_Vector2){ backTexUV.x, backTexUV.y + backTexUV.height };
                     tcCounter += 6;
                 }
 
@@ -3221,12 +3221,12 @@ Mesh GenMeshCubicmap(Image cubicmap, Vector3 cubeSize)
                     mapNormals[nCounter + 5] = n1;
                     nCounter += 6;
 
-                    mapTexcoords[tcCounter] = (Vector2){ rightTexUV.x, rightTexUV.y };
-                    mapTexcoords[tcCounter + 1] = (Vector2){ rightTexUV.x, rightTexUV.y + rightTexUV.height };
-                    mapTexcoords[tcCounter + 2] = (Vector2){ rightTexUV.x + rightTexUV.width, rightTexUV.y };
-                    mapTexcoords[tcCounter + 3] = (Vector2){ rightTexUV.x + rightTexUV.width, rightTexUV.y };
-                    mapTexcoords[tcCounter + 4] = (Vector2){ rightTexUV.x, rightTexUV.y + rightTexUV.height };
-                    mapTexcoords[tcCounter + 5] = (Vector2){ rightTexUV.x + rightTexUV.width, rightTexUV.y + rightTexUV.height };
+                    mapTexcoords[tcCounter] = (rlb_Vector2){ rightTexUV.x, rightTexUV.y };
+                    mapTexcoords[tcCounter + 1] = (rlb_Vector2){ rightTexUV.x, rightTexUV.y + rightTexUV.height };
+                    mapTexcoords[tcCounter + 2] = (rlb_Vector2){ rightTexUV.x + rightTexUV.width, rightTexUV.y };
+                    mapTexcoords[tcCounter + 3] = (rlb_Vector2){ rightTexUV.x + rightTexUV.width, rightTexUV.y };
+                    mapTexcoords[tcCounter + 4] = (rlb_Vector2){ rightTexUV.x, rightTexUV.y + rightTexUV.height };
+                    mapTexcoords[tcCounter + 5] = (rlb_Vector2){ rightTexUV.x + rightTexUV.width, rightTexUV.y + rightTexUV.height };
                     tcCounter += 6;
                 }
 
@@ -3251,12 +3251,12 @@ Mesh GenMeshCubicmap(Image cubicmap, Vector3 cubeSize)
                     mapNormals[nCounter + 5] = n2;
                     nCounter += 6;
 
-                    mapTexcoords[tcCounter] = (Vector2){ leftTexUV.x, leftTexUV.y };
-                    mapTexcoords[tcCounter + 1] = (Vector2){ leftTexUV.x + leftTexUV.width, leftTexUV.y + leftTexUV.height };
-                    mapTexcoords[tcCounter + 2] = (Vector2){ leftTexUV.x + leftTexUV.width, leftTexUV.y };
-                    mapTexcoords[tcCounter + 3] = (Vector2){ leftTexUV.x, leftTexUV.y };
-                    mapTexcoords[tcCounter + 4] = (Vector2){ leftTexUV.x, leftTexUV.y + leftTexUV.height };
-                    mapTexcoords[tcCounter + 5] = (Vector2){ leftTexUV.x + leftTexUV.width, leftTexUV.y + leftTexUV.height };
+                    mapTexcoords[tcCounter] = (rlb_Vector2){ leftTexUV.x, leftTexUV.y };
+                    mapTexcoords[tcCounter + 1] = (rlb_Vector2){ leftTexUV.x + leftTexUV.width, leftTexUV.y + leftTexUV.height };
+                    mapTexcoords[tcCounter + 2] = (rlb_Vector2){ leftTexUV.x + leftTexUV.width, leftTexUV.y };
+                    mapTexcoords[tcCounter + 3] = (rlb_Vector2){ leftTexUV.x, leftTexUV.y };
+                    mapTexcoords[tcCounter + 4] = (rlb_Vector2){ leftTexUV.x, leftTexUV.y + leftTexUV.height };
+                    mapTexcoords[tcCounter + 5] = (rlb_Vector2){ leftTexUV.x + leftTexUV.width, leftTexUV.y + leftTexUV.height };
                     tcCounter += 6;
                 }
             }
@@ -3280,12 +3280,12 @@ Mesh GenMeshCubicmap(Image cubicmap, Vector3 cubeSize)
                 mapNormals[nCounter + 5] = n4;
                 nCounter += 6;
 
-                mapTexcoords[tcCounter] = (Vector2){ topTexUV.x, topTexUV.y };
-                mapTexcoords[tcCounter + 1] = (Vector2){ topTexUV.x + topTexUV.width, topTexUV.y + topTexUV.height };
-                mapTexcoords[tcCounter + 2] = (Vector2){ topTexUV.x, topTexUV.y + topTexUV.height };
-                mapTexcoords[tcCounter + 3] = (Vector2){ topTexUV.x, topTexUV.y };
-                mapTexcoords[tcCounter + 4] = (Vector2){ topTexUV.x + topTexUV.width, topTexUV.y };
-                mapTexcoords[tcCounter + 5] = (Vector2){ topTexUV.x + topTexUV.width, topTexUV.y + topTexUV.height };
+                mapTexcoords[tcCounter] = (rlb_Vector2){ topTexUV.x, topTexUV.y };
+                mapTexcoords[tcCounter + 1] = (rlb_Vector2){ topTexUV.x + topTexUV.width, topTexUV.y + topTexUV.height };
+                mapTexcoords[tcCounter + 2] = (rlb_Vector2){ topTexUV.x, topTexUV.y + topTexUV.height };
+                mapTexcoords[tcCounter + 3] = (rlb_Vector2){ topTexUV.x, topTexUV.y };
+                mapTexcoords[tcCounter + 4] = (rlb_Vector2){ topTexUV.x + topTexUV.width, topTexUV.y };
+                mapTexcoords[tcCounter + 5] = (rlb_Vector2){ topTexUV.x + topTexUV.width, topTexUV.y + topTexUV.height };
                 tcCounter += 6;
 
                 // Define bottom triangles (2 tris, 6 vertex --> v6-v8-v7, v6-v5-v8)
@@ -3305,12 +3305,12 @@ Mesh GenMeshCubicmap(Image cubicmap, Vector3 cubeSize)
                 mapNormals[nCounter + 5] = n3;
                 nCounter += 6;
 
-                mapTexcoords[tcCounter] = (Vector2){ bottomTexUV.x + bottomTexUV.width, bottomTexUV.y };
-                mapTexcoords[tcCounter + 1] = (Vector2){ bottomTexUV.x + bottomTexUV.width, bottomTexUV.y + bottomTexUV.height };
-                mapTexcoords[tcCounter + 2] = (Vector2){ bottomTexUV.x, bottomTexUV.y + bottomTexUV.height };
-                mapTexcoords[tcCounter + 3] = (Vector2){ bottomTexUV.x + bottomTexUV.width, bottomTexUV.y };
-                mapTexcoords[tcCounter + 4] = (Vector2){ bottomTexUV.x, bottomTexUV.y + bottomTexUV.height };
-                mapTexcoords[tcCounter + 5] = (Vector2){ bottomTexUV.x, bottomTexUV.y };
+                mapTexcoords[tcCounter] = (rlb_Vector2){ bottomTexUV.x + bottomTexUV.width, bottomTexUV.y };
+                mapTexcoords[tcCounter + 1] = (rlb_Vector2){ bottomTexUV.x + bottomTexUV.width, bottomTexUV.y + bottomTexUV.height };
+                mapTexcoords[tcCounter + 2] = (rlb_Vector2){ bottomTexUV.x, bottomTexUV.y + bottomTexUV.height };
+                mapTexcoords[tcCounter + 3] = (rlb_Vector2){ bottomTexUV.x + bottomTexUV.width, bottomTexUV.y };
+                mapTexcoords[tcCounter + 4] = (rlb_Vector2){ bottomTexUV.x, bottomTexUV.y + bottomTexUV.height };
+                mapTexcoords[tcCounter + 5] = (rlb_Vector2){ bottomTexUV.x, bottomTexUV.y };
                 tcCounter += 6;
             }
         }
@@ -3372,26 +3372,26 @@ Mesh GenMeshCubicmap(Image cubicmap, Vector3 cubeSize)
 
 // Compute mesh bounding box limits
 // NOTE: minVertex and maxVertex should be transformed by model transform matrix
-BoundingBox GetMeshBoundingBox(Mesh mesh)
+rlb_BoundingBox GetMeshBoundingBox(rlb_Mesh mesh)
 {
     // Get min and max vertex to construct bounds (AABB)
-    Vector3 minVertex = { 0 };
-    Vector3 maxVertex = { 0 };
+    rlb_Vector3 minVertex = { 0 };
+    rlb_Vector3 maxVertex = { 0 };
 
     if (mesh.vertices != NULL)
     {
-        minVertex = (Vector3){ mesh.vertices[0], mesh.vertices[1], mesh.vertices[2] };
-        maxVertex = (Vector3){ mesh.vertices[0], mesh.vertices[1], mesh.vertices[2] };
+        minVertex = (rlb_Vector3){ mesh.vertices[0], mesh.vertices[1], mesh.vertices[2] };
+        maxVertex = (rlb_Vector3){ mesh.vertices[0], mesh.vertices[1], mesh.vertices[2] };
 
         for (int i = 1; i < mesh.vertexCount; i++)
         {
-            minVertex = Vector3Min(minVertex, (Vector3){ mesh.vertices[i*3], mesh.vertices[i*3 + 1], mesh.vertices[i*3 + 2] });
-            maxVertex = Vector3Max(maxVertex, (Vector3){ mesh.vertices[i*3], mesh.vertices[i*3 + 1], mesh.vertices[i*3 + 2] });
+            minVertex = Vector3Min(minVertex, (rlb_Vector3){ mesh.vertices[i*3], mesh.vertices[i*3 + 1], mesh.vertices[i*3 + 2] });
+            maxVertex = Vector3Max(maxVertex, (rlb_Vector3){ mesh.vertices[i*3], mesh.vertices[i*3 + 1], mesh.vertices[i*3 + 2] });
         }
     }
 
     // Create the bounding box
-    BoundingBox box = { 0 };
+    rlb_BoundingBox box = { 0 };
     box.min = minVertex;
     box.max = maxVertex;
 
@@ -3401,7 +3401,7 @@ BoundingBox GetMeshBoundingBox(Mesh mesh)
 // Compute mesh tangents
 // NOTE: To calculate mesh tangents and binormals we need mesh vertex positions and texture coordinates
 // Implementation based on: https://answers.unity.com/questions/7789/calculating-tangents-vector4.html
-void GenMeshTangents(Mesh *mesh)
+void GenMeshTangents(rlb_Mesh *mesh)
 {
     if ((mesh->vertices == NULL) || (mesh->texcoords == NULL))
     {
@@ -3416,20 +3416,20 @@ void GenMeshTangents(Mesh *mesh)
         mesh->tangents = (float *)RL_MALLOC(mesh->vertexCount*4*sizeof(float));
     }
 
-    Vector3 *tan1 = (Vector3 *)RL_MALLOC(mesh->vertexCount*sizeof(Vector3));
-    Vector3 *tan2 = (Vector3 *)RL_MALLOC(mesh->vertexCount*sizeof(Vector3));
+    rlb_Vector3 *tan1 = (rlb_Vector3 *)RL_MALLOC(mesh->vertexCount*sizeof(rlb_Vector3));
+    rlb_Vector3 *tan2 = (rlb_Vector3 *)RL_MALLOC(mesh->vertexCount*sizeof(rlb_Vector3));
 
     for (int i = 0; i < mesh->vertexCount; i += 3)
     {
         // Get triangle vertices
-        Vector3 v1 = { mesh->vertices[(i + 0)*3 + 0], mesh->vertices[(i + 0)*3 + 1], mesh->vertices[(i + 0)*3 + 2] };
-        Vector3 v2 = { mesh->vertices[(i + 1)*3 + 0], mesh->vertices[(i + 1)*3 + 1], mesh->vertices[(i + 1)*3 + 2] };
-        Vector3 v3 = { mesh->vertices[(i + 2)*3 + 0], mesh->vertices[(i + 2)*3 + 1], mesh->vertices[(i + 2)*3 + 2] };
+        rlb_Vector3 v1 = { mesh->vertices[(i + 0)*3 + 0], mesh->vertices[(i + 0)*3 + 1], mesh->vertices[(i + 0)*3 + 2] };
+        rlb_Vector3 v2 = { mesh->vertices[(i + 1)*3 + 0], mesh->vertices[(i + 1)*3 + 1], mesh->vertices[(i + 1)*3 + 2] };
+        rlb_Vector3 v3 = { mesh->vertices[(i + 2)*3 + 0], mesh->vertices[(i + 2)*3 + 1], mesh->vertices[(i + 2)*3 + 2] };
 
         // Get triangle texcoords
-        Vector2 uv1 = { mesh->texcoords[(i + 0)*2 + 0], mesh->texcoords[(i + 0)*2 + 1] };
-        Vector2 uv2 = { mesh->texcoords[(i + 1)*2 + 0], mesh->texcoords[(i + 1)*2 + 1] };
-        Vector2 uv3 = { mesh->texcoords[(i + 2)*2 + 0], mesh->texcoords[(i + 2)*2 + 1] };
+        rlb_Vector2 uv1 = { mesh->texcoords[(i + 0)*2 + 0], mesh->texcoords[(i + 0)*2 + 1] };
+        rlb_Vector2 uv2 = { mesh->texcoords[(i + 1)*2 + 0], mesh->texcoords[(i + 1)*2 + 1] };
+        rlb_Vector2 uv3 = { mesh->texcoords[(i + 2)*2 + 0], mesh->texcoords[(i + 2)*2 + 1] };
 
         float x1 = v2.x - v1.x;
         float y1 = v2.y - v1.y;
@@ -3446,8 +3446,8 @@ void GenMeshTangents(Mesh *mesh)
         float div = s1*t2 - s2*t1;
         float r = (div == 0.0f)? 0.0f : 1.0f/div;
 
-        Vector3 sdir = { (t2*x1 - t1*x2)*r, (t2*y1 - t1*y2)*r, (t2*z1 - t1*z2)*r };
-        Vector3 tdir = { (s1*x2 - s2*x1)*r, (s1*y2 - s2*y1)*r, (s1*z2 - s2*z1)*r };
+        rlb_Vector3 sdir = { (t2*x1 - t1*x2)*r, (t2*y1 - t1*y2)*r, (t2*z1 - t1*z2)*r };
+        rlb_Vector3 tdir = { (s1*x2 - s2*x1)*r, (s1*y2 - s2*y1)*r, (s1*z2 - s2*z1)*r };
 
         tan1[i + 0] = sdir;
         tan1[i + 1] = sdir;
@@ -3461,8 +3461,8 @@ void GenMeshTangents(Mesh *mesh)
     // Compute tangents considering normals
     for (int i = 0; i < mesh->vertexCount; i++)
     {
-        Vector3 normal = { mesh->normals[i*3 + 0], mesh->normals[i*3 + 1], mesh->normals[i*3 + 2] };
-        Vector3 tangent = tan1[i];
+        rlb_Vector3 normal = { mesh->normals[i*3 + 0], mesh->normals[i*3 + 1], mesh->normals[i*3 + 2] };
+        rlb_Vector3 tangent = tan1[i];
 
         // TODO: Review, not sure if tangent computation is right, just used reference proposed maths...
 #if defined(COMPUTE_TANGENTS_METHOD_01)
@@ -3507,33 +3507,33 @@ void GenMeshTangents(Mesh *mesh)
 }
 
 // Draw a model (with texture if set)
-void DrawModel(Model model, Vector3 position, float scale, Color tint)
+void DrawModel(rlb_Model model, rlb_Vector3 position, float scale, rlb_Color tint)
 {
-    Vector3 vScale = { scale, scale, scale };
-    Vector3 rotationAxis = { 0.0f, 1.0f, 0.0f };
+    rlb_Vector3 vScale = { scale, scale, scale };
+    rlb_Vector3 rotationAxis = { 0.0f, 1.0f, 0.0f };
 
     DrawModelEx(model, position, rotationAxis, 0.0f, vScale, tint);
 }
 
 // Draw a model with extended parameters
-void DrawModelEx(Model model, Vector3 position, Vector3 rotationAxis, float rotationAngle, Vector3 scale, Color tint)
+void DrawModelEx(rlb_Model model, rlb_Vector3 position, rlb_Vector3 rotationAxis, float rotationAngle, rlb_Vector3 scale, rlb_Color tint)
 {
     // Calculate transformation matrix from function parameters
     // Get transform matrix (rotation -> scale -> translation)
-    Matrix matScale = MatrixScale(scale.x, scale.y, scale.z);
-    Matrix matRotation = MatrixRotate(rotationAxis, rotationAngle*DEG2RAD);
-    Matrix matTranslation = MatrixTranslate(position.x, position.y, position.z);
+    rlb_Matrix matScale = MatrixScale(scale.x, scale.y, scale.z);
+    rlb_Matrix matRotation = MatrixRotate(rotationAxis, rotationAngle*DEG2RAD);
+    rlb_Matrix matTranslation = MatrixTranslate(position.x, position.y, position.z);
 
-    Matrix matTransform = MatrixMultiply(MatrixMultiply(matScale, matRotation), matTranslation);
+    rlb_Matrix matTransform = MatrixMultiply(MatrixMultiply(matScale, matRotation), matTranslation);
 
     // Combine model transformation matrix (model.transform) with matrix generated by function parameters (matTransform)
     model.transform = MatrixMultiply(model.transform, matTransform);
 
     for (int i = 0; i < model.meshCount; i++)
     {
-        Color color = model.materials[model.meshMaterial[i]].maps[MATERIAL_MAP_DIFFUSE].color;
+        rlb_Color color = model.materials[model.meshMaterial[i]].maps[MATERIAL_MAP_DIFFUSE].color;
 
-        Color colorTint = WHITE;
+        rlb_Color colorTint = WHITE;
         colorTint.r = (unsigned char)((((float)color.r/255.0f)*((float)tint.r/255.0f))*255.0f);
         colorTint.g = (unsigned char)((((float)color.g/255.0f)*((float)tint.g/255.0f))*255.0f);
         colorTint.b = (unsigned char)((((float)color.b/255.0f)*((float)tint.b/255.0f))*255.0f);
@@ -3546,7 +3546,7 @@ void DrawModelEx(Model model, Vector3 position, Vector3 rotationAxis, float rota
 }
 
 // Draw a model wires (with texture if set)
-void DrawModelWires(Model model, Vector3 position, float scale, Color tint)
+void DrawModelWires(rlb_Model model, rlb_Vector3 position, float scale, rlb_Color tint)
 {
     rlEnableWireMode();
 
@@ -3556,7 +3556,7 @@ void DrawModelWires(Model model, Vector3 position, float scale, Color tint)
 }
 
 // Draw a model wires (with texture if set) with extended parameters
-void DrawModelWiresEx(Model model, Vector3 position, Vector3 rotationAxis, float rotationAngle, Vector3 scale, Color tint)
+void DrawModelWiresEx(rlb_Model model, rlb_Vector3 position, rlb_Vector3 rotationAxis, float rotationAngle, rlb_Vector3 scale, rlb_Color tint)
 {
     rlEnableWireMode();
 
@@ -3566,42 +3566,42 @@ void DrawModelWiresEx(Model model, Vector3 position, Vector3 rotationAxis, float
 }
 
 // Draw a billboard
-void DrawBillboard(Camera camera, Texture2D texture, Vector3 position, float size, Color tint)
+void DrawBillboard(Camera camera, rlb_Texture2D texture, rlb_Vector3 position, float size, rlb_Color tint)
 {
-    Rectangle source = { 0.0f, 0.0f, (float)texture.width, (float)texture.height };
+    rlb_Rectangle source = { 0.0f, 0.0f, (float)texture.width, (float)texture.height };
 
-    DrawBillboardRec(camera, texture, source, position, (Vector2){ size, size }, tint);
+    DrawBillboardRec(camera, texture, source, position, (rlb_Vector2){ size, size }, tint);
 }
 
 // Draw a billboard (part of a texture defined by a rectangle)
-void DrawBillboardRec(Camera camera, Texture2D texture, Rectangle source, Vector3 position, Vector2 size, Color tint)
+void DrawBillboardRec(Camera camera, rlb_Texture2D texture, rlb_Rectangle source, rlb_Vector3 position, rlb_Vector2 size, rlb_Color tint)
 {
     // NOTE: Billboard locked on axis-Y
-    Vector3 up = { 0.0f, 1.0f, 0.0f };
+    rlb_Vector3 up = { 0.0f, 1.0f, 0.0f };
 
     DrawBillboardPro(camera, texture, source, position, up, size, Vector2Zero(), 0.0f, tint);
 }
 
-void DrawBillboardPro(Camera camera, Texture2D texture, Rectangle source, Vector3 position, Vector3 up, Vector2 size, Vector2 origin, float rotation, Color tint)
+void DrawBillboardPro(Camera camera, rlb_Texture2D texture, rlb_Rectangle source, rlb_Vector3 position, rlb_Vector3 up, rlb_Vector2 size, rlb_Vector2 origin, float rotation, rlb_Color tint)
 {
     // NOTE: Billboard size will maintain source rectangle aspect ratio, size will represent billboard width
-    Vector2 sizeRatio = { size.x*fabsf((float)source.width/source.height), size.y };
+    rlb_Vector2 sizeRatio = { size.x*fabsf((float)source.width/source.height), size.y };
 
-    Matrix matView = MatrixLookAt(camera.position, camera.target, camera.up);
+    rlb_Matrix matView = MatrixLookAt(camera.position, camera.target, camera.up);
 
-    Vector3 right = { matView.m0, matView.m4, matView.m8 };
+    rlb_Vector3 right = { matView.m0, matView.m4, matView.m8 };
     //Vector3 up = { matView.m1, matView.m5, matView.m9 };
 
-    Vector3 rightScaled = Vector3Scale(right, sizeRatio.x/2);
-    Vector3 upScaled = Vector3Scale(up, sizeRatio.y/2);
+    rlb_Vector3 rightScaled = Vector3Scale(right, sizeRatio.x/2);
+    rlb_Vector3 upScaled = Vector3Scale(up, sizeRatio.y/2);
 
-    Vector3 p1 = Vector3Add(rightScaled, upScaled);
-    Vector3 p2 = Vector3Subtract(rightScaled, upScaled);
+    rlb_Vector3 p1 = Vector3Add(rightScaled, upScaled);
+    rlb_Vector3 p2 = Vector3Subtract(rightScaled, upScaled);
 
-    Vector3 topLeft = Vector3Scale(p2, -1);
-    Vector3 topRight = p1;
-    Vector3 bottomRight = p2;
-    Vector3 bottomLeft = Vector3Scale(p1, -1);
+    rlb_Vector3 topLeft = Vector3Scale(p2, -1);
+    rlb_Vector3 topRight = p1;
+    rlb_Vector3 bottomRight = p2;
+    rlb_Vector3 bottomLeft = Vector3Scale(p1, -1);
 
     if (rotation != 0.0f)
     {
@@ -3691,21 +3691,21 @@ void DrawBillboardPro(Camera camera, Texture2D texture, Rectangle source, Vector
 }
 
 // Draw a bounding box with wires
-void DrawBoundingBox(BoundingBox box, Color color)
+void DrawBoundingBox(rlb_BoundingBox box, rlb_Color color)
 {
-    Vector3 size = { 0 };
+    rlb_Vector3 size = { 0 };
 
     size.x = fabsf(box.max.x - box.min.x);
     size.y = fabsf(box.max.y - box.min.y);
     size.z = fabsf(box.max.z - box.min.z);
 
-    Vector3 center = { box.min.x + size.x/2.0f, box.min.y + size.y/2.0f, box.min.z + size.z/2.0f };
+    rlb_Vector3 center = { box.min.x + size.x/2.0f, box.min.y + size.y/2.0f, box.min.z + size.z/2.0f };
 
     DrawCubeWires(center, size.x, size.y, size.z, color);
 }
 
 // Check collision between two spheres
-bool CheckCollisionSpheres(Vector3 center1, float radius1, Vector3 center2, float radius2)
+bool CheckCollisionSpheres(rlb_Vector3 center1, float radius1, rlb_Vector3 center2, float radius2)
 {
     bool collision = false;
 
@@ -3729,7 +3729,7 @@ bool CheckCollisionSpheres(Vector3 center1, float radius1, Vector3 center2, floa
 
 // Check collision between two boxes
 // NOTE: Boxes are defined by two points minimum and maximum
-bool CheckCollisionBoxes(BoundingBox box1, BoundingBox box2)
+bool CheckCollisionBoxes(rlb_BoundingBox box1, rlb_BoundingBox box2)
 {
     bool collision = true;
 
@@ -3744,7 +3744,7 @@ bool CheckCollisionBoxes(BoundingBox box1, BoundingBox box2)
 }
 
 // Check collision between box and sphere
-bool CheckCollisionBoxSphere(BoundingBox box, Vector3 center, float radius)
+bool CheckCollisionBoxSphere(rlb_BoundingBox box, rlb_Vector3 center, float radius)
 {
     bool collision = false;
 
@@ -3765,11 +3765,11 @@ bool CheckCollisionBoxSphere(BoundingBox box, Vector3 center, float radius)
 }
 
 // Get collision info between ray and sphere
-RayCollision GetRayCollisionSphere(Ray ray, Vector3 center, float radius)
+rlb_RayCollision GetRayCollisionSphere(rlb_Ray ray, rlb_Vector3 center, float radius)
 {
-    RayCollision collision = { 0 };
+    rlb_RayCollision collision = { 0 };
 
-    Vector3 raySpherePos = Vector3Subtract(center, ray.position);
+    rlb_Vector3 raySpherePos = Vector3Subtract(center, ray.position);
     float vector = Vector3DotProduct(raySpherePos, ray.direction);
     float distance = Vector3Length(raySpherePos);
     float d = radius*radius - (distance*distance - vector*vector);
@@ -3802,9 +3802,9 @@ RayCollision GetRayCollisionSphere(Ray ray, Vector3 center, float radius)
 }
 
 // Get collision info between ray and box
-RayCollision GetRayCollisionBox(Ray ray, BoundingBox box)
+rlb_RayCollision GetRayCollisionBox(rlb_Ray ray, rlb_BoundingBox box)
 {
-    RayCollision collision = { 0 };
+    rlb_RayCollision collision = { 0 };
 
     // Note: If ray.position is inside the box, the distance is negative (as if the ray was reversed)
     // Reversing ray.direction will give use the correct result.
@@ -3862,9 +3862,9 @@ RayCollision GetRayCollisionBox(Ray ray, BoundingBox box)
 }
 
 // Get collision info between ray and mesh
-RayCollision GetRayCollisionMesh(Ray ray, Mesh mesh, Matrix transform)
+rlb_RayCollision GetRayCollisionMesh(rlb_Ray ray, rlb_Mesh mesh, rlb_Matrix transform)
 {
-    RayCollision collision = { 0 };
+    rlb_RayCollision collision = { 0 };
 
     // Check if mesh vertex data on CPU for testing
     if (mesh.vertices != NULL)
@@ -3874,8 +3874,8 @@ RayCollision GetRayCollisionMesh(Ray ray, Mesh mesh, Matrix transform)
         // Test against all triangles in mesh
         for (int i = 0; i < triangleCount; i++)
         {
-            Vector3 a, b, c;
-            Vector3* vertdata = (Vector3*)mesh.vertices;
+            rlb_Vector3 a, b, c;
+            rlb_Vector3* vertdata = (rlb_Vector3*)mesh.vertices;
 
             if (mesh.indices)
             {
@@ -3894,7 +3894,7 @@ RayCollision GetRayCollisionMesh(Ray ray, Mesh mesh, Matrix transform)
             b = Vector3Transform(b, transform);
             c = Vector3Transform(c, transform);
 
-            RayCollision triHitInfo = GetRayCollisionTriangle(ray, a, b, c);
+            rlb_RayCollision triHitInfo = GetRayCollisionTriangle(ray, a, b, c);
 
             if (triHitInfo.hit)
             {
@@ -3910,14 +3910,14 @@ RayCollision GetRayCollisionMesh(Ray ray, Mesh mesh, Matrix transform)
 // Get collision info between ray and triangle
 // NOTE: The points are expected to be in counter-clockwise winding
 // NOTE: Based on https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
-RayCollision GetRayCollisionTriangle(Ray ray, Vector3 p1, Vector3 p2, Vector3 p3)
+rlb_RayCollision GetRayCollisionTriangle(rlb_Ray ray, rlb_Vector3 p1, rlb_Vector3 p2, rlb_Vector3 p3)
 {
     #define EPSILON 0.000001f        // A small number
 
-    RayCollision collision = { 0 };
-    Vector3 edge1 = { 0 };
-    Vector3 edge2 = { 0 };
-    Vector3 p, q, tv;
+    rlb_RayCollision collision = { 0 };
+    rlb_Vector3 edge1 = { 0 };
+    rlb_Vector3 edge2 = { 0 };
+    rlb_Vector3 p, q, tv;
     float det, invDet, u, v, t;
 
     // Find vectors for two edges sharing V1
@@ -3969,9 +3969,9 @@ RayCollision GetRayCollisionTriangle(Ray ray, Vector3 p1, Vector3 p2, Vector3 p3
 
 // Get collision info between ray and quad
 // NOTE: The points are expected to be in counter-clockwise winding
-RayCollision GetRayCollisionQuad(Ray ray, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)
+rlb_RayCollision GetRayCollisionQuad(rlb_Ray ray, rlb_Vector3 p1, rlb_Vector3 p2, rlb_Vector3 p3, rlb_Vector3 p4)
 {
-    RayCollision collision = { 0 };
+    rlb_RayCollision collision = { 0 };
 
     collision = GetRayCollisionTriangle(ray, p1, p2, p4);
 
@@ -3986,7 +3986,7 @@ RayCollision GetRayCollisionQuad(Ray ray, Vector3 p1, Vector3 p2, Vector3 p3, Ve
 #if defined(SUPPORT_FILEFORMAT_IQM) || defined(SUPPORT_FILEFORMAT_GLTF)
 // Build pose from parent joints
 // NOTE: Required for animations loading (required by IQM and GLTF)
-static void BuildPoseFromParentJoints(BoneInfo *bones, int boneCount, Transform *transforms)
+static void BuildPoseFromParentJoints(rlb_BoneInfo *bones, int boneCount, rlb_Transform *transforms)
 {
     for (int i = 0; i < boneCount; i++)
     {
@@ -4013,9 +4013,9 @@ static void BuildPoseFromParentJoints(BoneInfo *bones, int boneCount, Transform 
 //  - A mesh is created for every material present in the obj file
 //  - the model.meshCount is therefore the materialCount returned from tinyobj
 //  - the mesh is automatically triangulated by tinyobj
-static Model LoadOBJ(const char *fileName)
+static rlb_Model LoadOBJ(const char *fileName)
 {
-    Model model = { 0 };
+    rlb_Model model = { 0 };
 
     tinyobj_attrib_t attrib = { 0 };
     tinyobj_shape_t *meshes = NULL;
@@ -4060,9 +4060,9 @@ static Model LoadOBJ(const char *fileName)
         }
 
         // Init model meshes and materials
-        model.meshes = (Mesh *)RL_CALLOC(model.meshCount, sizeof(Mesh));
+        model.meshes = (rlb_Mesh *)RL_CALLOC(model.meshCount, sizeof(rlb_Mesh));
         model.meshMaterial = (int *)RL_CALLOC(model.meshCount, sizeof(int)); // Material index assigned to each mesh
-        model.materials = (Material *)RL_CALLOC(model.materialCount, sizeof(Material));
+        model.materials = (rlb_Material *)RL_CALLOC(model.materialCount, sizeof(rlb_Material));
 
         // Process each provided mesh
         for (int i = 0; i < model.meshCount; i++)
@@ -4141,7 +4141,7 @@ static Model LoadOBJ(const char *fileName)
 
 #if defined(SUPPORT_FILEFORMAT_IQM)
 // Load IQM mesh data
-static Model LoadIQM(const char *fileName)
+static rlb_Model LoadIQM(const char *fileName)
 {
     #define IQM_MAGIC     "INTERQUAKEMODEL" // IQM file magic number
     #define IQM_VERSION          2          // only IQM version 2 supported
@@ -4237,7 +4237,7 @@ static Model LoadIQM(const char *fileName)
         IQM_CUSTOM       = 0x10     // NOTE: Custom vertex values unused by default
     };
 
-    Model model = { 0 };
+    rlb_Model model = { 0 };
 
     IQMMesh *imesh = NULL;
     IQMTriangle *tri = NULL;
@@ -4278,10 +4278,10 @@ static Model LoadIQM(const char *fileName)
     memcpy(imesh, fileDataPtr + iqmHeader->ofs_meshes, iqmHeader->num_meshes*sizeof(IQMMesh));
 
     model.meshCount = iqmHeader->num_meshes;
-    model.meshes = RL_CALLOC(model.meshCount, sizeof(Mesh));
+    model.meshes = RL_CALLOC(model.meshCount, sizeof(rlb_Mesh));
 
     model.materialCount = model.meshCount;
-    model.materials = (Material *)RL_CALLOC(model.materialCount, sizeof(Material));
+    model.materials = (rlb_Material *)RL_CALLOC(model.materialCount, sizeof(rlb_Material));
     model.meshMaterial = (int *)RL_CALLOC(model.meshCount, sizeof(int));
 
     char name[MESH_NAME_LENGTH] = { 0 };
@@ -4467,8 +4467,8 @@ static Model LoadIQM(const char *fileName)
     memcpy(ijoint, fileDataPtr + iqmHeader->ofs_joints, iqmHeader->num_joints*sizeof(IQMJoint));
 
     model.boneCount = iqmHeader->num_joints;
-    model.bones = RL_MALLOC(iqmHeader->num_joints*sizeof(BoneInfo));
-    model.bindPose = RL_MALLOC(iqmHeader->num_joints*sizeof(Transform));
+    model.bones = RL_MALLOC(iqmHeader->num_joints*sizeof(rlb_BoneInfo));
+    model.bindPose = RL_MALLOC(iqmHeader->num_joints*sizeof(rlb_Transform));
 
     for (unsigned int i = 0; i < iqmHeader->num_joints; i++)
     {
@@ -4512,7 +4512,7 @@ static Model LoadIQM(const char *fileName)
 }
 
 // Load IQM animation data
-static ModelAnimation *LoadModelAnimationsIQM(const char *fileName, int *animCount)
+static rlb_ModelAnimation *LoadModelAnimationsIQM(const char *fileName, int *animCount)
 {
     #define IQM_MAGIC       "INTERQUAKEMODEL"   // IQM file magic number
     #define IQM_VERSION     2                   // only IQM version 2 supported
@@ -4589,7 +4589,7 @@ static ModelAnimation *LoadModelAnimationsIQM(const char *fileName, int *animCou
     //fread(anim, sizeof(IQMAnim), iqmHeader->num_anims, iqmFile);
     memcpy(anim, fileDataPtr + iqmHeader->ofs_anims, iqmHeader->num_anims*sizeof(IQMAnim));
 
-    ModelAnimation *animations = RL_MALLOC(iqmHeader->num_anims*sizeof(ModelAnimation));
+    rlb_ModelAnimation *animations = RL_MALLOC(iqmHeader->num_anims*sizeof(rlb_ModelAnimation));
 
     // frameposes
     unsigned short *framedata = RL_MALLOC(iqmHeader->num_frames*iqmHeader->num_framechannels*sizeof(unsigned short));
@@ -4605,8 +4605,8 @@ static ModelAnimation *LoadModelAnimationsIQM(const char *fileName, int *animCou
     {
         animations[a].frameCount = anim[a].num_frames;
         animations[a].boneCount = iqmHeader->num_poses;
-        animations[a].bones = RL_MALLOC(iqmHeader->num_poses*sizeof(BoneInfo));
-        animations[a].framePoses = RL_MALLOC(anim[a].num_frames*sizeof(Transform *));
+        animations[a].bones = RL_MALLOC(iqmHeader->num_poses*sizeof(rlb_BoneInfo));
+        animations[a].framePoses = RL_MALLOC(anim[a].num_frames*sizeof(rlb_Transform *));
         // animations[a].framerate = anim.framerate;     // TODO: Use animation framerate data?
 
         for (unsigned int j = 0; j < iqmHeader->num_poses; j++)
@@ -4619,7 +4619,7 @@ static ModelAnimation *LoadModelAnimationsIQM(const char *fileName, int *animCou
             animations[a].bones[j].parent = poses[j].parent;
         }
 
-        for (unsigned int j = 0; j < anim[a].num_frames; j++) animations[a].framePoses[j] = RL_MALLOC(iqmHeader->num_poses*sizeof(Transform));
+        for (unsigned int j = 0; j < anim[a].num_frames; j++) animations[a].framePoses[j] = RL_MALLOC(iqmHeader->num_poses*sizeof(rlb_Transform));
 
         int dcounter = anim[a].first_frame*iqmHeader->num_framechannels;
 
@@ -4741,9 +4741,9 @@ static ModelAnimation *LoadModelAnimationsIQM(const char *fileName, int *animCou
 
 #if defined(SUPPORT_FILEFORMAT_GLTF)
 // Load image from different glTF provided methods (uri, path, buffer_view)
-static Image LoadImageFromCgltfImage(cgltf_image *cgltfImage, const char *texPath)
+static rlb_Image LoadImageFromCgltfImage(cgltf_image *cgltfImage, const char *texPath)
 {
-    Image image = { 0 };
+    rlb_Image image = { 0 };
 
     if (cgltfImage->uri != NULL)     // Check if image data is provided as an uri (base64 or path)
     {
@@ -4810,10 +4810,10 @@ static Image LoadImageFromCgltfImage(cgltf_image *cgltfImage, const char *texPat
 }
 
 // Load bone info from GLTF skin data
-static BoneInfo *LoadBoneInfoGLTF(cgltf_skin skin, int *boneCount)
+static rlb_BoneInfo *LoadBoneInfoGLTF(cgltf_skin skin, int *boneCount)
 {
     *boneCount = (int)skin.joints_count;
-    BoneInfo *bones = RL_MALLOC(skin.joints_count*sizeof(BoneInfo));
+    rlb_BoneInfo *bones = RL_MALLOC(skin.joints_count*sizeof(rlb_BoneInfo));
 
     for (unsigned int i = 0; i < skin.joints_count; i++)
     {
@@ -4839,7 +4839,7 @@ static BoneInfo *LoadBoneInfoGLTF(cgltf_skin skin, int *boneCount)
 }
 
 // Load glTF file into model struct, .gltf and .glb supported
-static Model LoadGLTF(const char *fileName)
+static rlb_Model LoadGLTF(const char *fileName)
 {
     /*********************************************************************************************
 
@@ -4881,7 +4881,7 @@ static Model LoadGLTF(const char *fileName)
         }\
     }
 
-    Model model = { 0 };
+    rlb_Model model = { 0 };
 
     // glTF file loading
     int dataSize = 0;
@@ -4917,11 +4917,11 @@ static Model LoadGLTF(const char *fileName)
 
         // Load our model data: meshes and materials
         model.meshCount = primitivesCount;
-        model.meshes = RL_CALLOC(model.meshCount, sizeof(Mesh));
+        model.meshes = RL_CALLOC(model.meshCount, sizeof(rlb_Mesh));
 
         // NOTE: We keep an extra slot for default material, in case some mesh requires it
         model.materialCount = (int)data->materials_count + 1;
-        model.materials = RL_CALLOC(model.materialCount, sizeof(Material));
+        model.materials = RL_CALLOC(model.materialCount, sizeof(rlb_Material));
         model.materials[0] = LoadMaterialDefault();     // Load default material (index: 0)
 
         // Load mesh-material indices, by default all meshes are mapped to material index: 0
@@ -4941,7 +4941,7 @@ static Model LoadGLTF(const char *fileName)
                 // Load base color texture (albedo)
                 if (data->materials[i].pbr_metallic_roughness.base_color_texture.texture)
                 {
-                    Image imAlbedo = LoadImageFromCgltfImage(data->materials[i].pbr_metallic_roughness.base_color_texture.texture->image, texPath);
+                    rlb_Image imAlbedo = LoadImageFromCgltfImage(data->materials[i].pbr_metallic_roughness.base_color_texture.texture->image, texPath);
                     if (imAlbedo.data != NULL)
                     {
                         model.materials[j].maps[MATERIAL_MAP_ALBEDO].texture = LoadTextureFromImage(imAlbedo);
@@ -4957,7 +4957,7 @@ static Model LoadGLTF(const char *fileName)
                 // Load metallic/roughness texture
                 if (data->materials[i].pbr_metallic_roughness.metallic_roughness_texture.texture)
                 {
-                    Image imMetallicRoughness = LoadImageFromCgltfImage(data->materials[i].pbr_metallic_roughness.metallic_roughness_texture.texture->image, texPath);
+                    rlb_Image imMetallicRoughness = LoadImageFromCgltfImage(data->materials[i].pbr_metallic_roughness.metallic_roughness_texture.texture->image, texPath);
                     if (imMetallicRoughness.data != NULL)
                     {
                         model.materials[j].maps[MATERIAL_MAP_ROUGHNESS].texture = LoadTextureFromImage(imMetallicRoughness);
@@ -4975,7 +4975,7 @@ static Model LoadGLTF(const char *fileName)
                 // Load normal texture
                 if (data->materials[i].normal_texture.texture)
                 {
-                    Image imNormal = LoadImageFromCgltfImage(data->materials[i].normal_texture.texture->image, texPath);
+                    rlb_Image imNormal = LoadImageFromCgltfImage(data->materials[i].normal_texture.texture->image, texPath);
                     if (imNormal.data != NULL)
                     {
                         model.materials[j].maps[MATERIAL_MAP_NORMAL].texture = LoadTextureFromImage(imNormal);
@@ -4986,7 +4986,7 @@ static Model LoadGLTF(const char *fileName)
                 // Load ambient occlusion texture
                 if (data->materials[i].occlusion_texture.texture)
                 {
-                    Image imOcclusion = LoadImageFromCgltfImage(data->materials[i].occlusion_texture.texture->image, texPath);
+                    rlb_Image imOcclusion = LoadImageFromCgltfImage(data->materials[i].occlusion_texture.texture->image, texPath);
                     if (imOcclusion.data != NULL)
                     {
                         model.materials[j].maps[MATERIAL_MAP_OCCLUSION].texture = LoadTextureFromImage(imOcclusion);
@@ -4997,7 +4997,7 @@ static Model LoadGLTF(const char *fileName)
                 // Load emissive texture
                 if (data->materials[i].emissive_texture.texture)
                 {
-                    Image imEmissive = LoadImageFromCgltfImage(data->materials[i].emissive_texture.texture->image, texPath);
+                    rlb_Image imEmissive = LoadImageFromCgltfImage(data->materials[i].emissive_texture.texture->image, texPath);
                     if (imEmissive.data != NULL)
                     {
                         model.materials[j].maps[MATERIAL_MAP_EMISSION].texture = LoadTextureFromImage(imEmissive);
@@ -5210,7 +5210,7 @@ static Model LoadGLTF(const char *fileName)
         {
             cgltf_skin skin = data->skins[0];
             model.bones = LoadBoneInfoGLTF(skin, &model.boneCount);
-            model.bindPose = RL_MALLOC(model.boneCount*sizeof(Transform));
+            model.bindPose = RL_MALLOC(model.boneCount*sizeof(rlb_Transform));
 
             for (int i = 0; i < model.boneCount; i++)
             {
@@ -5353,20 +5353,20 @@ static bool GetPoseAtTimeGLTF(cgltf_accessor *input, cgltf_accessor *output, flo
     {
         float tmp[3] = { 0.0f };
         cgltf_accessor_read_float(output, keyframe, tmp, 3);
-        Vector3 v1 = {tmp[0], tmp[1], tmp[2]};
+        rlb_Vector3 v1 = {tmp[0], tmp[1], tmp[2]};
         cgltf_accessor_read_float(output, keyframe+1, tmp, 3);
-        Vector3 v2 = {tmp[0], tmp[1], tmp[2]};
-        Vector3 *r = data;
+        rlb_Vector3 v2 = {tmp[0], tmp[1], tmp[2]};
+        rlb_Vector3 *r = data;
         *r = Vector3Lerp(v1, v2, t);
     }
     else if (output->type == cgltf_type_vec4)
     {
         float tmp[4] = { 0.0f };
         cgltf_accessor_read_float(output, keyframe, tmp, 4);
-        Vector4 v1 = {tmp[0], tmp[1], tmp[2], tmp[3]};
+        rlb_Vector4 v1 = {tmp[0], tmp[1], tmp[2], tmp[3]};
         cgltf_accessor_read_float(output, keyframe+1, tmp, 4);
-        Vector4 v2 = {tmp[0], tmp[1], tmp[2], tmp[3]};
-        Vector4 *r = data;
+        rlb_Vector4 v2 = {tmp[0], tmp[1], tmp[2], tmp[3]};
+        rlb_Vector4 *r = data;
 
         // Only v4 is for rotations, so we know it's a quaternion
         *r = QuaternionSlerp(v1, v2, t);
@@ -5377,13 +5377,13 @@ static bool GetPoseAtTimeGLTF(cgltf_accessor *input, cgltf_accessor *output, flo
 
 #define GLTF_ANIMDELAY 17    // Animation frames delay, (~1000 ms/60 FPS = 16.666666* ms)
 
-static ModelAnimation *LoadModelAnimationsGLTF(const char *fileName, int *animCount)
+static rlb_ModelAnimation *LoadModelAnimationsGLTF(const char *fileName, int *animCount)
 {
     // glTF file loading
     int dataSize = 0;
     unsigned char *fileData = LoadFileData(fileName, &dataSize);
 
-    ModelAnimation *animations = NULL;
+    rlb_ModelAnimation *animations = NULL;
 
     // glTF data loading
     cgltf_options options = { 0 };
@@ -5406,7 +5406,7 @@ static ModelAnimation *LoadModelAnimationsGLTF(const char *fileName, int *animCo
         {
             cgltf_skin skin = data->skins[0];
             *animCount = (int)data->animations_count;
-            animations = RL_MALLOC(data->animations_count*sizeof(ModelAnimation));
+            animations = RL_MALLOC(data->animations_count*sizeof(rlb_ModelAnimation));
 
             for (unsigned int i = 0; i < data->animations_count; i++)
             {
@@ -5480,18 +5480,18 @@ static ModelAnimation *LoadModelAnimationsGLTF(const char *fileName, int *animCo
                 animations[i].name[sizeof(animations[i].name) - 1] = '\0';
 
                 animations[i].frameCount = (int)(animDuration*1000.0f/GLTF_ANIMDELAY);
-                animations[i].framePoses = RL_MALLOC(animations[i].frameCount*sizeof(Transform *));
+                animations[i].framePoses = RL_MALLOC(animations[i].frameCount*sizeof(rlb_Transform *));
 
                 for (int j = 0; j < animations[i].frameCount; j++)
                 {
-                    animations[i].framePoses[j] = RL_MALLOC(animations[i].boneCount*sizeof(Transform));
+                    animations[i].framePoses[j] = RL_MALLOC(animations[i].boneCount*sizeof(rlb_Transform));
                     float time = ((float) j*GLTF_ANIMDELAY)/1000.0f;
 
                     for (int k = 0; k < animations[i].boneCount; k++)
                     {
-                        Vector3 translation = {0, 0, 0};
-                        Quaternion rotation = {0, 0, 0, 1};
-                        Vector3 scale = {1, 1, 1};
+                        rlb_Vector3 translation = {0, 0, 0};
+                        rlb_Quaternion rotation = {0, 0, 0, 1};
+                        rlb_Vector3 scale = {1, 1, 1};
 
                         if (boneChannels[k].translate)
                         {
@@ -5517,7 +5517,7 @@ static ModelAnimation *LoadModelAnimationsGLTF(const char *fileName, int *animCo
                             }
                         }
 
-                        animations[i].framePoses[j][k] = (Transform){
+                        animations[i].framePoses[j][k] = (rlb_Transform){
                             .translation = translation,
                             .rotation = rotation,
                             .scale = scale
@@ -5542,9 +5542,9 @@ static ModelAnimation *LoadModelAnimationsGLTF(const char *fileName, int *animCo
 
 #if defined(SUPPORT_FILEFORMAT_VOX)
 // Load VOX (MagicaVoxel) mesh data
-static Model LoadVOX(const char *fileName)
+static rlb_Model LoadVOX(const char *fileName)
 {
-    Model model = { 0 };
+    rlb_Model model = { 0 };
 
     int nbvertices = 0;
     int meshescount = 0;
@@ -5584,12 +5584,12 @@ static Model LoadVOX(const char *fileName)
     model.transform = MatrixIdentity();
 
     model.meshCount = meshescount;
-    model.meshes = (Mesh *)RL_CALLOC(model.meshCount, sizeof(Mesh));
+    model.meshes = (rlb_Mesh *)RL_CALLOC(model.meshCount, sizeof(rlb_Mesh));
 
     model.meshMaterial = (int *)RL_CALLOC(model.meshCount, sizeof(int));
 
     model.materialCount = 1;
-    model.materials = (Material *)RL_CALLOC(model.materialCount, sizeof(Material));
+    model.materials = (rlb_Material *)RL_CALLOC(model.materialCount, sizeof(rlb_Material));
     model.materials[0] = LoadMaterialDefault();
 
     // Init model meshes
@@ -5597,8 +5597,8 @@ static Model LoadVOX(const char *fileName)
     int verticesMax = 65532; // 5461 voxels x 12 vertices per voxel -> 65532 (must be inf 65536)
 
     // 6*4 = 12 vertices per voxel
-    Vector3 *pvertices = (Vector3 *)voxarray.vertices.array;
-    Color *pcolors = (Color *)voxarray.colors.array;
+    rlb_Vector3 *pvertices = (rlb_Vector3 *)voxarray.vertices.array;
+    rlb_Color *pcolors = (rlb_Color *)voxarray.colors.array;
 
     unsigned short *pindices = voxarray.indices.array;    // 5461*6*6 = 196596 indices max per mesh
 
@@ -5606,8 +5606,8 @@ static Model LoadVOX(const char *fileName)
 
     for (int i = 0; i < meshescount; i++)
     {
-        Mesh *pmesh = &model.meshes[i];
-        memset(pmesh, 0, sizeof(Mesh));
+        rlb_Mesh *pmesh = &model.meshes[i];
+        memset(pmesh, 0, sizeof(rlb_Mesh));
 
         // Copy vertices
         pmesh->vertexCount = (int)fmin(verticesMax, verticesRemain);
@@ -5624,7 +5624,7 @@ static Model LoadVOX(const char *fileName)
         pmesh->triangleCount = (pmesh->vertexCount/4)*2;
 
         // Copy colors
-        size = pmesh->vertexCount*sizeof(Color);
+        size = pmesh->vertexCount*sizeof(rlb_Color);
         pmesh->colors = RL_MALLOC(size);
         memcpy(pmesh->colors, pcolors, size);
 
@@ -5650,9 +5650,9 @@ unsigned char *m3d_loaderhook(char *fn, unsigned int *len) { return LoadFileData
 void m3d_freehook(void *data) { UnloadFileData((unsigned char *)data); }
 
 // Load M3D mesh data
-static Model LoadM3D(const char *fileName)
+static rlb_Model LoadM3D(const char *fileName)
 {
-    Model model = { 0 };
+    rlb_Model model = { 0 };
 
     m3d_t *m3d = NULL;
     m3dp_t *prop = NULL;
@@ -5719,9 +5719,9 @@ static Model LoadM3D(const char *fileName)
         }
         */
 
-        model.meshes = (Mesh *)RL_CALLOC(model.meshCount, sizeof(Mesh));
+        model.meshes = (rlb_Mesh *)RL_CALLOC(model.meshCount, sizeof(rlb_Mesh));
         model.meshMaterial = (int *)RL_CALLOC(model.meshCount, sizeof(int));
-        model.materials = (Material *)RL_CALLOC(model.materialCount + 1, sizeof(Material));
+        model.materials = (rlb_Material *)RL_CALLOC(model.materialCount + 1, sizeof(rlb_Material));
 
         // Map no material to index 0 with default shader, everything else materialid + 1
         model.materials[0] = LoadMaterialDefault();
@@ -5735,8 +5735,8 @@ static Model LoadM3D(const char *fileName)
                 if (k + 1 >= model.meshCount)
                 {
                     model.meshCount++;
-                    model.meshes = (Mesh *)RL_REALLOC(model.meshes, model.meshCount*sizeof(Mesh));
-                    memset(&model.meshes[model.meshCount - 1], 0, sizeof(Mesh));
+                    model.meshes = (rlb_Mesh *)RL_REALLOC(model.meshes, model.meshCount*sizeof(rlb_Mesh));
+                    memset(&model.meshes[model.meshCount - 1], 0, sizeof(rlb_Mesh));
                     model.meshMaterial = (int *)RL_REALLOC(model.meshMaterial, model.meshCount*sizeof(int));
                 }
 
@@ -5892,7 +5892,7 @@ static Model LoadM3D(const char *fileName)
                     {
                         if (prop->type >= 128)
                         {
-                            Image image = { 0 };
+                            rlb_Image image = { 0 };
                             image.data = m3d->texture[prop->value.textureid].d;
                             image.width = m3d->texture[prop->value.textureid].w;
                             image.height = m3d->texture[prop->value.textureid].h;
@@ -5921,8 +5921,8 @@ static Model LoadM3D(const char *fileName)
         if (m3d->numbone)
         {
             model.boneCount = m3d->numbone + 1;
-            model.bones = RL_CALLOC(model.boneCount, sizeof(BoneInfo));
-            model.bindPose = RL_CALLOC(model.boneCount, sizeof(Transform));
+            model.bones = RL_CALLOC(model.boneCount, sizeof(rlb_BoneInfo));
+            model.bindPose = RL_CALLOC(model.boneCount, sizeof(rlb_Transform));
 
             for (i = 0; i < (int)m3d->numbone; i++)
             {
@@ -5984,9 +5984,9 @@ static Model LoadM3D(const char *fileName)
 #define M3D_ANIMDELAY 17    // Animation frames delay, (~1000 ms/60 FPS = 16.666666* ms)
 
 // Load M3D animation data
-static ModelAnimation *LoadModelAnimationsM3D(const char *fileName, int *animCount)
+static rlb_ModelAnimation *LoadModelAnimationsM3D(const char *fileName, int *animCount)
 {
-    ModelAnimation *animations = NULL;
+    rlb_ModelAnimation *animations = NULL;
 
     m3d_t *m3d = NULL;
     int i = 0, j = 0;
@@ -6016,15 +6016,15 @@ static ModelAnimation *LoadModelAnimationsM3D(const char *fileName, int *animCou
             return NULL;
         }
 
-        animations = RL_MALLOC(m3d->numaction*sizeof(ModelAnimation));
+        animations = RL_MALLOC(m3d->numaction*sizeof(rlb_ModelAnimation));
         *animCount = m3d->numaction;
 
         for (unsigned int a = 0; a < m3d->numaction; a++)
         {
             animations[a].frameCount = m3d->action[a].durationmsec / M3D_ANIMDELAY;
             animations[a].boneCount = m3d->numbone + 1;
-            animations[a].bones = RL_MALLOC((m3d->numbone + 1)*sizeof(BoneInfo));
-            animations[a].framePoses = RL_MALLOC(animations[a].frameCount*sizeof(Transform *));
+            animations[a].bones = RL_MALLOC((m3d->numbone + 1)*sizeof(rlb_BoneInfo));
+            animations[a].framePoses = RL_MALLOC(animations[a].frameCount*sizeof(rlb_Transform *));
             // strncpy(animations[a].name, m3d->action[a].name, sizeof(animations[a].name));
             TRACELOG(LOG_INFO, "MODEL: [%s] animation #%i: %i msec, %i frames", fileName, a, m3d->action[a].durationmsec, animations[a].frameCount);
 
@@ -6042,7 +6042,7 @@ static ModelAnimation *LoadModelAnimationsM3D(const char *fileName, int *animCou
             // regular intervals, so let the M3D SDK do the heavy lifting and calculate interpolated bones
             for (i = 0; i < animations[a].frameCount; i++)
             {
-                animations[a].framePoses[i] = RL_MALLOC((m3d->numbone + 1)*sizeof(Transform));
+                animations[a].framePoses[i] = RL_MALLOC((m3d->numbone + 1)*sizeof(rlb_Transform));
 
                 m3db_t *pose = m3d_pose(m3d, a, i*M3D_ANIMDELAY);
 

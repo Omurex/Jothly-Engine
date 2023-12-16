@@ -24,9 +24,9 @@ namespace jothly
 		public:
 
 		std::string name;
-		Transform transform;
+		rlb_Transform transform;
 
-		GameObject(std::string _name = "New Object", Transform _transform = con::DefaultTransform) : name(_name),
+		GameObject(std::string _name = "New Object", rlb_Transform _transform = con::DefaultTransform) : name(_name),
 			transform(_transform) {}
 
 		// Calls update and draw on all components
