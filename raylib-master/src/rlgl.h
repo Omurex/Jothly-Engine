@@ -1,3 +1,7 @@
+/*
+* This software has been modified for use with the Jothly Engine.
+*/
+
 /**********************************************************************************************
 *
 *   rlgl v5.0 - A multi-OpenGL abstraction layer with an immediate-mode style API

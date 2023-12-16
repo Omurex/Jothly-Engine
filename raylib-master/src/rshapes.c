@@ -1,3 +1,7 @@
+/*
+* This software has been modified for use with the Jothly Engine.
+*/
+
 /**********************************************************************************************
 *
 *   rshapes - Basic functions to draw 2d shapes and check collisions

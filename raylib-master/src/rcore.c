@@ -1,3 +1,7 @@
+/*
+* This software has been modified for use with the Jothly Engine.
+*/
+
 /**********************************************************************************************
 *
 *   rcore - Window/display management, Graphic device/context management and input management

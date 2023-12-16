@@ -1,3 +1,7 @@
+/*
+* This software has been modified for use with the Jothly Engine.
+*/
+
 /**********************************************************************************************
 *
 *   rtextures - Basic functions to load and draw textures

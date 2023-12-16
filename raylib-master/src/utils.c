@@ -1,3 +1,7 @@
+/*
+* This software has been modified for use with the Jothly Engine.
+*/
+
 /**********************************************************************************************
 *
 *   raylib.utils - Some common utility functions

@@ -1,3 +1,7 @@
+/*
+* This software has been modified for use with the Jothly Engine.
+*/
+
 /*******************************************************************************************
 *
 *   rcamera - Basic camera system with support for multiple camera modes

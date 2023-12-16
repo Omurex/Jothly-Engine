@@ -1,3 +1,7 @@
+/*
+* This software has been modified for use with the Jothly Engine.
+*/
+
 /**********************************************************************************************
 *
 *   raudio v1.1 - A simple and easy-to-use audio library based on miniaudio

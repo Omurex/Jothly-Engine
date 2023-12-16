@@ -1,3 +1,7 @@
+/*
+* This software has been modified for use with the Jothly Engine.
+*/
+
 /**********************************************************************************************
 *
 *   raylib v5.1-dev - A simple and easy-to-use library to enjoy videogames programming (www.raylib.com)
