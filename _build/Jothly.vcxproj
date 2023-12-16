@@ -30,7 +30,8 @@
     <ProjectGuid>{4B5A306E-B739-AF09-C051-3AE02CB0156B}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Gravity</RootNamespace>
+    <RootNamespace>Jothly</RootNamespace>
+    <ProjectName>Jothly</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -96,43 +97,43 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\_bin\Debug\</OutDir>
-    <IntDir>obj\x64\Debug\Gravity\</IntDir>
-    <TargetName>Gravity</TargetName>
+    <IntDir>obj\x64\Debug\Jothly\</IntDir>
+    <TargetName>Jothly</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\_bin\Debug\</OutDir>
-    <IntDir>obj\x86\Debug\Gravity\</IntDir>
-    <TargetName>Gravity</TargetName>
+    <IntDir>obj\x86\Debug\Jothly\</IntDir>
+    <TargetName>Jothly</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\_bin\Debug\</OutDir>
-    <IntDir>obj\ARM64\Debug\Gravity\</IntDir>
-    <TargetName>Gravity</TargetName>
+    <IntDir>obj\ARM64\Debug\Jothly\</IntDir>
+    <TargetName>Jothly</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\_bin\Release\</OutDir>
-    <IntDir>obj\x64\Release\Gravity\</IntDir>
-    <TargetName>Gravity</TargetName>
+    <IntDir>obj\x64\Release\Jothly\</IntDir>
+    <TargetName>Jothly</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\_bin\Release\</OutDir>
-    <IntDir>obj\x86\Release\Gravity\</IntDir>
-    <TargetName>Gravity</TargetName>
+    <IntDir>obj\x86\Release\Jothly\</IntDir>
+    <TargetName>Jothly</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\_bin\Release\</OutDir>
-    <IntDir>obj\ARM64\Release\Gravity\</IntDir>
-    <TargetName>Gravity</TargetName>
+    <IntDir>obj\ARM64\Release\Jothly\</IntDir>
+    <TargetName>Jothly</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
