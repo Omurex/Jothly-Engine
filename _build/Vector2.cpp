@@ -8,14 +8,29 @@ namespace jothly
 	Vector2::Vector2(const Vector3& vec3) : Vector2(vec3.x, vec3.y) {}
 
 
-	Vector2& Vector2::Normalize()
+	void Vector2::Normalize()
 	{
-		float magnitude = sqrtf((x * x) + (y * y));
+		float magnitude = GetMagnitude();
 
 		x /= magnitude;
 		y /= magnitude;
+	}
 
-		return *this;
+	Vector2 Vector2::GetNormalized()
+	{
+		Vector2 vec = Vector2(*this);
+		vec.Normalize();
+		return vec;
+	}
+
+	float Vector2::GetMagnitude()
+	{
+		return sqrtf(GetMagnitudeSquared());
+	}
+
+	float Vector2::GetMagnitudeSquared()
+	{
+		return (x * x) + (y * y);
 	}
 
 

@@ -11,9 +11,17 @@ namespace jothly
 
 	struct Vector3
 	{
-		float x;
-		float y;
-		float z;
+		union
+		{
+			struct
+			{
+				float x;
+				float y;
+				float z;
+			};
+
+			float components[3];
+		};
 
 
 		Vector3(float _x = 0, float _y = 0, float _z = 0) : x(_x), y(_y), z(_z) {}
@@ -21,7 +29,10 @@ namespace jothly
 		Vector3(const Vector2& vec2);
 		Vector3(const Vector4& vec4);
 
-		Vector3& Normalize();
+		void Normalize();
+		Vector3 GetNormalized();
+		float GetMagnitude();
+		float GetMagnitudeSquared();
 
 		Vector3 operator+(Vector3 const& other);
 		Vector3 operator-(Vector3 const& other);

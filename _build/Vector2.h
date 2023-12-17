@@ -18,7 +18,10 @@ namespace jothly
 		Vector2(const Vector2& vec2) : Vector2(vec2.x, vec2.y) {}
 		Vector2(const Vector3& vec3);
 
-		Vector2& Normalize();
+		void Normalize();
+		Vector2 GetNormalized();
+		float GetMagnitude();
+		float GetMagnitudeSquared();
 	
 		Vector2 operator+(Vector2 const& other);
 		Vector2 operator-(Vector2 const& other);

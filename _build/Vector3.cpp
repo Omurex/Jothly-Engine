@@ -10,16 +10,34 @@ namespace jothly
 	Vector3::Vector3(const Vector4& vec4) : Vector3(vec4.x, vec4.y, vec4.z) {}
 
 
-	Vector3& Vector3::Normalize()
+	void Vector3::Normalize()
     {
-		float magnitude = sqrtf((x * x) + (y * y) + (z * z));
+		float magnitude = GetMagnitude();
 
 		x /= magnitude;
 		y /= magnitude;
 		z /= magnitude;
-
-		return *this;
     }
+
+
+	Vector3 Vector3::GetNormalized()
+	{
+		Vector3 vec = Vector3(*this);
+		vec.Normalize();
+		return vec;
+	}
+
+
+	float Vector3::GetMagnitude()
+	{
+		return sqrtf(GetMagnitudeSquared());
+	}
+
+
+	float Vector3::GetMagnitudeSquared()
+	{
+		return (x * x) + (y * y) + (z * z);
+	}
 
 
     Vector3 Vector3::operator+(Vector3 const& other)

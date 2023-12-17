@@ -14,7 +14,6 @@ namespace jothly
 	{
 		Vector4 components;
 
-
 		public:
 
 		const static Quaternion Identity() { return Quaternion(); }
