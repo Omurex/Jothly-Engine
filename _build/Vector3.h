@@ -17,6 +17,11 @@ namespace jothly
 
 
 		Vector3(float _x = 0, float _y = 0, float _z = 0) : x(_x), y(_y), z(_z) {}
+		Vector3(const Vector3& vec3) : Vector3(vec3.x, vec3.y, vec3.z) {}
+		Vector3(const Vector2& vec2);
+		Vector3(const Vector4& vec4);
+
+		Vector3& Normalize();
 
 		Vector3 operator+(Vector3 const& other);
 		Vector3 operator-(Vector3 const& other);

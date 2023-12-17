@@ -7,6 +7,8 @@ namespace jothly
 {
 	Quaternion& Quaternion::Normalize()
 	{
+		components.Normalize();
+		return *this;
 	}
 
 
