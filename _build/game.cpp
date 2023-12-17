@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "ShapeRenderer2D.h"
 #include "Vector3.h"
+#include "Quaternion.h"
 
 using namespace jothly;
 
