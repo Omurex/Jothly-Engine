@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\CodingStuff\RaylibProjects\Jothly\cmake-build\CMakeFiles\ca5ac7bb9cd238477f0ad1aba13cfdf0\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{5C32E5AB-066D-3A10-A48A-08FCB3CAC957}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

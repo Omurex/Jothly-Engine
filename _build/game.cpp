@@ -1,8 +1,10 @@
+#include <iostream>
 #include "raylib.h"
 #include "GameObject.h"
 #include "ShapeRenderer2D.h"
 #include "Vector3.h"
 #include "Quaternion.h"
+#include "Vector4.h"
 
 using namespace jothly;
 

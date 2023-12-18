@@ -266,10 +266,12 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="ShapeRenderer2D.h" />
+    <ClInclude Include="UnitTest.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
+    <ClInclude Include="VectorTests.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
@@ -277,6 +279,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="ShapeRenderer2D.cpp" />
+    <ClCompile Include="UnitTest.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Vector4.cpp" />

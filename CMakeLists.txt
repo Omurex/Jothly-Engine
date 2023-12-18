@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSION 3.10)
+project(Jothly VERSION 0.1.0)
+set(CMAKE_CXX_STANDARD 17)
+
+add_subdirectory(raylib-master)
+add_library(ray SHARED raylib-master/src/raylib.h)
+target_include_directories(ray PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/raylib-master/src")
+set_target_properties(ray PROPERTIES LINKER_LANGUAGE C)
+add_executable(TestRunJothly _build/game.cpp)
+target_link_libraries(TestRunJothly PRIVATE ray)
+#target_include_directories(raylib PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/raylib-master/src")
+#target_link_libraries(raylib PRIVATE raylib)
+#target_link_libraries(raylib PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/raylib-master/src")

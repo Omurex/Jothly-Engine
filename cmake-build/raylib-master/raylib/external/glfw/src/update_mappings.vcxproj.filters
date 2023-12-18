@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\CodingStuff\RaylibProjects\Jothly\cmake-build\CMakeFiles\ca5ac7bb9cd238477f0ad1aba13cfdf0\update_mappings.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\CodingStuff\RaylibProjects\Jothly\raylib-master\src\external\glfw\src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\CodingStuff\RaylibProjects\Jothly\raylib-master\src\external\glfw\src\mappings.h.in">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\CodingStuff\RaylibProjects\Jothly\raylib-master\src\external\glfw\CMake\GenerateMappings.cmake" />
+    <None Include="C:\CodingStuff\RaylibProjects\Jothly\cmake-build\raylib-master\raylib\external\glfw\src\CMakeFiles\update_mappings" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{5C32E5AB-066D-3A10-A48A-08FCB3CAC957}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{F40058EA-A945-3DE2-9826-F5979D9AC21E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
