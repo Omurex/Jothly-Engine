@@ -11,5 +11,11 @@ namespace jothly
 		Vector3 pos;
 		Quaternion rot;
 		Vector3 scale;
+
+
+		Transform() : pos(Vector3()), rot(Quaternion()), scale(Vector3())
+		{
+
+		}
 	};
 }
