@@ -11,8 +11,14 @@ namespace jothly
 	// Function that returns true if test successful, false if failed
 	// out_shorthand is what the test will be titled when printing to the console
 	// out_message is a message printed after the results of the test are printed
-	//typedef bool (TestSet::*TestFunction)(std::string&, std::string&);
-	typedef std::function<bool(std::string&, std::string&)> TestFunction;
+	typedef bool (*TestFunction)(std::string& out_shorthand, std::string& out_message);
+	
+	// Called from beginning of test functions to initialize variables and set up for AssertTest calls
+	#define InitTest(sShorthand) out_shorthand = sShorthand; bool testResult = true;
+
+	// Called from test functions after doing test check, will return from function with message if result is false
+	// NOTE: If calling this, there must be a testResult boolean variable and an out_message string variable in scope
+	#define AssertTest(bCheck, sFailMessage) if(bCheck == false) { out_message = sFailMessage; return false; }
 
 	class TestSet
 	{

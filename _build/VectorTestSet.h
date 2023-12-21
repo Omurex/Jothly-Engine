@@ -16,4 +16,6 @@ namespace jothly
 
 
 	bool VectorTest_Normalization(std::string& out_shorthand, std::string& out_message);
+	bool VectorTest_UnionComponents(std::string& out_shorthand, std::string& out_message);
+	bool VectorTest_Arithmetic(std::string& out_shorthand, std::string& out_message);
 }
