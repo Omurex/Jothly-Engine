@@ -1,14 +1,27 @@
 #include "Quaternion.h"
 #include "Vector2.h"
 #include "Vector3.h"
+#include "Math.hpp"
 
 
 namespace jothly
 {
 	Quaternion& Quaternion::Normalize()
 	{
-		components.Normalize();
+		float magSquared;
+		if (!IsNormalized(magSquared))
+		{
+			components.Normalize(magSquared);
+		}
+
 		return *this;
+	}
+
+
+	bool Quaternion::IsNormalized(float& out_magnitudeSquared)
+	{
+		out_magnitudeSquared = components.GetMagnitudeSquared();
+		return Approx(out_magnitudeSquared, 1, MARGIN_OF_ERROR);
 	}
 
 
@@ -24,7 +37,9 @@ namespace jothly
 
 	Quaternion Quaternion::GetNormalized()
 	{
-		return Quaternion();
+		Quaternion quat = Quaternion(*this);
+		quat.Normalize();
+		return quat;
 	}
 
 	void Quaternion::SetEuler(Vector3 euler)

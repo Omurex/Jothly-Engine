@@ -1,5 +1,6 @@
 #include "TestRunner.h"
 #include "VectorTestSet.h"
+#include "QuaternionTestSet.h"
 
 
 namespace jothly
@@ -8,13 +9,14 @@ namespace jothly
 	{
 		if (preloadTestSets)
 		{
-			PopulateTestSets(throwErrorOnFail);
+			PopulateTestSetsWithDefaults(throwErrorOnFail);
 		}
 	}
 
 
-	void TestRunner::PopulateTestSets(bool throwErrorOnFail)
+	void TestRunner::PopulateTestSetsWithDefaults(bool throwErrorOnFail)
 	{
 		AddTestSet<VectorTestSet>(true);
+		AddTestSet<QuaternionTestSet>(true);
 	}
 }

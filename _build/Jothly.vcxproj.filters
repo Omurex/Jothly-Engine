@@ -36,9 +36,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentID.hpp">
       <Filter>Enums</Filter>
     </ClInclude>
@@ -72,8 +69,14 @@
     <ClInclude Include="TestRunner.h">
       <Filter>Header Files\Testing</Filter>
     </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="QuaternionTestSet.h">
+      <Filter>Header Files\Testing</Filter>
+    </ClInclude>
     <ClInclude Include="Math.hpp">
-      <Filter>Global</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -85,9 +88,6 @@
     </ClCompile>
     <ClCompile Include="ShapeRenderer2D.cpp">
       <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Vector2.cpp">
       <Filter>Source Files\Structures</Filter>
@@ -104,7 +104,20 @@
     <ClCompile Include="TestSet.cpp">
       <Filter>Source Files\Testing</Filter>
     </ClCompile>
-    <ClCompile Include="VectorTestSet.cpp" />
-    <ClCompile Include="TestRunner.cpp" />
+    <ClCompile Include="Component.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TestRunner.cpp">
+      <Filter>Source Files\Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorTestSet.cpp">
+      <Filter>Source Files\Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="QuaternionTestSet.cpp">
+      <Filter>Source Files\Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

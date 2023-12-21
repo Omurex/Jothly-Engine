@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Vector4.h"
-#include "raylib.h"
 
 
 
@@ -12,6 +11,8 @@ namespace jothly
 
 	class Quaternion
 	{
+		const float MARGIN_OF_ERROR = .001f;
+
 		Vector4 components;
 
 		public:
@@ -24,7 +25,9 @@ namespace jothly
 		Quaternion(const Quaternion& quat) { components = quat.components; }
 
 		Quaternion& Normalize();
+		bool IsNormalized(float& out_magnitudeSquared);
 
+		Vector4 GetComponents() { return components; }
 		Quaternion GetInverse();
 		Vector3 GetEuler();
 		Quaternion GetNormalized();
@@ -34,6 +37,11 @@ namespace jothly
 		Vector2 Rotate(Vector2 vec);
 		Vector3 Rotate(Vector3 vec);
 		Quaternion Rotate(Quaternion other);
+
+		Quaternion operator=(const Quaternion& other) const {
+		int a = 0;
+		a++;
+		return Quaternion(other.components); }
 
 		operator rlb_Quaternion() const { return { components.x, components.y, components.z, components.w }; }
 	};

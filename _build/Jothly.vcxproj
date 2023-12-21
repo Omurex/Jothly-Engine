@@ -266,6 +266,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Math.hpp" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="QuaternionTestSet.h" />
     <ClInclude Include="ShapeRenderer2D.h" />
     <ClInclude Include="TestRunner.h" />
     <ClInclude Include="TestSet.h" />
@@ -279,7 +280,9 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Math.cpp" />
     <ClCompile Include="Quaternion.cpp" />
+    <ClCompile Include="QuaternionTestSet.cpp" />
     <ClCompile Include="ShapeRenderer2D.cpp" />
     <ClCompile Include="TestRunner.cpp" />
     <ClCompile Include="TestSet.cpp" />

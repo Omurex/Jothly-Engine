@@ -29,7 +29,7 @@ namespace jothly
 		/// <summary>
 		/// Fill testSets with default test sets
 		/// </summary>
-		void PopulateTestSets(bool throwErrorOnFail);
+		void PopulateTestSetsWithDefaults(bool throwErrorOnFail);
 	};
 
 
