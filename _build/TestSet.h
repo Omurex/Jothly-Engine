@@ -38,6 +38,7 @@ namespace jothly
 		public:
 
 		virtual void LoadTestFunctions() = 0;
+		virtual std::string GetTitle() = 0;
 
 
 		/// <returns>True if all tests succeeded, false if at least one failed</returns>

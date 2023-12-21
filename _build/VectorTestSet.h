@@ -10,8 +10,9 @@ namespace jothly
 		public:
 		VectorTestSet(bool _throwOnTestFail) : TestSet(_throwOnTestFail) {}
 
-		// Inherited via TestSet
 		void LoadTestFunctions() override;
+
+		std::string GetTitle() override;
 	};
 
 

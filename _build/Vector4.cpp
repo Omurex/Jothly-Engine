@@ -10,16 +10,18 @@ namespace jothly
 
 	void Vector4::Normalize()
     {
-		float magnitude = GetMagnitude();
-		Normalize(magnitude);
+		float sqrMag = GetMagnitudeSquared();
+		Normalize(sqrMag);
     }
 
 	void Vector4::Normalize(float precomputedMagnitudeSquared)
 	{
-		x /= precomputedMagnitudeSquared;
-		y /= precomputedMagnitudeSquared;
-		z /= precomputedMagnitudeSquared;
-		w /= precomputedMagnitudeSquared;
+		float mag = sqrtf(precomputedMagnitudeSquared);
+
+		x /= mag;
+		y /= mag;
+		z /= mag;
+		w /= mag;
 	}
 
 

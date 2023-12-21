@@ -27,7 +27,9 @@ namespace jothly
 		Vector2(const Vector3& vec3);
 
 		void Normalize();
+		void Normalize(float precomputedMagnitudeSquared);
 		Vector2 GetNormalized();
+		Vector2 GetNormalized(float precomputedMagnitudeSquared);
 		float GetMagnitude();
 		float GetMagnitudeSquared();
 	

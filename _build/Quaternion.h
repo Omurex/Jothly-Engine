@@ -38,10 +38,12 @@ namespace jothly
 		Vector3 Rotate(Vector3 vec);
 		Quaternion Rotate(Quaternion other);
 
-		Quaternion operator=(const Quaternion& other) const {
-		int a = 0;
-		a++;
-		return Quaternion(other.components); }
+		Quaternion& operator=(const Quaternion& other) 
+		{ 
+			components = other.components;
+			return *this;
+		}
+		
 
 		operator rlb_Quaternion() const { return { components.x, components.y, components.z, components.w }; }
 	};

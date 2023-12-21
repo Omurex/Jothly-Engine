@@ -10,11 +10,19 @@ namespace jothly
 
 	void Vector2::Normalize()
 	{
-		float magnitude = GetMagnitude();
-
-		x /= magnitude;
-		y /= magnitude;
+		float sqrMag = GetMagnitudeSquared();
+		Normalize(sqrMag);
 	}
+
+
+	void Vector2::Normalize(float precomputedMagnitudeSquared)
+	{
+		float mag = sqrtf(precomputedMagnitudeSquared);
+
+		x /= mag;
+		y /= mag;
+	}
+
 
 	Vector2 Vector2::GetNormalized()
 	{
@@ -23,10 +31,20 @@ namespace jothly
 		return vec;
 	}
 
+
+	Vector2 Vector2::GetNormalized(float precomputedMagnitudeSquared)
+	{
+		Vector2 vec = Vector2(*this);
+		vec.Normalize(precomputedMagnitudeSquared);
+		return vec;
+	}
+
+
 	float Vector2::GetMagnitude()
 	{
 		return sqrtf(GetMagnitudeSquared());
 	}
+
 
 	float Vector2::GetMagnitudeSquared()
 	{

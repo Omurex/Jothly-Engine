@@ -38,7 +38,10 @@ namespace jothly
 	Quaternion Quaternion::GetNormalized()
 	{
 		Quaternion quat = Quaternion(*this);
+		int a = 0;
+		a++;
 		quat.Normalize();
+		a++;
 		return quat;
 	}
 

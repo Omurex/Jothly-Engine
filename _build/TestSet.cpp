@@ -14,6 +14,9 @@ namespace jothly
 		int numSucceeded = 0;
 		int numTotal = 0;
 
+		std::cout << "\n\n" << GetTitle() << std::endl;
+		std::cout << "-----------------------------------------" << std::endl;
+
 		for (int i = 0; i < testFunctions.size(); i++)
 		{
 			TestFunction test = testFunctions[i];
@@ -27,6 +30,8 @@ namespace jothly
 
 			PrintSingleResult(i, shortHand, success, message);
 		}
+
+		PrintCombinedResult(numSucceeded, numTotal);
 
 		return std::pair<int, int>(numSucceeded, numTotal);
 	}

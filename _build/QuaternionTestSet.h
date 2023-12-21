@@ -13,6 +13,9 @@ namespace jothly
 
 		// Inherited via TestSet
 		void LoadTestFunctions() override;
+
+		// Inherited via TestSet
+		std::string GetTitle() override;
 	};
 
 

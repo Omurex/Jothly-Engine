@@ -30,7 +30,9 @@ namespace jothly
 		Vector3(const Vector4& vec4);
 
 		void Normalize();
+		void Normalize(float precomputedMagnitudeSquared);
 		Vector3 GetNormalized();
+		Vector3 GetNormalized(float precomputedMagnitudeSquared);
 		float GetMagnitude();
 		float GetMagnitudeSquared();
 

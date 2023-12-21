@@ -15,6 +15,12 @@ namespace jothly
 	}
 
 
+	std::string VectorTestSet::GetTitle()
+	{
+		return "VECTOR TESTS";
+	}
+
+
 	bool VectorTest_Normalization(std::string& out_shorthand, std::string& out_message)
 	{
 		InitTest("Vector Normalization");
