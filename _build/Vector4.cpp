@@ -87,4 +87,10 @@ namespace jothly
 	{
 		return Vector3(x, y, z);
 	}
+
+
+	Vector4::operator const float* () const
+	{
+		return components;
+	}
 }

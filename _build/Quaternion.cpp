@@ -30,37 +30,56 @@ namespace jothly
 		return Quaternion();
 	}
 
+
 	Vector3 Quaternion::GetEuler()
 	{
 		return Vector3();
 	}
 
+
 	Quaternion Quaternion::GetNormalized()
 	{
 		Quaternion quat = Quaternion(*this);
-		int a = 0;
-		a++;
 		quat.Normalize();
-		a++;
 		return quat;
 	}
+
+
+	Vector4 Quaternion::SetComponents(Vector4 _components)
+	{
+		components = _components;
+		Normalize();
+		return components;
+	}
+
 
 	void Quaternion::SetEuler(Vector3 euler)
 	{
 	}
+
 
 	Vector2 Quaternion::Rotate(Vector2 vec)
 	{
 		return Vector2();
 	}
 
+
 	Vector3 Quaternion::Rotate(Vector3 vec)
 	{
 		return Vector3();
 	}
 
+
 	Quaternion Quaternion::Rotate(Quaternion other)
 	{
-		return Quaternion();
+		// https://www.cprogramming.com/tutorial/3d/quaternions.html
+		Vector4 rotatedComponents = Vector4(
+			w * other.x + x * other.w + y * other.z - z * other.y,
+			w * other.y - x * other.z + y * other.w + z * other.x,
+			w * other.z + x * other.y - y * other.x + z * other.w,
+			w * other.w - x * other.x - y * other.y - z * other.z
+		);
+
+		return Quaternion(rotatedComponents);
 	}
 }

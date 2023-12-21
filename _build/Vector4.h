@@ -42,6 +42,7 @@ namespace jothly
 		bool operator==(Vector4 const& other);
 
 		operator Vector3() const;
+		operator const float*() const;
 
 		// Convert to RayLib version
 		operator rlb_Vector3() const { return { x, y, z }; };
