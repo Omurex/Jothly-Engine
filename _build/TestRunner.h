@@ -41,6 +41,7 @@ namespace jothly
 		assert(isTestSet);
 
 		TestSet* testSet = static_cast<TestSet*>(new T(throwErrorOnFail));
+		testSet->LoadTestFunctions();
 
 		testSets.push_back(testSet);
 	}

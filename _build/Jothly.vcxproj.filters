@@ -72,6 +72,9 @@
     <ClInclude Include="TestRunner.h">
       <Filter>Header Files\Testing</Filter>
     </ClInclude>
+    <ClInclude Include="Math.hpp">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">

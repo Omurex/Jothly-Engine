@@ -1,6 +1,7 @@
 #include "TestSet.h"
 #include <iostream>
 #include <stdexcept>
+#include <assert.h>
 
 
 using namespace std;
@@ -13,49 +14,51 @@ namespace jothly
 		int numSucceeded = 0;
 		int numTotal = 0;
 
-		int secondTestResult = v3a.x == v3a.components[0];
-		PrintSingleResult(2, "X == Component", secondTestResult, "", "");
-		numSucceeded += secondTestResult;
-		numTotal++;
+		for (int i = 0; i < testFunctions.size(); i++)
+		{
+			TestFunction test = testFunctions[i];
 
-		return std::pair<int, int>();
+			std::string shortHand;
+			std::string message;
+			bool success = test(shortHand, message);
+
+			numSucceeded += success ? 1 : 0;
+			numTotal++;
+
+			PrintSingleResult(i, shortHand, success, message);
+		}
+
+		return std::pair<int, int>(numSucceeded, numTotal);
 	}
 
 	
-	void TestSet::PrintSingleResult(int testNum, std::string shorthand, bool succeeded, std::string successMessage, std::string failMessage)
+	void TestSet::PrintSingleResult(int testNum, std::string shorthand, bool succeeded, std::string message)
 	{
+		assert(shorthand != ""); // Shorthand should always describe the test
+
 		std::string print = "TEST #" + to_string(testNum) + " - " + shorthand + "\n";
 
 		if (succeeded)
 		{
 			print += "SUCCEEDED";
-
-			if (successMessage == "")
-			{
-				print += "\n";
-			}
-			else
-			{
-				print += " - " + successMessage + "\n";
-			}
 		}
 		else
 		{
 			print += "FAILED\n";
+		}
 
-			if (successMessage == "")
-			{
-				print += "\n";
-			}
-			else
-			{
-				print += " - " + failMessage + "\n";
-			}
+		if (message == "")
+		{
+			print += "\n";
+		}
+		else
+		{
+			print += " - " + message + "\n";
+		}
 
-			if (throwOnTestFail)
-			{
-				throw runtime_error(print);
-			}
+		if (!succeeded && throwOnTestFail) // Failed and should throw
+		{
+			throw runtime_error(print);
 		}
 
 		print += "\n";

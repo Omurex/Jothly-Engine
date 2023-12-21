@@ -7,7 +7,7 @@ namespace jothly
 {
 	class GameObject;
 
-	// Note: GameObjects are always in charge of managing the deletion of created components, so 
+	// Note: GameObjects are always in charge of managing the deletion of created components 
 	class Component
 	{
 		protected:
