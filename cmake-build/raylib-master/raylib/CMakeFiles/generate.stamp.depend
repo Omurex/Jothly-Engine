@@ -1,0 +1,19 @@
+# CMake generation dependency list for this directory.
+C:/CodingStuff/RaylibProjects/Jothly/raylib-master/cmake/CompileDefinitions.cmake
+C:/CodingStuff/RaylibProjects/Jothly/raylib-master/cmake/GlfwImport.cmake
+C:/CodingStuff/RaylibProjects/Jothly/raylib-master/cmake/InstallConfigurations.cmake
+C:/CodingStuff/RaylibProjects/Jothly/raylib-master/cmake/JoinPaths.cmake
+C:/CodingStuff/RaylibProjects/Jothly/raylib-master/cmake/LibraryConfigurations.cmake
+C:/CodingStuff/RaylibProjects/Jothly/raylib-master/cmake/LibraryPathToLinkerFlags.cmake
+C:/CodingStuff/RaylibProjects/Jothly/raylib-master/cmake/PackConfigurations.cmake
+C:/CodingStuff/RaylibProjects/Jothly/raylib-master/cmake/PopulateConfigVariablesLocally.cmake
+C:/CodingStuff/RaylibProjects/Jothly/raylib-master/cmake/raylib-config-version.cmake
+C:/CodingStuff/RaylibProjects/Jothly/raylib-master/raylib.pc.in
+C:/CodingStuff/RaylibProjects/Jothly/raylib-master/src/CMakeLists.txt
+C:/Program Files/CMake/share/cmake-3.28/Modules/CPack.cmake
+C:/Program Files/CMake/share/cmake-3.28/Modules/CPackComponent.cmake
+C:/Program Files/CMake/share/cmake-3.28/Modules/FindOpenGL.cmake
+C:/Program Files/CMake/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.28/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-3.28/Modules/GNUInstallDirs.cmake
+C:/Program Files/CMake/share/cmake-3.28/Templates/CPackConfig.cmake.in

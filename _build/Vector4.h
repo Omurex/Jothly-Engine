@@ -37,6 +37,7 @@ namespace jothly
 		Vector4 operator-(Vector4 const& other);
 		Vector4 operator*(float const& scale);
 		Vector4 operator/(float const& scale);
+		bool operator==(Vector4 const& other);
 
 		operator Vector3() const;
 

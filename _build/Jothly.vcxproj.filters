@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Structures">
       <UniqueIdentifier>{772f4532-7819-4f5f-ab0c-c1294478c66f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Testing">
+      <UniqueIdentifier>{a1a94c43-9e2a-449c-a2ee-04c10cd795bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Testing">
+      <UniqueIdentifier>{e9e14fd7-a47c-4b4f-84a7-1549b0262c77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -57,6 +63,15 @@
     <ClInclude Include="Vector4.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
+    <ClInclude Include="TestSet.h">
+      <Filter>Header Files\Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorTestSet.h">
+      <Filter>Header Files\Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="TestRunner.h">
+      <Filter>Header Files\Testing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -83,5 +98,10 @@
     <ClCompile Include="Quaternion.cpp">
       <Filter>Source Files\Structures</Filter>
     </ClCompile>
+    <ClCompile Include="TestSet.cpp">
+      <Filter>Source Files\Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorTestSet.cpp" />
+    <ClCompile Include="TestRunner.cpp" />
   </ItemGroup>
 </Project>

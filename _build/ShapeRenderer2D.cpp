@@ -3,7 +3,7 @@
 
 namespace jothly
 {
-	ShapeRenderer2D::ShapeRenderer2D(GameObject* _owner) : Component(_owner), offset(con::DefaultVector2)
+	ShapeRenderer2D::ShapeRenderer2D(GameObject* _owner) : Component(_owner), offset(con::rlb_DefaultVector2)
 	{
 	}
 

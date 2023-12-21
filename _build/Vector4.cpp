@@ -63,6 +63,12 @@ namespace jothly
 	}
 
 
+    bool Vector4::operator==(Vector4 const& other)
+    {
+		return x == other.x && y == other.y && z == other.z && w == other.w;
+    }
+
+
 	Vector4::operator Vector3() const
 	{
 		return Vector3(x, y, z);

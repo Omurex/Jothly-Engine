@@ -27,6 +27,7 @@ namespace jothly
 		Vector2 operator-(Vector2 const& other);
 		Vector2 operator*(float const& scale);
 		Vector2 operator/(float const& scale);
+		bool operator==(Vector2 const& other);
 
 		operator Vector3() const;
 

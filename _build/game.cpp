@@ -3,6 +3,7 @@
 #include "ShapeRenderer2D.h"
 #include "Vector3.h"
 #include "Quaternion.h"
+#include "TestRunner.h"
 
 using namespace jothly;
 
@@ -24,6 +25,10 @@ void Draw()
 
 void Init()
 {
+	// Run tests before starting engine
+	TestRunner testRunner = TestRunner(true, true);
+	testRunner.RunTests();
+
 	InitWindow(400, 400, "Gravity");
 	SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
 
