@@ -2,12 +2,13 @@
 
 #include <cmath>
 
-
 // Degree to radians
-#define D2R 0.01745329251
+#define D2R 0.01745329251f
 
 // Radians to degrees
-#define R2D 57.2957795131
+#define R2D 57.2957795131f
+
+#define PI 3.14159265358979323846f
 
 
 /// <returns>1 if values are within margin of error of each other, 0 if not</returns>

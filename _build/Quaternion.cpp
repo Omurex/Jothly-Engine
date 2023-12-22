@@ -40,6 +40,10 @@ namespace jothly
 
 	Vector3 Quaternion::GetEuler()
 	{
+		// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+
+
 		return Vector3();
 	}
 
