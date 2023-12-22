@@ -16,7 +16,7 @@ namespace jothly
 
 	void TestRunner::PopulateTestSetsWithDefaults(bool throwErrorOnFail)
 	{
-		AddTestSet<VectorTestSet>(true);
-		AddTestSet<QuaternionTestSet>(true);
+		AddTestSet<VectorTestSet>(throwErrorOnFail);
+		AddTestSet<QuaternionTestSet>(throwErrorOnFail);
 	}
 }

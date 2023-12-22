@@ -2,7 +2,7 @@
 
 #include "Vector4.h"
 
-
+// https://www.cprogramming.com/tutorial/3d/quaternions.html
 
 namespace jothly
 {
@@ -34,6 +34,7 @@ namespace jothly
 		
 		Quaternion(Vector4 _components = Quaternion::IdentityComponents()) { SetComponents(_components); }
 		Quaternion(float _x, float _y, float _z, float _w) : Quaternion(Vector4(_x, _y, _z, _w)) {}
+		Quaternion(Vector3 euler, bool degrees = true);
 		Quaternion(const Quaternion& quat) { components = quat.components; }
 
 		Quaternion& Normalize();
@@ -45,7 +46,8 @@ namespace jothly
 		Quaternion GetNormalized();
 
 		Vector4 SetComponents(Vector4 _components);
-		void SetEuler(Vector3 euler);
+		void SetEulerDeg(Vector3 euler);
+		void SetEulerRad(Vector3 euler);
 
 		Vector2 Rotate(Vector2 vec);
 		Vector3 Rotate(Vector3 vec);

@@ -1,6 +1,7 @@
 #include "QuaternionTestSet.h"
 #include "Quaternion.h"
-#include "Math.hpp"
+#include "Math.h"
+#include "Vector3.h"
 
 
 namespace jothly
@@ -9,6 +10,7 @@ namespace jothly
 	{
 		testFunctions.push_back(QuaternionTest_Normalization);
 		testFunctions.push_back(QuaternionTest_Rotation);
+		testFunctions.push_back(QuaternionTest_Euler);
 	}
 
 
@@ -56,7 +58,7 @@ namespace jothly
 		);
 
 		Vector4 expectedQ32 = Vector4(
-			0.5537176974307099, 0.11096349603035, -0.08608042118785003, 0.8207765067437098
+			0.5537176974307099f, 0.11096349603035f, -0.08608042118785003f, 0.8207765067437098f
 		);
 
 		int approxResult = Approx(q12.GetComponents(), q2.GetComponents(), 4, .001f);
@@ -74,6 +76,30 @@ namespace jothly
 		float temp;
 		AssertTest(q12.IsNormalized(temp) * q21.IsNormalized(temp) * q23.IsNormalized(temp) * 
 			q32.IsNormalized(temp) == 1, "Quaternion Multiplication Normal Result Error");
+
+		return true;
+	}
+
+
+	bool QuaternionTest_Euler(std::string& out_shorthand, std::string& out_message)
+	{
+		InitTest("Quaternion Euler");
+
+		Vector3 eulerRad = Vector3(2.96706f, 1.0472f, 1.5708f); // 170, 60, 90
+		Vector3 eulerDeg = Vector3(45, 135, -35);
+
+		Quaternion qRad = Quaternion(eulerRad, false);
+		Quaternion qDeg = Quaternion(eulerDeg);
+
+		Vector4 expectedQRad = Vector4(0.5792263f, 0.640857f, -0.2988364f, 0.405581f);
+		Vector4 expectedQDeg = Vector4(0.3963371f, 0.770011f, -0.4435054f, 0.2308743f);
+
+		int approxResult = Approx(qRad.GetComponents(), expectedQRad, 4);
+		AssertTest(approxResult == 1, "Quaternion Radians Euler To Components Error");
+		
+		approxResult = Approx(qDeg.GetComponents(), expectedQDeg, 4);
+		AssertTest(approxResult == 1, "Quaternion Degrees Euler To Components Error");
+
 
 		return true;
 	}

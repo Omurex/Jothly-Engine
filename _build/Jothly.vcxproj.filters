@@ -75,7 +75,7 @@
     <ClInclude Include="QuaternionTestSet.h">
       <Filter>Header Files\Testing</Filter>
     </ClInclude>
-    <ClInclude Include="Math.hpp">
+    <ClInclude Include="Math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

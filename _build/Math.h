@@ -3,6 +3,13 @@
 #include <cmath>
 
 
+// Degree to radians
+#define D2R 0.01745329251
+
+// Radians to degrees
+#define R2D 57.2957795131
+
+
 /// <returns>1 if values are within margin of error of each other, 0 if not</returns>
 int Approx(float val1, float val2, float marginOfError = .01f);
 

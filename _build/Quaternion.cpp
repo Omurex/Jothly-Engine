@@ -1,11 +1,18 @@
 #include "Quaternion.h"
 #include "Vector2.h"
 #include "Vector3.h"
-#include "Math.hpp"
+#include "Math.h"
 
 
 namespace jothly
 {
+	Quaternion::Quaternion(Vector3 euler, bool degrees)
+	{
+		if (degrees) SetEulerDeg(euler); 
+		else SetEulerRad(euler);
+	}
+
+
 	Quaternion& Quaternion::Normalize()
 	{
 		float magSquared;
@@ -53,8 +60,29 @@ namespace jothly
 	}
 
 
-	void Quaternion::SetEuler(Vector3 euler)
+	void Quaternion::SetEulerDeg(Vector3 euler)
 	{
+		SetEulerRad(euler * DEG2RAD);
+	}
+
+
+	void Quaternion::SetEulerRad(Vector3 euler)
+	{
+		// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+		float sx = sinf(euler.x * .5f);
+		float cx = cosf(euler.x * .5f);
+
+		float sy = sinf(euler.y * .5f);
+		float cy = cosf(euler.y * .5f);
+
+		float sz = sinf(euler.z * .5f);
+		float cz = cosf(euler.z * .5f);
+
+		w = cx * cy * cz + sx * sy * sz;
+		x = sx * cy * cz - cx * sy * sz;
+		y = cx * sy * cz + sx * cy * sz;
+		z = cx * cy * sz - sx * sy * cz;
 	}
 
 

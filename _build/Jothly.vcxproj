@@ -264,7 +264,7 @@
     <ClInclude Include="ComponentID.hpp" />
     <ClInclude Include="Constants.hpp" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Math.hpp" />
+    <ClInclude Include="Math.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="QuaternionTestSet.h" />
     <ClInclude Include="ShapeRenderer2D.h" />

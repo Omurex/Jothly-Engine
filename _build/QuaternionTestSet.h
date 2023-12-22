@@ -21,4 +21,5 @@ namespace jothly
 
 	bool QuaternionTest_Normalization(std::string& out_shorthand, std::string& out_message);
 	bool QuaternionTest_Rotation(std::string& out_shorthand, std::string& out_message);
+	bool QuaternionTest_Euler(std::string& out_shorthand, std::string& out_message);
 }
