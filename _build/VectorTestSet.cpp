@@ -30,9 +30,12 @@ namespace jothly
 		Vector3 vec3 = Vector3(100, 100, 100).GetNormalized();
 		Vector4 vec4 = Vector4(1, 1, 1, 1).GetNormalized();
 
-		AssertTest(vec2a.GetNormalized() == Vector2(1, 0), "Vec2 Normalize Error");
-		AssertTest((Approx(vec2b.x, .707f) * Approx(vec2b.y, .707f)) == 1, "Vec2 Normalize Error");
-		AssertTest((Approx(vec3.x, .577f) * Approx(vec3.y, .577f) * Approx(vec3.z, .577f)) == 1, "Vec3 Normalize Error");
+		Vector2 expectedVec2b = Vector2(0.70710678118f);
+		Vector3 expectedVec3 = Vector3(0.57735026919f);
+
+		AssertTest(vec2a.GetNormalized() == Vector2(1, 0), "Vec2 Normalize Error 1");
+		AssertTest(Approx(vec2b, expectedVec2b, 2) == 1, "Vec2 Normalize Error 2");
+		AssertTest((Approx(vec3.x, 0.57735026919f) * Approx(vec3.y, 0.57735026919f) * Approx(vec3.z, 0.57735026919f)) == 1, "Vec3 Normalize Error");
 		AssertTest(vec4 == Vector4(.5, .5, .5, .5), "Vec4 Normalize Error");
 		
 		return testResult;

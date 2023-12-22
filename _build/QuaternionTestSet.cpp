@@ -61,16 +61,16 @@ namespace jothly
 			0.5537176974307099f, 0.11096349603035f, -0.08608042118785003f, 0.8207765067437098f
 		);
 
-		int approxResult = Approx(q12.GetComponents(), q2.GetComponents(), 4, .001f);
+		int approxResult = Approx(q12.GetComponents(), q2.GetComponents(), 4);
 		AssertTest(approxResult == 1, "Multiplication with Identity Error 1");
 
-		approxResult = Approx(q21.GetComponents(), q2.GetComponents(), 4, .001f);
+		approxResult = Approx(q21.GetComponents(), q2.GetComponents(), 4);
 		AssertTest(approxResult == 1, "Multiplication with Identity Error 2");
 
-		approxResult = Approx(q23.GetComponents(), expectedQ23, 4, .001f);
+		approxResult = Approx(q23.GetComponents(), expectedQ23, 4);
 		AssertTest(approxResult == 1, "Multiplication Between Quaternions Error 1");
 
-		approxResult = Approx(q32.GetComponents(), expectedQ32, 4, .001f);
+		approxResult = Approx(q32.GetComponents(), expectedQ32, 4);
 		AssertTest(approxResult == 1, "Multiplication Between Quaternions Error 2")
 
 		float temp;

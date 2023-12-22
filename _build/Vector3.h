@@ -24,7 +24,9 @@ namespace jothly
 		};
 
 
-		Vector3(float _x = 0, float _y = 0, float _z = 0) : x(_x), y(_y), z(_z) {}
+		Vector3() : x(0), y(0), z(0) {}
+		Vector3(float val) : x(val), y(val), z(val) {}
+		Vector3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
 		Vector3(const Vector3& vec3) : Vector3(vec3.x, vec3.y, vec3.z) {}
 		Vector3(const Vector2& vec2);
 		Vector3(const Vector4& vec4);
@@ -44,6 +46,7 @@ namespace jothly
 
 		operator Vector2() const;
 		operator Vector4() const;
+		operator const float* () const;
 
 		// Convert to RayLib version
 		operator rlb_Vector2() const { return { x, y }; }

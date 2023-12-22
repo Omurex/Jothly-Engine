@@ -6,7 +6,7 @@
 
 namespace jothly
 {
-	Vector3::Vector3(const Vector2& vec2) : Vector3(vec2.x, vec2.y) {}
+	Vector3::Vector3(const Vector2& vec2) : Vector3(vec2.x, vec2.y, 0) {}
 	Vector3::Vector3(const Vector4& vec4) : Vector3(vec4.x, vec4.y, vec4.z) {}
 
 
@@ -95,4 +95,10 @@ namespace jothly
 	{
 		return Vector4(x, y, z, 0);
 	}
+
+
+    Vector3::operator const float* () const
+    {
+		return components;
+    }
 }

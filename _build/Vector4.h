@@ -24,7 +24,9 @@ namespace jothly
 		};
 
 
-		Vector4(float _x = 0, float _y = 0, float _z = 0, float _w = 0) : x(_x), y(_y), z(_z), w(_w) {}
+		Vector4() : x(0), y(0), z(0), w(0) {}
+		Vector4(float val) : x(val), y(val), z(val), w(val) {}
+		Vector4(float _x, float _y, float _z, float _w) : x(_x), y(_y), z(_z), w(_w) {}
 		Vector4(const Vector4& vec4) : Vector4(vec4.x, vec4.y, vec4.z, vec4.w) {}
 		Vector4(const Vector3& vec3);
 
