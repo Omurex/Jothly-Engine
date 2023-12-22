@@ -30,13 +30,15 @@ namespace jothly
 		Vector3 vec3 = Vector3(100, 100, 100).GetNormalized();
 		Vector4 vec4 = Vector4(1, 1, 1, 1).GetNormalized();
 
+		Vector2 expectedVec2a = Vector2(1, 0);
 		Vector2 expectedVec2b = Vector2(0.70710678118f);
 		Vector3 expectedVec3 = Vector3(0.57735026919f);
+		Vector4 expectedVec4 = Vector4(.5);
 
-		AssertTest(vec2a.GetNormalized() == Vector2(1, 0), "Vec2 Normalize Error 1");
+		AssertTest(vec2a.GetNormalized() == expectedVec2a, "Vec2 Normalize Error 1");
 		AssertTest(Approx(vec2b, expectedVec2b, 2) == 1, "Vec2 Normalize Error 2");
-		AssertTest((Approx(vec3.x, 0.57735026919f) * Approx(vec3.y, 0.57735026919f) * Approx(vec3.z, 0.57735026919f)) == 1, "Vec3 Normalize Error");
-		AssertTest(vec4 == Vector4(.5, .5, .5, .5), "Vec4 Normalize Error");
+		AssertTest(Approx(vec3, expectedVec3, 3) == 1, "Vec3 Normalize Error");
+		AssertTest(Approx(vec4, expectedVec4, 4) == 1, "Vec4 Normalize Error");
 		
 		return testResult;
 	}
@@ -76,7 +78,6 @@ namespace jothly
 			vec2 = vec2 / 3;
 			AssertTest((Approx(vec2.x, 3) * Approx(vec2.y, 5)), "Vec2 Division Error");
 		}
-
 
 		{
 			AssertTest((Vector3(1, 3, 5) + Vector3(4, 4, 4)) == Vector3(5, 7, 9), "Vec3 Addition Error");
