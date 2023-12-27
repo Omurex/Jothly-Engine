@@ -2479,7 +2479,7 @@ void ImageRotate(rlb_Image *image, int degrees)
     if (image->format >= PIXELFORMAT_COMPRESSED_DXT1_RGB) TRACELOG(LOG_WARNING, "Image manipulation not supported for compressed formats");
     else
     {
-        float rad = degrees*PI/180.0f;
+        float rad = degrees*RLB_PI/180.0f;
         float sinRadius = sinf(rad);
         float cosRadius = cosf(rad);
 

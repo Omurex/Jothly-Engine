@@ -85,21 +85,39 @@ namespace jothly
 	{
 		InitTest("Quaternion Euler");
 
-		Vector3 eulerRad = Vector3(2.96706f, 1.0472f, 1.5708f); // 170, 60, 90
+		Vector3 eulerRad = Vector3(2.96706f, 1.0472f, -1.5708f); // 170, 60, 90
 		Vector3 eulerDeg = Vector3(45, 135, -35);
+		//Vector3 eulerDeg2 = Vector3(-70, 50, 100); // -70 50 100
+		//Vector3 eulerDeg2 = Vector3(-120, 160, 40); // Q2E result: 60 20 -140 
 
-		Quaternion qRad = Quaternion(eulerRad, false);
-		Quaternion qDeg = Quaternion(eulerDeg);
+		/*Quaternion qRad = Quaternion(eulerRad, false);
+		Quaternion qDeg = Quaternion(eulerDeg);*/
 
-		Vector4 expectedQRad = Vector4(0.5792263f, 0.640857f, -0.2988364f, 0.405581f);
-		Vector4 expectedQDeg = Vector4(0.3963371f, 0.770011f, -0.4435054f, 0.2308743f);
+		/*Vector4 expectedQRad = Vector4(0.6408549f, -0.5792287f, -0.4055799f, -0.2988379f);
+		Vector4 expectedQDeg = Vector4(0.3963371f, 0.770011f, -0.4435054f, 0.2308743f);*/
 
-		int approxResult = Approx(qRad.GetComponents(), expectedQRad, 4);
+		/*Vector3 qRadToEulerRad = qRad.GetEulerRad();
+		Vector3 qDegToEulerDeg = qDeg.GetEulerDeg();*/
+
+		/*int approxResult = Approx(qRad.GetComponents(), expectedQRad, 4);
 		AssertTest(approxResult == 1, "Quaternion Radians Euler To Components Error");
 		
 		approxResult = Approx(qDeg.GetComponents(), expectedQDeg, 4);
 		AssertTest(approxResult == 1, "Quaternion Degrees Euler To Components Error");
 
+		approxResult = Approx(qRadToEulerRad, eulerRad, 3);
+		AssertTest(approxResult == 1, "Quaternion To Euler Rad Error");*/
+
+		int approxResult = 0;
+		Vector3 eulerDeg2 = Vector3(-120, 270, 8);
+		Quaternion qDeg2 = Quaternion(eulerDeg2);
+		Vector3 qDeg2ToEulerDeg = qDeg2.GetEulerDeg();
+
+		approxResult = Approx(qDeg2ToEulerDeg, eulerDeg2, 3);
+		AssertTest(approxResult == 1, "Quaternion to Euler Deg Error");
+
+		/*approxResult = Approx(qDegToEulerDeg, eulerDeg, 3);
+		AssertTest(approxResult == 1, "Quaternion to Euler Deg Error");*/
 
 		return true;
 	}

@@ -848,7 +848,7 @@ RLAPI void rlLoadDrawQuad(void);     // Load and draw a quad
 //----------------------------------------------------------------------------------
 // Defines and Macros
 //----------------------------------------------------------------------------------
-#ifndef PI
+#ifndef RLB_PI
     #define PI 3.14159265358979323846f
 #endif
 #ifndef DEG2RAD

@@ -1,4 +1,5 @@
 #include "Math.h"
+#include <raymath.h>
 
 
 int Approx(float val1, float val2, float marginOfError)
@@ -18,3 +19,5 @@ int Approx(const float val1[], const float val2[], float len, float marginOfErro
 
 	return 1;
 }
+
+

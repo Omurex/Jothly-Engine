@@ -28,6 +28,7 @@ namespace jothly
 		Vector3(float val) : x(val), y(val), z(val) {}
 		Vector3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
 		Vector3(const Vector3& vec3) : Vector3(vec3.x, vec3.y, vec3.z) {}
+		Vector3(const rlb_Vector3& vec3) : Vector3(vec3.x, vec3.y, vec3.z) {}
 		Vector3(const Vector2& vec2);
 		Vector3(const Vector4& vec4);
 

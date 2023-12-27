@@ -8,7 +8,7 @@
 // Radians to degrees
 #define R2D 57.2957795131f
 
-//#define PI 3.14159265358979323846f
+#define PI 3.14159265358979323846f
 
 
 /// <returns>1 if values are within margin of error of each other, 0 if not</returns>

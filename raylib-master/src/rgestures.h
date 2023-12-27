@@ -47,7 +47,7 @@
 #ifndef RGESTURES_H
 #define RGESTURES_H
 
-#ifndef PI
+#ifndef RLB_PI
     #define PI 3.14159265358979323846
 #endif
 
@@ -490,7 +490,7 @@ float GetGesturePinchAngle(void)
 // Get angle from two-points vector with X-axis
 static float rgVector2Angle(rlb_Vector2 v1, rlb_Vector2 v2)
 {
-    float angle = atan2f(v2.y - v1.y, v2.x - v1.x)*(180.0f/PI);
+    float angle = atan2f(v2.y - v1.y, v2.x - v1.x)*(180.0f/RLB_PI);
 
     if (angle < 0) angle += 360.0f;
 

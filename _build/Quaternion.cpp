@@ -2,6 +2,7 @@
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Math.h"
+#include <raymath.h>
 
 
 namespace jothly
@@ -38,13 +39,62 @@ namespace jothly
 	}
 
 
-	Vector3 Quaternion::GetEuler()
+	Vector3 Quaternion::GetEulerDeg()
+	{
+		return GetEulerRad() * R2D;
+	}
+
+
+	Vector3 Quaternion::GetEulerRad()
 	{
 		// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 
+		/*float innerFirstSqrt = 1 + 2 * (w * y - x * z);
+		float innerSecondSqrt = 1 - 2 * (w * y - x * z);
 
+		float firstSqrt = sqrtf(innerFirstSqrt);
+		float secondSqrt = sqrtf(innerSecondSqrt);
+		float yTan = atan2f(firstSqrt, secondSqrt);
 
-		return Vector3();
+		float eulerY = (-PI / 2) + (2 * yTan);
+
+		Vector3 euler = Vector3
+		(
+			atan2f(2 * (w * x + eulerY * z), 1 - 2 * (x * x + eulerY * eulerY)),
+			eulerY,
+			atan2f(2 * (w * z + x * eulerY), 1 - 2 * (eulerY * eulerY + z * z))
+		);
+
+		return euler;*/
+		
+		//Vector3 euler = QuaternionToEuler(*this);
+
+		// https://stackoverflow.com/questions/70462758/c-sharp-how-to-convert-quaternions-to-euler-angles-xyz
+
+		Vector3 angles = Vector3(0);
+
+		// roll / x
+		double sinr_cosp = 2 * (w * x + y * z);
+		double cosr_cosp = 1 - 2 * (x * x + y * y);
+		angles.x = (float)atan2f(sinr_cosp, cosr_cosp);
+
+		// pitch / y
+		double sinp = 2 * (w * y - z * x);
+		if (abs(sinp) >= 1)
+		{
+			angles.y = sinp > 0 ? 1 : -1 * (PI / 2); //(float)Math.CopySign(Math.PI / 2, sinp);
+		}
+		else
+		{
+			angles.y = (float)asinf(sinp);
+		}
+
+		// yaw / z
+		double siny_cosp = 2 * (w * z + x * y);
+		double cosy_cosp = 1 - 2 * (y * y + z * z);
+		angles.z = atan2f(siny_cosp, cosy_cosp);
+
+		return angles;
 	}
 
 
@@ -90,28 +140,36 @@ namespace jothly
 	}
 
 
-	Vector2 Quaternion::Rotate(Vector2 vec)
+	Vector2 Quaternion::GetRotated(Vector2 vec)
 	{
 		return Vector2();
 	}
 
 
-	Vector3 Quaternion::Rotate(Vector3 vec)
+	Vector3 Quaternion::GetRotated(Vector3 vec)
 	{
 		return Vector3();
 	}
 
 
-	Quaternion Quaternion::Rotate(Quaternion other)
+	Quaternion Quaternion::GetRotated(Quaternion other)
+	{
+		Quaternion q = Quaternion(this->components);
+		q.Rotate(other);
+
+		return q;
+	}
+
+
+	void Quaternion::Rotate(Quaternion other)
 	{
 		// https://www.cprogramming.com/tutorial/3d/quaternions.html
-		Vector4 rotatedComponents = Vector4(
+
+		components = Vector4(
 			w * other.x + x * other.w + y * other.z - z * other.y,
 			w * other.y - x * other.z + y * other.w + z * other.x,
 			w * other.z + x * other.y - y * other.x + z * other.w,
 			w * other.w - x * other.x - y * other.y - z * other.z
 		);
-
-		return Quaternion(rotatedComponents);
 	}
 }

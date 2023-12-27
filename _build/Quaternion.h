@@ -42,16 +42,19 @@ namespace jothly
 
 		Vector4 GetComponents() { return components; }
 		Quaternion GetInverse();
-		Vector3 GetEuler();
+		Vector3 GetEulerDeg();
+		Vector3 GetEulerRad();
 		Quaternion GetNormalized();
 
 		Vector4 SetComponents(Vector4 _components);
 		void SetEulerDeg(Vector3 euler);
 		void SetEulerRad(Vector3 euler);
 
-		Vector2 Rotate(Vector2 vec);
-		Vector3 Rotate(Vector3 vec);
-		Quaternion Rotate(Quaternion other);
+		Vector2 GetRotated(Vector2 vec);
+		Vector3 GetRotated(Vector3 vec);
+		Quaternion GetRotated(Quaternion other);
+
+		void Rotate(Quaternion other);
 
 		Quaternion& operator=(const Quaternion& other) 
 		{ 
@@ -59,7 +62,7 @@ namespace jothly
 			return *this;
 		}
 
-		Quaternion operator*(const Quaternion& other) { return this->Rotate(other); }
+		Quaternion operator*(const Quaternion& other) { return this->GetRotated(other); }
 
 		operator rlb_Quaternion() const { return { components.x, components.y, components.z, components.w }; }
 	};

@@ -115,14 +115,14 @@
 //----------------------------------------------------------------------------------
 // Some basic Defines
 //----------------------------------------------------------------------------------
-#ifndef PI
-    #define PI 3.14159265358979323846f
+#ifndef RLB_PI
+    #define RLB_PI 3.14159265358979323846f
 #endif
 #ifndef DEG2RAD
-    #define DEG2RAD (PI/180.0f)
+    #define DEG2RAD (RLB_PI/180.0f)
 #endif
 #ifndef RAD2DEG
-    #define RAD2DEG (180.0f/PI)
+    #define RAD2DEG (180.0f/RLB_PI)
 #endif
 
 // Allow custom memory allocators

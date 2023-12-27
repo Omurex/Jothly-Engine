@@ -84,7 +84,7 @@
 //----------------------------------------------------------------------------------
 // Defines and Macros
 //----------------------------------------------------------------------------------
-#ifndef PI
+#ifndef RLB_PI
     #define PI 3.14159265358979323846f
 #endif
 
@@ -170,6 +170,7 @@ typedef struct float16 {
 } float16;
 
 #include <math.h>       // Required for: sinf(), cosf(), tan(), atan2f(), sqrtf(), floor(), fminf(), fmaxf(), fabs()
+#include <raylib.h>
 
 //----------------------------------------------------------------------------------
 // Module Functions Definition - Utils math
