@@ -7,6 +7,9 @@
 
 namespace jothly
 {
+	const Quaternion Quaternion::SINGULARITY_MODIFIER = Quaternion(Vector3(0.f, .3f, 0.f));
+
+
 	Quaternion::Quaternion(Vector3 euler, bool degrees)
 	{
 		if (degrees) SetEulerDeg(euler); 
@@ -70,6 +73,10 @@ namespace jothly
 		//Vector3 euler = QuaternionToEuler(*this);
 
 		// https://stackoverflow.com/questions/70462758/c-sharp-how-to-convert-quaternions-to-euler-angles-xyz
+		// https://math.stackexchange.com/questions/3444267/extracting-euler-angles-from-quaternion-close-to-singularity
+		// https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2012/07/euler-angles1.pdf
+		// https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0276302
+		// https://www.gamedev.net/forums/topic.asp?topic_id=25314
 
 		Vector3 angles = Vector3(0);
 
@@ -78,8 +85,14 @@ namespace jothly
 		double cosr_cosp = 1 - 2 * (x * x + y * y);
 		angles.x = (float)atan2f(sinr_cosp, cosr_cosp);
 
+
 		// pitch / y
 		double sinp = 2 * (w * y - z * x);
+		/*if (sinp <= -.99999f)
+		{
+			return GetRotated(SINGULARITY_MODIFIER).GetEulerRad();
+		}*/
+
 		if (abs(sinp) >= 1)
 		{
 			angles.y = sinp > 0 ? 1 : -1 * (PI / 2); //(float)Math.CopySign(Math.PI / 2, sinp);

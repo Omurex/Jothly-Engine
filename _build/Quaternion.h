@@ -12,6 +12,7 @@ namespace jothly
 	class Quaternion
 	{
 		const float MARGIN_OF_ERROR = .00001f;
+		static const Quaternion SINGULARITY_MODIFIER;
 
 		union
 		{

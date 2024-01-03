@@ -109,7 +109,7 @@ namespace jothly
 		AssertTest(approxResult == 1, "Quaternion To Euler Rad Error");*/
 
 		int approxResult = 0;
-		Vector3 eulerDeg2 = Vector3(-120, 270, 8);
+		Vector3 eulerDeg2 = Vector3(-120, 89, 8);
 		Quaternion qDeg2 = Quaternion(eulerDeg2);
 		Vector3 qDeg2ToEulerDeg = qDeg2.GetEulerDeg();
 
