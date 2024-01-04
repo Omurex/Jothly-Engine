@@ -5,6 +5,7 @@
 
 namespace jothly::con
 {
+	// Will be deprecated and replaced with Jothly version
 	static const rlb_Transform rlb_DefaultTransform =
 	{ 
 		{0, 0, 0},		// Pos
@@ -12,8 +13,12 @@ namespace jothly::con
 		{1, 1, 1}		// Scale
 	};
 
+	// Will be deprecated and replaced with Jothly version
 	static const rlb_Vector2 rlb_DefaultVector2 =
 	{
 		0, 0
 	};
+
+
+	static const float VECTOR_MARGIN_OF_ERROR = .00001f;
 }

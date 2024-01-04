@@ -39,6 +39,8 @@ namespace jothly
 		float GetMagnitude();
 		float GetMagnitudeSquared();
 
+		void Scale(float const& scale);
+
 		Vector3 operator+(Vector3 const& other);
 		Vector3 operator-(Vector3 const& other);
 		Vector3 operator*(float const& scale);

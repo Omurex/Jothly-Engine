@@ -34,6 +34,8 @@ namespace jothly
 		Vector2 GetNormalized(float precomputedMagnitudeSquared);
 		float GetMagnitude();
 		float GetMagnitudeSquared();
+
+		void Scale(float const& scale);
 	
 		Vector2 operator+(Vector2 const& other);
 		Vector2 operator-(Vector2 const& other);

@@ -17,6 +17,12 @@ namespace jothly
 	}
 
 
+	Quaternion::Quaternion(float angle, Vector3 axis)
+	{
+		SetAngleAxis(angle, axis);
+	}
+
+
 	Quaternion& Quaternion::Normalize()
 	{
 		float magSquared;
@@ -42,80 +48,47 @@ namespace jothly
 	}
 
 
-	Vector3 Quaternion::GetEulerDeg()
-	{
-		return GetEulerRad() * R2D;
-	}
-
-
-	Vector3 Quaternion::GetEulerRad()
-	{
-		// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
-
-		/*float innerFirstSqrt = 1 + 2 * (w * y - x * z);
-		float innerSecondSqrt = 1 - 2 * (w * y - x * z);
-
-		float firstSqrt = sqrtf(innerFirstSqrt);
-		float secondSqrt = sqrtf(innerSecondSqrt);
-		float yTan = atan2f(firstSqrt, secondSqrt);
-
-		float eulerY = (-PI / 2) + (2 * yTan);
-
-		Vector3 euler = Vector3
-		(
-			atan2f(2 * (w * x + eulerY * z), 1 - 2 * (x * x + eulerY * eulerY)),
-			eulerY,
-			atan2f(2 * (w * z + x * eulerY), 1 - 2 * (eulerY * eulerY + z * z))
-		);
-
-		return euler;*/
-		
-		//Vector3 euler = QuaternionToEuler(*this);
-
-		// https://stackoverflow.com/questions/70462758/c-sharp-how-to-convert-quaternions-to-euler-angles-xyz
-		// https://math.stackexchange.com/questions/3444267/extracting-euler-angles-from-quaternion-close-to-singularity
-		// https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2012/07/euler-angles1.pdf
-		// https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0276302
-		// https://www.gamedev.net/forums/topic.asp?topic_id=25314
-
-		Vector3 angles = Vector3(0);
-
-		// roll / x
-		double sinr_cosp = 2 * (w * x + y * z);
-		double cosr_cosp = 1 - 2 * (x * x + y * y);
-		angles.x = (float)atan2f(sinr_cosp, cosr_cosp);
-
-
-		// pitch / y
-		double sinp = 2 * (w * y - z * x);
-		/*if (sinp <= -.99999f)
-		{
-			return GetRotated(SINGULARITY_MODIFIER).GetEulerRad();
-		}*/
-
-		if (abs(sinp) >= 1)
-		{
-			angles.y = sinp > 0 ? 1 : -1 * (PI / 2); //(float)Math.CopySign(Math.PI / 2, sinp);
-		}
-		else
-		{
-			angles.y = (float)asinf(sinp);
-		}
-
-		// yaw / z
-		double siny_cosp = 2 * (w * z + x * y);
-		double cosy_cosp = 1 - 2 * (y * y + z * z);
-		angles.z = atan2f(siny_cosp, cosy_cosp);
-
-		return angles;
-	}
-
-
 	Quaternion Quaternion::GetNormalized()
 	{
 		Quaternion quat = Quaternion(*this);
 		quat.Normalize();
 		return quat;
+	}
+
+
+	const void Quaternion::GetAngleAxis(float& out_angle, Vector3& out_axis)
+	{
+		Normalize();
+
+		out_angle = GetAngle();
+		out_axis = GetAxis();
+	}
+
+
+	const float Quaternion::GetAngle()
+	{
+		// https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/index.htm
+		return 2 * acosf(w);
+	}
+	
+
+	const Vector3 Quaternion::GetAxis()
+	{
+		// https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/index.htm
+
+		// If at 0 singularity, axis doesn't matter. Replace with arbitrary normalized x axis
+		if (Approx(w, 1, MARGIN_OF_ERROR))
+		{
+			return Vector3(1, 0, 0);
+		}
+
+		float mag = sqrtf(1 - (w * w));
+
+		return Vector3(
+			x / mag,
+			y / mag,
+			z / mag
+		);
 	}
 
 
@@ -130,6 +103,21 @@ namespace jothly
 	void Quaternion::SetEulerDeg(Vector3 euler)
 	{
 		SetEulerRad(euler * DEG2RAD);
+	}
+
+
+	void Quaternion::SetAngleAxis(float angle, Vector3 axis)
+	{
+		// https://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
+
+		axis.Normalize();
+
+		float s = sinf(angle / 2.0f);
+
+		x = axis.x * s;
+		y = axis.y * s;
+		z = axis.z * s;
+		w = cosf(angle / 2.0f);
 	}
 
 

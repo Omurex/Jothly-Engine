@@ -29,16 +29,25 @@ namespace jothly
 		Vector2 vec2b = Vector2(100, 100).GetNormalized();
 		Vector3 vec3 = Vector3(100, 100, 100).GetNormalized();
 		Vector4 vec4 = Vector4(1, 1, 1, 1).GetNormalized();
+		Vector2 vec20 = Vector2(0).GetNormalized();
+		Vector3 vec30 = Vector3(0).GetNormalized();
+		Vector4 vec40 = Vector4(0).GetNormalized();
 
 		Vector2 expectedVec2a = Vector2(1, 0);
 		Vector2 expectedVec2b = Vector2(0.70710678118f);
 		Vector3 expectedVec3 = Vector3(0.57735026919f);
 		Vector4 expectedVec4 = Vector4(.5);
+		Vector2 expectedVec20 = Vector2(0);
+		Vector3 expectedVec30 = Vector3(0);
+		Vector4 expectedVec40 = Vector4(0);
 
 		AssertTest(vec2a.GetNormalized() == expectedVec2a, "Vec2 Normalize Error 1");
 		AssertTest(Approx(vec2b, expectedVec2b, 2) == 1, "Vec2 Normalize Error 2");
 		AssertTest(Approx(vec3, expectedVec3, 3) == 1, "Vec3 Normalize Error");
 		AssertTest(Approx(vec4, expectedVec4, 4) == 1, "Vec4 Normalize Error");
+		AssertTest(Approx(vec20, expectedVec20, 2) == 1, "Vec4 <0, 0> Normalize Error");
+		AssertTest(Approx(vec30, expectedVec30, 3) == 1, "Vec3 <0, 0, 0> Normalize Error");
+		AssertTest(Approx(vec40, expectedVec40, 4) == 1, "Vec4 <0, 0, 0, 0> Normalize Error");
 		
 		return testResult;
 	}

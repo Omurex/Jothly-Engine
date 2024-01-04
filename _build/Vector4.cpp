@@ -1,6 +1,7 @@
 #include "Vector4.h"
 #include "Vector3.h"
-#include <math.h>
+#include "Math.h"
+#include "Constants.hpp"
 
 
 namespace jothly
@@ -14,14 +15,19 @@ namespace jothly
 		Normalize(sqrMag);
     }
 
+
 	void Vector4::Normalize(float precomputedMagnitudeSquared)
 	{
 		float mag = sqrtf(precomputedMagnitudeSquared);
 
-		x /= mag;
-		y /= mag;
-		z /= mag;
-		w /= mag;
+		if (Approx(mag, 0, con::VECTOR_MARGIN_OF_ERROR))
+		{
+			Scale(0);
+		}
+		else
+		{
+			Scale(1.0f / mag);
+		}
 	}
 
 
@@ -50,6 +56,12 @@ namespace jothly
 	float Vector4::GetMagnitudeSquared()
 	{
 		return (x * x) + (y * y) + (z * z) + (w * w);
+	}
+
+
+	void Vector4::Scale(float const& scale)
+	{
+		x *= scale; y *= scale; z *= scale; w *= scale;
 	}
 
 
