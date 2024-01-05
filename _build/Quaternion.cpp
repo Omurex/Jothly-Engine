@@ -7,19 +7,21 @@
 
 namespace jothly
 {
-	const Quaternion Quaternion::SINGULARITY_MODIFIER = Quaternion(Vector3(0.f, .3f, 0.f));
-
-
 	Quaternion::Quaternion(Vector3 euler, bool degrees)
 	{
 		if (degrees) SetEulerDeg(euler); 
 		else SetEulerRad(euler);
+
+		Normalize();
 	}
 
 
-	Quaternion::Quaternion(float angle, Vector3 axis)
+	Quaternion::Quaternion(float angle, Vector3 axis, bool degrees)
 	{
-		SetAngleAxis(angle, axis);
+		if(degrees) SetAngleAxisDeg(angle, axis);
+		else SetAngleAxisRad(angle, axis);
+
+		Normalize();
 	}
 
 
@@ -56,16 +58,31 @@ namespace jothly
 	}
 
 
-	const void Quaternion::GetAngleAxis(float& out_angle, Vector3& out_axis)
+	const void Quaternion::GetAngleAxisDeg(float& out_angle, Vector3& out_axis)
 	{
 		Normalize();
 
-		out_angle = GetAngle();
+		out_angle = GetAngleDeg();
 		out_axis = GetAxis();
 	}
 
 
-	const float Quaternion::GetAngle()
+	const void Quaternion::GetAngleAxisRad(float& out_angle, Vector3& out_axis)
+	{
+		Normalize();
+
+		out_angle = GetAngleRad();
+		out_axis = GetAxis();
+	}
+
+
+	const float Quaternion::GetAngleDeg()
+	{
+		return GetAngleRad() * RAD2DEG;
+	}
+
+
+	const float Quaternion::GetAngleRad()
 	{
 		// https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/index.htm
 		return 2 * acosf(w);
@@ -106,21 +123,6 @@ namespace jothly
 	}
 
 
-	void Quaternion::SetAngleAxis(float angle, Vector3 axis)
-	{
-		// https://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
-
-		axis.Normalize();
-
-		float s = sinf(angle / 2.0f);
-
-		x = axis.x * s;
-		y = axis.y * s;
-		z = axis.z * s;
-		w = cosf(angle / 2.0f);
-	}
-
-
 	void Quaternion::SetEulerRad(Vector3 euler)
 	{
 		// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
@@ -138,6 +140,27 @@ namespace jothly
 		x = sx * cy * cz - cx * sy * sz;
 		y = cx * sy * cz + sx * cy * sz;
 		z = cx * cy * sz - sx * sy * cz;
+	}
+
+
+	void Quaternion::SetAngleAxisDeg(float angle, Vector3 axis)
+	{
+		SetAngleAxisRad(angle * DEG2RAD, axis);
+	}
+
+
+	void Quaternion::SetAngleAxisRad(float angle, Vector3 axis)
+	{
+		// https://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
+
+		axis.Normalize();
+
+		float s = sinf(angle / 2.0f);
+
+		x = axis.x * s;
+		y = axis.y * s;
+		z = axis.z * s;
+		w = cosf(angle / 2.0f);
 	}
 
 

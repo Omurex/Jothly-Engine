@@ -115,6 +115,11 @@ namespace jothly
 		Quaternion q2NoAngle = Quaternion(0, Vector3(-.3f, .5f, .5f));
 		Quaternion q3NoAngle = Quaternion(0, Vector3(0, 0, 0));
 
+		Quaternion q1 = Quaternion(60, Vector3(1, 0, 0));
+		Quaternion q2 = Quaternion(60, Vector3(-.3f, .5f, .5f));
+		Quaternion q3 = Quaternion(60, Vector3(0, 0, 0));
+
+
 		int approxResult = Approx(q1NoAngle.GetComponents(), Vector4(0, 0, 0, 1), 4);
 		AssertTest(approxResult == 1, "Angle Axis To Quaternion Error: No Angle 1");
 
@@ -123,6 +128,16 @@ namespace jothly
 
 		approxResult = Approx(q3NoAngle.GetComponents(), Vector4(0, 0, 0, 1), 4);
 		AssertTest(approxResult == 1, "Angle Axis To Quaternion Error: No Angle 3");
+
+
+		approxResult = Approx(q1.GetComponents(), Vector4(0.5f, 0, 0, 0.8660254f), 4);
+		AssertTest(approxResult == 1, "Angle Axis To Quaternion Error: 60 degrees <1, 0, 0>");
+
+		approxResult = Approx(q2.GetComponents(), Vector4(-0.1952834f, 0.3254723f, 0.3254723f, 0.8660254f), 4);
+		AssertTest(approxResult == 1, "Angle Axis To Quaternion Error: 60 degrees <-.3, .5, .5>");
+
+		approxResult = Approx(q3.GetComponents(), Vector4(0, 0, 0, 1), 4);
+		AssertTest(approxResult == 1, "Angle Axis To Quaternion Error: 60 degrees <0, 0, 0>");
 
 		return true;
 	}

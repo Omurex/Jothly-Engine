@@ -12,7 +12,6 @@ namespace jothly
 	class Quaternion
 	{
 		const float MARGIN_OF_ERROR = .00001f;
-		static const Quaternion SINGULARITY_MODIFIER;
 
 		union
 		{
@@ -35,7 +34,7 @@ namespace jothly
 		
 		Quaternion(Vector4 _components = Quaternion::IdentityComponents()) { SetComponents(_components); }
 		Quaternion(float _x, float _y, float _z, float _w) : Quaternion(Vector4(_x, _y, _z, _w)) {}
-		Quaternion(float angle, Vector3 axis);
+		Quaternion(float angle, Vector3 axis, bool degrees = true);
 		Quaternion(Vector3 euler, bool degrees = true);
 		Quaternion(const Quaternion& quat) { components = quat.components; }
 
@@ -47,14 +46,17 @@ namespace jothly
 		Quaternion GetNormalized();
 
 
-		const void GetAngleAxis(float &out_angle, Vector3 &out_axis);
-		const float GetAngle();
+		const void GetAngleAxisDeg(float &out_angle, Vector3 &out_axis);
+		const void GetAngleAxisRad(float &out_angle, Vector3 &out_axis);
+		const float GetAngleDeg();
+		const float GetAngleRad();
 		const Vector3 GetAxis();
 
 		Vector4 SetComponents(Vector4 _components);
 		void SetEulerDeg(Vector3 euler);
 		void SetEulerRad(Vector3 euler);
-		void SetAngleAxis(float angle, Vector3 axis);
+		void SetAngleAxisDeg(float angle, Vector3 axis);
+		void SetAngleAxisRad(float angle, Vector3 axis);
 
 		Vector2 GetRotated(Vector2 vec);
 		Vector3 GetRotated(Vector3 vec);
