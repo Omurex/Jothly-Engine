@@ -20,7 +20,7 @@ namespace jothly
 
 
 	bool QuaternionTest_Normalization(std::string& out_shorthand, std::string& out_message);
-	bool QuaternionTest_Rotation(std::string& out_shorthand, std::string& out_message);
+	bool QuaternionTest_QuaternionRotation(std::string& out_shorthand, std::string& out_message);
 	bool QuaternionTest_Euler(std::string& out_shorthand, std::string& out_message);
-	bool QuaternionTest_AngleAxis(std::string& out_shorthand, std::string& out_message);
+	bool QuaternionTest_FromAngleAxis(std::string& out_shorthand, std::string& out_message);
 }

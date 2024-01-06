@@ -49,7 +49,7 @@ namespace jothly
 
 		operator Vector2() const;
 		operator Vector4() const;
-		operator const float* () const;
+		//operator const float* () const;
 
 		// Convert to RayLib version
 		operator rlb_Vector2() const { return { x, y }; }

@@ -101,8 +101,8 @@ namespace jothly
 	}
 
 
-	Vector4::operator const float* () const
+	/*Vector4::operator const float* () const
 	{
 		return components;
-	}
+	}*/
 }

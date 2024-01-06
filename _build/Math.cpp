@@ -1,6 +1,10 @@
 #include "Math.h"
 #include <raymath.h>
 
+#include "Vector2.h"
+#include "Vector3.h"
+#include "Vector4.h"
+
 
 namespace jothly
 {
@@ -20,5 +24,23 @@ namespace jothly
 		}
 
 		return 1;
+	}
+
+
+	int Approx(const Vector2 val1, const Vector2 val2, float marginOfError)
+	{
+		return Approx(val1.components, val2.components, 2, marginOfError);
+	}
+
+	
+	int Approx(const Vector3 val1, const Vector3 val2, float marginOfError)
+	{
+		return Approx(val1.components, val2.components, 3, marginOfError);
+	}
+
+
+	int Approx(const Vector4 val1, const Vector4 val2, float marginOfError)
+	{
+		return Approx(val1.components, val2.components, 4, marginOfError);
 	}
 }

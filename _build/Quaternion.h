@@ -3,6 +3,7 @@
 #include "Vector4.h"
 
 // https://www.cprogramming.com/tutorial/3d/quaternions.html
+// Quaternion rotation uses ZYX for euler rotation
 
 namespace jothly
 {

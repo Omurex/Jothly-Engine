@@ -110,8 +110,8 @@ namespace jothly
 	}
 
 
-    Vector3::operator const float* () const
+    /*Vector3::operator const float* () const
     {
 		return components;
-    }
+    }*/
 }
