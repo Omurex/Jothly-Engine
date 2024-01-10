@@ -12,6 +12,7 @@ namespace jothly
 		testFunctions.push_back(QuaternionTest_Euler);
 		testFunctions.push_back(QuaternionTest_FromAngleAxis);
 		testFunctions.push_back(QuaternionTest_QuaternionRotation);
+		testFunctions.push_back(QuaternionTest_Inverse);
 	}
 
 
@@ -168,6 +169,36 @@ namespace jothly
 		approxResult = Approx(q9.GetComponents(), Vector4(-0.0503194f, -0.0503194f, 0.0503194f, -0.9961947f));
 		AssertTest(approxResult == 1, "Angle Axis To Quaternion Error: q9");
 
+
+		return true;
+	}
+
+
+
+	bool QuaternionTest_Inverse(std::string& out_shorthand, std::string& out_message)
+	{
+		InitTest("Quaternion Inverse")
+
+		Quaternion q1 = Quaternion(60, Vector3(1, 0, 0));
+		Quaternion q2 = Quaternion(80, Vector3(-.3f, .5f, .5f));
+		Quaternion q3 = Quaternion(135, Vector3(1, 0, -1));
+
+		Quaternion q1Inverse = q1.GetInverse();
+		Quaternion q2Inverse = q2.GetInverse();
+		Quaternion q3Inverse = q3.GetInverse();
+
+		Quaternion expectedQ1Inverse = Quaternion(-0.5f, 0, 0, 0.8660254f);
+		Quaternion expectedQ2Inverse = Quaternion(0.2510515f, -0.4184191f, -0.4184191f, 0.7660444f);
+		Quaternion expectedQ3Inverse = Quaternion(-0.6532815f, 0, 0.6532815f, 0.3826834f);
+
+		int approxResult = Approx(q1Inverse.GetComponents(), expectedQ1Inverse.GetComponents());
+		AssertTest(approxResult == 1, "Quaternion Inverse Error: q1");
+
+		approxResult = Approx(q2Inverse.GetComponents(), expectedQ2Inverse.GetComponents());
+		AssertTest(approxResult == 1, "Quaternion Inverse Error: q2");
+
+		approxResult = Approx(q3Inverse.GetComponents(), expectedQ3Inverse.GetComponents());
+		AssertTest(approxResult == 1, "Quaternion Inverse Error: q3");
 
 		return true;
 	}

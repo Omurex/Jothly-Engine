@@ -39,12 +39,14 @@ namespace jothly
 		Quaternion(Vector3 euler, bool degrees = true);
 		Quaternion(const Quaternion& quat) { components = quat.components; }
 
+		Vector4 GetComponents() { return components; }
+		
 		Quaternion& Normalize();
 		bool IsNormalized(float& out_magnitudeSquared);
-
-		Vector4 GetComponents() { return components; }
-		Quaternion GetInverse();
 		Quaternion GetNormalized();
+
+		void Invert();
+		Quaternion GetInverse();
 
 
 		const void GetAngleAxisDeg(float &out_angle, Vector3 &out_axis);

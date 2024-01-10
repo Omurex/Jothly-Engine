@@ -44,9 +44,19 @@ namespace jothly
 	}
 
 
+	void Quaternion::Invert()
+	{
+		x = -x; 
+		y = -y;
+		z = -z;
+	}
+
+
 	Quaternion Quaternion::GetInverse()
 	{
-		return Quaternion();
+		Quaternion q = Quaternion(x, y, z, w);
+		q.Invert();
+		return q;
 	}
 
 
@@ -195,5 +205,7 @@ namespace jothly
 			w * other.z + x * other.y - y * other.x + z * other.w,
 			w * other.w - x * other.x - y * other.y - z * other.z
 		);
+
+		Normalize();
 	}
 }
