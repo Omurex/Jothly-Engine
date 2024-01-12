@@ -174,15 +174,37 @@ namespace jothly
 	}
 
 
+	Vector4 Quaternion::Hamiltonian(Vector4 const& v1, Vector4 const& v2)
+	{
+		return Vector4(
+			v1.w * v2.x + v1.x * v2.w + v1.y * v2.z - v1.z * v2.y,
+			v1.w * v2.y - v1.x * v2.z + v1.y * v2.w + v1.z * v2.x,
+			v1.w * v2.z + v1.x * v2.y - v1.y * v2.x + v1.z * v2.w,
+			v1.w * v2.w - v1.x * v2.x - v1.y * v2.y - v1.z * v2.z
+		);
+	}
+
+
 	Vector2 Quaternion::GetRotated(Vector2 vec)
 	{
-		return Vector2();
+		return (Vector2) GetRotated((Vector3) vec);
 	}
 
 
 	Vector3 Quaternion::GetRotated(Vector3 vec)
 	{
-		return Vector3();
+		return (Vector3) GetRotated((Vector4) vec);
+	}
+
+
+	Vector4 Quaternion::GetRotated(Vector4 v)
+	{
+		return Vector4(0);
+		/*Vector4 c = components;
+		return Vector4(
+			c.w * v.x + c.x
+			c.w * v.w
+		);*/
 	}
 
 

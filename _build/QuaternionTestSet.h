@@ -24,4 +24,5 @@ namespace jothly
 	bool QuaternionTest_Euler(std::string& out_shorthand, std::string& out_message);
 	bool QuaternionTest_FromAngleAxis(std::string& out_shorthand, std::string& out_message);
 	bool QuaternionTest_Inverse(std::string& out_shorthand, std::string& out_message);
+	bool QuaternionTest_VectorRotation(std::string& out_shorthand, std::string& out_message);
 }

@@ -13,6 +13,7 @@ namespace jothly
 		testFunctions.push_back(QuaternionTest_FromAngleAxis);
 		testFunctions.push_back(QuaternionTest_QuaternionRotation);
 		testFunctions.push_back(QuaternionTest_Inverse);
+		testFunctions.push_back(QuaternionTest_VectorRotation);
 	}
 
 
@@ -200,6 +201,31 @@ namespace jothly
 		approxResult = Approx(q3Inverse.GetComponents(), expectedQ3Inverse.GetComponents());
 		AssertTest(approxResult == 1, "Quaternion Inverse Error: q3");
 
+		return true;
+	}
+
+
+	bool QuaternionTest_VectorRotation(std::string& out_shorthand, std::string& out_message)
+	{
+		InitTest("Quaternion Vector Rotation")
+
+		Vector4 p1 = Vector4(1, 0, 0, 0);
+
+		// <1, 0, 0> 60 deg
+		//Quaternion q1 = Quaternion(0.5f, 0, 0, 0.8660254f);
+		
+		// <1, 1, 1> 45 deg
+		//Quaternion q2 = Quaternion(0.2209424, 0.2209424, 0.2209424, 0.9238795);
+
+		Quaternion q1 = Quaternion(0.0, 0.707, 0.0, .707);
+
+		Vector4 ham12 = Quaternion::Hamiltonian(q1.GetComponents(), p1);
+
+		Vector4 expectedHam12 = Vector4(0.707106829, 0.0, -0.707106829, 0);
+
+		int approxResult = Approx(ham12, expectedHam12);
+		AssertTest(approxResult == 1, "Quaternion Hamiltonian Product Error");
+		
 		return true;
 	}
 }

@@ -61,8 +61,11 @@ namespace jothly
 		void SetAngleAxisDeg(float angle, Vector3 axis);
 		void SetAngleAxisRad(float angle, Vector3 axis);
 
+		static Vector4 Hamiltonian(Vector4 const& v1, Vector4 const& v2);
+
 		Vector2 GetRotated(Vector2 vec);
 		Vector3 GetRotated(Vector3 vec);
+		Vector4 GetRotated(Vector4 vec);
 		Quaternion GetRotated(Quaternion other);
 
 		void Rotate(Quaternion other);
