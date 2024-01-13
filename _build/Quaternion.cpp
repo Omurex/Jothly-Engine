@@ -199,12 +199,9 @@ namespace jothly
 
 	Vector4 Quaternion::GetRotated(Vector4 v)
 	{
-		return Vector4(0);
-		/*Vector4 c = components;
-		return Vector4(
-			c.w * v.x + c.x
-			c.w * v.w
-		);*/
+		// https://math.stackexchange.com/questions/40164/how-do-you-rotate-a-vector-by-a-unit-quaternion
+		Quaternion inverse = GetInverse();
+		return Hamiltonian(Hamiltonian(this->components, v), inverse.components);
 	}
 
 
@@ -229,5 +226,23 @@ namespace jothly
 		);
 
 		Normalize();
+	}
+
+
+	Vector2 Quaternion::operator*(const Vector2& other)
+	{
+		return this->GetRotated(other);
+	}
+
+
+	Vector3 Quaternion::operator*(const Vector3& other)
+	{
+		return this->GetRotated(other);
+	}
+
+
+	Vector4 Quaternion::operator*(const Vector4& other)
+	{
+		return this->GetRotated(other);
 	}
 }

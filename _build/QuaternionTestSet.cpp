@@ -2,6 +2,7 @@
 #include "Quaternion.h"
 #include "Math.h"
 #include "Vector3.h"
+#include "Vector2.h"
 
 
 namespace jothly
@@ -209,23 +210,73 @@ namespace jothly
 	{
 		InitTest("Quaternion Vector Rotation")
 
-		Vector4 p1 = Vector4(1, 0, 0, 0);
+		Vector4 p0 = Vector4(1, 0, 0, 0);
+		Vector4 p1 = Vector4(1, 1, 0, 0);
+		Vector3 p2 = Vector3(100, 0, 0);
+		Vector3 p3 = Vector3(100, 100, 100);
+		Vector2 p4 = Vector2(-50, 0);
+		
 
 		// <1, 0, 0> 60 deg
-		//Quaternion q1 = Quaternion(0.5f, 0, 0, 0.8660254f);
+		Quaternion q1 = Quaternion(0.5f, 0, 0, 0.8660254f);
 		
 		// <1, 1, 1> 45 deg
-		//Quaternion q2 = Quaternion(0.2209424, 0.2209424, 0.2209424, 0.9238795);
+		Quaternion q2 = Quaternion(0.2209424, 0.2209424, 0.2209424, 0.9238795);
 
-		Quaternion q1 = Quaternion(0.0, 0.707, 0.0, .707);
+		// Check hamiltonian works before anything else
+		Quaternion hamQuat = Quaternion(0.0, 0.707, 0.0, .707);
+		Vector4 hamResult = Quaternion::Hamiltonian(hamQuat.GetComponents(), p0);
+		Vector4 expectedHam = Vector4(0.707106829, 0.0, -0.707106829, 0);
 
-		Vector4 ham12 = Quaternion::Hamiltonian(q1.GetComponents(), p1);
+		Vector4 rotatedQ1P0 = q1 * p0;
+		Vector4 rotatedQ1P1 = q1 * p1;
+		Vector3 rotatedQ1P2 = q1 * p2;
+		Vector3 rotatedQ1P3 = q1 * p3;
+		Vector2 rotatedQ1P4 = q1 * p4;
 
-		Vector4 expectedHam12 = Vector4(0.707106829, 0.0, -0.707106829, 0);
+		Vector4 rotatedQ2P0 = q2 * p0;
+		Vector4 rotatedQ2P1 = q2 * p1;
+		Vector3 rotatedQ2P2 = q2 * p2;
+		Vector3 rotatedQ2P3 = q2 * p3;
+		Vector2 rotatedQ2P4 = q2 * p4;
 
-		int approxResult = Approx(ham12, expectedHam12);
+		Vector4 expectedRotatedQ1P0 = Vector4(1, 0, 0, 0);
+		Vector4 expectedRotatedQ1P1 = Vector4(1, 0.5f, 0.8660254f, 0);
+		Vector3 expectedRotatedQ1P2 = Vector3(100, 0, 0);
+		Vector3 expectedRotatedQ1P3 = Vector3(100, -36.60254, 136.6025);
+		Vector2 expectedRotatedQ1P4 = Vector2(-50, 0);
+
+		Vector4 expectedRotatedQ2P0 = Vector4(0.8047378, 0.5058794, -0.3106172, 0);
+		Vector4 expectedRotatedQ2P1 = Vector4(0.4941206, 1.310617, 0.1952622, 0);
+		Vector3 expectedRotatedQ2P2 = Vector3(80.47379, 50.58794, -31.06172);
+		Vector3 expectedRotatedQ2P3 = Vector3(100, 100, 100);
+		Vector2 expectedRotatedQ2P4 = Vector2(-40.23689, -25.29397);
+
+		int approxResult = Approx(hamResult, expectedHam);
 		AssertTest(approxResult == 1, "Quaternion Hamiltonian Product Error");
-		
+
+		approxResult = Approx(rotatedQ1P0, expectedRotatedQ1P0);
+		AssertTest(approxResult == 1, "Quaternion Rotation Error: q1 * p0");
+		approxResult = Approx(rotatedQ1P1, expectedRotatedQ1P1);
+		AssertTest(approxResult == 1, "Quaternion Rotation Error: q1 * p1");
+		approxResult = Approx(rotatedQ1P2, expectedRotatedQ1P2);
+		AssertTest(approxResult == 1, "Quaternion Rotation Error: q1 * p2");
+		approxResult = Approx(rotatedQ1P3, expectedRotatedQ1P3);
+		AssertTest(approxResult == 1, "Quaternion Rotation Error: q1 * p3");
+		approxResult = Approx(rotatedQ1P4, expectedRotatedQ1P4);
+		AssertTest(approxResult == 1, "Quaternion Rotation Error: q1 * p4");
+
+		approxResult = Approx(rotatedQ2P0, expectedRotatedQ2P0);
+		AssertTest(approxResult == 1, "Quaternion Rotation Error: q2 * p0");
+		approxResult = Approx(rotatedQ2P1, expectedRotatedQ2P1);
+		AssertTest(approxResult == 1, "Quaternion Rotation Error: q2 * p1");
+		approxResult = Approx(rotatedQ2P2, expectedRotatedQ2P2);
+		AssertTest(approxResult == 1, "Quaternion Rotation Error: q2 * p2");
+		approxResult = Approx(rotatedQ2P3, expectedRotatedQ2P3);
+		AssertTest(approxResult == 1, "Quaternion Rotation Error: q2 * p3");
+		approxResult = Approx(rotatedQ2P4, expectedRotatedQ2P4);
+		AssertTest(approxResult == 1, "Quaternion Rotation Error: q2 * p4");
+
 		return true;
 	}
 }

@@ -76,6 +76,9 @@ namespace jothly
 			return *this;
 		}
 
+		Vector2 operator*(const Vector2& other);
+		Vector3 operator*(const Vector3& other);
+		Vector4 operator*(const Vector4& other);
 		Quaternion operator*(const Quaternion& other) { return this->GetRotated(other); }
 
 		operator rlb_Quaternion() const { return { components.x, components.y, components.z, components.w }; }
