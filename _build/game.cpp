@@ -4,6 +4,8 @@
 #include "Vector3.h"
 #include "Quaternion.h"
 #include "TestRunner.h"
+#include "Color.h"
+
 
 using namespace jothly;
 
@@ -29,7 +31,7 @@ void Init()
 	TestRunner testRunner = TestRunner(true, true);
 	testRunner.RunTests();
 
-	InitWindow(400, 400, "Gravity");
+	InitWindow(400, 400, "Jothly");
 	SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
 
 	ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>();

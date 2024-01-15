@@ -1,9 +1,11 @@
 #include "ShapeRenderer2D.h"
 #include "Constants.hpp"
+#include "raylib.h"
+
 
 namespace jothly
 {
-	ShapeRenderer2D::ShapeRenderer2D(GameObject* _owner) : Component(_owner), offset(con::rlb_DefaultVector2)
+	ShapeRenderer2D::ShapeRenderer2D(GameObject* _owner) : Component(_owner), offset(Vector2())
 	{
 	}
 

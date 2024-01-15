@@ -78,6 +78,9 @@
     <ClInclude Include="Math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files\Structures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -118,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="Math.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Source Files\Structures</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

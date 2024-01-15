@@ -224,7 +224,7 @@ namespace jothly
 		// <1, 1, 1> 45 deg
 		Quaternion q2 = Quaternion(0.2209424, 0.2209424, 0.2209424, 0.9238795);
 
-		// Check hamiltonian works before anything else
+		// Check Hamiltonian works before anything else
 		Quaternion hamQuat = Quaternion(0.0, 0.707, 0.0, .707);
 		Vector4 hamResult = Quaternion::Hamiltonian(hamQuat.GetComponents(), p0);
 		Vector4 expectedHam = Vector4(0.707106829, 0.0, -0.707106829, 0);

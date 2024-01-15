@@ -8,6 +8,7 @@ namespace jothly
 {
 	class Transform
 	{
+		public:
 		Vector3 pos;
 		Quaternion rot;
 		Vector3 scale;

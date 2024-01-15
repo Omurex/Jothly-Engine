@@ -260,6 +260,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentID.hpp" />
     <ClInclude Include="Constants.hpp" />
@@ -277,6 +278,7 @@
     <ClInclude Include="VectorTestSet.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameObject.cpp" />
