@@ -39,6 +39,8 @@ namespace jothly
 		Quaternion(Vector3 euler, bool degrees = true);
 		Quaternion(const Quaternion& quat) { components = quat.components; }
 
+		static Quaternion Quaternion2D(float angle, bool degrees = true);
+
 		Vector4 GetComponents() { return components; }
 		
 		Quaternion& Normalize();
@@ -67,6 +69,11 @@ namespace jothly
 		Vector3 GetRotated(Vector3 vec);
 		Vector4 GetRotated(Vector4 vec);
 		Quaternion GetRotated(Quaternion other);
+
+		// STILL NEEDS TESTING
+		Vector2 GetRotatedAroundPoint(Vector2 vecToRotate, Vector2 point);
+		Vector3 GetRotatedAroundPoint(Vector3 vecToRotate, Vector3 point);
+		Vector4 GetRotatedAroundPoint(Vector4 vecToRotate, Vector4 point);
 
 		void Rotate(Quaternion other);
 

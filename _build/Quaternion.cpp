@@ -16,6 +16,12 @@ namespace jothly
 	}
 
 
+	Quaternion Quaternion::Quaternion2D(float angle, bool degrees)
+	{
+		return Quaternion(angle, Vector3(0, 0, 1), degrees);
+	}
+
+
 	Quaternion::Quaternion(float angle, Vector3 axis, bool degrees)
 	{
 		if(degrees) SetAngleAxisDeg(angle, axis);
@@ -211,6 +217,24 @@ namespace jothly
 		q.Rotate(other);
 
 		return q;
+	}
+
+
+	Vector2 Quaternion::GetRotatedAroundPoint(Vector2 vecToRotate, Vector2 point)
+	{
+		return (Vector2) GetRotatedAroundPoint((Vector3) vecToRotate, (Vector3) point);
+	}
+
+
+	Vector3 Quaternion::GetRotatedAroundPoint(Vector3 vecToRotate, Vector3 point)
+	{
+		return (Vector3) GetRotatedAroundPoint((Vector4) vecToRotate, (Vector4) point);
+	}
+
+
+	Vector4 Quaternion::GetRotatedAroundPoint(Vector4 vecToRotate, Vector4 point)
+	{
+		return GetRotated(vecToRotate - point) + point;
 	}
 
 

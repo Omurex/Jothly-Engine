@@ -15,6 +15,7 @@ namespace jothly
 		testFunctions.push_back(QuaternionTest_QuaternionRotation);
 		testFunctions.push_back(QuaternionTest_Inverse);
 		testFunctions.push_back(QuaternionTest_VectorRotation);
+		testFunctions.push_back(QuaternionTest_2D);
 	}
 
 
@@ -276,6 +277,40 @@ namespace jothly
 		AssertTest(approxResult == 1, "Quaternion Rotation Error: q2 * p3");
 		approxResult = Approx(rotatedQ2P4, expectedRotatedQ2P4);
 		AssertTest(approxResult == 1, "Quaternion Rotation Error: q2 * p4");
+
+		return true;
+	}
+
+	
+	bool QuaternionTest_2D(std::string& out_shorthand, std::string& out_message)
+	{
+		InitTest("Quaternion 2D Functionality");
+
+		Quaternion q1 = Quaternion::Quaternion2D(0);
+		Quaternion q2 = Quaternion::Quaternion2D(60);
+		Quaternion q3 = Quaternion::Quaternion2D(-135);
+
+		Vector2 v1 = Vector2(50, 0);
+		Vector2 v2 = Vector2(100, -75);
+
+		Vector2 rotatedQ1V1 = q1 * v1;
+		Vector2 rotatedQ2V1 = q2 * v1;
+		Vector2 rotatedQ3V1 = q3 * v1;
+		Vector2 v1AroundV2WithQ2 = q2.GetRotatedAroundPoint(v1, v2);
+
+		Vector2 expectedQ1V1 = Vector2(50, 0);
+		Vector2 expectedQ2V1 = Vector2(25, 43.301270189221932f);
+		Vector2 expectedQ3V1 = Vector2(-35.355339059327376f, -35.355339059327376);
+		Vector2 expectedV1AroundV2WithQ2 = Vector2(10.048094716167101, -80.801270189221932f);
+
+		int approxResult = Approx(rotatedQ1V1, expectedQ1V1);
+		AssertTest(approxResult == 1, "Quaternion 2D Rotation Error: q1 * v1");
+		approxResult = Approx(rotatedQ2V1, expectedQ2V1);
+		AssertTest(approxResult == 1, "Quaternion 2D Rotation Error: q2 * v1");
+		approxResult = Approx(rotatedQ3V1, expectedQ3V1);
+		AssertTest(approxResult == 1, "Quaternion 2D Rotation Error: q3 * v1");
+		approxResult = Approx(v1AroundV2WithQ2, expectedV1AroundV2WithQ2);
+		AssertTest(approxResult == 1, "Quaternion 2D Rotation Around Point Error: v1 around v2 using q2");
 
 		return true;
 	}
