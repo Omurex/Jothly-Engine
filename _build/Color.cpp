@@ -1,10 +1,17 @@
 #include "Color.h"
+#include "raylib.h"
 
 
 namespace jothly
 {
 	const float Color::CHAR2FLOAT = 1.0f / 255.0f;
 	const float Color::FLOAT2CHAR = 255.0f;
+
+
+	Color::Color(const rlb_Color& col)
+	{
+		r = col.r; g = col.g; b = col.b; a = col.a;
+	}
 
 
 	void Color::GetRGBA(unsigned char out_rgba[4]) const
@@ -23,6 +30,12 @@ namespace jothly
 	{
 		return colorCode == other.colorCode;
 	}
+
+
+    Color::operator rlb_Color() const
+    {
+		return { r, g, b, a };
+    }
 
 
 	Color Color::Lerp(const Color& first, const Color& second, float portion)

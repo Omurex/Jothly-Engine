@@ -84,6 +84,9 @@
     <ClInclude Include="ColorTestSet.h">
       <Filter>Header Files\Testing</Filter>
     </ClInclude>
+    <ClInclude Include="ShapeDrawing2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -130,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="ColorTestSet.cpp">
       <Filter>Source Files\Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeDrawing2D.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

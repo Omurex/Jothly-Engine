@@ -10,6 +10,7 @@
 #include "ComponentID.hpp"
 #include "Component.h"
 #include "Constants.hpp"
+#include "Transform.h"
 
 
 namespace jothly
@@ -24,15 +25,19 @@ namespace jothly
 		public:
 
 		std::string name;
-		rlb_Transform transform;
+		Transform transform;
 
-		GameObject(std::string _name = "New Object", rlb_Transform _transform = con::rlb_DefaultTransform) : name(_name),
+		GameObject(std::string _name, Transform _transform = Transform()) : name(_name),
 			transform(_transform) {}
+
+		GameObject(std::string _name = "New Object", Vector3 _pos = Vector3(0), Quaternion _rot = Quaternion(), Vector3 _scale = Vector3(1))
+			: name(_name), transform(_pos, _rot, _scale) {}
 
 		// Calls update and draw on all components
 		void Update(float dt);
 		void Draw();
 
+		// TODO: Implement object pooling for components
 		template<typename T>
 		T* CreateComponent();
 		Component* GetComponent(ComponentID id);
