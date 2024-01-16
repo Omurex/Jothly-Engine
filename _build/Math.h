@@ -18,6 +18,7 @@ namespace jothly
 	struct Vector2;
 	struct Vector3;
 	struct Vector4;
+	class Color;
 
 
 	/// <returns>1 if values are within margin of error of each other, 0 if not</returns>
@@ -26,9 +27,9 @@ namespace jothly
 	// Will run approx function on each value of array
 	int Approx(const float val1[], const float val2[], int len, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
 
+	// Specific approx implementations for structures and classes
 	int Approx(const Vector2 val1, const Vector2 val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
-
 	int Approx(const Vector3 val1, const Vector3 val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
-
 	int Approx(const Vector4 val1, const Vector4 val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
+	int Approx(const Color val1, const Color val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
 }

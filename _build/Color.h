@@ -46,7 +46,7 @@ namespace jothly
 		Color(int _r, int _g, int _b, int _a = 255) { SetR(_r); SetG(_g); SetB(_b); SetA(_a); }
 		Color(int _rgba[]) { SetR(_rgba[0]); SetG(_rgba[1]); SetB(_rgba[2]); SetA(_rgba[3]); }
 
-		Color(float _r, float _g, float _b, float _a = 1) { SetRf(_r); SetGf(_g); SetBf(_b); SetAf(_a); }
+		Color(float _r, float _g, float _b, float _a = 1.0f) { SetRf(_r); SetGf(_g); SetBf(_b); SetAf(_a); }
 		Color(float _rgba[]) { SetRf(_rgba[0]); SetGf(_rgba[1]); SetBf(_rgba[2]); SetAf(_rgba[3]); }
 
 		Color(uint32_t _colorCode) : colorCode(_colorCode) {}
@@ -56,13 +56,13 @@ namespace jothly
 		unsigned char GetG() const { return g; }
 		unsigned char GetB() const { return b; }
 		unsigned char GetA() const { return a; }
-		unsigned char* GetRGBA() const;
+		void GetRGBA(unsigned char out_rgba[4]) const; // CHANGE THIS TO FILL PASSED IN OUT_PARAMETER
 
 		float GetRf() const { return CharToFloat(r); }
 		float GetGf() const { return CharToFloat(g); }
 		float GetBf() const { return CharToFloat(b); }
 		float GetAf() const { return CharToFloat(a); }
-		float* GetRGBAf() const;
+		void GetRGBAf(float out_rgba[4]) const; // CHANGE THIS TO FILL PASSED IN OUT_PARAMETER
 
 		uint32_t GetColorCode() { return colorCode; }
 
@@ -80,6 +80,8 @@ namespace jothly
 
 		void SetColorCode(uint32_t _colorCode) { colorCode = _colorCode; }
 
+
+		bool operator==(Color const& other);
 
 		operator rlb_Color() const { return { r, g, b, a }; }
 

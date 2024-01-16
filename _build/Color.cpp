@@ -7,19 +7,21 @@ namespace jothly
 	const float Color::FLOAT2CHAR = 255.0f;
 
 
-	unsigned char* Color::GetRGBA() const
+	void Color::GetRGBA(unsigned char out_rgba[4]) const
 	{
-		unsigned char copy[4];
-		copy[0] = GetR(); copy[1] = GetG(); copy[2] = GetB(); copy[3] = GetA();
-		return copy;
+		out_rgba[0] = GetR(); out_rgba[1] = GetG(); out_rgba[2] = GetB(); out_rgba[3] = GetA();
 	}
 
 
-	float* Color::GetRGBAf() const
+	void Color::GetRGBAf(float out_rgba[4]) const
 	{
-		float copy[4];
-		copy[0] = GetRf(); copy[1] = g; copy[2] = b; copy[3] = a;
-		return copy;
+		out_rgba[0] = GetRf(); out_rgba[1] = GetGf(); out_rgba[2] = GetBf(); out_rgba[3] = GetAf();
+	}
+
+
+	bool Color::operator==(Color const& other)
+	{
+		return colorCode == other.colorCode;
 	}
 
 
@@ -27,8 +29,11 @@ namespace jothly
 	{
 		portion = std::clamp(portion, 0.0f, 1.0f);
 
-		float* fRGBA = first.GetRGBAf();
-		float* sRGBA = second.GetRGBAf();
+		float fRGBA[4];
+		float sRGBA[4];
+
+		first.GetRGBAf(fRGBA);
+		second.GetRGBAf(sRGBA);
 
 		return Color(
 			((sRGBA[0] - fRGBA[0]) * portion) + fRGBA[0],

@@ -4,6 +4,7 @@
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
+#include "Color.h"
 
 
 namespace jothly
@@ -42,5 +43,17 @@ namespace jothly
 	int Approx(const Vector4 val1, const Vector4 val2, float marginOfError)
 	{
 		return Approx(val1.components, val2.components, 4, marginOfError);
+	}
+
+
+	int Approx(const Color val1, const Color val2, float marginOfError)
+	{
+		unsigned char val1RGBA[4];
+		unsigned char val2RGBA[4];
+
+		val1.GetRGBA(val1RGBA);
+		val2.GetRGBA(val2RGBA);
+
+		return Approx(val1RGBA, val2RGBA, marginOfError);
 	}
 }
