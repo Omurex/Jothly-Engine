@@ -1,65 +1,76 @@
 #pragma once
 
 #include <algorithm>
+#include <raylib.h>
+
 
 namespace jothly
 {
 	class Color
 	{
-		const float CHAR2FLOAT = 1.0f / 255.0f;
-		const float FLOAT2CHAR = 255.0f;
+		static const float CHAR2FLOAT;
+		static const float FLOAT2CHAR;
 
 
 		union // https://www.reddit.com/r/GraphicsProgramming/comments/11m85f1/floats_vs_unsigned_ints_for_representing_colors/
 		{
 			struct 
 			{
-				char r;
-				char g;
-				char b;
-				char a;
+				unsigned char r;
+				unsigned char g;
+				unsigned char b;
+				unsigned char a;
 			};
 
-			char rgba[4];
+			unsigned char rgba[4];
 
 			uint32_t colorCode; // Use to instantly set color
 		};
 
 		
-		float CharToFloat(char c) { return c * CHAR2FLOAT; }
-		char FloatToChar(float f) { return f * FLOAT2CHAR; }
-
+		static float CharToFloat(unsigned char c) { return c * CHAR2FLOAT; }
+		static unsigned char FloatToChar(float f) { return f * FLOAT2CHAR; }
 
 
 		public:
 
-		Color();
-		Color(const Color& col);
-		Color(int _r, int _g, int _b, int _a = 255);
-		Color(int _rgba[]);
-		Color(float _r, float _g, float _b, float _a = 1);
-		Color(float _rgba[]);
-		Color(uint32_t _colorCode);
+		Color() : colorCode(0xFFFFFFFF) {}
+		Color(const Color& col) : colorCode(col.colorCode) {}
 
-		char GetR() { return r; }
-		char GetG() { return g; }
-		char GetB() { return b; }
-		char GetA() { return a; }
-		const char* GetRGBA() { return rgba; }
+		// Don't use setters since we know rlb_Color values are unsigned chars -- clamped between 0 and 255
+		Color(const rlb_Color& col) { r = col.r; g = col.g; b = col.b; a = col.a; }
 
-		float GetRf() { return CharToFloat(r); }
-		float GetGf() { return CharToFloat(g); }
-		float GetBf() { return CharToFloat(b); }
-		float GetAf() { return CharToFloat(a); }
-		const float* GetRGBAf();
+		Color(unsigned char _r, unsigned char _g, unsigned char _b, unsigned char _a = 255) : r(_r), g(_g), b(_b), a(_a) {}
+		Color(unsigned char _rgba[4]) : r(_rgba[0]), g(_rgba[1]), b(_rgba[2]), a(_rgba[3]) {}
+
+		Color(int _r, int _g, int _b, int _a = 255) { SetR(_r); SetG(_g); SetB(_b); SetA(_a); }
+		Color(int _rgba[]) { SetR(_rgba[0]); SetG(_rgba[1]); SetB(_rgba[2]); SetA(_rgba[3]); }
+
+		Color(float _r, float _g, float _b, float _a = 1) { SetRf(_r); SetGf(_g); SetBf(_b); SetAf(_a); }
+		Color(float _rgba[]) { SetRf(_rgba[0]); SetGf(_rgba[1]); SetBf(_rgba[2]); SetAf(_rgba[3]); }
+
+		Color(uint32_t _colorCode) : colorCode(_colorCode) {}
+
+
+		unsigned char GetR() const { return r; }
+		unsigned char GetG() const { return g; }
+		unsigned char GetB() const { return b; }
+		unsigned char GetA() const { return a; }
+		unsigned char* GetRGBA() const;
+
+		float GetRf() const { return CharToFloat(r); }
+		float GetGf() const { return CharToFloat(g); }
+		float GetBf() const { return CharToFloat(b); }
+		float GetAf() const { return CharToFloat(a); }
+		float* GetRGBAf() const;
 
 		uint32_t GetColorCode() { return colorCode; }
 
-		void SetR(char _r) { r = std::clamp(_r, 0, 255); }
-		void SetG(char _g) { g = std::clamp(_g, 0, 255); }
-		void SetB(char _b) { b = std::clamp(_b, 0, 255); }
-		void SetA(char _a) { a = std::clamp(_a, 0, 255); }
-		void SetRGBA(char _rgba[4]) { SetR(_rgba[0]); SetG(_rgba[1]); SetB(_rgba[2]); SetA(_rgba[3]); }
+		void SetR(int _r) { r = std::clamp(_r, 0, 255); }
+		void SetG(int _g) { g = std::clamp(_g, 0, 255); }
+		void SetB(int _b) { b = std::clamp(_b, 0, 255); }
+		void SetA(int _a) { a = std::clamp(_a, 0, 255); }
+		void SetRGBA(int _rgba[4]) { SetR(_rgba[0]); SetG(_rgba[1]); SetB(_rgba[2]); SetA(_rgba[3]); }
 
 		void SetRf(float _r) { SetR(FloatToChar(_r)); }
 		void SetGf(float _g) { SetG(FloatToChar(_g)); }
@@ -68,6 +79,12 @@ namespace jothly
 		void SetRGBAf(float _rgba[4]) { SetRf(_rgba[0]); SetGf(_rgba[1]); SetBf(_rgba[2]); SetAf(_rgba[3]); }
 
 		void SetColorCode(uint32_t _colorCode) { colorCode = _colorCode; }
+
+
+		operator rlb_Color() const { return { r, g, b, a }; }
+
+
+		static Color Lerp(const Color& first, const Color& second, float portion);
 	};
 }
 

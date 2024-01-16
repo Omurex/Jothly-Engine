@@ -81,6 +81,9 @@
     <ClInclude Include="Color.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
+    <ClInclude Include="ColorTestSet.h">
+      <Filter>Header Files\Testing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -124,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="Color.cpp">
       <Filter>Source Files\Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorTestSet.cpp">
+      <Filter>Source Files\Testing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

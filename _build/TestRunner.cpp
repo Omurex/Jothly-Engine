@@ -1,6 +1,7 @@
 #include "TestRunner.h"
 #include "VectorTestSet.h"
 #include "QuaternionTestSet.h"
+#include "ColorTestSet.h"
 
 
 namespace jothly
@@ -18,5 +19,6 @@ namespace jothly
 	{
 		AddTestSet<VectorTestSet>(throwErrorOnFail);
 		AddTestSet<QuaternionTestSet>(throwErrorOnFail);
+		AddTestSet<ColorTestSet>(throwErrorOnFail);
 	}
 }
