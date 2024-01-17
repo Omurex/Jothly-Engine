@@ -71,9 +71,53 @@ namespace jothly
 	}
 
 
+    Vector3 Vector2::operator+(Vector3 const& other)
+    {
+        return Vector3(other.x + x, other.y + y, other.z);
+    }
+
+
+	Vector2& Vector2::operator+=(Vector2 const& other)
+	{
+		x += other.x;
+		y += other.y;
+		return *this;
+	}
+
+
+	Vector2& Vector2::operator+=(Vector3 const& other)
+	{
+		x += other.x;
+		y += other.y;
+		return *this;
+	}
+
+
 	Vector2 Vector2::operator-(Vector2 const& other)
 	{
 		return Vector2(x - other.x, y - other.y);
+	}
+
+
+	Vector3 Vector2::operator-(Vector3 const& other)
+	{
+		return Vector3(x - other.x, y - other.y, 0 - other.z);
+	}
+
+
+	Vector2& Vector2::operator-=(Vector2 const& other)
+	{
+		x -= other.x;
+		y -= other.y;
+		return *this;
+	}
+
+
+	Vector2& Vector2::operator-=(Vector3 const& other)
+	{
+		x -= other.x;
+		y -= other.y;
+		return *this;
 	}
 
 
@@ -99,10 +143,4 @@ namespace jothly
 	{
 		return Vector3(x, y, 0);
 	}
-
-
-	/*Vector2::operator const float* () const
-	{
-		return components;
-	}*/
 }

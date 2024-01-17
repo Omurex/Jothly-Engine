@@ -34,6 +34,11 @@ void Init()
 	InitWindow(400, 400, "Jothly");
 	SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
 
+	Vector2 temp2 = Vector2(1);
+	Vector3 temp3 = Vector3(1);
+	temp3 = temp2 + temp3;
+	temp2 += temp3;
+	temp3 = temp3 + temp2;
 	testObj.transform.pos += Vector2(100, 100);
 
 	ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>()->Init(

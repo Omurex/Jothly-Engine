@@ -38,13 +38,18 @@ namespace jothly
 		void Scale(float const& scale);
 	
 		Vector2 operator+(Vector2 const& other);
+		Vector3 operator+(Vector3 const& other);
+		Vector2& operator+=(Vector2 const& other);
+		Vector2& operator+=(Vector3 const& other);
 		Vector2 operator-(Vector2 const& other);
+		Vector3 operator-(Vector3 const& other);
+		Vector2& operator-=(Vector2 const& other);
+		Vector2& operator-=(Vector3 const& other);
 		Vector2 operator*(float const& scale);
 		Vector2 operator/(float const& scale);
 		bool operator==(Vector2 const& other);
 
 		operator Vector3() const;
-		//operator const float* () const;
 
 		operator rlb_Vector2() { return {x, y}; }; // Convert to RayLib version
 	};
