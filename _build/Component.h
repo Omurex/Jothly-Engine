@@ -32,5 +32,7 @@ namespace jothly
 
 		bool IsEnabled() { return enabled; }
 		void SetEnabled(bool _enabled) { enabled = _enabled; }
+
+		// ALL SUBCLASSES SHOULD HAVE AN INIT FUNCTION TO INITIALIZE VARIABLES
 	};
 }

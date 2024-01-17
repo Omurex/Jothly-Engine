@@ -36,6 +36,19 @@ namespace jothly
 
 		public:
 
+		static const Color WHITE;
+		static const Color BLACK;
+		static const Color GREY;
+		static const Color RED;
+		static const Color GREEN;
+		static const Color BLUE;
+		static const Color YELLOW;
+		static const Color ORANGE;
+		static const Color PURPLE;
+		static const Color MAGENTA;
+		static const Color PINK;
+		static const Color CYAN;
+
 		Color() : colorCode(0xFFFFFFFF) {}
 		Color(const Color& col) : colorCode(col.colorCode) {}
 

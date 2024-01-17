@@ -34,8 +34,11 @@ void Init()
 	InitWindow(400, 400, "Jothly");
 	SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
 
-	ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>();
-	sr2D->SetOffset({ 100, 100 });
+	testObj.transform.pos += Vector2(100, 100);
+
+	ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>()->Init(
+		30, Color::RED
+	);
 
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -43,7 +46,7 @@ void Init()
 		Update();
 
 		BeginDrawing();
-		ClearBackground(RAYWHITE);
+		ClearBackground(RLB_RAYWHITE);
 		Draw();
 		EndDrawing();
 	}

@@ -5,9 +5,18 @@
 
 namespace jothly
 {
+	ShapeRenderer2D* ShapeRenderer2D::Init(float _radius, Color _color, Vector2 _offset)
+	{
+		SetRadius(_radius);
+		SetColor(_color);
+		SetOffset(_offset);
+
+		return this;
+	}
+
+
 	void ShapeRenderer2D::Draw()
 	{
-		DrawCircle(owner->transform.pos.x + offset.x, owner->transform.pos.y + offset.y, 
-			20, {255, 0, 0, 255});
+		DrawCircle(owner->transform.pos.x + offset.x, owner->transform.pos.y + offset.y, radius, color);
 	}
 }

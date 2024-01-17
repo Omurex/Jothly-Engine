@@ -860,8 +860,8 @@ void EndDrawing(void)
     #if defined(SUPPORT_MODULE_RSHAPES) && defined(SUPPORT_MODULE_RTEXT)
         if (((gifFrameCounter/15)%2) == 1)
         {
-            DrawCircle(30, CORE.Window.screen.height - 20, 10, MAROON);                 // WARNING: Module required: rshapes
-            DrawText("GIF RECORDING", 50, CORE.Window.screen.height - 25, 10, RED);     // WARNING: Module required: rtext
+            DrawCircle(30, CORE.Window.screen.height - 20, 10, RLB_MAROON);                 // WARNING: Module required: rshapes
+            DrawText("GIF RECORDING", 50, CORE.Window.screen.height - 25, 10, RLB_RED);     // WARNING: Module required: rtext
         }
     #endif
 
