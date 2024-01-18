@@ -10,12 +10,15 @@ namespace jothly
 	// Note: GameObjects are always in charge of managing the deletion of created components 
 	class Component
 	{
+		friend class GameObject;
+
 		protected:
 
 		GameObject* owner;
 		bool enabled;
 
 		Component(GameObject* _owner);
+		~Component() {}
 
 		// Actual update and draw logic that does things in the game
 		virtual void Update(float dt) {};

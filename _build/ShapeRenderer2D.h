@@ -12,11 +12,14 @@ namespace jothly
 	{
 		friend class GameObject;
 
+		protected:
+
 		float radius;
 		Color color;
 		Vector2 offset;
 
 		ShapeRenderer2D(GameObject* _owner) : Component(_owner) { Init(); }
+		~ShapeRenderer2D() {}
 
 		public:
 

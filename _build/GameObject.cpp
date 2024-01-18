@@ -3,7 +3,13 @@
 
 namespace jothly
 {
-	void GameObject::Update(float dt)
+    GameObject::~GameObject()
+    {
+		DestroyAllComponents();
+    }
+
+
+    void GameObject::Update(float dt)
 	{
 		for (auto comp : components)
 		{
@@ -38,7 +44,19 @@ namespace jothly
 		if(it == components.end()) return false;
 
 		components.erase(it);
+		delete it->second;
 
 		return true;
+	}
+
+
+	void GameObject::DestroyAllComponents()
+	{
+		for (auto it : components)
+		{
+			delete it.second;
+		}
+
+		components.clear();
 	}
 }
