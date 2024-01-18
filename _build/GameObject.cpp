@@ -43,8 +43,8 @@ namespace jothly
 
 		if(it == components.end()) return false;
 
-		components.erase(it);
 		delete it->second;
+		components.erase(it);
 
 		return true;
 	}
