@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Testing">
       <UniqueIdentifier>{e9e14fd7-a47c-4b4f-84a7-1549b0262c77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{6aedb031-e815-404d-8466-f8796fe89f60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
