@@ -4,6 +4,7 @@
 #include "Quaternion.h"
 #include "TestRunner.h"
 #include "Color.h"
+#include "include/raylib-cpp.hpp"
 
 
 using namespace jothly;
@@ -30,25 +31,27 @@ void Init()
 	TestRunner testRunner = TestRunner(true, true);
 	testRunner.RunTests();
 
-	//InitWindow(400, 400, "Jothly");
-	//SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
+	raylib::Window win = raylib::Window(400, 400, "Jothly");
+	//raylib::SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
+
+	win.SetTargetFPS(60);
 
 	/*ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>()->Init(
 		30, Color::RED
 	);*/
 
 	// Main game loop
-	//while (!WindowShouldClose())    // Detect window close button or ESC key
-	//{
-	//	Update();
+	while (!WindowShouldClose())    // Detect window close button or ESC key
+	{
+		Update();
 
-	//	BeginDrawing();
-	//	ClearBackground(RAYWHITE);
-	//	Draw();
-	//	EndDrawing();
-	//}
+		win.BeginDrawing();
+		win.ClearBackground({ 255, 255, 255, 255 });
+		Draw();
+		win.EndDrawing();
+	}
 
-	//CloseWindow();
+	CloseWindow();
 }
 
 

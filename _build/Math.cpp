@@ -28,25 +28,25 @@ namespace jothly
 	}
 
 
-	int Approx(const rlb_Vector2 val1, const rlb_Vector2 val2, float marginOfError)
+	int Approx(const Vector2 val1, const Vector2 val2, float marginOfError)
 	{
 		return Approx(val1.components, val2.components, 2, marginOfError);
 	}
 
 	
-	int Approx(const rlb_Vector3 val1, const rlb_Vector3 val2, float marginOfError)
+	int Approx(const Vector3 val1, const Vector3 val2, float marginOfError)
 	{
 		return Approx(val1.components, val2.components, 3, marginOfError);
 	}
 
 
-	int Approx(const rlb_Vector4 val1, const rlb_Vector4 val2, float marginOfError)
+	int Approx(const Vector4 val1, const Vector4 val2, float marginOfError)
 	{
 		return Approx(val1.components, val2.components, 4, marginOfError);
 	}
 
 
-	int Approx(const rlb_Color val1, const rlb_Color val2, float marginOfError)
+	/*int Approx(const Color val1, const Color val2, float marginOfError)
 	{
 		unsigned char val1RGBA[4];
 		unsigned char val2RGBA[4];
@@ -55,5 +55,5 @@ namespace jothly
 		val2.GetRGBA(val2RGBA);
 
 		return Approx(val1RGBA, val2RGBA, marginOfError);
-	}
+	}*/
 }

@@ -25,21 +25,21 @@ namespace jothly
 	{
 		InitTest("Vector Normalization");
 
-		rlb_Vector2 vec2a = rlb_Vector2(100, 0).GetNormalized();
-		rlb_Vector2 vec2b = rlb_Vector2(100, 100).GetNormalized();
-		rlb_Vector3 vec3 = rlb_Vector3(100, 100, 100).GetNormalized();
-		rlb_Vector4 vec4 = rlb_Vector4(1, 1, 1, 1).GetNormalized();
-		rlb_Vector2 vec20 = rlb_Vector2(0).GetNormalized();
-		rlb_Vector3 vec30 = rlb_Vector3(0).GetNormalized();
-		rlb_Vector4 vec40 = rlb_Vector4(0).GetNormalized();
+		Vector2 vec2a = Vector2(100, 0).GetNormalized();
+		Vector2 vec2b = Vector2(100, 100).GetNormalized();
+		Vector3 vec3 = Vector3(100, 100, 100).GetNormalized();
+		Vector4 vec4 = Vector4(1, 1, 1, 1).GetNormalized();
+		Vector2 vec20 = Vector2(0).GetNormalized();
+		Vector3 vec30 = Vector3(0).GetNormalized();
+		Vector4 vec40 = Vector4(0).GetNormalized();
 
-		rlb_Vector2 expectedVec2a = rlb_Vector2(1, 0);
-		rlb_Vector2 expectedVec2b = rlb_Vector2(0.70710678118f);
-		rlb_Vector3 expectedVec3 = rlb_Vector3(0.57735026919f);
-		rlb_Vector4 expectedVec4 = rlb_Vector4(.5);
-		rlb_Vector2 expectedVec20 = rlb_Vector2(0);
-		rlb_Vector3 expectedVec30 = rlb_Vector3(0);
-		rlb_Vector4 expectedVec40 = rlb_Vector4(0);
+		Vector2 expectedVec2a = Vector2(1, 0);
+		Vector2 expectedVec2b = Vector2(0.70710678118f);
+		Vector3 expectedVec3 = Vector3(0.57735026919f);
+		Vector4 expectedVec4 = Vector4(.5);
+		Vector2 expectedVec20 = Vector2(0);
+		Vector3 expectedVec30 = Vector3(0);
+		Vector4 expectedVec40 = Vector4(0);
 
 		AssertTest(vec2a.GetNormalized() == expectedVec2a, "Vec2 Normalize Error 1");
 		AssertTest(Approx(vec2b, expectedVec2b) == 1, "Vec2 Normalize Error 2");
@@ -57,9 +57,9 @@ namespace jothly
 	{
 		InitTest("Vector Normalization");
 
-		rlb_Vector2 vec2 = rlb_Vector2(1, 2);
-		rlb_Vector3 vec3 = rlb_Vector3(1, 2, 3);
-		rlb_Vector4 vec4 = rlb_Vector4(1, 2, 3, 4);
+		Vector2 vec2 = Vector2(1, 2);
+		Vector3 vec3 = Vector3(1, 2, 3);
+		Vector4 vec4 = Vector4(1, 2, 3, 4);
 
 		vec2.components[1] = 9;
 		vec3.components[2] = 9;
@@ -78,10 +78,10 @@ namespace jothly
 		InitTest("Vector Arithmetic");
 
 		{
-			AssertTest((rlb_Vector2(1, 3) + rlb_Vector2(4, 4)) == rlb_Vector2(5, 7), "Vec2 Addition Error");
-			AssertTest((rlb_Vector2(5, 7) - rlb_Vector2(4, 4)) == rlb_Vector2(1, 3), "Vec2 Subtraction Error");
+			AssertTest((Vector2(1, 3) + Vector2(4, 4)) == Vector2(5, 7), "Vec2 Addition Error");
+			AssertTest((Vector2(5, 7) - Vector2(4, 4)) == Vector2(1, 3), "Vec2 Subtraction Error");
 
-			rlb_Vector2 vec2 = rlb_Vector2(3, 5) * 3;
+			Vector2 vec2 = Vector2(3, 5) * 3;
 			AssertTest((Approx(vec2.x, 9) * Approx(vec2.y, 15)), "Vec2 Multiplication Error");
 
 			vec2 = vec2 / 3;
@@ -89,10 +89,10 @@ namespace jothly
 		}
 
 		{
-			AssertTest((rlb_Vector3(1, 3, 5) + rlb_Vector3(4, 4, 4)) == rlb_Vector3(5, 7, 9), "Vec3 Addition Error");
-			AssertTest((rlb_Vector3(5, 7, 9) - rlb_Vector3(4, 4, 4)) == rlb_Vector3(1, 3, 5), "Vec3 Subtraction Error");
+			AssertTest((Vector3(1, 3, 5) + Vector3(4, 4, 4)) == Vector3(5, 7, 9), "Vec3 Addition Error");
+			AssertTest((Vector3(5, 7, 9) - Vector3(4, 4, 4)) == Vector3(1, 3, 5), "Vec3 Subtraction Error");
 
-			rlb_Vector3 vec3 = rlb_Vector3(3, 5, 3) * 3;
+			Vector3 vec3 = Vector3(3, 5, 3) * 3;
 			AssertTest((Approx(vec3.x, 9) * Approx(vec3.y, 15) * Approx(vec3.z, 9)), "Vec3 Multiplication Error");
 
 			vec3 = vec3 / 3;
@@ -100,10 +100,10 @@ namespace jothly
 		}
 
 		{
-			AssertTest((rlb_Vector4(1, 3, 5, 7) + rlb_Vector4(4, 4, 4, 4)) == rlb_Vector4(5, 7, 9, 11), "Vec4 Addition Error");
-			AssertTest((rlb_Vector4(5, 7, 9, 11) - rlb_Vector4(4, 4, 4, 4)) == rlb_Vector4(1, 3, 5, 7), "Vec4 Subtraction Error");
+			AssertTest((Vector4(1, 3, 5, 7) + Vector4(4, 4, 4, 4)) == Vector4(5, 7, 9, 11), "Vec4 Addition Error");
+			AssertTest((Vector4(5, 7, 9, 11) - Vector4(4, 4, 4, 4)) == Vector4(1, 3, 5, 7), "Vec4 Subtraction Error");
 
-			rlb_Vector4 vec4 = rlb_Vector4(3, 5, 3, 5) * 3;
+			Vector4 vec4 = Vector4(3, 5, 3, 5) * 3;
 			AssertTest((Approx(vec4.x, 9) * Approx(vec4.y, 15) * Approx(vec4.z, 9) * Approx(vec4.w, 15)), 
 				"Vec4 Multiplication Error");
 

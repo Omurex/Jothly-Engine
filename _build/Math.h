@@ -16,9 +16,9 @@ namespace jothly
 	#define MATH_DEFAULT_MARGIN_OF_ERROR .0001f
 
 
-	struct rlb_Vector2;
-	struct rlb_Vector3;
-	struct rlb_Vector4;
+	struct Vector2;
+	struct Vector3;
+	struct Vector4;
 	class rlb_Color;
 
 
@@ -29,8 +29,8 @@ namespace jothly
 	int Approx(const float val1[], const float val2[], int len, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
 
 	// Specific approx implementations for structures and classes
-	int Approx(const rlb_Vector2 val1, const rlb_Vector2 val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
-	int Approx(const rlb_Vector3 val1, const rlb_Vector3 val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
-	int Approx(const rlb_Vector4 val1, const rlb_Vector4 val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
-	int Approx(const rlb_Color val1, const rlb_Color val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
+	int Approx(const Vector2 val1, const Vector2 val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
+	int Approx(const Vector3 val1, const Vector3 val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
+	int Approx(const Vector4 val1, const Vector4 val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
+	//int Approx(const rlb_Color val1, const rlb_Color val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
 }

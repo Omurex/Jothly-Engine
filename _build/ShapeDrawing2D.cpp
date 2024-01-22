@@ -8,13 +8,13 @@
 
 namespace jothly
 {
-	void ShapeDrawing2D::DrawCircle(int pixelX, int pixelY, float radius, rlb_Color color)
+	void ShapeDrawing2D::DrawCircle(int pixelX, int pixelY, float radius, Color color)
 	{
-		DrawCircle(rlb_Vector2(pixelX, pixelY), radius, color);
+		DrawCircle(Vector2(pixelX, pixelY), radius, color);
 	}
 
 
-	void ShapeDrawing2D::DrawCircle(rlb_Vector2 pixelCoords, float radius, rlb_Color color)
+	void ShapeDrawing2D::DrawCircle(Vector2 pixelCoords, float radius, Color color)
 	{
 		((raylib::rlb_Vector2) pixelCoords).DrawCircle(radius, {color.GetR(), color.GetG(), color.GetB(), color.GetA()});
 	}

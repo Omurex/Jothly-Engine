@@ -5,7 +5,7 @@
 
 namespace jothly
 {
-	ShapeRenderer2D* ShapeRenderer2D::Init(float _radius, rlb_Color _color, rlb_Vector2 _offset)
+	ShapeRenderer2D* ShapeRenderer2D::Init(float _radius, Color _color, Vector2 _offset)
 	{
 		SetRadius(_radius);
 		SetColor(_color);

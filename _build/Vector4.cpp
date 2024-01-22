@@ -6,17 +6,17 @@
 
 namespace jothly
 {
-	rlb_Vector4::rlb_Vector4(const rlb_Vector3& vec3) : rlb_Vector4(vec3.x, vec3.y, vec3.z, 0) {}
+	Vector4::Vector4(const Vector3& vec3) : Vector4(vec3.x, vec3.y, vec3.z, 0) {}
 
 
-	void rlb_Vector4::Normalize()
+	void Vector4::Normalize()
     {
 		float sqrMag = GetMagnitudeSquared();
 		Normalize(sqrMag);
     }
 
 
-	void rlb_Vector4::Normalize(float precomputedMagnitudeSquared)
+	void Vector4::Normalize(float precomputedMagnitudeSquared)
 	{
 		float mag = sqrtf(precomputedMagnitudeSquared);
 
@@ -31,73 +31,73 @@ namespace jothly
 	}
 
 
-	rlb_Vector4 rlb_Vector4::GetNormalized()
+	Vector4 Vector4::GetNormalized()
 	{
-		rlb_Vector4 vec = rlb_Vector4(*this);
+		Vector4 vec = Vector4(*this);
 		vec.Normalize();
 		return vec;
 	}
 
 
-	rlb_Vector4 rlb_Vector4::GetNormalized(float precomputedMagnitudeSquared)
+	Vector4 Vector4::GetNormalized(float precomputedMagnitudeSquared)
 	{
-		rlb_Vector4 vec = rlb_Vector4(*this);
+		Vector4 vec = Vector4(*this);
 		vec.Normalize(precomputedMagnitudeSquared);
 		return vec;
 	}
 
 
-	float rlb_Vector4::GetMagnitude()
+	float Vector4::GetMagnitude()
 	{
 		return sqrtf(GetMagnitudeSquared());
 	}
 
 
-	float rlb_Vector4::GetMagnitudeSquared()
+	float Vector4::GetMagnitudeSquared()
 	{
 		return (x * x) + (y * y) + (z * z) + (w * w);
 	}
 
 
-	void rlb_Vector4::Scale(float const& scale)
+	void Vector4::Scale(float const& scale)
 	{
 		x *= scale; y *= scale; z *= scale; w *= scale;
 	}
 
 
-    rlb_Vector4 rlb_Vector4::operator+(rlb_Vector4 const& other)
+    Vector4 Vector4::operator+(Vector4 const& other)
 	{
-		return rlb_Vector4(x + other.x, y + other.y, z + other.z, w + other.w);
+		return Vector4(x + other.x, y + other.y, z + other.z, w + other.w);
 	}
 
 
-	rlb_Vector4 rlb_Vector4::operator-(rlb_Vector4 const& other)
+	Vector4 Vector4::operator-(Vector4 const& other)
 	{
-		return rlb_Vector4(x - other.x, y - other.y, z - other.z, w - other.w);
+		return Vector4(x - other.x, y - other.y, z - other.z, w - other.w);
 	}
 
 
-	rlb_Vector4 rlb_Vector4::operator*(float const& scale)
+	Vector4 Vector4::operator*(float const& scale)
 	{
-		return rlb_Vector4(x * scale, y * scale, z * scale, w * scale);
+		return Vector4(x * scale, y * scale, z * scale, w * scale);
 	}
 
 
-	rlb_Vector4 rlb_Vector4::operator/(float const& scale)
+	Vector4 Vector4::operator/(float const& scale)
 	{
-		return rlb_Vector4(x / scale, y / scale, z / scale, w / scale);
+		return Vector4(x / scale, y / scale, z / scale, w / scale);
 	}
 
 
-    bool rlb_Vector4::operator==(rlb_Vector4 const& other)
+    bool Vector4::operator==(Vector4 const& other)
     {
 		return x == other.x && y == other.y && z == other.z && w == other.w;
     }
 
 
-	rlb_Vector4::operator rlb_Vector3() const
+	Vector4::operator Vector3() const
 	{
-		return rlb_Vector3(x, y, z);
+		return Vector3(x, y, z);
 	}
 
 
