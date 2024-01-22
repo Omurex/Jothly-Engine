@@ -11,15 +11,15 @@ namespace raylib {
 /**
  * Music stream type (audio file streaming from memory)
  */
-class Music : public ::Music {
+class rlb_Music : public ::rlb_Music {
  public:
-    Music(::AudioStream stream = {nullptr, nullptr, 0, 0, 0},
+    rlb_Music(::rlb_AudioStream stream = {nullptr, nullptr, 0, 0, 0},
             unsigned int frameCount = 0,
             bool looping = false,
             int ctxType = 0,
-            void *ctxData = nullptr) : ::Music{stream, frameCount, looping, ctxType, ctxData} {}
+            void *ctxData = nullptr) : ::rlb_Music{stream, frameCount, looping, ctxType, ctxData} {}
 
-    Music(const ::Music& music) {
+    rlb_Music(const ::rlb_Music& music) {
         set(music);
     }
 
@@ -28,7 +28,7 @@ class Music : public ::Music {
      *
      * @throws raylib::RaylibException Throws if the music failed to load.
      */
-    Music(const std::string& fileName) {
+    rlb_Music(const std::string& fileName) {
         Load(fileName);
     }
 
@@ -37,13 +37,13 @@ class Music : public ::Music {
      *
      * @throws raylib::RaylibException Throws if the music failed to load.
      */
-    Music(const std::string& fileType, unsigned char* data, int dataSize) {
+    rlb_Music(const std::string& fileType, unsigned char* data, int dataSize) {
         Load(fileType, data, dataSize);
     }
 
-    Music(const Music&) = delete;
+    rlb_Music(const rlb_Music&) = delete;
 
-    Music(Music&& other) {
+    rlb_Music(rlb_Music&& other) {
         set(other);
 
         other.stream = {};
@@ -56,24 +56,24 @@ class Music : public ::Music {
     /**
      * Unload music stream
      */
-    ~Music() {
+    ~rlb_Music() {
         Unload();
     }
 
-    GETTERSETTER(::AudioStream, Stream, stream)
+    GETTERSETTER(::rlb_AudioStream, Stream, stream)
     GETTERSETTER(unsigned int, FrameCount, frameCount)
     GETTERSETTER(bool, Looping, looping)
     GETTERSETTER(int, CtxType, ctxType)
     GETTERSETTER(void*, CtxData, ctxData)
 
-    Music& operator=(const ::Music& music) {
+    rlb_Music& operator=(const ::rlb_Music& music) {
         set(music);
         return *this;
     }
 
-    Music& operator=(const Music&) = delete;
+    rlb_Music& operator=(const rlb_Music&) = delete;
 
-    Music& operator=(Music&& other) noexcept {
+    rlb_Music& operator=(rlb_Music&& other) noexcept {
         if (this == &other) {
             return *this;
         }
@@ -100,7 +100,7 @@ class Music : public ::Music {
     /**
      * Start music playing
      */
-    inline Music& Play() {
+    inline rlb_Music& Play() {
         ::PlayMusicStream(*this);
         return *this;
     }
@@ -108,7 +108,7 @@ class Music : public ::Music {
     /**
      * Updates buffers for music streaming
      */
-    inline Music& Update() {
+    inline rlb_Music& Update() {
         ::UpdateMusicStream(*this);
         return *this;
     }
@@ -116,7 +116,7 @@ class Music : public ::Music {
     /**
      * Stop music playing
      */
-    inline Music& Stop() {
+    inline rlb_Music& Stop() {
         ::StopMusicStream(*this);
         return *this;
     }
@@ -124,7 +124,7 @@ class Music : public ::Music {
     /**
      * Pause music playing
      */
-    inline Music& Pause() {
+    inline rlb_Music& Pause() {
         ::PauseMusicStream(*this);
         return *this;
     }
@@ -132,7 +132,7 @@ class Music : public ::Music {
     /**
      * Resume music playing
      */
-    inline Music& Resume() {
+    inline rlb_Music& Resume() {
         ::ResumeMusicStream(*this);
         return *this;
     }
@@ -140,7 +140,7 @@ class Music : public ::Music {
     /**
      * Seek music to a position (in seconds)
      */
-    inline Music& Seek(float position) {
+    inline rlb_Music& Seek(float position) {
         SeekMusicStream(*this, position);
         return *this;
     }
@@ -155,7 +155,7 @@ class Music : public ::Music {
     /**
      * Set volume for music
      */
-    inline Music& SetVolume(float volume) {
+    inline rlb_Music& SetVolume(float volume) {
         ::SetMusicVolume(*this, volume);
         return *this;
     }
@@ -163,7 +163,7 @@ class Music : public ::Music {
     /**
      * Set pitch for music
      */
-    inline Music& SetPitch(float pitch) {
+    inline rlb_Music& SetPitch(float pitch) {
         ::SetMusicPitch(*this, pitch);
         return *this;
     }
@@ -171,7 +171,7 @@ class Music : public ::Music {
     /**
      * Set pan for a music (0.5 is center)
      */
-    inline Music& SetPan(float pan = 0.5f) {
+    inline rlb_Music& SetPan(float pan = 0.5f) {
         ::SetMusicPan(*this, pan);
         return *this;
     }
@@ -224,7 +224,7 @@ class Music : public ::Music {
     }
 
  protected:
-    void set(const ::Music& music) {
+    void set(const ::rlb_Music& music) {
         stream = music.stream;
         frameCount = music.frameCount;
         looping = music.looping;
@@ -234,6 +234,6 @@ class Music : public ::Music {
 };
 }  // namespace raylib
 
-using RMusic = raylib::Music;
+using RMusic = raylib::rlb_Music;
 
 #endif  // RAYLIB_CPP_INCLUDE_MUSIC_HPP_

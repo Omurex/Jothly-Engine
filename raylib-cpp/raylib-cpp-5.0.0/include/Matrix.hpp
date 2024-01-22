@@ -13,9 +13,9 @@ namespace raylib {
 /**
  * Matrix type (OpenGL style 4x4 - right handed, column major)
  */
-class Matrix : public ::Matrix {
+class rlb_Matrix : public ::rlb_Matrix {
  public:
-    Matrix(const ::Matrix& mat) : ::Matrix{
+    rlb_Matrix(const ::rlb_Matrix& mat) : ::rlb_Matrix{
             mat.m0, mat.m4, mat.m8, mat.m12,
             mat.m1, mat.m5, mat.m9, mat.m13,
             mat.m2, mat.m6, mat.m10, mat.m14,
@@ -23,12 +23,12 @@ class Matrix : public ::Matrix {
         // Nothing.
     }
 
-    Matrix(
+    rlb_Matrix(
             float m0 = 0, float m4 = 0, float m8 = 0, float m12 = 0,
             float m1 = 0, float m5 = 0, float m9 = 0, float m13 = 0,
             float m2 = 0, float m6 = 0, float m10 = 0, float m14 = 0,
             float m3 = 0, float m7 = 0, float m11 = 0, float m15 = 0) :
-        ::Matrix{
+        ::rlb_Matrix{
             m0, m4, m8, m12,
             m1, m5, m9, m13,
             m2, m6, m10, m14,
@@ -53,17 +53,17 @@ class Matrix : public ::Matrix {
     GETTERSETTER(float, M14, m14)
     GETTERSETTER(float, M15, m15)
 
-    Matrix& operator=(const ::Matrix& matrix) {
+    rlb_Matrix& operator=(const ::rlb_Matrix& matrix) {
         set(matrix);
         return *this;
     }
 
-    Matrix& operator=(const Matrix& matrix) {
+    rlb_Matrix& operator=(const rlb_Matrix& matrix) {
         set(matrix);
         return *this;
     }
 
-    bool operator==(const ::Matrix& other) {
+    bool operator==(const ::rlb_Matrix& other) {
         return m0 == other.m0
             && m1 == other.m1
             && m2 == other.m2
@@ -82,7 +82,7 @@ class Matrix : public ::Matrix {
             && m15 == other.m15;
     }
 
-    bool operator!=(const ::Matrix& other) {
+    bool operator!=(const ::rlb_Matrix& other) {
         return !(*this == other);
     }
 
@@ -97,85 +97,85 @@ class Matrix : public ::Matrix {
     /**
      * Transposes provided matrix
      */
-    inline Matrix Transpose() const {
+    inline rlb_Matrix Transpose() const {
         return ::MatrixTranspose(*this);
     }
 
-    inline Matrix Invert() const {
+    inline rlb_Matrix Invert() const {
         return ::MatrixInvert(*this);
     }
 
-    static Matrix Identity() {
+    static rlb_Matrix Identity() {
         return ::MatrixIdentity();
     }
 
-    Matrix Add(const ::Matrix& right) {
+    rlb_Matrix Add(const ::rlb_Matrix& right) {
         return ::MatrixAdd(*this, right);
     }
 
-    Matrix operator+(const ::Matrix& matrix) {
+    rlb_Matrix operator+(const ::rlb_Matrix& matrix) {
             return ::MatrixAdd(*this, matrix);
     }
 
-    Matrix Subtract(const ::Matrix& right) {
+    rlb_Matrix Subtract(const ::rlb_Matrix& right) {
         return ::MatrixSubtract(*this, right);
     }
 
-    Matrix operator-(const ::Matrix& matrix) {
+    rlb_Matrix operator-(const ::rlb_Matrix& matrix) {
         return ::MatrixSubtract(*this, matrix);
     }
 
-    static Matrix Translate(float x, float y, float z) {
+    static rlb_Matrix Translate(float x, float y, float z) {
         return ::MatrixTranslate(x, y, z);
     }
 
-    static Matrix Rotate(Vector3 axis, float angle) {
+    static rlb_Matrix Rotate(rlb_Vector3 axis, float angle) {
         return ::MatrixRotate(axis, angle);
     }
 
-    static Matrix RotateXYZ(Vector3 angle) {
+    static rlb_Matrix RotateXYZ(rlb_Vector3 angle) {
         return ::MatrixRotateXYZ(angle);
     }
 
-    static Matrix RotateX(float angle) {
+    static rlb_Matrix RotateX(float angle) {
         return ::MatrixRotateX(angle);
     }
 
-    static Matrix RotateY(float angle) {
+    static rlb_Matrix RotateY(float angle) {
         return ::MatrixRotateY(angle);
     }
 
-    static Matrix RotateZ(float angle) {
+    static rlb_Matrix RotateZ(float angle) {
         return ::MatrixRotateZ(angle);
     }
 
-    static Matrix Scale(float x, float y, float z) {
+    static rlb_Matrix Scale(float x, float y, float z) {
         return ::MatrixScale(x, y, z);
     }
 
-    Matrix Multiply(const ::Matrix& right) const {
+    rlb_Matrix Multiply(const ::rlb_Matrix& right) const {
         return ::MatrixMultiply(*this, right);
     }
 
-    Matrix operator*(const ::Matrix& matrix) {
+    rlb_Matrix operator*(const ::rlb_Matrix& matrix) {
         return ::MatrixMultiply(*this, matrix);
     }
 
-    static Matrix Frustum(double left, double right, double bottom, double top,
+    static rlb_Matrix Frustum(double left, double right, double bottom, double top,
             double near, double far) {
         return ::MatrixFrustum(left, right, bottom, top, near, far);
     }
 
-    static Matrix Perspective(double fovy, double aspect, double near, double far) {
+    static rlb_Matrix Perspective(double fovy, double aspect, double near, double far) {
         return ::MatrixPerspective(fovy, aspect, near, far);
     }
 
-    static Matrix Ortho(double left, double right, double bottom, double top,
+    static rlb_Matrix Ortho(double left, double right, double bottom, double top,
             double near, double far) {
         return ::MatrixOrtho(left, right, bottom, top, near, far);
     }
 
-    static Matrix LookAt(Vector3 eye, Vector3 target, Vector3 up) {
+    static rlb_Matrix LookAt(rlb_Vector3 eye, rlb_Vector3 target, rlb_Vector3 up) {
         return ::MatrixLookAt(eye, target, up);
     }
 
@@ -190,23 +190,23 @@ class Matrix : public ::Matrix {
     /**
      * Set shader uniform value (matrix 4x4)
      */
-    inline Matrix& SetShaderValue(const ::Shader& shader, int uniformLoc) {
+    inline rlb_Matrix& SetShaderValue(const ::rlb_Shader& shader, int uniformLoc) {
         ::SetShaderValueMatrix(shader, uniformLoc, *this);
         return *this;
     }
 
-    inline static Matrix GetCamera(const ::Camera& camera) {
+    inline static rlb_Matrix GetCamera(const ::rlb_Camera& camera) {
         return ::GetCameraMatrix(camera);
     }
 
-    inline static Matrix GetCamera(const ::Camera2D& camera) {
+    inline static rlb_Matrix GetCamera(const ::rlb_Camera2D& camera) {
         return ::GetCameraMatrix2D(camera);
     }
 
 #endif
 
  protected:
-    void set(const ::Matrix& mat) {
+    void set(const ::rlb_Matrix& mat) {
         m0 = mat.m0;
         m1 = mat.m1;
         m2 = mat.m2;
@@ -227,6 +227,6 @@ class Matrix : public ::Matrix {
 };
 }  // namespace raylib
 
-using RMatrix = raylib::Matrix;
+using RMatrix = raylib::rlb_Matrix;
 
 #endif  // RAYLIB_CPP_INCLUDE_MATRIX_HPP_

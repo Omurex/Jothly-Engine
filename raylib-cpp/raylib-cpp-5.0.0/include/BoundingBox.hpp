@@ -8,29 +8,29 @@ namespace raylib {
 /**
  * Bounding box type
  */
-class BoundingBox : public ::BoundingBox {
+class rlb_BoundingBox : public ::rlb_BoundingBox {
  public:
     /*
      * Copy a bounding box from another bounding box.
      */
-    BoundingBox(const ::BoundingBox& box) : ::BoundingBox{box.min, box.max} {
+    rlb_BoundingBox(const ::rlb_BoundingBox& box) : ::rlb_BoundingBox{box.min, box.max} {
         // Nothing.
     }
 
     /**
      * Compute mesh bounding box limits
      */
-    BoundingBox(const ::Mesh& mesh) {
+    rlb_BoundingBox(const ::rlb_Mesh& mesh) {
         set(::GetMeshBoundingBox(mesh));
     }
 
-    BoundingBox(::Vector3 minMax = ::Vector3{0.0f, 0.0f, 0.0f}) : ::BoundingBox{minMax, minMax} {}
-    BoundingBox(::Vector3 min, ::Vector3 max) : ::BoundingBox{min, max} {}
+    rlb_BoundingBox(::rlb_Vector3 minMax = ::rlb_Vector3{0.0f, 0.0f, 0.0f}) : ::rlb_BoundingBox{minMax, minMax} {}
+    rlb_BoundingBox(::rlb_Vector3 min, ::rlb_Vector3 max) : ::rlb_BoundingBox{min, max} {}
 
-    GETTERSETTER(::Vector3, Min, min)
-    GETTERSETTER(::Vector3, Max, max)
+    GETTERSETTER(::rlb_Vector3, Min, min)
+    GETTERSETTER(::rlb_Vector3, Max, max)
 
-    BoundingBox& operator=(const ::BoundingBox& box) {
+    rlb_BoundingBox& operator=(const ::rlb_BoundingBox& box) {
         set(box);
         return *this;
     }
@@ -38,50 +38,50 @@ class BoundingBox : public ::BoundingBox {
     /**
      * Draw a bounding box with wires
      */
-    inline void Draw(::Color color = {255, 255, 255, 255}) const {
+    inline void Draw(::rlb_Color color = {255, 255, 255, 255}) const {
         ::DrawBoundingBox(*this, color);
     }
 
     /**
      * Detect collision between two boxes
      */
-    inline bool CheckCollision(const ::BoundingBox& box2) const {
+    inline bool CheckCollision(const ::rlb_BoundingBox& box2) const {
         return CheckCollisionBoxes(*this, box2);
     }
 
     /**
      * Detect collision between box and sphere
      */
-    inline bool CheckCollision(::Vector3 center, float radius) const {
+    inline bool CheckCollision(::rlb_Vector3 center, float radius) const {
         return CheckCollisionBoxSphere(*this, center, radius);
     }
 
     /**
      * Detect collision between ray and bounding box
      */
-    inline bool CheckCollision(const ::Ray& ray) const {
+    inline bool CheckCollision(const ::rlb_Ray& ray) const {
         return GetRayCollisionBox(ray, *this).hit;
     }
 
     /**
      * Get collision information between ray and bounding box
      */
-    inline RayCollision GetCollision(const ::Ray& ray) const {
+    inline rlb_RayCollision GetCollision(const ::rlb_Ray& ray) const {
         return GetRayCollisionBox(ray, *this);
     }
 
  protected:
-    void set(const ::BoundingBox& box) {
+    void set(const ::rlb_BoundingBox& box) {
         min = box.min;
         max = box.max;
     }
-    void set(const ::Vector3& _min, const ::Vector3& _max) {
+    void set(const ::rlb_Vector3& _min, const ::rlb_Vector3& _max) {
         min = _min;
         max = _max;
     }
 };
 }  // namespace raylib
 
-using RBoundingBox = raylib::BoundingBox;
+using RBoundingBox = raylib::rlb_BoundingBox;
 
 #endif  // RAYLIB_CPP_INCLUDE_BOUNDINGBOX_HPP_

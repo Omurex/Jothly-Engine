@@ -9,17 +9,17 @@ namespace raylib {
 /**
  * AudioStream management functions
  */
-class AudioStream : public ::AudioStream {
+class rlb_AudioStream : public ::rlb_AudioStream {
  public:
-    AudioStream(const ::AudioStream& music) {
+    rlb_AudioStream(const ::rlb_AudioStream& music) {
         set(music);
     }
 
-    AudioStream(rAudioBuffer* buffer = nullptr,
+    rlb_AudioStream(rAudioBuffer* buffer = nullptr,
             rAudioProcessor *processor = nullptr,
             unsigned int sampleRate = 0,
             unsigned int sampleSize = 0,
-            unsigned int channels = 0) : ::AudioStream{buffer, processor, sampleRate, sampleSize, channels} {
+            unsigned int channels = 0) : ::rlb_AudioStream{buffer, processor, sampleRate, sampleSize, channels} {
         // Nothing.
     }
 
@@ -28,13 +28,13 @@ class AudioStream : public ::AudioStream {
      *
      * @throws raylib::RaylibException Throws if the AudioStream failed to load.
      */
-    AudioStream(unsigned int sampleRate, unsigned int sampleSize, unsigned int channels = 2) {
+    rlb_AudioStream(unsigned int sampleRate, unsigned int sampleSize, unsigned int channels = 2) {
         Load(sampleRate, sampleSize, channels);
     }
 
-    AudioStream(const AudioStream&) = delete;
+    rlb_AudioStream(const rlb_AudioStream&) = delete;
 
-    AudioStream(AudioStream&& other) {
+    rlb_AudioStream(rlb_AudioStream&& other) {
         set(other);
 
         other.buffer = nullptr;
@@ -44,7 +44,7 @@ class AudioStream : public ::AudioStream {
         other.channels = 0;
     }
 
-    ~AudioStream() {
+    ~rlb_AudioStream() {
         Unload();
     }
 
@@ -54,14 +54,14 @@ class AudioStream : public ::AudioStream {
     GETTERSETTER(unsigned int, SampleSize, sampleSize)
     GETTERSETTER(unsigned int, Channels, channels)
 
-    AudioStream& operator=(const ::AudioStream& stream) {
+    rlb_AudioStream& operator=(const ::rlb_AudioStream& stream) {
         set(stream);
         return *this;
     }
 
-    AudioStream& operator=(const AudioStream&) = delete;
+    rlb_AudioStream& operator=(const rlb_AudioStream&) = delete;
 
-    AudioStream& operator=(AudioStream&& other) noexcept {
+    rlb_AudioStream& operator=(rlb_AudioStream&& other) noexcept {
         if (this == &other) {
             return *this;
         }
@@ -81,7 +81,7 @@ class AudioStream : public ::AudioStream {
     /**
      * Update audio stream buffers with data
      */
-    inline AudioStream& Update(const void *data, int samplesCount) {
+    inline rlb_AudioStream& Update(const void *data, int samplesCount) {
         ::UpdateAudioStream(*this, data, samplesCount);
         return *this;
     }
@@ -103,7 +103,7 @@ class AudioStream : public ::AudioStream {
     /**
      * Play audio stream
      */
-    inline AudioStream& Play() {
+    inline rlb_AudioStream& Play() {
         ::PlayAudioStream(*this);
         return *this;
     }
@@ -111,7 +111,7 @@ class AudioStream : public ::AudioStream {
     /**
      * Pause audio stream
      */
-    inline AudioStream& Pause() {
+    inline rlb_AudioStream& Pause() {
         ::PauseAudioStream(*this);
         return *this;
     }
@@ -119,7 +119,7 @@ class AudioStream : public ::AudioStream {
     /**
      * Resume audio stream
      */
-    inline AudioStream& Resume() {
+    inline rlb_AudioStream& Resume() {
         ::ResumeAudioStream(*this);
         return *this;
     }
@@ -134,7 +134,7 @@ class AudioStream : public ::AudioStream {
     /**
      * Stop audio stream
      */
-    inline AudioStream& Stop() {
+    inline rlb_AudioStream& Stop() {
         ::StopAudioStream(*this);
         return *this;
     }
@@ -142,7 +142,7 @@ class AudioStream : public ::AudioStream {
     /**
      * Set volume for audio stream (1.0 is max level)
      */
-    inline AudioStream& SetVolume(float volume = 1.0f) {
+    inline rlb_AudioStream& SetVolume(float volume = 1.0f) {
         ::SetAudioStreamVolume(*this, volume);
         return *this;
     }
@@ -150,7 +150,7 @@ class AudioStream : public ::AudioStream {
     /**
      * Set pitch for audio stream (1.0 is base level)
      */
-    inline AudioStream& SetPitch(float pitch) {
+    inline rlb_AudioStream& SetPitch(float pitch) {
         ::SetAudioStreamPitch(*this, pitch);
         return *this;
     }
@@ -158,7 +158,7 @@ class AudioStream : public ::AudioStream {
     /**
      * Set pan for audio stream (0.5 is centered)
      */
-    inline AudioStream& SetPan(float pan = 0.5f) {
+    inline rlb_AudioStream& SetPan(float pan = 0.5f) {
         ::SetAudioStreamPitch(*this, pan);
         return *this;
     }
@@ -212,7 +212,7 @@ class AudioStream : public ::AudioStream {
     }
 
  protected:
-    void set(const ::AudioStream& stream) {
+    void set(const ::rlb_AudioStream& stream) {
         buffer = stream.buffer;
         processor = stream.processor;
         sampleRate = stream.sampleRate;
@@ -222,6 +222,6 @@ class AudioStream : public ::AudioStream {
 };
 }  // namespace raylib
 
-using RAudioStream = raylib::AudioStream;
+using RAudioStream = raylib::rlb_AudioStream;
 
 #endif  // RAYLIB_CPP_INCLUDE_AUDIOSTREAM_HPP_

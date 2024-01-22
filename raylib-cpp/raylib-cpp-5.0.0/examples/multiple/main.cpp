@@ -23,7 +23,7 @@
 #include "raylib-cpp.hpp"
 
 int main() {
-    raylib::Window window(640, 480, "raylib-cpp [multiple] example");
+    /*raylib::Window window(640, 480, "raylib-cpp [multiple] example");
     SetTargetFPS(60);
 
     Player player;
@@ -35,5 +35,5 @@ int main() {
             player.Draw();
         }
         window.EndDrawing();
-    }
+    }*/
 }

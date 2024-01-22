@@ -1,4 +1,3 @@
-#include "raylib.h"
 #include "GameObject.h"
 #include "ShapeRenderer2D.h"
 #include "Vector3.h"
@@ -15,13 +14,13 @@ GameObject testObj;
 
 void Update()
 {
-	testObj.Update(GetFrameTime());
+	//testObj.Update(GetFrameTime());
 }
 
 
 void Draw()
 {
-	testObj.Draw();
+	//testObj.Draw();
 }
 
 
@@ -31,25 +30,25 @@ void Init()
 	TestRunner testRunner = TestRunner(true, true);
 	testRunner.RunTests();
 
-	InitWindow(400, 400, "Jothly");
-	SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
+	//InitWindow(400, 400, "Jothly");
+	//SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
 
-	ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>()->Init(
+	/*ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>()->Init(
 		30, Color::RED
-	);
+	);*/
 
 	// Main game loop
-	while (!WindowShouldClose())    // Detect window close button or ESC key
-	{
-		Update();
+	//while (!WindowShouldClose())    // Detect window close button or ESC key
+	//{
+	//	Update();
 
-		BeginDrawing();
-		ClearBackground(RAYWHITE);
-		Draw();
-		EndDrawing();
-	}
+	//	BeginDrawing();
+	//	ClearBackground(RAYWHITE);
+	//	Draw();
+	//	EndDrawing();
+	//}
 
-	CloseWindow();
+	//CloseWindow();
 }
 
 

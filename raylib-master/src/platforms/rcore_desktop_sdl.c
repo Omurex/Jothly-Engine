@@ -474,7 +474,7 @@ void ClearWindowState(unsigned int flags)
 }
 
 // Set icon for window
-void SetWindowIcon(Image image)
+void SetWindowIcon(rlb_Image image)
 {
     SDL_Surface* iconSurface = NULL;
 
@@ -567,7 +567,7 @@ void SetWindowIcon(Image image)
 }
 
 // Set icon for window
-void SetWindowIcons(Image *images, int count)
+void SetWindowIcons(rlb_Image *images, int count)
 {
     TRACELOG(LOG_WARNING, "SetWindowIcons() not available on target platform");
 }
@@ -708,7 +708,7 @@ int GetCurrentMonitor(void)
 }
 
 // Get selected monitor position
-Vector2 GetMonitorPosition(int monitor)
+rlb_Vector2 GetMonitorPosition(int monitor)
 {
     const int monitorCount = SDL_GetNumVideoDisplays();
     if ((monitor >= 0) && (monitor < monitorCount))
@@ -716,12 +716,12 @@ Vector2 GetMonitorPosition(int monitor)
         SDL_Rect displayBounds;
         if (SDL_GetDisplayUsableBounds(monitor, &displayBounds) == 0)
         {
-            return (Vector2){ (float)displayBounds.x, (float)displayBounds.y };
+            return (rlb_Vector2){ (float)displayBounds.x, (float)displayBounds.y };
         }
         else TRACELOG(LOG_WARNING, "SDL: Failed to get selected display usable bounds");
     }
     else TRACELOG(LOG_WARNING, "SDL: Failed to find selected monitor");
-    return (Vector2){ 0.0f, 0.0f };
+    return (rlb_Vector2){ 0.0f, 0.0f };
 }
 
 // Get selected monitor width (currently used by monitor)
@@ -827,20 +827,20 @@ const char *GetMonitorName(int monitor)
 }
 
 // Get window position XY on monitor
-Vector2 GetWindowPosition(void)
+rlb_Vector2 GetWindowPosition(void)
 {
     int x = 0;
     int y = 0;
 
     SDL_GetWindowPosition(platform.window, &x, &y);
 
-    return (Vector2){ (float)x, (float)y };
+    return (rlb_Vector2){ (float)x, (float)y };
 }
 
 // Get window scale DPI factor for current monitor
-Vector2 GetWindowScaleDPI(void)
+rlb_Vector2 GetWindowScaleDPI(void)
 {
-    Vector2 scale = { 1.0f, 1.0f };
+    rlb_Vector2 scale = { 1.0f, 1.0f };
 
     // NOTE: SDL_GetWindowDisplayScale was only added on SDL3
     //       see https://wiki.libsdl.org/SDL3/SDL_GetWindowDisplayScale
@@ -943,7 +943,7 @@ void SetMousePosition(int x, int y)
 {
     SDL_WarpMouseInWindow(platform.window, x, y);
 
-    CORE.Input.Mouse.currentPosition = (Vector2){ (float)x, (float)y };
+    CORE.Input.Mouse.currentPosition = (rlb_Vector2){ (float)x, (float)y };
     CORE.Input.Mouse.previousPosition = CORE.Input.Mouse.currentPosition;
 }
 
@@ -974,7 +974,7 @@ void PollInputEvents(void)
     CORE.Input.Mouse.currentWheelMove.y = 0;
 
     // Register previous mouse position
-    if (platform.cursorRelative) CORE.Input.Mouse.currentPosition = (Vector2){ 0.0f, 0.0f };
+    if (platform.cursorRelative) CORE.Input.Mouse.currentPosition = (rlb_Vector2){ 0.0f, 0.0f };
     else CORE.Input.Mouse.previousPosition = CORE.Input.Mouse.currentPosition;
 
     // Reset last gamepad button/axis registered state
@@ -1166,7 +1166,7 @@ void PollInputEvents(void)
                 {
                     CORE.Input.Mouse.currentPosition.x = (float)event.motion.xrel;
                     CORE.Input.Mouse.currentPosition.y = (float)event.motion.yrel;
-                    CORE.Input.Mouse.previousPosition = (Vector2){ 0.0f, 0.0f };
+                    CORE.Input.Mouse.previousPosition = (rlb_Vector2){ 0.0f, 0.0f };
                 }
                 else
                 {

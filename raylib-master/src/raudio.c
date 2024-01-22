@@ -743,9 +743,9 @@ void UntrackAudioBuffer(AudioBuffer *buffer)
 //----------------------------------------------------------------------------------
 
 // Load wave data from file
-Wave LoadWave(const char *fileName)
+rlb_Wave LoadWave(const char *fileName)
 {
-    Wave wave = { 0 };
+    rlb_Wave wave = { 0 };
 
     // Loading file to memory
     int dataSize = 0;
@@ -761,9 +761,9 @@ Wave LoadWave(const char *fileName)
 
 // Load wave from memory buffer, fileType refers to extension: i.e. ".wav"
 // WARNING: File extension must be provided in lower-case
-Wave LoadWaveFromMemory(const char *fileType, const unsigned char *fileData, int dataSize)
+rlb_Wave LoadWaveFromMemory(const char *fileType, const unsigned char *fileData, int dataSize)
 {
-    Wave wave = { 0 };
+    rlb_Wave wave = { 0 };
 
     if (false) { }
 #if defined(SUPPORT_FILEFORMAT_WAV)
@@ -870,7 +870,7 @@ Wave LoadWaveFromMemory(const char *fileType, const unsigned char *fileData, int
 }
 
 // Checks if wave data is ready
-bool IsWaveReady(Wave wave)
+bool IsWaveReady(rlb_Wave wave)
 {
     return ((wave.data != NULL) &&      // Validate wave data available
             (wave.frameCount > 0) &&    // Validate frame count
@@ -881,11 +881,11 @@ bool IsWaveReady(Wave wave)
 
 // Load sound from file
 // NOTE: The entire file is loaded to memory to be played (no-streaming)
-Sound LoadSound(const char *fileName)
+rlb_Sound LoadSound(const char *fileName)
 {
-    Wave wave = LoadWave(fileName);
+    rlb_Wave wave = LoadWave(fileName);
 
-    Sound sound = LoadSoundFromWave(wave);
+    rlb_Sound sound = LoadSoundFromWave(wave);
 
     UnloadWave(wave);       // Sound is loaded, we can unload wave
 
@@ -894,9 +894,9 @@ Sound LoadSound(const char *fileName)
 
 // Load sound from wave data
 // NOTE: Wave data must be unallocated manually
-Sound LoadSoundFromWave(Wave wave)
+rlb_Sound LoadSoundFromWave(rlb_Wave wave)
 {
-    Sound sound = { 0 };
+    rlb_Sound sound = { 0 };
 
     if (wave.data != NULL)
     {
@@ -937,9 +937,9 @@ Sound LoadSoundFromWave(Wave wave)
 
 // Clone sound from existing sound data, clone does not own wave data
 // NOTE: Wave data must be unallocated manually and will be shared across all clones
-Sound LoadSoundAlias(Sound source)
+rlb_Sound LoadSoundAlias(rlb_Sound source)
 {
-    Sound sound = { 0 };
+    rlb_Sound sound = { 0 };
 
     if (source.stream.buffer->data != NULL)
     {
@@ -965,7 +965,7 @@ Sound LoadSoundAlias(Sound source)
 
 
 // Checks if a sound is ready
-bool IsSoundReady(Sound sound)
+bool IsSoundReady(rlb_Sound sound)
 {
     return ((sound.frameCount > 0) &&           // Validate frame count
             (sound.stream.buffer != NULL) &&    // Validate stream buffer
@@ -975,20 +975,20 @@ bool IsSoundReady(Sound sound)
 }
 
 // Unload wave data
-void UnloadWave(Wave wave)
+void UnloadWave(rlb_Wave wave)
 {
     RL_FREE(wave.data);
     //TRACELOG(LOG_INFO, "WAVE: Unloaded wave data from RAM");
 }
 
 // Unload sound
-void UnloadSound(Sound sound)
+void UnloadSound(rlb_Sound sound)
 {
     UnloadAudioBuffer(sound.stream.buffer);
     //TRACELOG(LOG_INFO, "SOUND: Unloaded sound data from RAM");
 }
 
-void UnloadSoundAlias(Sound alias)
+void UnloadSoundAlias(rlb_Sound alias)
 {
     // untrack and unload just the sound buffer, not the sample data, it is shared with the source for the alias
     if (alias.stream.buffer != NULL)
@@ -1000,7 +1000,7 @@ void UnloadSoundAlias(Sound alias)
 }
 
 // Update sound buffer with new data
-void UpdateSound(Sound sound, const void *data, int frameCount)
+void UpdateSound(rlb_Sound sound, const void *data, int frameCount)
 {
     if (sound.stream.buffer != NULL)
     {
@@ -1012,7 +1012,7 @@ void UpdateSound(Sound sound, const void *data, int frameCount)
 }
 
 // Export wave data to file
-bool ExportWave(Wave wave, const char *fileName)
+bool ExportWave(rlb_Wave wave, const char *fileName)
 {
     bool success = false;
 
@@ -1070,7 +1070,7 @@ bool ExportWave(Wave wave, const char *fileName)
 }
 
 // Export wave sample data to code (.h)
-bool ExportWaveAsCode(Wave wave, const char *fileName)
+bool ExportWaveAsCode(rlb_Wave wave, const char *fileName)
 {
     bool success = false;
 
@@ -1136,55 +1136,55 @@ bool ExportWaveAsCode(Wave wave, const char *fileName)
 }
 
 // Play a sound
-void PlaySound(Sound sound)
+void PlaySound(rlb_Sound sound)
 {
     PlayAudioBuffer(sound.stream.buffer);
 }
 
 // Pause a sound
-void PauseSound(Sound sound)
+void PauseSound(rlb_Sound sound)
 {
     PauseAudioBuffer(sound.stream.buffer);
 }
 
 // Resume a paused sound
-void ResumeSound(Sound sound)
+void ResumeSound(rlb_Sound sound)
 {
     ResumeAudioBuffer(sound.stream.buffer);
 }
 
 // Stop reproducing a sound
-void StopSound(Sound sound)
+void StopSound(rlb_Sound sound)
 {
     StopAudioBuffer(sound.stream.buffer);
 }
 
 // Check if a sound is playing
-bool IsSoundPlaying(Sound sound)
+bool IsSoundPlaying(rlb_Sound sound)
 {
     return IsAudioBufferPlaying(sound.stream.buffer);
 }
 
 // Set volume for a sound
-void SetSoundVolume(Sound sound, float volume)
+void SetSoundVolume(rlb_Sound sound, float volume)
 {
     SetAudioBufferVolume(sound.stream.buffer, volume);
 }
 
 // Set pitch for a sound
-void SetSoundPitch(Sound sound, float pitch)
+void SetSoundPitch(rlb_Sound sound, float pitch)
 {
     SetAudioBufferPitch(sound.stream.buffer, pitch);
 }
 
 // Set pan for a sound
-void SetSoundPan(Sound sound, float pan)
+void SetSoundPan(rlb_Sound sound, float pan)
 {
     SetAudioBufferPan(sound.stream.buffer, pan);
 }
 
 // Convert wave data to desired format
-void WaveFormat(Wave *wave, int sampleRate, int sampleSize, int channels)
+void WaveFormat(rlb_Wave *wave, int sampleRate, int sampleSize, int channels)
 {
     ma_format formatIn = ((wave->sampleSize == 8)? ma_format_u8 : ((wave->sampleSize == 16)? ma_format_s16 : ma_format_f32));
     ma_format formatOut = ((sampleSize == 8)? ma_format_u8 : ((sampleSize == 16)? ma_format_s16 : ma_format_f32));
@@ -1217,9 +1217,9 @@ void WaveFormat(Wave *wave, int sampleRate, int sampleSize, int channels)
 }
 
 // Copy a wave to a new wave
-Wave WaveCopy(Wave wave)
+rlb_Wave WaveCopy(rlb_Wave wave)
 {
-    Wave newWave = { 0 };
+    rlb_Wave newWave = { 0 };
 
     newWave.data = RL_MALLOC(wave.frameCount*wave.channels*wave.sampleSize/8);
 
@@ -1239,7 +1239,7 @@ Wave WaveCopy(Wave wave)
 
 // Crop a wave to defined samples range
 // NOTE: Security check in case of out-of-range
-void WaveCrop(Wave *wave, int initSample, int finalSample)
+void WaveCrop(rlb_Wave *wave, int initSample, int finalSample)
 {
     if ((initSample >= 0) && (initSample < finalSample) && ((unsigned int)finalSample < (wave->frameCount*wave->channels)))
     {
@@ -1258,7 +1258,7 @@ void WaveCrop(Wave *wave, int initSample, int finalSample)
 // Load samples data from wave as a floats array
 // NOTE 1: Returned sample values are normalized to range [-1..1]
 // NOTE 2: Sample data allocated should be freed with UnloadWaveSamples()
-float *LoadWaveSamples(Wave wave)
+float *LoadWaveSamples(rlb_Wave wave)
 {
     float *samples = (float *)RL_MALLOC(wave.frameCount*wave.channels*sizeof(float));
 
@@ -1285,9 +1285,9 @@ void UnloadWaveSamples(float *samples)
 //----------------------------------------------------------------------------------
 
 // Load music stream from file
-Music LoadMusicStream(const char *fileName)
+rlb_Music LoadMusicStream(const char *fileName)
 {
-    Music music = { 0 };
+    rlb_Music music = { 0 };
     bool musicLoaded = false;
 
     if (false) { }
@@ -1477,9 +1477,9 @@ Music LoadMusicStream(const char *fileName)
 
 // Load music stream from memory buffer, fileType refers to extension: i.e. ".wav"
 // WARNING: File extension must be provided in lower-case
-Music LoadMusicStreamFromMemory(const char *fileType, const unsigned char *data, int dataSize)
+rlb_Music LoadMusicStreamFromMemory(const char *fileType, const unsigned char *data, int dataSize)
 {
-    Music music = { 0 };
+    rlb_Music music = { 0 };
     bool musicLoaded = false;
 
     if (false) { }
@@ -1685,7 +1685,7 @@ Music LoadMusicStreamFromMemory(const char *fileType, const unsigned char *data,
 }
 
 // Checks if a music stream is ready
-bool IsMusicReady(Music music)
+bool IsMusicReady(rlb_Music music)
 {
     return ((music.ctxData != NULL) &&          // Validate context loaded
             (music.frameCount > 0) &&           // Validate audio frame count
@@ -1695,7 +1695,7 @@ bool IsMusicReady(Music music)
 }
 
 // Unload music stream
-void UnloadMusicStream(Music music)
+void UnloadMusicStream(rlb_Music music)
 {
     UnloadAudioStream(music.stream);
 
@@ -1727,7 +1727,7 @@ void UnloadMusicStream(Music music)
 }
 
 // Start music playing (open stream)
-void PlayMusicStream(Music music)
+void PlayMusicStream(rlb_Music music)
 {
     if (music.stream.buffer != NULL)
     {
@@ -1742,19 +1742,19 @@ void PlayMusicStream(Music music)
 }
 
 // Pause music playing
-void PauseMusicStream(Music music)
+void PauseMusicStream(rlb_Music music)
 {
     PauseAudioStream(music.stream);
 }
 
 // Resume music playing
-void ResumeMusicStream(Music music)
+void ResumeMusicStream(rlb_Music music)
 {
     ResumeAudioStream(music.stream);
 }
 
 // Stop music playing (close stream)
-void StopMusicStream(Music music)
+void StopMusicStream(rlb_Music music)
 {
     StopAudioStream(music.stream);
 
@@ -1786,7 +1786,7 @@ void StopMusicStream(Music music)
 }
 
 // Seek music to a certain position (in seconds)
-void SeekMusicStream(Music music, float position)
+void SeekMusicStream(rlb_Music music, float position)
 {
     // Seeking is not supported in module formats
     if ((music.ctxType == MUSIC_MODULE_XM) || (music.ctxType == MUSIC_MODULE_MOD)) return;
@@ -1824,7 +1824,7 @@ void SeekMusicStream(Music music, float position)
 }
 
 // Update (re-fill) music buffers if data already processed
-void UpdateMusicStream(Music music)
+void UpdateMusicStream(rlb_Music music)
 {
     if (music.stream.buffer == NULL) return;
 
@@ -1984,31 +1984,31 @@ void UpdateMusicStream(Music music)
 }
 
 // Check if any music is playing
-bool IsMusicStreamPlaying(Music music)
+bool IsMusicStreamPlaying(rlb_Music music)
 {
     return IsAudioStreamPlaying(music.stream);
 }
 
 // Set volume for music
-void SetMusicVolume(Music music, float volume)
+void SetMusicVolume(rlb_Music music, float volume)
 {
     SetAudioStreamVolume(music.stream, volume);
 }
 
 // Set pitch for music
-void SetMusicPitch(Music music, float pitch)
+void SetMusicPitch(rlb_Music music, float pitch)
 {
     SetAudioBufferPitch(music.stream.buffer, pitch);
 }
 
 // Set pan for a music
-void SetMusicPan(Music music, float pan)
+void SetMusicPan(rlb_Music music, float pan)
 {
     SetAudioBufferPan(music.stream.buffer, pan);
 }
 
 // Get music time length (in seconds)
-float GetMusicTimeLength(Music music)
+float GetMusicTimeLength(rlb_Music music)
 {
     float totalSeconds = 0.0f;
 
@@ -2018,7 +2018,7 @@ float GetMusicTimeLength(Music music)
 }
 
 // Get current music time played (in seconds)
-float GetMusicTimePlayed(Music music)
+float GetMusicTimePlayed(rlb_Music music)
 {
     float secondsPlayed = 0.0f;
     if (music.stream.buffer != NULL)
@@ -2050,9 +2050,9 @@ float GetMusicTimePlayed(Music music)
 }
 
 // Load audio stream (to stream audio pcm data)
-AudioStream LoadAudioStream(unsigned int sampleRate, unsigned int sampleSize, unsigned int channels)
+rlb_AudioStream LoadAudioStream(unsigned int sampleRate, unsigned int sampleSize, unsigned int channels)
 {
-    AudioStream stream = { 0 };
+    rlb_AudioStream stream = { 0 };
 
     stream.sampleRate = sampleRate;
     stream.sampleSize = sampleSize;
@@ -2082,7 +2082,7 @@ AudioStream LoadAudioStream(unsigned int sampleRate, unsigned int sampleSize, un
 }
 
 // Checks if an audio stream is ready
-bool IsAudioStreamReady(AudioStream stream)
+bool IsAudioStreamReady(rlb_AudioStream stream)
 {
     return ((stream.buffer != NULL) &&    // Validate stream buffer
             (stream.sampleRate > 0) &&    // Validate sample rate is supported
@@ -2091,7 +2091,7 @@ bool IsAudioStreamReady(AudioStream stream)
 }
 
 // Unload audio stream and free memory
-void UnloadAudioStream(AudioStream stream)
+void UnloadAudioStream(rlb_AudioStream stream)
 {
     UnloadAudioBuffer(stream.buffer);
 
@@ -2101,7 +2101,7 @@ void UnloadAudioStream(AudioStream stream)
 // Update audio stream buffers with data
 // NOTE 1: Only updates one buffer of the stream source: dequeue -> update -> queue
 // NOTE 2: To dequeue a buffer it needs to be processed: IsAudioStreamProcessed()
-void UpdateAudioStream(AudioStream stream, const void *data, int frameCount)
+void UpdateAudioStream(rlb_AudioStream stream, const void *data, int frameCount)
 {
     if (stream.buffer != NULL)
     {
@@ -2151,7 +2151,7 @@ void UpdateAudioStream(AudioStream stream, const void *data, int frameCount)
 }
 
 // Check if any audio stream buffers requires refill
-bool IsAudioStreamProcessed(AudioStream stream)
+bool IsAudioStreamProcessed(rlb_AudioStream stream)
 {
     if (stream.buffer == NULL) return false;
 
@@ -2159,49 +2159,49 @@ bool IsAudioStreamProcessed(AudioStream stream)
 }
 
 // Play audio stream
-void PlayAudioStream(AudioStream stream)
+void PlayAudioStream(rlb_AudioStream stream)
 {
     PlayAudioBuffer(stream.buffer);
 }
 
 // Play audio stream
-void PauseAudioStream(AudioStream stream)
+void PauseAudioStream(rlb_AudioStream stream)
 {
     PauseAudioBuffer(stream.buffer);
 }
 
 // Resume audio stream playing
-void ResumeAudioStream(AudioStream stream)
+void ResumeAudioStream(rlb_AudioStream stream)
 {
     ResumeAudioBuffer(stream.buffer);
 }
 
 // Check if audio stream is playing.
-bool IsAudioStreamPlaying(AudioStream stream)
+bool IsAudioStreamPlaying(rlb_AudioStream stream)
 {
     return IsAudioBufferPlaying(stream.buffer);
 }
 
 // Stop audio stream
-void StopAudioStream(AudioStream stream)
+void StopAudioStream(rlb_AudioStream stream)
 {
     StopAudioBuffer(stream.buffer);
 }
 
 // Set volume for audio stream (1.0 is max level)
-void SetAudioStreamVolume(AudioStream stream, float volume)
+void SetAudioStreamVolume(rlb_AudioStream stream, float volume)
 {
     SetAudioBufferVolume(stream.buffer, volume);
 }
 
 // Set pitch for audio stream (1.0 is base level)
-void SetAudioStreamPitch(AudioStream stream, float pitch)
+void SetAudioStreamPitch(rlb_AudioStream stream, float pitch)
 {
     SetAudioBufferPitch(stream.buffer, pitch);
 }
 
 // Set pan for audio stream
-void SetAudioStreamPan(AudioStream stream, float pan)
+void SetAudioStreamPan(rlb_AudioStream stream, float pan)
 {
     SetAudioBufferPan(stream.buffer, pan);
 }
@@ -2213,7 +2213,7 @@ void SetAudioStreamBufferSizeDefault(int size)
 }
 
 // Audio thread callback to request new data
-void SetAudioStreamCallback(AudioStream stream, AudioCallback callback)
+void SetAudioStreamCallback(rlb_AudioStream stream, AudioCallback callback)
 {
     if (stream.buffer != NULL) stream.buffer->callback = callback;
 }
@@ -2221,7 +2221,7 @@ void SetAudioStreamCallback(AudioStream stream, AudioCallback callback)
 // Add processor to audio stream. Contrary to buffers, the order of processors is important.
 // The new processor must be added at the end. As there aren't supposed to be a lot of processors attached to
 // a given stream, we iterate through the list to find the end. That way we don't need a pointer to the last element.
-void AttachAudioStreamProcessor(AudioStream stream, AudioCallback process)
+void AttachAudioStreamProcessor(rlb_AudioStream stream, AudioCallback process)
 {
     ma_mutex_lock(&AUDIO.System.lock);
 
@@ -2245,7 +2245,7 @@ void AttachAudioStreamProcessor(AudioStream stream, AudioCallback process)
 }
 
 // Remove processor from audio stream
-void DetachAudioStreamProcessor(AudioStream stream, AudioCallback process)
+void DetachAudioStreamProcessor(rlb_AudioStream stream, AudioCallback process)
 {
     ma_mutex_lock(&AUDIO.System.lock);
 

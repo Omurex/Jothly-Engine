@@ -11,25 +11,25 @@ namespace raylib {
 /**
  * Shader type (generic)
  */
-class Shader : public ::Shader {
+class rlb_Shader : public ::rlb_Shader {
  public:
-    Shader(const ::Shader& shader) {
+    rlb_Shader(const ::rlb_Shader& shader) {
         set(shader);
     }
 
-    Shader(unsigned int id, int* locs = nullptr) : ::Shader{id, locs} {}
+    rlb_Shader(unsigned int id, int* locs = nullptr) : ::rlb_Shader{id, locs} {}
 
-    Shader(const std::string& vsFileName, const std::string& fsFileName) {
+    rlb_Shader(const std::string& vsFileName, const std::string& fsFileName) {
         set(::LoadShader(vsFileName.c_str(), fsFileName.c_str()));
     }
 
-    Shader(const char* vsFileName, const char* fsFileName) {
+    rlb_Shader(const char* vsFileName, const char* fsFileName) {
         set(::LoadShader(vsFileName, fsFileName));
     }
 
-    Shader(const Shader&) = delete;
+    rlb_Shader(const rlb_Shader&) = delete;
 
-    Shader(Shader&& other) {
+    rlb_Shader(rlb_Shader&& other) {
         set(other);
 
         other.id = 0;
@@ -41,11 +41,11 @@ class Shader : public ::Shader {
      *
      * @see ::LoadShader
      */
-    static ::Shader Load(const std::string& vsFileName, const std::string& fsFileName) {
+    static ::rlb_Shader Load(const std::string& vsFileName, const std::string& fsFileName) {
         return ::LoadShader(vsFileName.c_str(), fsFileName.c_str());
     }
 
-    static ::Shader Load(const char* vsFileName, const char* fsFileName) {
+    static ::rlb_Shader Load(const char* vsFileName, const char* fsFileName) {
         return ::LoadShader(vsFileName, fsFileName);
     }
 
@@ -54,25 +54,25 @@ class Shader : public ::Shader {
      *
      * @see ::LoadShaderFromMemory
      */
-    static ::Shader LoadFromMemory(const std::string& vsCode, const std::string& fsCode) {
+    static ::rlb_Shader LoadFromMemory(const std::string& vsCode, const std::string& fsCode) {
         return ::LoadShaderFromMemory(vsCode.c_str(), fsCode.c_str());
     }
 
-    static ::Shader LoadFromMemory(const char* vsCode, const char* fsCode) {
+    static ::rlb_Shader LoadFromMemory(const char* vsCode, const char* fsCode) {
         return ::LoadShaderFromMemory(vsCode, fsCode);
     }
 
     GETTERSETTER(unsigned int, Id, id)
     GETTERSETTER(int*, Locs, locs)
 
-    Shader& operator=(const ::Shader& shader) {
+    rlb_Shader& operator=(const ::rlb_Shader& shader) {
         set(shader);
         return *this;
     }
 
-    Shader& operator=(const Shader&) = delete;
+    rlb_Shader& operator=(const rlb_Shader&) = delete;
 
-    Shader& operator=(Shader&& other) noexcept {
+    rlb_Shader& operator=(rlb_Shader&& other) noexcept {
         if (this == &other) {
             return *this;
         }
@@ -89,7 +89,7 @@ class Shader : public ::Shader {
     /**
      * Unload shader from GPU memory (VRAM)
      */
-    ~Shader() {
+    ~rlb_Shader() {
         Unload();
     }
 
@@ -105,7 +105,7 @@ class Shader : public ::Shader {
     /**
      * Begin custom shader drawing.
      */
-    inline Shader& BeginMode() {
+    inline rlb_Shader& BeginMode() {
         ::BeginShaderMode(*this);
         return *this;
     }
@@ -113,7 +113,7 @@ class Shader : public ::Shader {
     /**
      * End custom shader drawing (use default shader).
      */
-    inline Shader& EndMode() {
+    inline rlb_Shader& EndMode() {
         ::EndShaderMode();
         return *this;
     }
@@ -141,7 +141,7 @@ class Shader : public ::Shader {
      *
      * @see SetShaderValue()
      */
-    inline Shader& SetValue(int uniformLoc, const void* value, int uniformType) {
+    inline rlb_Shader& SetValue(int uniformLoc, const void* value, int uniformType) {
         ::SetShaderValue(*this, uniformLoc, value, uniformType);
         return *this;
     }
@@ -151,7 +151,7 @@ class Shader : public ::Shader {
      *
      * @see SetShaderValueV()
      */
-    inline Shader& SetValue(int uniformLoc, const void* value, int uniformType, int count) {
+    inline rlb_Shader& SetValue(int uniformLoc, const void* value, int uniformType, int count) {
         ::SetShaderValueV(*this, uniformLoc, value, uniformType, count);
         return *this;
     }
@@ -161,7 +161,7 @@ class Shader : public ::Shader {
      *
      * @see SetShaderValueMatrix()
      */
-    inline Shader& SetValue(int uniformLoc, const ::Matrix& mat) {
+    inline rlb_Shader& SetValue(int uniformLoc, const ::rlb_Matrix& mat) {
         ::SetShaderValueMatrix(*this, uniformLoc, mat);
         return *this;
     }
@@ -171,7 +171,7 @@ class Shader : public ::Shader {
      *
      * @see SetShaderValueTexture()
      */
-    inline Shader& SetValue(int uniformLoc, const ::Texture2D& texture) {
+    inline rlb_Shader& SetValue(int uniformLoc, const ::rlb_Texture2D& texture) {
         ::SetShaderValueTexture(*this, uniformLoc, texture);
         return *this;
     }
@@ -184,13 +184,13 @@ class Shader : public ::Shader {
     }
 
  protected:
-    void set(const ::Shader& shader) {
+    void set(const ::rlb_Shader& shader) {
         id = shader.id;
         locs = shader.locs;
     }
 };
 }  // namespace raylib
 
-using RShader = raylib::Shader;
+using RShader = raylib::rlb_Shader;
 
 #endif  // RAYLIB_CPP_INCLUDE_SHADER_HPP_

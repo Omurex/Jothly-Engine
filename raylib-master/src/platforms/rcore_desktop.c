@@ -531,7 +531,7 @@ void ClearWindowState(unsigned int flags)
 // Set icon for window
 // NOTE 1: Image must be in RGBA format, 8bit per channel
 // NOTE 2: Image is scaled by the OS for all required sizes
-void SetWindowIcon(Image image)
+void SetWindowIcon(rlb_Image image)
 {
     if (image.data == NULL)
     {
@@ -560,7 +560,7 @@ void SetWindowIcon(Image image)
 // NOTE 1: Images must be in RGBA format, 8bit per channel
 // NOTE 2: The multiple images are used depending on provided sizes
 // Standard Windows icon sizes: 256, 128, 96, 64, 48, 32, 24, 16
-void SetWindowIcons(Image *images, int count)
+void SetWindowIcons(rlb_Image *images, int count)
 {
     if ((images == NULL) || (count <= 0))
     {
@@ -816,7 +816,7 @@ int GetCurrentMonitor(void)
 }
 
 // Get selected monitor position
-Vector2 GetMonitorPosition(int monitor)
+rlb_Vector2 GetMonitorPosition(int monitor)
 {
     int monitorCount = 0;
     GLFWmonitor **monitors = glfwGetMonitors(&monitorCount);
@@ -826,10 +826,10 @@ Vector2 GetMonitorPosition(int monitor)
         int x, y;
         glfwGetMonitorPos(monitors[monitor], &x, &y);
 
-        return (Vector2){ (float)x, (float)y };
+        return (rlb_Vector2){ (float)x, (float)y };
     }
     else TRACELOG(LOG_WARNING, "GLFW: Failed to find selected monitor");
-    return (Vector2){ 0, 0 };
+    return (rlb_Vector2){ 0, 0 };
 }
 
 // Get selected monitor width (currently used by monitor)
@@ -928,23 +928,23 @@ const char *GetMonitorName(int monitor)
 }
 
 // Get window position XY on monitor
-Vector2 GetWindowPosition(void)
+rlb_Vector2 GetWindowPosition(void)
 {
     int x = 0;
     int y = 0;
 
     glfwGetWindowPos(platform.handle, &x, &y);
 
-    return (Vector2){ (float)x, (float)y };
+    return (rlb_Vector2){ (float)x, (float)y };
 }
 
 // Get window scale DPI factor for current monitor
-Vector2 GetWindowScaleDPI(void)
+rlb_Vector2 GetWindowScaleDPI(void)
 {
     float xdpi = 1.0;
     float ydpi = 1.0;
-    Vector2 scale = { 1.0f, 1.0f };
-    Vector2 windowPos = GetWindowPosition();
+    rlb_Vector2 scale = { 1.0f, 1.0f };
+    rlb_Vector2 windowPos = GetWindowPosition();
 
     int monitorCount = 0;
     GLFWmonitor **monitors = glfwGetMonitors(&monitorCount);
@@ -1075,7 +1075,7 @@ int SetGamepadMappings(const char *mappings)
 // Set mouse position XY
 void SetMousePosition(int x, int y)
 {
-    CORE.Input.Mouse.currentPosition = (Vector2){ (float)x, (float)y };
+    CORE.Input.Mouse.currentPosition = (rlb_Vector2){ (float)x, (float)y };
     CORE.Input.Mouse.previousPosition = CORE.Input.Mouse.currentPosition;
 
     // NOTE: emscripten not implemented
@@ -1125,7 +1125,7 @@ void PollInputEvents(void)
 
     // Register previous mouse wheel state
     CORE.Input.Mouse.previousWheelMove = CORE.Input.Mouse.currentWheelMove;
-    CORE.Input.Mouse.currentWheelMove = (Vector2){ 0.0f, 0.0f };
+    CORE.Input.Mouse.currentWheelMove = (rlb_Vector2){ 0.0f, 0.0f };
 
     // Register previous mouse position
     CORE.Input.Mouse.previousPosition = CORE.Input.Mouse.currentPosition;
@@ -1623,7 +1623,7 @@ static void WindowSizeCallback(GLFWwindow *window, int width, int height)
 #else
     if ((CORE.Window.flags & FLAG_WINDOW_HIGHDPI) > 0)
     {
-        Vector2 windowScaleDPI = GetWindowScaleDPI();
+        rlb_Vector2 windowScaleDPI = GetWindowScaleDPI();
 
         CORE.Window.screen.width = (unsigned int)(width/windowScaleDPI.x);
         CORE.Window.screen.height = (unsigned int)(height/windowScaleDPI.y);
@@ -1803,7 +1803,7 @@ static void MouseCursorPosCallback(GLFWwindow *window, double x, double y)
 // GLFW3 Scrolling Callback, runs on mouse wheel
 static void MouseScrollCallback(GLFWwindow *window, double xoffset, double yoffset)
 {
-    CORE.Input.Mouse.currentWheelMove = (Vector2){ (float)xoffset, (float)yoffset };
+    CORE.Input.Mouse.currentWheelMove = (rlb_Vector2){ (float)xoffset, (float)yoffset };
 }
 
 // GLFW3 CursorEnter Callback, when cursor enters the window

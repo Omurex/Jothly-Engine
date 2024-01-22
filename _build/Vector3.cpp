@@ -7,11 +7,11 @@
 
 namespace jothly
 {
-	Vector3::Vector3(const Vector2& vec2) : Vector3(vec2.x, vec2.y, 0) {}
-	Vector3::Vector3(const Vector4& vec4) : Vector3(vec4.x, vec4.y, vec4.z) {}
+	rlb_Vector3::rlb_Vector3(const rlb_Vector2& vec2) : rlb_Vector3(vec2.x, vec2.y, 0) {}
+	rlb_Vector3::rlb_Vector3(const rlb_Vector4& vec4) : rlb_Vector3(vec4.x, vec4.y, vec4.z) {}
 
 
-	void Vector3::Normalize()
+	void rlb_Vector3::Normalize()
     {
 		float sqrMag = GetMagnitudeSquared();
 
@@ -19,7 +19,7 @@ namespace jothly
     }
 
 
-	void Vector3::Normalize(float precomputedMagnitudeSquared)
+	void rlb_Vector3::Normalize(float precomputedMagnitudeSquared)
 	{
 		float mag = sqrtf(precomputedMagnitudeSquared);
 
@@ -34,52 +34,52 @@ namespace jothly
 	}
 
 
-	Vector3 Vector3::GetNormalized()
+	rlb_Vector3 rlb_Vector3::GetNormalized()
 	{
-		Vector3 vec = Vector3(*this);
+		rlb_Vector3 vec = rlb_Vector3(*this);
 		vec.Normalize();
 		return vec;
 	}
 
 
-	Vector3 Vector3::GetNormalized(float precomputedMagnitudeSquared)
+	rlb_Vector3 rlb_Vector3::GetNormalized(float precomputedMagnitudeSquared)
 	{
-		Vector3 vec = Vector3(*this);
+		rlb_Vector3 vec = rlb_Vector3(*this);
 		vec.Normalize(precomputedMagnitudeSquared);
 		return vec;
 	}
 
 
-	float Vector3::GetMagnitude()
+	float rlb_Vector3::GetMagnitude()
 	{
 		return sqrtf(GetMagnitudeSquared());
 	}
 
 
-	float Vector3::GetMagnitudeSquared()
+	float rlb_Vector3::GetMagnitudeSquared()
 	{
 		return (x * x) + (y * y) + (z * z);
 	}
 
 
-	void Vector3::Scale(float const& scale)
+	void rlb_Vector3::Scale(float const& scale)
 	{
 		x *= scale; y *= scale; z *= scale;
 	}
 
 
-    Vector3 Vector3::operator+(Vector3 const& other)
+    rlb_Vector3 rlb_Vector3::operator+(rlb_Vector3 const& other)
 	{
-		return Vector3(x + other.x, y + other.y, z + other.z);
+		return rlb_Vector3(x + other.x, y + other.y, z + other.z);
 	}
 
 
-    Vector3 Vector3::operator+(Vector2 const& other)
+    rlb_Vector3 rlb_Vector3::operator+(rlb_Vector2 const& other)
     {
-        return Vector3(x + other.x, y + other.y, z);
+        return rlb_Vector3(x + other.x, y + other.y, z);
     }
 
-	Vector3& Vector3::operator+=(Vector3 const& other)
+	rlb_Vector3& rlb_Vector3::operator+=(rlb_Vector3 const& other)
 	{
 		x += other.x;
 		y += other.y;
@@ -87,7 +87,7 @@ namespace jothly
 		return *this;
 	}
 
-	Vector3& Vector3::operator+=(Vector2 const& other)
+	rlb_Vector3& rlb_Vector3::operator+=(rlb_Vector2 const& other)
 	{
 		x += other.x;
 		y += other.y;
@@ -95,19 +95,19 @@ namespace jothly
 	}
 
 
-	Vector3 Vector3::operator-(Vector3 const& other)
+	rlb_Vector3 rlb_Vector3::operator-(rlb_Vector3 const& other)
 	{
-		return Vector3(x - other.x, y - other.y, z - other.z);
+		return rlb_Vector3(x - other.x, y - other.y, z - other.z);
 	}
 
 
-	Vector3 Vector3::operator-(Vector2 const& other)
+	rlb_Vector3 rlb_Vector3::operator-(rlb_Vector2 const& other)
 	{
-		return Vector3(x - other.x, y - other.y, z);
+		return rlb_Vector3(x - other.x, y - other.y, z);
 	}
 
 
-	Vector3& Vector3::operator-=(Vector3 const& other)
+	rlb_Vector3& rlb_Vector3::operator-=(rlb_Vector3 const& other)
 	{
 		x -= other.x;
 		y -= other.y;
@@ -116,7 +116,7 @@ namespace jothly
 	}
 
 
-	Vector3& Vector3::operator-=(Vector2 const& other)
+	rlb_Vector3& rlb_Vector3::operator-=(rlb_Vector2 const& other)
 	{
 		x -= other.x;
 		y -= other.y;
@@ -124,33 +124,33 @@ namespace jothly
 	}
 
 
-	Vector3 Vector3::operator*(float const& scale)
+	rlb_Vector3 rlb_Vector3::operator*(float const& scale)
 	{
-		return Vector3(x * scale, y * scale, z * scale);
+		return rlb_Vector3(x * scale, y * scale, z * scale);
 	}
 
 
-	Vector3 Vector3::operator/(float const& scale)
+	rlb_Vector3 rlb_Vector3::operator/(float const& scale)
 	{
-		return Vector3(x / scale, y / scale, z / scale);
+		return rlb_Vector3(x / scale, y / scale, z / scale);
 	}
 
 
-	bool Vector3::operator==(Vector3 const& other)
+	bool rlb_Vector3::operator==(rlb_Vector3 const& other)
 	{
 		return x == other.x && y == other.y && z == other.z;
 	}
 
 
-	Vector3::operator Vector2() const
+	rlb_Vector3::operator rlb_Vector2() const
 	{
-		return Vector2(x, y);
+		return rlb_Vector2(x, y);
 	}
 
 
-	Vector3::operator Vector4() const
+	rlb_Vector3::operator rlb_Vector4() const
 	{
-		return Vector4(x, y, z, 0);
+		return rlb_Vector4(x, y, z, 0);
 	}
 
 

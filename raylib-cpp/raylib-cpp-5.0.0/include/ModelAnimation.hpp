@@ -12,15 +12,15 @@ namespace raylib {
 /**
  * Model animation
  */
-class ModelAnimation : public ::ModelAnimation {
+class rlb_ModelAnimation : public ::rlb_ModelAnimation {
  public:
-    ModelAnimation(const ::ModelAnimation& model) {
+    rlb_ModelAnimation(const ::rlb_ModelAnimation& model) {
         set(model);
     }
 
-    ModelAnimation(const ModelAnimation&) = delete;
+    rlb_ModelAnimation(const rlb_ModelAnimation&) = delete;
 
-    ModelAnimation(ModelAnimation&& other) {
+    rlb_ModelAnimation(rlb_ModelAnimation&& other) {
         set(other);
 
         other.boneCount = 0;
@@ -29,17 +29,17 @@ class ModelAnimation : public ::ModelAnimation {
         other.framePoses = nullptr;
     }
 
-    ~ModelAnimation() {
+    ~rlb_ModelAnimation() {
         Unload();
     }
 
     /**
      * Load model animations from file
      */
-    static std::vector<ModelAnimation> Load(const std::string& fileName) {
+    static std::vector<rlb_ModelAnimation> Load(const std::string& fileName) {
         int count = 0;
-        ::ModelAnimation* modelAnimations = ::LoadModelAnimations(fileName.c_str(), &count);
-        std::vector<ModelAnimation> mats(modelAnimations, modelAnimations + count);
+        ::rlb_ModelAnimation* modelAnimations = ::LoadModelAnimations(fileName.c_str(), &count);
+        std::vector<rlb_ModelAnimation> mats(modelAnimations, modelAnimations + count);
 
         RL_FREE(modelAnimations);
 
@@ -47,18 +47,18 @@ class ModelAnimation : public ::ModelAnimation {
     }
 
     GETTERSETTER(int, BoneCount, boneCount)
-    GETTERSETTER(::BoneInfo*, Bones, bones)
+    GETTERSETTER(::rlb_BoneInfo*, Bones, bones)
     GETTERSETTER(int, FrameCount, frameCount)
-    GETTERSETTER(::Transform**, FramePoses, framePoses)
+    GETTERSETTER(::rlb_Transform**, FramePoses, framePoses)
 
-    ModelAnimation& operator=(const ::ModelAnimation& model) {
+    rlb_ModelAnimation& operator=(const ::rlb_ModelAnimation& model) {
         set(model);
         return *this;
     }
 
-    ModelAnimation& operator=(const ModelAnimation&) = delete;
+    rlb_ModelAnimation& operator=(const rlb_ModelAnimation&) = delete;
 
-    ModelAnimation& operator=(ModelAnimation&& other) noexcept {
+    rlb_ModelAnimation& operator=(rlb_ModelAnimation&& other) noexcept {
         if (this == &other) {
             return *this;
         }
@@ -84,7 +84,7 @@ class ModelAnimation : public ::ModelAnimation {
     /**
      * Update model animation pose
      */
-    inline ModelAnimation& Update(const ::Model& model, int frame) {
+    inline rlb_ModelAnimation& Update(const ::rlb_Model& model, int frame) {
         ::UpdateModelAnimation(model, *this, frame);
         return *this;
     }
@@ -92,12 +92,12 @@ class ModelAnimation : public ::ModelAnimation {
     /**
      * Check model animation skeleton match
      */
-    inline bool IsValid(const ::Model& model) const {
+    inline bool IsValid(const ::rlb_Model& model) const {
         return ::IsModelAnimationValid(model, *this);
     }
 
  protected:
-    void set(const ::ModelAnimation& model) {
+    void set(const ::rlb_ModelAnimation& model) {
         boneCount = model.boneCount;
         frameCount = model.frameCount;
         bones = model.bones;
@@ -106,6 +106,6 @@ class ModelAnimation : public ::ModelAnimation {
 };
 }  // namespace raylib
 
-using RModelAnimation = raylib::ModelAnimation;
+using RModelAnimation = raylib::rlb_ModelAnimation;
 
 #endif  // RAYLIB_CPP_INCLUDE_MODELANIMATION_HPP_

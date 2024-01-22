@@ -6,10 +6,10 @@
 
 namespace jothly
 {
-	struct Vector3;
+	struct rlb_Vector3;
 	
 	
-	struct Vector2
+	struct rlb_Vector2
 	{
 		union
 		{
@@ -23,37 +23,37 @@ namespace jothly
 		};
 
 
-		Vector2() : x(0), y(0) {}
-		Vector2(float val) : x(val), y(val) {}
-		Vector2(float _x, float _y) : x(_x), y(_y) {}
-		Vector2(const Vector2& vec2) : Vector2(vec2.x, vec2.y) {}
-		Vector2(const Vector3& vec3);
+		rlb_Vector2() : x(0), y(0) {}
+		rlb_Vector2(float val) : x(val), y(val) {}
+		rlb_Vector2(float _x, float _y) : x(_x), y(_y) {}
+		rlb_Vector2(const rlb_Vector2& vec2) : rlb_Vector2(vec2.x, vec2.y) {}
+		rlb_Vector2(const rlb_Vector3& vec3);
 
 		void Normalize();
 		void Normalize(float precomputedMagnitudeSquared);
-		Vector2 GetNormalized();
-		Vector2 GetNormalized(float precomputedMagnitudeSquared);
+		rlb_Vector2 GetNormalized();
+		rlb_Vector2 GetNormalized(float precomputedMagnitudeSquared);
 		float GetMagnitude();
 		float GetMagnitudeSquared();
 
 		void Scale(float const& scale);
 	
-		Vector2 operator+(Vector2 const& other);
-		Vector3 operator+(Vector3 const& other);
-		Vector2& operator+=(Vector2 const& other);
-		Vector2& operator+=(Vector3 const& other);
-		Vector2 operator-(Vector2 const& other);
-		Vector3 operator-(Vector3 const& other);
-		Vector2& operator-=(Vector2 const& other);
-		Vector2& operator-=(Vector3 const& other);
-		Vector2 operator*(float const& scale);
-		Vector2 operator/(float const& scale);
-		bool operator==(Vector2 const& other);
+		rlb_Vector2 operator+(rlb_Vector2 const& other);
+		rlb_Vector3 operator+(rlb_Vector3 const& other);
+		rlb_Vector2& operator+=(rlb_Vector2 const& other);
+		rlb_Vector2& operator+=(rlb_Vector3 const& other);
+		rlb_Vector2 operator-(rlb_Vector2 const& other);
+		rlb_Vector3 operator-(rlb_Vector3 const& other);
+		rlb_Vector2& operator-=(rlb_Vector2 const& other);
+		rlb_Vector2& operator-=(rlb_Vector3 const& other);
+		rlb_Vector2 operator*(float const& scale);
+		rlb_Vector2 operator/(float const& scale);
+		bool operator==(rlb_Vector2 const& other);
 
-		operator Vector3() const;
+		operator rlb_Vector3() const;
 
 		// Convert to RayLib version
-		operator raylib::Vector2() { return {x, y}; };
-		operator raylib::Vector3() { return {x, y, 0}; }
+		operator raylib::rlb_Vector2() { return {x, y}; };
+		operator raylib::rlb_Vector3() { return {x, y, 0}; }
 	};
 }

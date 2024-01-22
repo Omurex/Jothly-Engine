@@ -83,7 +83,7 @@ typedef struct {
 
     int fd;                             // File descriptor to the device it is assigned to
     int eventNum;                       // Number of 'event<N>' device
-    Rectangle absRange;                 // Range of values for absolute pointing devices (touchscreens)
+    rlb_Rectangle absRange;                 // Range of values for absolute pointing devices (touchscreens)
     int touchSlot;                      // Hold the touch slot number of the currently being sent multitouch block
     bool isMouse;                       // True if device supports relative X Y movements
     bool isTouch;                       // True if device supports absolute X Y movements and has BTN_TOUCH
@@ -119,12 +119,12 @@ typedef struct {
     int keyboardFd;                     // File descriptor for the evdev keyboard
 
     // Mouse data
-    Vector2 eventWheelMove;             // Registers the event mouse wheel variation
+    rlb_Vector2 eventWheelMove;             // Registers the event mouse wheel variation
     // NOTE: currentButtonState[] can't be written directly due to multithreading, app could miss the update
     char currentButtonStateEvdev[MAX_MOUSE_BUTTONS]; // Holds the new mouse state for the next polling event to grab
     bool cursorRelative;                // Relative cursor mode
     int mouseFd;                        // File descriptor for the evdev mouse/touch/gestures
-    Rectangle absRange;                 // Range of values for absolute pointing devices (touchscreens)
+    rlb_Rectangle absRange;                 // Range of values for absolute pointing devices (touchscreens)
     int touchSlot;                      // Hold the touch slot number of the currently being sent multitouch block
 
     // Gamepad data
@@ -257,13 +257,13 @@ void ClearWindowState(unsigned int flags)
 }
 
 // Set icon for window
-void SetWindowIcon(Image image)
+void SetWindowIcon(rlb_Image image)
 {
     TRACELOG(LOG_WARNING, "SetWindowIcon() not available on target platform");
 }
 
 // Set icon for window
-void SetWindowIcons(Image *images, int count)
+void SetWindowIcons(rlb_Image *images, int count)
 {
     TRACELOG(LOG_WARNING, "SetWindowIcons() not available on target platform");
 }
@@ -340,10 +340,10 @@ int GetCurrentMonitor(void)
 }
 
 // Get selected monitor position
-Vector2 GetMonitorPosition(int monitor)
+rlb_Vector2 GetMonitorPosition(int monitor)
 {
     TRACELOG(LOG_WARNING, "GetMonitorPosition() not implemented on target platform");
-    return (Vector2){ 0, 0 };
+    return (rlb_Vector2){ 0, 0 };
 }
 
 // Get selected monitor width (currently used by monitor)
@@ -395,15 +395,15 @@ const char *GetMonitorName(int monitor)
 }
 
 // Get window position XY on monitor
-Vector2 GetWindowPosition(void)
+rlb_Vector2 GetWindowPosition(void)
 {
-    return (Vector2){ 0, 0 };
+    return (rlb_Vector2){ 0, 0 };
 }
 
 // Get window scale DPI factor for current monitor
-Vector2 GetWindowScaleDPI(void)
+rlb_Vector2 GetWindowScaleDPI(void)
 {
-    return (Vector2){ 1.0f, 1.0f };
+    return (rlb_Vector2){ 1.0f, 1.0f };
 }
 
 // Set clipboard text content
@@ -523,7 +523,7 @@ int SetGamepadMappings(const char *mappings)
 // Set mouse position XY
 void SetMousePosition(int x, int y)
 {
-    CORE.Input.Mouse.currentPosition = (Vector2){ (float)x, (float)y };
+    CORE.Input.Mouse.currentPosition = (rlb_Vector2){ (float)x, (float)y };
     CORE.Input.Mouse.previousPosition = CORE.Input.Mouse.currentPosition;
 }
 
@@ -560,13 +560,13 @@ void PollInputEvents(void)
     PollKeyboardEvents();
 
     // Register previous mouse position
-    if (platform.cursorRelative) CORE.Input.Mouse.currentPosition = (Vector2){ 0.0f, 0.0f };
+    if (platform.cursorRelative) CORE.Input.Mouse.currentPosition = (rlb_Vector2){ 0.0f, 0.0f };
     else CORE.Input.Mouse.previousPosition = CORE.Input.Mouse.currentPosition;
 
     // Register previous mouse states
     CORE.Input.Mouse.previousWheelMove = CORE.Input.Mouse.currentWheelMove;
     CORE.Input.Mouse.currentWheelMove = platform.eventWheelMove;
-    platform.eventWheelMove = (Vector2){ 0.0f, 0.0f };
+    platform.eventWheelMove = (rlb_Vector2){ 0.0f, 0.0f };
     for (int i = 0; i < MAX_MOUSE_BUTTONS; i++)
     {
         CORE.Input.Mouse.previousButtonState[i] = CORE.Input.Mouse.currentButtonState[i];

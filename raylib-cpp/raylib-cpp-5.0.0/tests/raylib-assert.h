@@ -297,12 +297,12 @@ extern "C" {
         AssertFail_1(message); \
         break; \
     } \
-    Color* colors1 = LoadImageColors(image1); \
-    Color* colors2 = LoadImageColors(image2); \
+    rlb_Color* colors1 = LoadImageColors(image1); \
+    rlb_Color* colors2 = LoadImageColors(image2); \
     bool failure = false; \
     for (int i = 0; i < image1.width * image1.height; i++) { \
-        Color color1 = colors1[i]; \
-        Color color2 = colors2[i]; \
+        rlb_Color color1 = colors1[i]; \
+        rlb_Color color2 = colors2[i]; \
         if (color1.r != color2.r || color1.g != color2.g || color1.b != color2.b || color1.a != color2.a) { \
             failure = true; \
             break; \

@@ -51,7 +51,7 @@ class Mouse {
         ::SetMousePosition(GetX(), y);
     }
 
-    static inline Vector2 GetPosition() {
+    static inline rlb_Vector2 GetPosition() {
         return ::GetMousePosition();
     }
 
@@ -59,14 +59,14 @@ class Mouse {
         ::SetMousePosition(x, y);
     }
 
-    static inline void SetPosition(::Vector2 position) {
+    static inline void SetPosition(::rlb_Vector2 position) {
         ::SetMousePosition(static_cast<int>(position.x), static_cast<int>(position.y));
     }
 
     /**
      * Get mouse delta between frames
      */
-    static inline Vector2 GetDelta() {
+    static inline rlb_Vector2 GetDelta() {
         return ::GetMouseDelta();
     }
 
@@ -74,7 +74,7 @@ class Mouse {
         ::SetMouseOffset(offsetX, offsetY);
     }
 
-    static inline void SetOffset(::Vector2 offset) {
+    static inline void SetOffset(::rlb_Vector2 offset) {
         ::SetMouseOffset(static_cast<int>(offset.x), static_cast<int>(offset.y));
     }
 
@@ -82,7 +82,7 @@ class Mouse {
         ::SetMouseScale(scaleX, scaleY);
     }
 
-    static inline void SetScale(::Vector2 scale) {
+    static inline void SetScale(::rlb_Vector2 scale) {
         ::SetMouseScale(scale.x, scale.y);
     }
 
@@ -98,7 +98,7 @@ class Mouse {
      *
      * @see ::GetMouseWheelMoveV()
      */
-    static inline Vector2 GetWheelMoveV() {
+    static inline rlb_Vector2 GetWheelMoveV() {
         return GetMouseWheelMoveV();
     }
 
@@ -128,21 +128,21 @@ class Mouse {
     /**
      * Get touch position XY for a touch point index (relative to screen size)
      */
-    static inline Vector2 GetTouchPosition(int index) {
+    static inline rlb_Vector2 GetTouchPosition(int index) {
         return ::GetTouchPosition(index);
     }
 
     /**
      * Get a ray trace from mouse position
      */
-    static inline Ray GetRay(::Vector2 mousePosition, const ::Camera& camera) {
+    static inline rlb_Ray GetRay(::rlb_Vector2 mousePosition, const ::rlb_Camera& camera) {
         return ::GetMouseRay(mousePosition, camera);
     }
 
     /**
      * Get a ray trace from mouse position
      */
-    static inline Ray GetRay(const ::Camera& camera) {
+    static inline rlb_Ray GetRay(const ::rlb_Camera& camera) {
         return ::GetMouseRay(::GetMousePosition(), camera);
     }
 };

@@ -6,17 +6,17 @@
 
 namespace jothly
 {
-	Vector2::Vector2(const Vector3& vec3) : Vector2(vec3.x, vec3.y) {}
+	rlb_Vector2::rlb_Vector2(const rlb_Vector3& vec3) : rlb_Vector2(vec3.x, vec3.y) {}
 
 
-	void Vector2::Normalize()
+	void rlb_Vector2::Normalize()
 	{
 		float sqrMag = GetMagnitudeSquared();
 		Normalize(sqrMag);
 	}
 
 
-	void Vector2::Normalize(float precomputedMagnitudeSquared)
+	void rlb_Vector2::Normalize(float precomputedMagnitudeSquared)
 	{
 		float mag = sqrtf(precomputedMagnitudeSquared);
 
@@ -31,53 +31,53 @@ namespace jothly
 	}
 
 
-	Vector2 Vector2::GetNormalized()
+	rlb_Vector2 rlb_Vector2::GetNormalized()
 	{
-		Vector2 vec = Vector2(*this);
+		rlb_Vector2 vec = rlb_Vector2(*this);
 		vec.Normalize();
 		return vec;
 	}
 
 
-	Vector2 Vector2::GetNormalized(float precomputedMagnitudeSquared)
+	rlb_Vector2 rlb_Vector2::GetNormalized(float precomputedMagnitudeSquared)
 	{
-		Vector2 vec = Vector2(*this);
+		rlb_Vector2 vec = rlb_Vector2(*this);
 		vec.Normalize(precomputedMagnitudeSquared);
 		return vec;
 	}
 
 
-	float Vector2::GetMagnitude()
+	float rlb_Vector2::GetMagnitude()
 	{
 		return sqrtf(GetMagnitudeSquared());
 	}
 
 
-	float Vector2::GetMagnitudeSquared()
+	float rlb_Vector2::GetMagnitudeSquared()
 	{
 		return (x * x) + (y * y);
 	}
 
 
-	void Vector2::Scale(float const& scale)
+	void rlb_Vector2::Scale(float const& scale)
 	{
 		x *= scale; y *= scale;
 	}
 
 
-	Vector2 Vector2::operator+(Vector2 const& other)
+	rlb_Vector2 rlb_Vector2::operator+(rlb_Vector2 const& other)
 	{
-		return Vector2(x + other.x, y + other.y);
+		return rlb_Vector2(x + other.x, y + other.y);
 	}
 
 
-    Vector3 Vector2::operator+(Vector3 const& other)
+    rlb_Vector3 rlb_Vector2::operator+(rlb_Vector3 const& other)
     {
-        return Vector3(other.x + x, other.y + y, other.z);
+        return rlb_Vector3(other.x + x, other.y + y, other.z);
     }
 
 
-	Vector2& Vector2::operator+=(Vector2 const& other)
+	rlb_Vector2& rlb_Vector2::operator+=(rlb_Vector2 const& other)
 	{
 		x += other.x;
 		y += other.y;
@@ -85,7 +85,7 @@ namespace jothly
 	}
 
 
-	Vector2& Vector2::operator+=(Vector3 const& other)
+	rlb_Vector2& rlb_Vector2::operator+=(rlb_Vector3 const& other)
 	{
 		x += other.x;
 		y += other.y;
@@ -93,27 +93,19 @@ namespace jothly
 	}
 
 
-	Vector2 Vector2::operator-(Vector2 const& other)
+	rlb_Vector2 rlb_Vector2::operator-(rlb_Vector2 const& other)
 	{
-		return Vector2(x - other.x, y - other.y);
+		return rlb_Vector2(x - other.x, y - other.y);
 	}
 
 
-	Vector3 Vector2::operator-(Vector3 const& other)
+	rlb_Vector3 rlb_Vector2::operator-(rlb_Vector3 const& other)
 	{
-		return Vector3(x - other.x, y - other.y, 0 - other.z);
+		return rlb_Vector3(x - other.x, y - other.y, 0 - other.z);
 	}
 
 
-	Vector2& Vector2::operator-=(Vector2 const& other)
-	{
-		x -= other.x;
-		y -= other.y;
-		return *this;
-	}
-
-
-	Vector2& Vector2::operator-=(Vector3 const& other)
+	rlb_Vector2& rlb_Vector2::operator-=(rlb_Vector2 const& other)
 	{
 		x -= other.x;
 		y -= other.y;
@@ -121,26 +113,34 @@ namespace jothly
 	}
 
 
-	Vector2 Vector2::operator*(float const& scale)
+	rlb_Vector2& rlb_Vector2::operator-=(rlb_Vector3 const& other)
 	{
-		return Vector2(x * scale, y * scale);
+		x -= other.x;
+		y -= other.y;
+		return *this;
 	}
 
 
-	Vector2 Vector2::operator/(float const& scale)
+	rlb_Vector2 rlb_Vector2::operator*(float const& scale)
 	{
-		return Vector2(x / scale, y / scale);
+		return rlb_Vector2(x * scale, y * scale);
 	}
 
 
-    bool Vector2::operator==(Vector2 const& other)
+	rlb_Vector2 rlb_Vector2::operator/(float const& scale)
+	{
+		return rlb_Vector2(x / scale, y / scale);
+	}
+
+
+    bool rlb_Vector2::operator==(rlb_Vector2 const& other)
     {
         return x == other.x && y == other.y;
     }
 
 
-	Vector2::operator Vector3() const
+	rlb_Vector2::operator rlb_Vector3() const
 	{
-		return Vector3(x, y, 0);
+		return rlb_Vector3(x, y, 0);
 	}
 }

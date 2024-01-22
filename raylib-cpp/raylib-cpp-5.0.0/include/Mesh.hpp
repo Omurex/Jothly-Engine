@@ -13,9 +13,9 @@ namespace raylib {
 /**
  * Vertex data definning a mesh
  */
-class Mesh : public ::Mesh {
+class rlb_Mesh : public ::rlb_Mesh {
  public:
-    Mesh(const ::Mesh& mesh) {
+    rlb_Mesh(const ::rlb_Mesh& mesh) {
         set(mesh);
     }
 
@@ -28,9 +28,9 @@ class Mesh : public ::Mesh {
     //    return std::vector<Mesh>(meshes, meshes + count);
     // }
 
-    Mesh(const Mesh&) = delete;
+    rlb_Mesh(const rlb_Mesh&) = delete;
 
-    Mesh(Mesh&& other) {
+    rlb_Mesh(rlb_Mesh&& other) {
         set(other);
 
         other.vertexCount = 0;
@@ -53,77 +53,77 @@ class Mesh : public ::Mesh {
     /**
      * Generate polygonal mesh
      */
-    static ::Mesh Poly(int sides, float radius) {
+    static ::rlb_Mesh Poly(int sides, float radius) {
         return ::GenMeshPoly(sides, radius);
     }
 
     /**
      * Generate plane mesh (with subdivisions)
      */
-    static ::Mesh Plane(float width, float length, int resX, int resZ) {
+    static ::rlb_Mesh Plane(float width, float length, int resX, int resZ) {
         return ::GenMeshPlane(width, length, resX, resZ);
     }
 
     /**
      * Generate cuboid mesh
      */
-    static ::Mesh Cube(float width, float height, float length) {
+    static ::rlb_Mesh Cube(float width, float height, float length) {
         return ::GenMeshCube(width, height, length);
     }
 
     /**
      * Generate sphere mesh (standard sphere)
      */
-    static ::Mesh Sphere(float radius, int rings, int slices) {
+    static ::rlb_Mesh Sphere(float radius, int rings, int slices) {
         return ::GenMeshSphere(radius, rings, slices);
     }
 
     /**
      * Generate half-sphere mesh (no bottom cap)
      */
-    static ::Mesh HemiSphere(float radius, int rings, int slices) {
+    static ::rlb_Mesh HemiSphere(float radius, int rings, int slices) {
         return ::GenMeshHemiSphere(radius, rings, slices);
     }
 
     /**
      * Generate cylinder mesh
      */
-    static ::Mesh Cylinder(float radius, float height, int slices) {
+    static ::rlb_Mesh Cylinder(float radius, float height, int slices) {
         return ::GenMeshCylinder(radius, height, slices);
     }
 
     /**
      * Generate cone/pyramid mesh
      */
-    static ::Mesh Cone(float radius, float height, int slices) {
+    static ::rlb_Mesh Cone(float radius, float height, int slices) {
         return ::GenMeshCone(radius, height, slices);
     }
 
     /**
      * Generate torus mesh
      */
-    static ::Mesh Torus(float radius, float size, int radSeg, int sides) {
+    static ::rlb_Mesh Torus(float radius, float size, int radSeg, int sides) {
         return ::GenMeshTorus(radius, size, radSeg, sides);
     }
 
     /**
      * Generate trefoil knot mesh
      */
-    static ::Mesh Knot(float radius, float size, int radSeg, int sides) {
+    static ::rlb_Mesh Knot(float radius, float size, int radSeg, int sides) {
         return ::GenMeshKnot(radius, size, radSeg, sides);
     }
 
     /**
      * Generate heightmap mesh from image data
      */
-    static ::Mesh Heightmap(const ::Image& heightmap, ::Vector3 size) {
+    static ::rlb_Mesh Heightmap(const ::rlb_Image& heightmap, ::rlb_Vector3 size) {
         return ::GenMeshHeightmap(heightmap, size);
     }
 
     /**
      * Generate cubes-based map mesh from image data
      */
-    static ::Mesh Cubicmap(const ::Image& cubicmap, ::Vector3 cubeSize) {
+    static ::rlb_Mesh Cubicmap(const ::rlb_Image& cubicmap, ::rlb_Vector3 cubeSize) {
         return ::GenMeshCubicmap(cubicmap, cubeSize);
     }
 
@@ -143,14 +143,14 @@ class Mesh : public ::Mesh {
     GETTERSETTER(unsigned int, VaoId, vaoId)
     GETTERSETTER(unsigned int *, VboId, vboId)
 
-    Mesh& operator=(const ::Mesh& mesh) {
+    rlb_Mesh& operator=(const ::rlb_Mesh& mesh) {
         set(mesh);
         return *this;
     }
 
-    Mesh& operator=(const Mesh&) = delete;
+    rlb_Mesh& operator=(const rlb_Mesh&) = delete;
 
-    Mesh& operator=(Mesh&& other) noexcept {
+    rlb_Mesh& operator=(rlb_Mesh&& other) noexcept {
         if (this == &other) {
             return *this;
         }
@@ -177,7 +177,7 @@ class Mesh : public ::Mesh {
         return *this;
     }
 
-    ~Mesh() {
+    ~rlb_Mesh() {
         Unload();
     }
 
@@ -198,14 +198,14 @@ class Mesh : public ::Mesh {
     /**
      * Draw a 3d mesh with material and transform
      */
-    inline void Draw(const ::Material& material, const ::Matrix& transform) const {
+    inline void Draw(const ::rlb_Material& material, const ::rlb_Matrix& transform) const {
         ::DrawMesh(*this, material, transform);
     }
 
     /**
      * Draw multiple mesh instances with material and different transforms
      */
-    inline void Draw(const ::Material& material, ::Matrix* transforms, int instances) const {
+    inline void Draw(const ::rlb_Material& material, ::rlb_Matrix* transforms, int instances) const {
         ::DrawMeshInstanced(*this, material, transforms, instances);
     }
 
@@ -233,21 +233,21 @@ class Mesh : public ::Mesh {
     /**
      * Compute mesh bounding box limits
      */
-    inline raylib::BoundingBox BoundingBox() const {
+    inline raylib::rlb_BoundingBox rlb_BoundingBox() const {
         return ::GetMeshBoundingBox(*this);
     }
 
     /**
      * Compute mesh bounding box limits
      */
-    operator raylib::BoundingBox() {
-        return BoundingBox();
+    operator raylib::rlb_BoundingBox() {
+        return rlb_BoundingBox();
     }
 
     /**
      * Compute mesh tangents
      */
-    inline Mesh& GenTangents() {
+    inline rlb_Mesh& GenTangents() {
         ::GenMeshTangents(this);
         return *this;
     }
@@ -255,19 +255,19 @@ class Mesh : public ::Mesh {
     /**
      * Load model from generated mesh
      */
-    inline raylib::Model LoadModelFrom() const {
+    inline raylib::rlb_Model LoadModelFrom() const {
         return ::LoadModelFromMesh(*this);
     }
 
     /**
      * Load model from generated mesh
      */
-    operator raylib::Model() {
+    operator raylib::rlb_Model() {
         return ::LoadModelFromMesh(*this);
     }
 
  protected:
-    void set(const ::Mesh& mesh) {
+    void set(const ::rlb_Mesh& mesh) {
         vertexCount = mesh.vertexCount;
         triangleCount = mesh.triangleCount;
         vertices = mesh.vertices;
@@ -287,6 +287,6 @@ class Mesh : public ::Mesh {
 };
 }  // namespace raylib
 
-using RMesh = raylib::Mesh;
+using RMesh = raylib::rlb_Mesh;
 
 #endif  // RAYLIB_CPP_INCLUDE_MESH_HPP_

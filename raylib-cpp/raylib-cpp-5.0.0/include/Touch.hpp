@@ -26,7 +26,7 @@ class Touch {
     /**
      * Get touch position XY for a touch point index (relative to screen size)
      */
-    inline static Vector2 GetPosition(int index) {
+    inline static rlb_Vector2 GetPosition(int index) {
         return ::GetTouchPosition(index);
     }
 

@@ -26,12 +26,12 @@ class Text {
     /**
      * The color of the text.
      */
-    ::Color color;
+    ::rlb_Color color;
 
     /**
      * The internal raylib font to use for the text.
      */
-    ::Font font;
+    ::rlb_Font font;
 
     /**
      * The character spacing for the text.
@@ -50,8 +50,8 @@ class Text {
     Text(
             const std::string& text = "",
             float fontSize = 10,
-            const ::Color& color = WHITE,
-            const ::Font& font = ::GetFontDefault(),
+            const ::rlb_Color& color = WHITE,
+            const ::rlb_Font& font = ::GetFontDefault(),
             float spacing = 0) :
             text(text),
             fontSize(fontSize),
@@ -71,11 +71,11 @@ class Text {
      * @param color The color of the font.
      */
     Text(
-            const ::Font& font,
+            const ::rlb_Font& font,
             const std::string& text = "",
             float fontSize = 10,
             float spacing = 0,
-            const ::Color& color = WHITE) :
+            const ::rlb_Color& color = WHITE) :
             text(text),
             fontSize(fontSize),
             color(color),
@@ -86,14 +86,14 @@ class Text {
 
     GETTERSETTER(std::string, Text, text)
     GETTERSETTER(float, FontSize, fontSize)
-    GETTERSETTER(::Font, Font, font)
-    GETTERSETTER(::Color, Color, color)
+    GETTERSETTER(::rlb_Font, rlb_Font, font)
+    GETTERSETTER(::rlb_Color, rlb_Color, color)
     GETTERSETTER(float, Spacing, spacing)
 
     /**
      * Draw text with values in class.
      */
-    inline void Draw(const ::Vector2& position) const {
+    inline void Draw(const ::rlb_Vector2& position) const {
         ::DrawTextEx(font, text.c_str(), position, fontSize, spacing, color);
     }
 
@@ -114,7 +114,7 @@ class Text {
      *
      * @see DrawTextPro()
      */
-    inline void Draw(const ::Vector2& position, float rotation, const ::Vector2& origin = {0, 0}) const {
+    inline void Draw(const ::rlb_Vector2& position, float rotation, const ::rlb_Vector2& origin = {0, 0}) const {
         ::DrawTextPro(font, text.c_str(), position, origin, rotation, fontSize, spacing, color);
     }
 
@@ -128,7 +128,7 @@ class Text {
     /**
      * Measure string size for Font
      */
-    inline Vector2 MeasureEx() const {
+    inline rlb_Vector2 MeasureEx() const {
         return ::MeasureTextEx(font, text.c_str(), fontSize, spacing);
     }
 
@@ -156,7 +156,7 @@ class Text {
             const int posX,
             const int posY,
             const int fontSize,
-            const ::Color& color) {
+            const ::rlb_Color& color) {
         ::DrawText(text.c_str(), posX, posY, fontSize, color);
     }
 
@@ -167,9 +167,9 @@ class Text {
      */
     static inline void Draw(
             const std::string& text,
-            const ::Vector2& pos,
+            const ::rlb_Vector2& pos,
             const int fontSize,
-            const ::Color& color) {
+            const ::rlb_Color& color) {
         ::DrawText(text.c_str(), static_cast<int>(pos.x), static_cast<int>(pos.y), fontSize, color);
     }
 
@@ -179,12 +179,12 @@ class Text {
      * @see ::DrawTextEx
      */
     static inline void Draw(
-            const ::Font& font,
+            const ::rlb_Font& font,
             const std::string& text,
-            const ::Vector2& position,
+            const ::rlb_Vector2& position,
             const float fontSize,
             const float spacing,
-            const ::Color& color) {
+            const ::rlb_Color& color) {
         ::DrawTextEx(font, text.c_str(), position, fontSize, spacing, color);
     }
 
@@ -194,14 +194,14 @@ class Text {
      * @see ::DrawTextPro
      */
     static inline void Draw(
-            const ::Font& font,
+            const ::rlb_Font& font,
             const std::string& text,
-            const ::Vector2& position,
-            const ::Vector2& origin,
+            const ::rlb_Vector2& position,
+            const ::rlb_Vector2& origin,
             const float rotation,
             const float fontSize,
             const float spacing,
-            const ::Color& color) {
+            const ::rlb_Color& color) {
         ::DrawTextPro(font, text.c_str(), position, origin, rotation, fontSize, spacing, color);
     }
 };

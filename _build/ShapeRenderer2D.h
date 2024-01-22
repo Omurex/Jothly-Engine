@@ -15,25 +15,25 @@ namespace jothly
 		protected:
 
 		float radius;
-		Color color;
-		Vector2 offset;
+		rlb_Color color;
+		rlb_Vector2 offset;
 
 		ShapeRenderer2D(GameObject* _owner) : Component(_owner) { Init(); }
 		~ShapeRenderer2D() {}
 
 		public:
 
-		ShapeRenderer2D* Init(float _radius = 100, Color _color = Color::WHITE, Vector2 _offset = Vector2(0));
+		ShapeRenderer2D* Init(float _radius = 100, rlb_Color _color = rlb_Color::WHITE, rlb_Vector2 _offset = rlb_Vector2(0));
 	
 		ComponentID GetID() const override { return ComponentID::SHAPE_RENDERER; }
 
 		float GetRadius() { return radius; }
-		Color GetColor() { return color; }
-		Vector2 GetOffset() { return offset; }
+		rlb_Color GetColor() { return color; }
+		rlb_Vector2 GetOffset() { return offset; }
 
 		void SetRadius(float _radius) { radius = _radius; }
-		void SetColor(Color _color) { color = _color; }
-		void SetOffset(Vector2 _offset) { offset = _offset; }
+		void SetColor(rlb_Color _color) { color = _color; }
+		void SetOffset(rlb_Vector2 _offset) { offset = _offset; }
 
 		void Draw() override;
 	};

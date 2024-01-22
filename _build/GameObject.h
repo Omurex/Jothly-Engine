@@ -6,7 +6,6 @@
 #include <type_traits>
 #include <stdexcept>
 
-#include "raylib.h"
 #include "ComponentID.hpp"
 #include "Component.h"
 #include "Constants.hpp"
@@ -25,12 +24,12 @@ namespace jothly
 		public:
 
 		std::string name;
-		Transform transform;
+		rlb_Transform transform;
 
-		GameObject(std::string _name, Transform _transform = Transform()) : name(_name),
+		GameObject(std::string _name, rlb_Transform _transform = rlb_Transform()) : name(_name),
 			transform(_transform) {}
 
-		GameObject(std::string _name = "New Object", Vector3 _pos = Vector3(0), Quaternion _rot = Quaternion(), Vector3 _scale = Vector3(1))
+		GameObject(std::string _name = "New Object", rlb_Vector3 _pos = rlb_Vector3(0), rlb_Quaternion _rot = rlb_Quaternion(), rlb_Vector3 _scale = rlb_Vector3(1))
 			: name(_name), transform(_pos, _rot, _scale) {}
 
 		~GameObject();

@@ -6,7 +6,7 @@
 
 namespace jothly
 {
-	Quaternion::Quaternion(Vector3 euler, bool degrees)
+	rlb_Quaternion::rlb_Quaternion(rlb_Vector3 euler, bool degrees)
 	{
 		if (degrees) SetEulerDeg(euler); 
 		else SetEulerRad(euler);
@@ -15,13 +15,13 @@ namespace jothly
 	}
 
 
-	Quaternion Quaternion::Quaternion2D(float angle, bool degrees)
+	rlb_Quaternion rlb_Quaternion::Quaternion2D(float angle, bool degrees)
 	{
-		return Quaternion(angle, Vector3(0, 0, 1), degrees);
+		return rlb_Quaternion(angle, rlb_Vector3(0, 0, 1), degrees);
 	}
 
 
-	Quaternion::Quaternion(float angle, Vector3 axis, bool degrees)
+	rlb_Quaternion::rlb_Quaternion(float angle, rlb_Vector3 axis, bool degrees)
 	{
 		if(degrees) SetAngleAxisDeg(angle, axis);
 		else SetAngleAxisRad(angle, axis);
@@ -30,7 +30,7 @@ namespace jothly
 	}
 
 
-	Quaternion& Quaternion::Normalize()
+	rlb_Quaternion& rlb_Quaternion::Normalize()
 	{
 		float magSquared;
 		if (!IsNormalized(magSquared))
@@ -42,14 +42,14 @@ namespace jothly
 	}
 
 
-	bool Quaternion::IsNormalized(float& out_magnitudeSquared)
+	bool rlb_Quaternion::IsNormalized(float& out_magnitudeSquared)
 	{
 		out_magnitudeSquared = components.GetMagnitudeSquared();
 		return Approx(out_magnitudeSquared, 1, MARGIN_OF_ERROR);
 	}
 
 
-	void Quaternion::Invert()
+	void rlb_Quaternion::Invert()
 	{
 		x = -x; 
 		y = -y;
@@ -57,23 +57,23 @@ namespace jothly
 	}
 
 
-	Quaternion Quaternion::GetInverse()
+	rlb_Quaternion rlb_Quaternion::GetInverse()
 	{
-		Quaternion q = Quaternion(x, y, z, w);
+		rlb_Quaternion q = rlb_Quaternion(x, y, z, w);
 		q.Invert();
 		return q;
 	}
 
 
-	Quaternion Quaternion::GetNormalized()
+	rlb_Quaternion rlb_Quaternion::GetNormalized()
 	{
-		Quaternion quat = Quaternion(*this);
+		rlb_Quaternion quat = rlb_Quaternion(*this);
 		quat.Normalize();
 		return quat;
 	}
 
 
-	const void Quaternion::GetAngleAxisDeg(float& out_angle, Vector3& out_axis)
+	const void rlb_Quaternion::GetAngleAxisDeg(float& out_angle, rlb_Vector3& out_axis)
 	{
 		Normalize();
 
@@ -82,7 +82,7 @@ namespace jothly
 	}
 
 
-	const void Quaternion::GetAngleAxisRad(float& out_angle, Vector3& out_axis)
+	const void rlb_Quaternion::GetAngleAxisRad(float& out_angle, rlb_Vector3& out_axis)
 	{
 		Normalize();
 
@@ -91,32 +91,32 @@ namespace jothly
 	}
 
 
-	const float Quaternion::GetAngleDeg()
+	const float rlb_Quaternion::GetAngleDeg()
 	{
 		return GetAngleRad() * RAD2DEG;
 	}
 
 
-	const float Quaternion::GetAngleRad()
+	const float rlb_Quaternion::GetAngleRad()
 	{
 		// https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/index.htm
 		return 2 * acosf(w);
 	}
 	
 
-	const Vector3 Quaternion::GetAxis()
+	const rlb_Vector3 rlb_Quaternion::GetAxis()
 	{
 		// https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/index.htm
 
 		// If at 0 singularity, axis doesn't matter. Replace with arbitrary normalized x axis
 		if (Approx(w, 1, MARGIN_OF_ERROR))
 		{
-			return Vector3(1, 0, 0);
+			return rlb_Vector3(1, 0, 0);
 		}
 
 		float mag = sqrtf(1 - (w * w));
 
-		return Vector3(
+		return rlb_Vector3(
 			x / mag,
 			y / mag,
 			z / mag
@@ -124,7 +124,7 @@ namespace jothly
 	}
 
 
-	Vector4 Quaternion::SetComponents(Vector4 _components)
+	rlb_Vector4 rlb_Quaternion::SetComponents(rlb_Vector4 _components)
 	{
 		components = _components;
 		Normalize();
@@ -132,13 +132,13 @@ namespace jothly
 	}
 
 
-	void Quaternion::SetEulerDeg(Vector3 euler)
+	void rlb_Quaternion::SetEulerDeg(rlb_Vector3 euler)
 	{
 		SetEulerRad(euler * DEG2RAD);
 	}
 
 
-	void Quaternion::SetEulerRad(Vector3 euler)
+	void rlb_Quaternion::SetEulerRad(rlb_Vector3 euler)
 	{
 		// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 
@@ -158,13 +158,13 @@ namespace jothly
 	}
 
 
-	void Quaternion::SetAngleAxisDeg(float angle, Vector3 axis)
+	void rlb_Quaternion::SetAngleAxisDeg(float angle, rlb_Vector3 axis)
 	{
 		SetAngleAxisRad(angle * DEG2RAD, axis);
 	}
 
 
-	void Quaternion::SetAngleAxisRad(float angle, Vector3 axis)
+	void rlb_Quaternion::SetAngleAxisRad(float angle, rlb_Vector3 axis)
 	{
 		// https://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
 
@@ -179,9 +179,9 @@ namespace jothly
 	}
 
 
-	Vector4 Quaternion::Hamiltonian(Vector4 const& v1, Vector4 const& v2)
+	rlb_Vector4 rlb_Quaternion::Hamiltonian(rlb_Vector4 const& v1, rlb_Vector4 const& v2)
 	{
-		return Vector4(
+		return rlb_Vector4(
 			v1.w * v2.x + v1.x * v2.w + v1.y * v2.z - v1.z * v2.y,
 			v1.w * v2.y - v1.x * v2.z + v1.y * v2.w + v1.z * v2.x,
 			v1.w * v2.z + v1.x * v2.y - v1.y * v2.x + v1.z * v2.w,
@@ -190,58 +190,58 @@ namespace jothly
 	}
 
 
-	Vector2 Quaternion::GetRotated(Vector2 vec)
+	rlb_Vector2 rlb_Quaternion::GetRotated(rlb_Vector2 vec)
 	{
-		return (Vector2) GetRotated((Vector3) vec);
+		return (rlb_Vector2) GetRotated((rlb_Vector3) vec);
 	}
 
 
-	Vector3 Quaternion::GetRotated(Vector3 vec)
+	rlb_Vector3 rlb_Quaternion::GetRotated(rlb_Vector3 vec)
 	{
-		return (Vector3) GetRotated((Vector4) vec);
+		return (rlb_Vector3) GetRotated((rlb_Vector4) vec);
 	}
 
 
-	Vector4 Quaternion::GetRotated(Vector4 v)
+	rlb_Vector4 rlb_Quaternion::GetRotated(rlb_Vector4 v)
 	{
 		// https://math.stackexchange.com/questions/40164/how-do-you-rotate-a-vector-by-a-unit-quaternion
-		Quaternion inverse = GetInverse();
+		rlb_Quaternion inverse = GetInverse();
 		return Hamiltonian(Hamiltonian(this->components, v), inverse.components);
 	}
 
 
-	Quaternion Quaternion::GetRotated(Quaternion other)
+	rlb_Quaternion rlb_Quaternion::GetRotated(rlb_Quaternion other)
 	{
-		Quaternion q = Quaternion(this->components);
+		rlb_Quaternion q = rlb_Quaternion(this->components);
 		q.Rotate(other);
 
 		return q;
 	}
 
 
-	Vector2 Quaternion::GetRotatedAroundPoint(Vector2 vecToRotate, Vector2 point)
+	rlb_Vector2 rlb_Quaternion::GetRotatedAroundPoint(rlb_Vector2 vecToRotate, rlb_Vector2 point)
 	{
-		return (Vector2) GetRotatedAroundPoint((Vector3) vecToRotate, (Vector3) point);
+		return (rlb_Vector2) GetRotatedAroundPoint((rlb_Vector3) vecToRotate, (rlb_Vector3) point);
 	}
 
 
-	Vector3 Quaternion::GetRotatedAroundPoint(Vector3 vecToRotate, Vector3 point)
+	rlb_Vector3 rlb_Quaternion::GetRotatedAroundPoint(rlb_Vector3 vecToRotate, rlb_Vector3 point)
 	{
-		return (Vector3) GetRotatedAroundPoint((Vector4) vecToRotate, (Vector4) point);
+		return (rlb_Vector3) GetRotatedAroundPoint((rlb_Vector4) vecToRotate, (rlb_Vector4) point);
 	}
 
 
-	Vector4 Quaternion::GetRotatedAroundPoint(Vector4 vecToRotate, Vector4 point)
+	rlb_Vector4 rlb_Quaternion::GetRotatedAroundPoint(rlb_Vector4 vecToRotate, rlb_Vector4 point)
 	{
 		return GetRotated(vecToRotate - point) + point;
 	}
 
 
-	void Quaternion::Rotate(Quaternion other)
+	void rlb_Quaternion::Rotate(rlb_Quaternion other)
 	{
 		// https://www.cprogramming.com/tutorial/3d/quaternions.html
 
-		components = Vector4(
+		components = rlb_Vector4(
 			w * other.x + x * other.w + y * other.z - z * other.y,
 			w * other.y - x * other.z + y * other.w + z * other.x,
 			w * other.z + x * other.y - y * other.x + z * other.w,
@@ -252,19 +252,19 @@ namespace jothly
 	}
 
 
-	Vector2 Quaternion::operator*(const Vector2& other)
+	rlb_Vector2 rlb_Quaternion::operator*(const rlb_Vector2& other)
 	{
 		return this->GetRotated(other);
 	}
 
 
-	Vector3 Quaternion::operator*(const Vector3& other)
+	rlb_Vector3 rlb_Quaternion::operator*(const rlb_Vector3& other)
 	{
 		return this->GetRotated(other);
 	}
 
 
-	Vector4 Quaternion::operator*(const Vector4& other)
+	rlb_Vector4 rlb_Quaternion::operator*(const rlb_Vector4& other)
 	{
 		return this->GetRotated(other);
 	}

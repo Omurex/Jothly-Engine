@@ -160,7 +160,7 @@ class Window {
     /**
      * Clear window with given color.
      */
-    inline Window& ClearBackground(const ::Color& color = BLACK) {
+    inline Window& ClearBackground(const ::rlb_Color& color = BLACK) {
         ::ClearBackground(color);
         return *this;
     }
@@ -225,7 +225,7 @@ class Window {
     /**
      * Set icon for window
      */
-    inline Window& SetIcon(const ::Image& image) {
+    inline Window& SetIcon(const ::rlb_Image& image) {
         ::SetWindowIcon(image);
         return *this;
     }
@@ -233,7 +233,7 @@ class Window {
     /**
      * Set icon for window (multiple images, RGBA 32bit, only PLATFORM_DESKTOP)
      */
-    inline Window& SetIcons(Image* images, int count) {
+    inline Window& SetIcons(rlb_Image* images, int count) {
         ::SetWindowIcons(images, count);
         return *this;
     }
@@ -257,7 +257,7 @@ class Window {
     /**
      * Set window position on screen
      */
-    inline Window& SetPosition(const ::Vector2& position) {
+    inline Window& SetPosition(const ::rlb_Vector2& position) {
         return SetPosition(static_cast<int>(position.x), static_cast<int>(position.y));
     }
 
@@ -280,7 +280,7 @@ class Window {
     /**
      * Set window minimum dimensions
      */
-    inline Window& SetMinSize(const ::Vector2& size) {
+    inline Window& SetMinSize(const ::rlb_Vector2& size) {
         ::SetWindowMinSize(static_cast<int>(size.x), static_cast<int>(size.y));
         return *this;
     }
@@ -312,14 +312,14 @@ class Window {
     /**
      * Set window dimensions
      */
-    inline Window& SetSize(const ::Vector2& size) {
+    inline Window& SetSize(const ::rlb_Vector2& size) {
         return SetSize(static_cast<int>(size.x), static_cast<int>(size.y));
     }
 
     /**
      * Get the screen's width and height.
      */
-    inline Vector2 GetSize() const {
+    inline rlb_Vector2 GetSize() const {
         return {static_cast<float>(GetWidth()), static_cast<float>(GetHeight())};
     }
 
@@ -377,14 +377,14 @@ class Window {
     /**
      * Get window position XY on monitor
      */
-    inline Vector2 GetPosition() const {
+    inline rlb_Vector2 GetPosition() const {
         return ::GetWindowPosition();
     }
 
     /**
      * Get window scale DPI factor
      */
-    inline Vector2 GetScaleDPI() const {
+    inline rlb_Vector2 GetScaleDPI() const {
         return ::GetWindowScaleDPI();
     }
 

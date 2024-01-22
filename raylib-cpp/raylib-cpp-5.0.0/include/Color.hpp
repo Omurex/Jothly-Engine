@@ -11,43 +11,43 @@ namespace raylib {
 /**
  * Color type, RGBA (32bit)
  */
-class Color : public ::Color {
+class rlb_Color : public ::rlb_Color {
  public:
-    Color(const ::Color& color) : ::Color{color.r, color.g, color.b, color.a} {}
+    rlb_Color(const ::rlb_Color& color) : ::rlb_Color{color.r, color.g, color.b, color.a} {}
 
-    Color(
+    rlb_Color(
             unsigned char red,
             unsigned char green,
             unsigned char blue,
-            unsigned char alpha = 255) : ::Color{red, green, blue, alpha} {};
+            unsigned char alpha = 255) : ::rlb_Color{red, green, blue, alpha} {};
 
     /**
      * Black.
      */
-    Color() : ::Color{0, 0, 0, 255} {};
+    rlb_Color() : ::rlb_Color{0, 0, 0, 255} {};
 
     /**
      * Returns a Color from HSV values
      */
-    Color(::Vector3 hsv) {
+    rlb_Color(::rlb_Vector3 hsv) {
         set(::ColorFromHSV(hsv.x, hsv.y, hsv.z));
     }
 
     /**
      * Returns a Color from HSV values
      */
-    static ::Color FromHSV(float hue, float saturation, float value) {
+    static ::rlb_Color FromHSV(float hue, float saturation, float value) {
         return ::ColorFromHSV(hue, saturation, value);
     }
 
     /**
      * Get Color structure from hexadecimal value
      */
-    Color(unsigned int hexValue) {
+    rlb_Color(unsigned int hexValue) {
         set(::GetColor(hexValue));
     }
 
-    Color(void *srcPtr, int format) {
+    rlb_Color(void *srcPtr, int format) {
         set(::GetPixelColor(srcPtr, format));
     }
 
@@ -76,28 +76,28 @@ class Color : public ::Color {
     /**
      * Returns color with alpha applied, alpha goes from 0.0f to 1.0f
      */
-    Color Fade(float alpha) const {
+    rlb_Color Fade(float alpha) const {
         return ::Fade(*this, alpha);
     }
 
     /**
      * Returns Color normalized as float [0..1]
      */
-    Vector4 Normalize() const {
+    rlb_Vector4 Normalize() const {
         return ::ColorNormalize(*this);
     }
 
     /**
      * Returns Color from normalized values [0..1]
      */
-    Color(::Vector4 normalized) {
+    rlb_Color(::rlb_Vector4 normalized) {
         set(::ColorFromNormalized(normalized));
     }
 
     /**
      * Returns HSV values for a Color
      */
-    Vector3 ToHSV() const {
+    rlb_Vector3 ToHSV() const {
         return ::ColorToHSV(*this);
     }
 
@@ -106,7 +106,7 @@ class Color : public ::Color {
     GETTERSETTER(unsigned char, B, b)
     GETTERSETTER(unsigned char, A, a)
 
-    Color& operator=(const ::Color& color) {
+    rlb_Color& operator=(const ::rlb_Color& color) {
         set(color);
         return *this;
     }
@@ -114,7 +114,7 @@ class Color : public ::Color {
     /**
      * Set background color (framebuffer clear color)
      */
-    inline Color& ClearBackground() {
+    inline rlb_Color& ClearBackground() {
         ::ClearBackground(*this);
         return *this;
     }
@@ -126,7 +126,7 @@ class Color : public ::Color {
     /**
      * Draw a pixel
      */
-    inline void DrawPixel(::Vector2 pos) const {
+    inline void DrawPixel(::rlb_Vector2 pos) const {
         ::DrawPixelV(pos, *this);
     }
 
@@ -140,22 +140,22 @@ class Color : public ::Color {
     /**
      * Draw a line using Vector points
      */
-    inline void DrawLine(::Vector2 startPos, ::Vector2 endPos) const {
+    inline void DrawLine(::rlb_Vector2 startPos, ::rlb_Vector2 endPos) const {
         ::DrawLineV(startPos, endPos, *this);
     }
 
     /**
      * Draw a line using Vector points, with a given thickness
      */
-    inline void DrawLine(::Vector2 startPos, ::Vector2 endPos, float thick) const {
+    inline void DrawLine(::rlb_Vector2 startPos, ::rlb_Vector2 endPos, float thick) const {
         ::DrawLineEx(startPos, endPos, thick, *this);
     }
 
-    inline void DrawLineBezier(::Vector2 startPos, ::Vector2 endPos, float thick = 1.0f) const {
+    inline void DrawLineBezier(::rlb_Vector2 startPos, ::rlb_Vector2 endPos, float thick = 1.0f) const {
         ::DrawLineBezier(startPos, endPos, thick, *this);
     }
 
-    inline void DrawLineStrip(::Vector2 *points, int numPoints) const {
+    inline void DrawLineStrip(::rlb_Vector2 *points, int numPoints) const {
         ::DrawLineStrip(points, numPoints, *this);
     }
 
@@ -163,16 +163,16 @@ class Color : public ::Color {
         ::DrawText(text.c_str(), posX, posY, fontSize, *this);
     }
 
-    inline void DrawText(const ::Font& font, const std::string& text, ::Vector2 position,
+    inline void DrawText(const ::rlb_Font& font, const std::string& text, ::rlb_Vector2 position,
             float fontSize, float spacing) const {
         ::DrawTextEx(font, text.c_str(), position, fontSize, spacing, *this);
     }
 
     inline void DrawText(
-            const ::Font& font,
+            const ::rlb_Font& font,
             const std::string& text,
-            ::Vector2 position,
-            ::Vector2 origin,
+            ::rlb_Vector2 position,
+            ::rlb_Vector2 origin,
             float rotation,
             float fontSize,
             float spacing) const {
@@ -183,15 +183,15 @@ class Color : public ::Color {
         ::DrawRectangle(posX, posY, width, height, *this);
     }
 
-    inline void DrawRectangle(::Vector2 position, ::Vector2 size) const {
+    inline void DrawRectangle(::rlb_Vector2 position, ::rlb_Vector2 size) const {
         ::DrawRectangleV(position, size, *this);
     }
 
-    inline void DrawRectangle(::Rectangle rec) const {
+    inline void DrawRectangle(::rlb_Rectangle rec) const {
         ::DrawRectangleRec(rec, *this);
     }
 
-    inline void DrawRectangle(::Rectangle rec, ::Vector2 origin, float rotation) const {
+    inline void DrawRectangle(::rlb_Rectangle rec, ::rlb_Vector2 origin, float rotation) const {
         ::DrawRectanglePro(rec, origin, rotation, *this);
     }
 
@@ -199,74 +199,74 @@ class Color : public ::Color {
         ::DrawRectangleLines(posX, posY, width, height, *this);
     }
 
-    inline void DrawRectangleLines(::Rectangle rec, float lineThick) const {
+    inline void DrawRectangleLines(::rlb_Rectangle rec, float lineThick) const {
         ::DrawRectangleLinesEx(rec, lineThick, *this);
     }
 
     /**
      * Get color multiplied with another color
      */
-    inline Color Tint(::Color tint) {
+    inline rlb_Color Tint(::rlb_Color tint) {
         return ::ColorTint(*this, tint);
     }
 
     /**
      * Get color with brightness correction, brightness factor goes from -1.0f to 1.0f
      */
-    inline Color Brightness(float factor) {
+    inline rlb_Color Brightness(float factor) {
         return ::ColorBrightness(*this, factor);
     }
 
     /**
      * Get color with contrast correction, contrast values between -1.0f and 1.0f
      */
-    inline Color Contrast(float contrast) {
+    inline rlb_Color Contrast(float contrast) {
         return ::ColorContrast(*this, contrast);
     }
 
     /**
      * Returns color with alpha applied, alpha goes from 0.0f to 1.0f
      */
-    Color Alpha(float alpha) const {
+    rlb_Color Alpha(float alpha) const {
         return ::ColorAlpha(*this, alpha);
     }
 
     /**
      * Returns src alpha-blended into dst color with tint
      */
-    Color AlphaBlend(::Color dst, ::Color tint) const {
+    rlb_Color AlphaBlend(::rlb_Color dst, ::rlb_Color tint) const {
         return ::ColorAlphaBlend(dst, *this, tint);
     }
 
-    inline static Color LightGray() { return LIGHTGRAY; }
-    inline static Color Gray() { return GRAY; }
-    inline static Color DarkGray() { return DARKGRAY; }
-    inline static Color Yellow() { return YELLOW; }
-    inline static Color Gold() { return GOLD; }
-    inline static Color Orange() { return ORANGE; }
-    inline static Color Pink() { return PINK; }
-    inline static Color Red() { return RED; }
-    inline static Color Maroon() { return MAROON; }
-    inline static Color Green() { return GREEN; }
-    inline static Color Lime() { return LIME; }
-    inline static Color DarkGreen() { return DARKGREEN; }
-    inline static Color SkyBlue() { return SKYBLUE; }
-    inline static Color Blue() { return BLUE; }
-    inline static Color DarkBlue() { return DARKBLUE; }
-    inline static Color Purple() { return PURPLE; }
-    inline static Color Violet() { return VIOLET; }
-    inline static Color DarkPurple() { return DARKPURPLE; }
-    inline static Color Beige() { return BEIGE; }
-    inline static Color Brown() { return BROWN; }
-    inline static Color DarkBrown() { return DARKBROWN; }
-    inline static Color White() { return WHITE; }
-    inline static Color Black() { return BLACK; }
-    inline static Color Blank() { return BLANK; }
-    inline static Color Magenta() { return MAGENTA; }
-    inline static Color RayWhite() { return RAYWHITE; }
+    inline static rlb_Color LightGray() { return LIGHTGRAY; }
+    inline static rlb_Color Gray() { return GRAY; }
+    inline static rlb_Color DarkGray() { return DARKGRAY; }
+    inline static rlb_Color Yellow() { return YELLOW; }
+    inline static rlb_Color Gold() { return GOLD; }
+    inline static rlb_Color Orange() { return ORANGE; }
+    inline static rlb_Color Pink() { return PINK; }
+    inline static rlb_Color Red() { return RED; }
+    inline static rlb_Color Maroon() { return MAROON; }
+    inline static rlb_Color Green() { return GREEN; }
+    inline static rlb_Color Lime() { return LIME; }
+    inline static rlb_Color DarkGreen() { return DARKGREEN; }
+    inline static rlb_Color SkyBlue() { return SKYBLUE; }
+    inline static rlb_Color Blue() { return BLUE; }
+    inline static rlb_Color DarkBlue() { return DARKBLUE; }
+    inline static rlb_Color Purple() { return PURPLE; }
+    inline static rlb_Color Violet() { return VIOLET; }
+    inline static rlb_Color DarkPurple() { return DARKPURPLE; }
+    inline static rlb_Color Beige() { return BEIGE; }
+    inline static rlb_Color Brown() { return BROWN; }
+    inline static rlb_Color DarkBrown() { return DARKBROWN; }
+    inline static rlb_Color White() { return WHITE; }
+    inline static rlb_Color Black() { return BLACK; }
+    inline static rlb_Color Blank() { return BLANK; }
+    inline static rlb_Color Magenta() { return MAGENTA; }
+    inline static rlb_Color RayWhite() { return RAYWHITE; }
 
  protected:
-    void set(const ::Color& color) {
+    void set(const ::rlb_Color& color) {
         r = color.r;
         g = color.g;
         b = color.b;
@@ -276,6 +276,6 @@ class Color : public ::Color {
 
 }  // namespace raylib
 
-using RColor = raylib::Color;
+using RColor = raylib::rlb_Color;
 
 #endif  // RAYLIB_CPP_INCLUDE_COLOR_HPP_

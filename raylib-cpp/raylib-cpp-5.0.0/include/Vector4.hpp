@@ -16,18 +16,18 @@ namespace raylib {
 /**
  * Vector4 type
  */
-class Vector4 : public ::Vector4 {
+class rlb_Vector4 : public ::rlb_Vector4 {
  public:
-    Vector4(const ::Vector4& vec) : ::Vector4{vec.x, vec.y, vec.z, vec.w} {}
+    rlb_Vector4(const ::rlb_Vector4& vec) : ::rlb_Vector4{vec.x, vec.y, vec.z, vec.w} {}
 
-    Vector4(float x, float y, float z, float w) : ::Vector4{x, y, z, w} {}
-    Vector4(float x, float y, float z) : ::Vector4{x, y, z, 0} {}
-    Vector4(float x, float y) : ::Vector4{x, y, 0, 0} {}
-    Vector4(float x) : ::Vector4{x, 0, 0, 0} {}
-    Vector4() : ::Vector4{0, 0, 0, 0} {}
-    Vector4(::Rectangle rectangle) : ::Vector4{rectangle.x, rectangle.y, rectangle.width, rectangle.height} {}
+    rlb_Vector4(float x, float y, float z, float w) : ::rlb_Vector4{x, y, z, w} {}
+    rlb_Vector4(float x, float y, float z) : ::rlb_Vector4{x, y, z, 0} {}
+    rlb_Vector4(float x, float y) : ::rlb_Vector4{x, y, 0, 0} {}
+    rlb_Vector4(float x) : ::rlb_Vector4{x, 0, 0, 0} {}
+    rlb_Vector4() : ::rlb_Vector4{0, 0, 0, 0} {}
+    rlb_Vector4(::rlb_Rectangle rectangle) : ::rlb_Vector4{rectangle.x, rectangle.y, rectangle.width, rectangle.height} {}
 
-    Vector4(::Color color) {
+    rlb_Vector4(::rlb_Color color) {
         set(ColorNormalize(color));
     }
 
@@ -36,27 +36,27 @@ class Vector4 : public ::Vector4 {
     GETTERSETTER(float, Z, z)
     GETTERSETTER(float, W, w)
 
-    Vector4& operator=(const ::Vector4& vector4) {
+    rlb_Vector4& operator=(const ::rlb_Vector4& vector4) {
         set(vector4);
         return *this;
     }
 
-    bool operator==(const ::Vector4& other) const {
+    bool operator==(const ::rlb_Vector4& other) const {
         return x == other.x
             && y == other.y
             && z == other.z
             && w == other.w;
     }
 
-    bool operator!=(const ::Vector4& other) const {
+    bool operator!=(const ::rlb_Vector4& other) const {
         return !(*this == other);
     }
 
-    inline ::Rectangle ToRectangle() const {
+    inline ::rlb_Rectangle ToRectangle() const {
         return {x, y, z, w};
     }
 
-    operator ::Rectangle() const {
+    operator ::rlb_Rectangle() const {
         return {x, y, z, w};
     }
 
@@ -69,27 +69,27 @@ class Vector4 : public ::Vector4 {
     }
 
 #ifndef RAYLIB_CPP_NO_MATH
-    inline Vector4 Multiply(const ::Vector4& vector4) const {
+    inline rlb_Vector4 Multiply(const ::rlb_Vector4& vector4) const {
         return QuaternionMultiply(*this, vector4);
     }
 
-    inline Vector4 operator*(const ::Vector4& vector4) const {
+    inline rlb_Vector4 operator*(const ::rlb_Vector4& vector4) const {
         return QuaternionMultiply(*this, vector4);
     }
 
-    inline Vector4 Lerp(const ::Vector4& vector4, float amount) const {
+    inline rlb_Vector4 Lerp(const ::rlb_Vector4& vector4, float amount) const {
         return QuaternionLerp(*this, vector4, amount);
     }
 
-    inline Vector4 Nlerp(const ::Vector4& vector4, float amount) const {
+    inline rlb_Vector4 Nlerp(const ::rlb_Vector4& vector4, float amount) const {
         return QuaternionNlerp(*this, vector4, amount);
     }
 
-    inline Vector4 Slerp(const ::Vector4& vector4, float amount) const {
+    inline rlb_Vector4 Slerp(const ::rlb_Vector4& vector4, float amount) const {
         return QuaternionSlerp(*this, vector4, amount);
     }
 
-    inline Matrix ToMatrix() const {
+    inline rlb_Matrix ToMatrix() const {
         return QuaternionToMatrix(*this);
     }
 
@@ -97,72 +97,72 @@ class Vector4 : public ::Vector4 {
         return QuaternionLength(*this);
     }
 
-    inline Vector4 Normalize() const {
+    inline rlb_Vector4 Normalize() const {
         return QuaternionNormalize(*this);
     }
 
-    inline Vector4 Invert() const {
+    inline rlb_Vector4 Invert() const {
         return QuaternionInvert(*this);
     }
 
-    inline void ToAxisAngle(::Vector3 *outAxis, float *outAngle) const {
+    inline void ToAxisAngle(::rlb_Vector3 *outAxis, float *outAngle) const {
         QuaternionToAxisAngle(*this, outAxis, outAngle);
     }
 
     /**
      * Get the rotation angle and axis for a given quaternion
      */
-    std::pair<Vector3, float> ToAxisAngle() const {
-        Vector3 outAxis;
+    std::pair<rlb_Vector3, float> ToAxisAngle() const {
+        rlb_Vector3 outAxis;
         float outAngle;
         QuaternionToAxisAngle(*this, &outAxis, &outAngle);
 
-        return std::pair<Vector3, float>(outAxis, outAngle);
+        return std::pair<rlb_Vector3, float>(outAxis, outAngle);
     }
 
-    inline Vector4 Transform(const ::Matrix& matrix) const {
+    inline rlb_Vector4 rlb_Transform(const ::rlb_Matrix& matrix) const {
         return ::QuaternionTransform(*this, matrix);
     }
 
-    static inline Vector4 Identity() {
+    static inline rlb_Vector4 Identity() {
         return ::QuaternionIdentity();
     }
 
-    static inline Vector4 FromVector3ToVector3(const ::Vector3& from , const ::Vector3& to) {
+    static inline rlb_Vector4 FromVector3ToVector3(const ::rlb_Vector3& from , const ::rlb_Vector3& to) {
         return ::QuaternionFromVector3ToVector3(from , to);
     }
 
-    static inline Vector4 FromMatrix(const ::Matrix& matrix) {
+    static inline rlb_Vector4 FromMatrix(const ::rlb_Matrix& matrix) {
         return ::QuaternionFromMatrix(matrix);
     }
 
-    static inline Vector4 FromAxisAngle(const ::Vector3& axis, const float angle) {
+    static inline rlb_Vector4 FromAxisAngle(const ::rlb_Vector3& axis, const float angle) {
         return ::QuaternionFromAxisAngle(axis, angle);
     }
 
-    static inline Vector4 FromEuler(const float pitch, const float yaw, const float roll) {
+    static inline rlb_Vector4 FromEuler(const float pitch, const float yaw, const float roll) {
         return ::QuaternionFromEuler(pitch, yaw, roll);
     }
 
-    static inline Vector4 FromEuler(const ::Vector3& vector3) {
+    static inline rlb_Vector4 FromEuler(const ::rlb_Vector3& vector3) {
         return ::QuaternionFromEuler(vector3.x, vector3.y, vector3.z);
     }
 
-    inline Vector3 ToEuler() const {
+    inline rlb_Vector3 ToEuler() const {
         return ::QuaternionToEuler(*this);
     }
 #endif
 
-    inline Color ColorFromNormalized() const {
+    inline rlb_Color ColorFromNormalized() const {
         return ::ColorFromNormalized(*this);
     }
 
-    operator Color() const {
+    operator rlb_Color() const {
         return ColorFromNormalized();
     }
 
  protected:
-    void set(const ::Vector4& vec4) {
+    void set(const ::rlb_Vector4& vec4) {
         x = vec4.x;
         y = vec4.y;
         z = vec4.z;
@@ -171,10 +171,10 @@ class Vector4 : public ::Vector4 {
 };
 
 // Alias the Vector4 as Quaternion.
-typedef Vector4 Quaternion;
+typedef rlb_Vector4 rlb_Quaternion;
 }  // namespace raylib
 
-using RVector4 = raylib::Vector4;
-using RQuaternion = raylib::Quaternion;
+using RVector4 = raylib::rlb_Vector4;
+using RQuaternion = raylib::rlb_Quaternion;
 
 #endif  // RAYLIB_CPP_INCLUDE_VECTOR4_HPP_

@@ -11,22 +11,22 @@ namespace raylib {
 /**
  * Material type (generic)
  */
-class Material : public ::Material {
+class rlb_Material : public ::rlb_Material {
  public:
-    Material(const ::Material& material) {
+    rlb_Material(const ::rlb_Material& material) {
         set(material);
     }
 
     /**
      * Load default material (Supports: DIFFUSE, SPECULAR, NORMAL maps)
      */
-    Material() {
+    rlb_Material() {
         set(LoadMaterialDefault());
     }
 
-    Material(const Material&) = delete;
+    rlb_Material(const rlb_Material&) = delete;
 
-    Material(Material&& other) {
+    rlb_Material(rlb_Material&& other) {
         set(other);
 
         other.maps = nullptr;
@@ -37,33 +37,33 @@ class Material : public ::Material {
         other.params[3] = 0.0f;
     }
 
-    ~Material() {
+    ~rlb_Material() {
         Unload();
     }
 
     /**
      * Load materials from model file
      */
-    static std::vector<Material> Load(const std::string& fileName) {
+    static std::vector<rlb_Material> Load(const std::string& fileName) {
         int count = 0;
         // TODO(RobLoach): Material::Load() possibly leaks the materials array.
-        ::Material* materials = ::LoadMaterials(fileName.c_str(), &count);
-        return std::vector<Material>(materials, materials + count);
+        ::rlb_Material* materials = ::LoadMaterials(fileName.c_str(), &count);
+        return std::vector<rlb_Material>(materials, materials + count);
     }
 
-    GETTERSETTER(::Shader, Shader, shader)
-    GETTERSETTER(::MaterialMap*, Maps, maps)
+    GETTERSETTER(::rlb_Shader, rlb_Shader, shader)
+    GETTERSETTER(::rlb_MaterialMap*, Maps, maps)
     // TODO(RobLoach): Resolve the Material params being a float[4].
     // GETTERSETTER(float[4], Params, params)
 
-    Material& operator=(const ::Material& material) {
+    rlb_Material& operator=(const ::rlb_Material& material) {
         set(material);
         return *this;
     }
 
-    Material& operator=(const Material&) = delete;
+    rlb_Material& operator=(const rlb_Material&) = delete;
 
-    Material& operator=(Material&& other) noexcept {
+    rlb_Material& operator=(rlb_Material&& other) noexcept {
         if (this == &other) {
             return *this;
         }
@@ -90,7 +90,7 @@ class Material : public ::Material {
     /**
      * Set texture for a material map type (MAP_DIFFUSE, MAP_SPECULAR...)
      */
-    inline Material& SetTexture(int mapType, const ::Texture2D& texture) {
+    inline rlb_Material& SetTexture(int mapType, const ::rlb_Texture2D& texture) {
         ::SetMaterialTexture(this, mapType, texture);
         return *this;
     }
@@ -98,14 +98,14 @@ class Material : public ::Material {
     /**
      * Draw a 3d mesh with material and transform
      */
-    inline void DrawMesh(const ::Mesh& mesh, ::Matrix transform) const {
+    inline void DrawMesh(const ::rlb_Mesh& mesh, ::rlb_Matrix transform) const {
         ::DrawMesh(mesh, *this, transform);
     }
 
     /**
      * Draw multiple mesh instances with material and different transforms
      */
-    inline void DrawMesh(const ::Mesh& mesh, ::Matrix* transforms, int instances) const {
+    inline void DrawMesh(const ::rlb_Mesh& mesh, ::rlb_Matrix* transforms, int instances) const {
         ::DrawMeshInstanced(mesh, *this, transforms, instances);
     }
 
@@ -117,7 +117,7 @@ class Material : public ::Material {
     }
 
  protected:
-    void set(const ::Material& material) {
+    void set(const ::rlb_Material& material) {
         shader = material.shader;
         maps = material.maps;
         params[0] = material.params[0];
@@ -128,6 +128,6 @@ class Material : public ::Material {
 };
 }  // namespace raylib
 
-using RMaterial = raylib::Material;
+using RMaterial = raylib::rlb_Material;
 
 #endif  // RAYLIB_CPP_INCLUDE_MATERIAL_HPP_

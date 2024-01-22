@@ -107,7 +107,7 @@ typedef struct {
     int touchAction;
     int pointCount;
     int pointId[MAX_TOUCH_POINTS];
-    Vector2 position[MAX_TOUCH_POINTS];
+    rlb_Vector2 position[MAX_TOUCH_POINTS];
 } GestureEvent;
 
 //----------------------------------------------------------------------------------
@@ -202,14 +202,14 @@ typedef struct {
         int firstId;                    // Touch id for first touch point
         int pointCount;                 // Touch points counter
         double eventTime;               // Time stamp when an event happened
-        Vector2 upPosition;             // Touch up position
-        Vector2 downPositionA;          // First touch down position
-        Vector2 downPositionB;          // Second touch down position
-        Vector2 downDragPosition;       // Touch drag position
-        Vector2 moveDownPositionA;      // First touch down position on move
-        Vector2 moveDownPositionB;      // Second touch down position on move
-        Vector2 previousPositionA;      // Previous position A to compare for pinch gestures
-        Vector2 previousPositionB;      // Previous position B to compare for pinch gestures
+        rlb_Vector2 upPosition;             // Touch up position
+        rlb_Vector2 downPositionA;          // First touch down position
+        rlb_Vector2 downPositionB;          // Second touch down position
+        rlb_Vector2 downDragPosition;       // Touch drag position
+        rlb_Vector2 moveDownPositionA;      // First touch down position on move
+        rlb_Vector2 moveDownPositionB;      // Second touch down position on move
+        rlb_Vector2 previousPositionA;      // Previous position A to compare for pinch gestures
+        rlb_Vector2 previousPositionB;      // Previous position B to compare for pinch gestures
         int tapCounter;                 // TAP counter (one tap implies TOUCH_ACTION_DOWN and TOUCH_ACTION_UP actions)
     } Touch;
     struct {
@@ -217,7 +217,7 @@ typedef struct {
         double timeDuration;            // HOLD duration in seconds
     } Hold;
     struct {
-        Vector2 vector;                 // DRAG vector (between initial and current position)
+        rlb_Vector2 vector;                 // DRAG vector (between initial and current position)
         float angle;                    // DRAG angle (relative to x-axis)
         float distance;                 // DRAG distance (from initial touch point to final) (normalized [0..1])
         float intensity;                // DRAG intensity, how far why did the DRAG (pixels per frame)
@@ -226,7 +226,7 @@ typedef struct {
         double startTime;               // SWIPE start time to calculate drag intensity
     } Swipe;
     struct {
-        Vector2 vector;                 // PINCH vector (between first and second touch points)
+        rlb_Vector2 vector;                 // PINCH vector (between first and second touch points)
         float angle;                    // PINCH angle (relative to x-axis)
         float distance;                 // PINCH displacement distance (normalized [0..1])
     } Pinch;
@@ -244,8 +244,8 @@ static GesturesData GESTURES = {
 //----------------------------------------------------------------------------------
 // Module specific Functions Declaration
 //----------------------------------------------------------------------------------
-static float rgVector2Angle(Vector2 initialPosition, Vector2 finalPosition);
-static float rgVector2Distance(Vector2 v1, Vector2 v2);
+static float rgVector2Angle(rlb_Vector2 initialPosition, rlb_Vector2 finalPosition);
+static float rgVector2Distance(rlb_Vector2 v1, rlb_Vector2 v2);
 static double rgGetCurrentTime(void);
 
 //----------------------------------------------------------------------------------
@@ -297,7 +297,7 @@ void ProcessGestureEvent(GestureEvent event)
 
             GESTURES.Swipe.startTime = rgGetCurrentTime();
 
-            GESTURES.Drag.vector = (Vector2){ 0.0f, 0.0f };
+            GESTURES.Drag.vector = (rlb_Vector2){ 0.0f, 0.0f };
         }
         else if (event.touchAction == TOUCH_ACTION_UP)
         {
@@ -329,7 +329,7 @@ void ProcessGestureEvent(GestureEvent event)
                 GESTURES.current = GESTURE_NONE;
             }
 
-            GESTURES.Touch.downDragPosition = (Vector2){ 0.0f, 0.0f };
+            GESTURES.Touch.downDragPosition = (rlb_Vector2){ 0.0f, 0.0f };
             GESTURES.Touch.pointCount = 0;
         }
         else if (event.touchAction == TOUCH_ACTION_MOVE)
@@ -400,7 +400,7 @@ void ProcessGestureEvent(GestureEvent event)
         {
             GESTURES.Pinch.distance = 0.0f;
             GESTURES.Pinch.angle = 0.0f;
-            GESTURES.Pinch.vector = (Vector2){ 0.0f, 0.0f };
+            GESTURES.Pinch.vector = (rlb_Vector2){ 0.0f, 0.0f };
             GESTURES.Touch.pointCount = 0;
 
             GESTURES.current = GESTURE_NONE;
@@ -451,7 +451,7 @@ float GetGestureHoldDuration(void)
 }
 
 // Get drag vector (between initial touch point to current)
-Vector2 GetGestureDragVector(void)
+rlb_Vector2 GetGestureDragVector(void)
 {
     // NOTE: drag vector is calculated on one touch points TOUCH_ACTION_MOVE
 
@@ -468,7 +468,7 @@ float GetGestureDragAngle(void)
 }
 
 // Get distance between two pinch points
-Vector2 GetGesturePinchVector(void)
+rlb_Vector2 GetGesturePinchVector(void)
 {
     // NOTE: Pinch distance is calculated on two touch points TOUCH_ACTION_MOVE
 
@@ -488,7 +488,7 @@ float GetGesturePinchAngle(void)
 // Module specific Functions Definition
 //----------------------------------------------------------------------------------
 // Get angle from two-points vector with X-axis
-static float rgVector2Angle(Vector2 v1, Vector2 v2)
+static float rgVector2Angle(rlb_Vector2 v1, rlb_Vector2 v2)
 {
     float angle = atan2f(v2.y - v1.y, v2.x - v1.x)*(180.0f/RLB_PI);
 
@@ -498,7 +498,7 @@ static float rgVector2Angle(Vector2 v1, Vector2 v2)
 }
 
 // Calculate distance between two Vector2
-static float rgVector2Distance(Vector2 v1, Vector2 v2)
+static float rgVector2Distance(rlb_Vector2 v1, rlb_Vector2 v2)
 {
     float result;
 

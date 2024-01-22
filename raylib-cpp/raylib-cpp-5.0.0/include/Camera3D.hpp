@@ -9,9 +9,9 @@ namespace raylib {
 /**
  * Camera type, defines a camera position/orientation in 3d space
  */
-class Camera3D : public ::Camera3D {
+class rlb_Camera3D : public ::rlb_Camera3D {
  public:
-    Camera3D(const ::Camera3D& camera) {
+    rlb_Camera3D(const ::rlb_Camera3D& camera) {
         set(camera);
     }
 
@@ -24,21 +24,21 @@ class Camera3D : public ::Camera3D {
      * @param fovy Camera field-of-view apperture in Y (degrees) in perspective, used as near plane width in orthographic
      * @param projection Camera projection: CAMERA_PERSPECTIVE or CAMERA_ORTHOGRAPHIC
      */
-    Camera3D(::Vector3 position,
-            ::Vector3 target = ::Vector3{0.0f, 0.0f, 0.0f},
-            ::Vector3 up = ::Vector3{0.0f, 1.0f, 0.0f},
+    rlb_Camera3D(::rlb_Vector3 position,
+            ::rlb_Vector3 target = ::rlb_Vector3{0.0f, 0.0f, 0.0f},
+            ::rlb_Vector3 up = ::rlb_Vector3{0.0f, 1.0f, 0.0f},
             float fovy = 0,
-            int projection = CAMERA_PERSPECTIVE) : ::Camera3D{position, target, up, fovy, projection} {}
+            int projection = CAMERA_PERSPECTIVE) : ::rlb_Camera3D{position, target, up, fovy, projection} {}
 
-    Camera3D() {}
+    rlb_Camera3D() {}
 
-    GETTERSETTER(::Vector3, Position, position)
-    GETTERSETTER(::Vector3, Target, target)
-    GETTERSETTER(::Vector3, Up, up)
+    GETTERSETTER(::rlb_Vector3, Position, position)
+    GETTERSETTER(::rlb_Vector3, Target, target)
+    GETTERSETTER(::rlb_Vector3, Up, up)
     GETTERSETTER(float, Fovy, fovy)
     GETTERSETTER(int, Projection, projection)
 
-    Camera3D& operator=(const ::Camera3D& camera) {
+    rlb_Camera3D& operator=(const ::rlb_Camera3D& camera) {
         set(camera);
         return *this;
     }
@@ -46,7 +46,7 @@ class Camera3D : public ::Camera3D {
     /**
      * Initializes 3D mode with custom camera (3D)
      */
-    Camera3D& BeginMode() {
+    rlb_Camera3D& BeginMode() {
         ::BeginMode3D(*this);
         return *this;
     }
@@ -54,7 +54,7 @@ class Camera3D : public ::Camera3D {
     /**
      * Ends 3D mode and returns to default 2D orthographic mode
      */
-    Camera3D& EndMode() {
+    rlb_Camera3D& EndMode() {
         ::EndMode3D();
         return *this;
     }
@@ -62,14 +62,14 @@ class Camera3D : public ::Camera3D {
     /**
      * Get camera transform matrix (view matrix)
      */
-    inline Matrix GetMatrix() const {
+    inline rlb_Matrix GetMatrix() const {
         return ::GetCameraMatrix(*this);
     }
 
     /**
      * Update camera position for selected mode
      */
-    inline Camera3D& Update(int mode) {
+    inline rlb_Camera3D& Update(int mode) {
         ::UpdateCamera(this, mode);
         return *this;
     }
@@ -77,7 +77,7 @@ class Camera3D : public ::Camera3D {
     /**
      * Update camera movement/rotation
      */
-    inline Camera3D& Update(::Vector3 movement, ::Vector3 rotation, float zoom = 1.0f) {
+    inline rlb_Camera3D& Update(::rlb_Vector3 movement, ::rlb_Vector3 rotation, float zoom = 1.0f) {
         ::UpdateCameraPro(this, movement, rotation, zoom);
         return *this;
     }
@@ -85,14 +85,14 @@ class Camera3D : public ::Camera3D {
     /**
      * Returns a ray trace from mouse position
      */
-    inline Ray GetMouseRay(::Vector2 mousePosition) const {
+    inline rlb_Ray GetMouseRay(::rlb_Vector2 mousePosition) const {
         return ::GetMouseRay(mousePosition, *this);
     }
 
     /**
      * Returns the screen space position for a 3d world space position
      */
-    inline Vector2 GetWorldToScreen(::Vector3 position) const {
+    inline rlb_Vector2 GetWorldToScreen(::rlb_Vector3 position) const {
         return ::GetWorldToScreen(position, *this);
     }
 
@@ -100,10 +100,10 @@ class Camera3D : public ::Camera3D {
      * Draw a billboard texture.
      */
     inline void DrawBillboard(
-            const ::Texture2D& texture,
-            ::Vector3 center,
+            const ::rlb_Texture2D& texture,
+            ::rlb_Vector3 center,
             float size,
-            ::Color tint = {255, 255, 255, 255}) const {
+            ::rlb_Color tint = {255, 255, 255, 255}) const {
         ::DrawBillboard(*this, texture, center, size, tint);
     }
 
@@ -111,16 +111,16 @@ class Camera3D : public ::Camera3D {
      * Draw a billboard texture defined by source.
      */
     inline void DrawBillboard(
-            const ::Texture2D& texture,
-            ::Rectangle sourceRec,
-            ::Vector3 center,
-            ::Vector2 size,
-            ::Color tint = {255, 255, 255, 255}) const {
+            const ::rlb_Texture2D& texture,
+            ::rlb_Rectangle sourceRec,
+            ::rlb_Vector3 center,
+            ::rlb_Vector2 size,
+            ::rlb_Color tint = {255, 255, 255, 255}) const {
         ::DrawBillboardRec(*this, texture, sourceRec, center, size, tint);
     }
 
  protected:
-    void set(const ::Camera3D& camera) {
+    void set(const ::rlb_Camera3D& camera) {
         position = camera.position;
         target = camera.target;
         up = camera.up;
@@ -129,11 +129,11 @@ class Camera3D : public ::Camera3D {
     }
 };
 
-typedef Camera3D Camera;
+typedef rlb_Camera3D rlb_Camera;
 
 }  // namespace raylib
 
-using RCamera = raylib::Camera;
-using RCamera3D = raylib::Camera3D;
+using RCamera = raylib::rlb_Camera;
+using RCamera3D = raylib::rlb_Camera3D;
 
 #endif  // RAYLIB_CPP_INCLUDE_CAMERA3D_HPP_

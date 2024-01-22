@@ -11,18 +11,18 @@ namespace raylib {
 /**
  * Wave type, defines audio wave data
  */
-class Wave : public ::Wave {
+class rlb_Wave : public ::rlb_Wave {
  public:
-    Wave(const ::Wave& wave) {
+    rlb_Wave(const ::rlb_Wave& wave) {
         set(wave);
     }
 
-    Wave(
+    rlb_Wave(
             unsigned int frameCount = 0,
             unsigned int sampleRate = 0,
             unsigned int sampleSize = 0,
             unsigned int channels = 0,
-            void *data = nullptr) : ::Wave{frameCount, sampleRate, sampleSize, channels, data} {
+            void *data = nullptr) : ::rlb_Wave{frameCount, sampleRate, sampleSize, channels, data} {
         // Nothing.
     }
 
@@ -31,7 +31,7 @@ class Wave : public ::Wave {
      *
      * @throws raylib::RaylibException Throws if the Wave failed to load.
      */
-    Wave(const std::string& fileName) {
+    rlb_Wave(const std::string& fileName) {
         Load(fileName);
     }
 
@@ -40,15 +40,15 @@ class Wave : public ::Wave {
      *
      * @throws raylib::RaylibException Throws if the Wave failed to load.
      */
-    Wave(const std::string& fileType, const unsigned char *fileData, int dataSize) {
+    rlb_Wave(const std::string& fileType, const unsigned char *fileData, int dataSize) {
         Load(fileType, fileData, dataSize);
     }
 
-    Wave(const Wave& other) {
+    rlb_Wave(const rlb_Wave& other) {
         set(other.Copy());
     }
 
-    Wave(Wave&& other) {
+    rlb_Wave(rlb_Wave&& other) {
         set(other);
 
         other.frameCount = 0;
@@ -61,7 +61,7 @@ class Wave : public ::Wave {
     /**
      * Unload wave data
      */
-    ~Wave() {
+    ~rlb_Wave() {
         Unload();
     }
 
@@ -71,12 +71,12 @@ class Wave : public ::Wave {
     GETTERSETTER(unsigned int, Channels, channels)
     GETTERSETTER(void *, Data, data)
 
-    Wave& operator=(const ::Wave& wave) {
+    rlb_Wave& operator=(const ::rlb_Wave& wave) {
         set(wave);
         return *this;
     }
 
-    Wave& operator=(const Wave& other) {
+    rlb_Wave& operator=(const rlb_Wave& other) {
         if (this == &other) {
             return *this;
         }
@@ -87,7 +87,7 @@ class Wave : public ::Wave {
         return *this;
     }
 
-    Wave& operator=(Wave&& other) noexcept {
+    rlb_Wave& operator=(rlb_Wave&& other) noexcept {
         if (this != &other) {
             return *this;
         }
@@ -107,14 +107,14 @@ class Wave : public ::Wave {
     /**
      * Copy a wave to a new wave
      */
-    inline ::Wave Copy() const {
+    inline ::rlb_Wave Copy() const {
         return ::WaveCopy(*this);
     }
 
     /**
      * Crop a wave to defined samples range
      */
-    inline Wave& Crop(int initSample, int finalSample) {
+    inline rlb_Wave& Crop(int initSample, int finalSample) {
         ::WaveCrop(this, initSample, finalSample);
         return *this;
     }
@@ -122,7 +122,7 @@ class Wave : public ::Wave {
     /**
      * Convert wave data to desired format
      */
-    inline Wave& Format(int SampleRate, int SampleSize, int Channels = 2) {
+    inline rlb_Wave& Format(int SampleRate, int SampleSize, int Channels = 2) {
         ::WaveFormat(this, SampleRate, SampleSize, Channels);
         return *this;
     }
@@ -171,14 +171,14 @@ class Wave : public ::Wave {
     /**
      * Load sound from wave data
      */
-    inline ::Sound LoadSound() {
+    inline ::rlb_Sound LoadSound() {
         return ::LoadSoundFromWave(*this);
     }
 
     /**
      * Load sound from wave data
      */
-    inline operator ::Sound() {
+    inline operator ::rlb_Sound() {
         return LoadSound();
     }
 
@@ -216,7 +216,7 @@ class Wave : public ::Wave {
     }
 
  protected:
-    void set(const ::Wave& wave) {
+    void set(const ::rlb_Wave& wave) {
         frameCount = wave.frameCount;
         sampleRate = wave.sampleRate;
         sampleSize = wave.sampleSize;
@@ -227,6 +227,6 @@ class Wave : public ::Wave {
 
 }  // namespace raylib
 
-using RWave = raylib::Wave;
+using RWave = raylib::rlb_Wave;
 
 #endif  // RAYLIB_CPP_INCLUDE_WAVE_HPP_

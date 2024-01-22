@@ -151,7 +151,7 @@ RLCPPAPI inline std::string GetWorkingDirectory() {
  * Get filenames in a directory path
  */
 RLCPPAPI std::vector<std::string> LoadDirectoryFiles(const std::string& dirPath) {
-    FilePathList files = ::LoadDirectoryFiles(dirPath.c_str());
+    rlb_FilePathList files = ::LoadDirectoryFiles(dirPath.c_str());
     std::vector<std::string> output(files.paths, files.paths + files.count);
     ::UnloadDirectoryFiles(files);
     return output;
@@ -171,7 +171,7 @@ RLCPPAPI std::vector<std::string> LoadDroppedFiles() {
     if (!::IsFileDropped()) {
         return std::vector<std::string>();
     }
-    FilePathList files = ::LoadDroppedFiles();
+    rlb_FilePathList files = ::LoadDroppedFiles();
     std::vector<std::string> output(files.paths, files.paths + files.count);
     ::UnloadDroppedFiles(files);
     return output;
@@ -194,14 +194,14 @@ RLCPPAPI inline void OpenURL(const std::string& url) {
 /**
  * Load an image.
  */
-RLCPPAPI inline ::Image LoadImage(const std::string& fileName) {
+RLCPPAPI inline ::rlb_Image LoadImage(const std::string& fileName) {
     return ::LoadImage(fileName.c_str());
 }
 
 /**
  * Load an image from RAW file data
  */
-RLCPPAPI inline ::Image LoadImageRaw(const std::string& fileName,
+RLCPPAPI inline ::rlb_Image LoadImageRaw(const std::string& fileName,
         int width, int height,
         int format, int headerSize) {
     return ::LoadImageRaw(fileName.c_str(), width, height, format, headerSize);
@@ -210,14 +210,14 @@ RLCPPAPI inline ::Image LoadImageRaw(const std::string& fileName,
 /**
  * Load animated image data
  */
-RLCPPAPI inline ::Image LoadImageAnim(const std::string& fileName, int *frames) {
+RLCPPAPI inline ::rlb_Image LoadImageAnim(const std::string& fileName, int *frames) {
     return ::LoadImageAnim(fileName.c_str(), frames);
 }
 
 /**
  * Load image from memory buffer, fileType refers to extension like "png"
  */
-RLCPPAPI inline ::Image LoadImageFromMemory(const std::string& fileType,
+RLCPPAPI inline ::rlb_Image LoadImageFromMemory(const std::string& fileType,
         const unsigned char *fileData,
         int dataSize) {
     return ::LoadImageFromMemory(fileType.c_str(), fileData, dataSize);
@@ -226,51 +226,51 @@ RLCPPAPI inline ::Image LoadImageFromMemory(const std::string& fileType,
 /**
  * Export image data to file
  */
-RLCPPAPI inline bool ExportImage(const Image& image, const std::string& fileName) {
+RLCPPAPI inline bool ExportImage(const rlb_Image& image, const std::string& fileName) {
     return ::ExportImage(image, fileName.c_str());
 }
 
 /**
  * Export image as code file (.h) defining an array of bytes
  */
-RLCPPAPI inline bool ExportImageAsCode(const Image& image, const std::string& fileName) {
+RLCPPAPI inline bool ExportImageAsCode(const rlb_Image& image, const std::string& fileName) {
     return ::ExportImageAsCode(image, fileName.c_str());
 }
 
 /**
  * Draw text (using default font)
  */
-RLCPPAPI inline void DrawText(const std::string& text, int posX, int posY, int fontSize, ::Color color) {
+RLCPPAPI inline void DrawText(const std::string& text, int posX, int posY, int fontSize, ::rlb_Color color) {
     ::DrawText(text.c_str(), posX, posY, fontSize, color);
 }
 
 /**
  * Draw text using font and additional parameters
  */
-RLCPPAPI inline void DrawTextEx(const Font& font, const std::string& text, Vector2 position,
-        float fontSize, float spacing, ::Color tint) {
+RLCPPAPI inline void DrawTextEx(const rlb_Font& font, const std::string& text, rlb_Vector2 position,
+        float fontSize, float spacing, ::rlb_Color tint) {
     ::DrawTextEx(font, text.c_str(), position, fontSize, spacing, tint);
 }
 
 /**
  * Draw text using Font and pro parameters (rotation)
  */
-RLCPPAPI inline void DrawTextPro(const Font& font, const std::string& text, Vector2 position,
-        Vector2 origin, float rotation, float fontSize, float spacing, ::Color tint) {
+RLCPPAPI inline void DrawTextPro(const rlb_Font& font, const std::string& text, rlb_Vector2 position,
+        rlb_Vector2 origin, float rotation, float fontSize, float spacing, ::rlb_Color tint) {
     ::DrawTextPro(font, text.c_str(), position, origin, rotation, fontSize, spacing, tint);
 }
 
 /**
  * Load font from file (filename must include file extension)
  */
-RLCPPAPI inline ::Font LoadFont(const std::string& fileName) {
+RLCPPAPI inline ::rlb_Font LoadFont(const std::string& fileName) {
     return ::LoadFont(fileName.c_str());
 }
 
 /**
  * Load font from file (filename must include file extension)
  */
-RLCPPAPI inline ::Font LoadFontEx(const std::string& fileName, int fontSize, int *fontChars, int charsCount) {
+RLCPPAPI inline ::rlb_Font LoadFontEx(const std::string& fileName, int fontSize, int *fontChars, int charsCount) {
     return ::LoadFontEx(fileName.c_str(), fontSize, fontChars, charsCount);
 }
 

@@ -2,12 +2,16 @@
 
 #include <algorithm>
 
-#include "include/Color.hpp"
+
+//namespace raylib
+//{
+//	class Color;
+//}
 
 
 namespace jothly
 {
-	class Color
+	class rlb_Color
 	{
 		static const float CHAR2FLOAT;
 		static const float FLOAT2CHAR;
@@ -35,7 +39,7 @@ namespace jothly
 
 		public:
 
-		static const Color WHITE;
+		/*static const Color WHITE;
 		static const Color BLACK;
 		static const Color GREY;
 		static const Color RED;
@@ -46,37 +50,37 @@ namespace jothly
 		static const Color PURPLE;
 		static const Color MAGENTA;
 		static const Color PINK;
-		static const Color CYAN;
+		static const Color CYAN;*/
 
-		Color() : colorCode(0xFFFFFFFF) {}
-		Color(const Color& col) : colorCode(col.colorCode) {}
+		rlb_Color() : colorCode(0xFFFFFFFF) {}
+		rlb_Color(const rlb_Color& col) : colorCode(col.colorCode) {}
 
 		// Don't use setters since we know rlb_Color values are unsigned chars -- clamped between 0 and 255
-		Color(const raylib::Color& col);
+		//Color(const raylib::Color& col);
 
-		Color(unsigned char _r, unsigned char _g, unsigned char _b, unsigned char _a = 255) : r(_r), g(_g), b(_b), a(_a) {}
-		Color(unsigned char _rgba[4]) : r(_rgba[0]), g(_rgba[1]), b(_rgba[2]), a(_rgba[3]) {}
+		rlb_Color(unsigned char _r, unsigned char _g, unsigned char _b, unsigned char _a = 255) : r(_r), g(_g), b(_b), a(_a) {}
+		rlb_Color(unsigned char _rgba[4]) : r(_rgba[0]), g(_rgba[1]), b(_rgba[2]), a(_rgba[3]) {}
 
-		Color(int _r, int _g, int _b, int _a = 255) { SetR(_r); SetG(_g); SetB(_b); SetA(_a); }
-		Color(int _rgba[]) { SetR(_rgba[0]); SetG(_rgba[1]); SetB(_rgba[2]); SetA(_rgba[3]); }
+		rlb_Color(int _r, int _g, int _b, int _a = 255) { SetR(_r); SetG(_g); SetB(_b); SetA(_a); }
+		rlb_Color(int _rgba[]) { SetR(_rgba[0]); SetG(_rgba[1]); SetB(_rgba[2]); SetA(_rgba[3]); }
 
-		Color(float _r, float _g, float _b, float _a = 1.0f) { SetRf(_r); SetGf(_g); SetBf(_b); SetAf(_a); }
-		Color(float _rgba[]) { SetRf(_rgba[0]); SetGf(_rgba[1]); SetBf(_rgba[2]); SetAf(_rgba[3]); }
+		rlb_Color(float _r, float _g, float _b, float _a = 1.0f) { SetRf(_r); SetGf(_g); SetBf(_b); SetAf(_a); }
+		rlb_Color(float _rgba[]) { SetRf(_rgba[0]); SetGf(_rgba[1]); SetBf(_rgba[2]); SetAf(_rgba[3]); }
 
-		Color(uint32_t _colorCode) : colorCode(_colorCode) {}
+		rlb_Color(uint32_t _colorCode) : colorCode(_colorCode) {}
 
 
 		unsigned char GetR() const { return r; }
 		unsigned char GetG() const { return g; }
 		unsigned char GetB() const { return b; }
 		unsigned char GetA() const { return a; }
-		void GetRGBA(unsigned char out_rgba[4]) const; // CHANGE THIS TO FILL PASSED IN OUT_PARAMETER
+		void GetRGBA(unsigned char out_rgba[4]) const;
 
 		float GetRf() const { return CharToFloat(r); }
 		float GetGf() const { return CharToFloat(g); }
 		float GetBf() const { return CharToFloat(b); }
 		float GetAf() const { return CharToFloat(a); }
-		void GetRGBAf(float out_rgba[4]) const; // CHANGE THIS TO FILL PASSED IN OUT_PARAMETER
+		void GetRGBAf(float out_rgba[4]) const;
 
 		uint32_t GetColorCode() { return colorCode; }
 
@@ -95,12 +99,12 @@ namespace jothly
 		void SetColorCode(uint32_t _colorCode) { colorCode = _colorCode; }
 
 
-		bool operator==(Color const& other);
+		bool operator==(rlb_Color const& other);
 
-		operator raylib::Color() const;
+		//operator raylib::Color() const;
 
 
-		static Color Lerp(const Color& first, const Color& second, float portion);
+		static rlb_Color Lerp(const rlb_Color& first, const rlb_Color& second, float portion);
 	};
 }
 

@@ -10,32 +10,32 @@ namespace raylib {
 /**
  * RenderTexture type, for texture rendering
  */
-class RenderTexture : public ::RenderTexture {
+class rlb_RenderTexture : public ::rlb_RenderTexture {
  public:
     /**
      * Default constructor to build an empty RenderTexture.
      */
-    RenderTexture() {
+    rlb_RenderTexture() {
         id = 0;
     }
 
-    RenderTexture(const ::RenderTexture& renderTexture) {
+    rlb_RenderTexture(const ::rlb_RenderTexture& renderTexture) {
         set(renderTexture);
     }
 
-    RenderTexture(unsigned int id, const ::Texture& texture, const ::Texture& depth) :
-        ::RenderTexture{id, texture, depth} {}
+    rlb_RenderTexture(unsigned int id, const ::rlb_Texture& texture, const ::rlb_Texture& depth) :
+        ::rlb_RenderTexture{id, texture, depth} {}
 
     /**
      * Load texture for rendering (framebuffer)
      */
-    RenderTexture(int width, int height) {
+    rlb_RenderTexture(int width, int height) {
         set(::LoadRenderTexture(width, height));
     }
 
-    RenderTexture(const RenderTexture&) = delete;
+    rlb_RenderTexture(const rlb_RenderTexture&) = delete;
 
-    RenderTexture(RenderTexture&& other) {
+    rlb_RenderTexture(rlb_RenderTexture&& other) {
         set(other);
 
         other.id = 0;
@@ -52,7 +52,7 @@ class RenderTexture : public ::RenderTexture {
         return texture;
     }
 
-    inline void SetTexture(const ::Texture& newTexture) {
+    inline void SetTexture(const ::rlb_Texture& newTexture) {
         texture = newTexture;
     }
 
@@ -63,18 +63,18 @@ class RenderTexture : public ::RenderTexture {
         return depth;
     }
 
-    inline void SetDepth(const ::Texture& newDepth) {
+    inline void SetDepth(const ::rlb_Texture& newDepth) {
         depth = newDepth;
     }
 
-    RenderTexture& operator=(const ::RenderTexture& texture) {
+    rlb_RenderTexture& operator=(const ::rlb_RenderTexture& texture) {
         set(texture);
         return *this;
     }
 
-    RenderTexture& operator=(const RenderTexture&) = delete;
+    rlb_RenderTexture& operator=(const rlb_RenderTexture&) = delete;
 
-    RenderTexture& operator=(RenderTexture&& other) noexcept {
+    rlb_RenderTexture& operator=(rlb_RenderTexture&& other) noexcept {
         if (this == &other) {
             return *this;
         }
@@ -89,7 +89,7 @@ class RenderTexture : public ::RenderTexture {
         return *this;
     }
 
-    ~RenderTexture() {
+    ~rlb_RenderTexture() {
         Unload();
     }
 
@@ -100,7 +100,7 @@ class RenderTexture : public ::RenderTexture {
     /**
      * Initializes render texture for drawing
      */
-    inline RenderTexture& BeginMode() {
+    inline rlb_RenderTexture& BeginMode() {
         ::BeginTextureMode(*this);
         return *this;
     }
@@ -108,7 +108,7 @@ class RenderTexture : public ::RenderTexture {
     /**
      * Ends drawing to render texture
      */
-    inline RenderTexture& EndMode() {
+    inline rlb_RenderTexture& EndMode() {
         ::EndTextureMode();
         return *this;
     }
@@ -116,7 +116,7 @@ class RenderTexture : public ::RenderTexture {
     /**
      * Load texture for rendering (framebuffer)
      */
-    static RenderTexture Load(int width, int height) {
+    static rlb_RenderTexture Load(int width, int height) {
         return ::LoadRenderTexture(width, height);
     }
 
@@ -128,16 +128,16 @@ class RenderTexture : public ::RenderTexture {
     }
 
  protected:
-    void set(const ::RenderTexture& renderTexture) {
+    void set(const ::rlb_RenderTexture& renderTexture) {
         id = renderTexture.id;
         texture = renderTexture.texture;
         depth = renderTexture.depth;
     }
 };
-typedef RenderTexture RenderTexture2D;
+typedef rlb_RenderTexture rlb_RenderTexture2D;
 }  // namespace raylib
 
-using RRenderTexture = raylib::RenderTexture;
-using RRenderTexture2D = raylib::RenderTexture2D;
+using RRenderTexture = raylib::rlb_RenderTexture;
+using RRenderTexture2D = raylib::rlb_RenderTexture2D;
 
 #endif  // RAYLIB_CPP_INCLUDE_RENDERTEXTURE_HPP_

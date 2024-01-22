@@ -11,24 +11,24 @@ namespace raylib {
  *
  * @see raylib::TextureUnmanaged
  */
-class Texture : public TextureUnmanaged {
+class rlb_Texture : public TextureUnmanaged {
  public:
     using TextureUnmanaged::TextureUnmanaged;
 
     /**
      * Explicitly forbid the copy constructor.
      */
-    Texture(const Texture&) = delete;
+    rlb_Texture(const rlb_Texture&) = delete;
 
     /**
      * Explicitly forbid copy assignment.
      */
-    Texture& operator=(const Texture&) = delete;
+    rlb_Texture& operator=(const rlb_Texture&) = delete;
 
     /**
      * Move constructor.
      */
-    Texture(Texture&& other) {
+    rlb_Texture(rlb_Texture&& other) {
         set(other);
 
         other.id = 0;
@@ -41,14 +41,14 @@ class Texture : public TextureUnmanaged {
     /**
      * On destruction, unload the Texture.
      */
-    ~Texture() {
+    ~rlb_Texture() {
         Unload();
     }
 
     /**
      * Move assignment.
      */
-    Texture& operator=(Texture&& other) noexcept {
+    rlb_Texture& operator=(rlb_Texture&& other) noexcept {
         if (this == &other) {
             return *this;
         }
@@ -67,13 +67,13 @@ class Texture : public TextureUnmanaged {
 };
 
 // Create the Texture aliases.
-typedef Texture Texture2D;
-typedef Texture TextureCubemap;
+typedef rlb_Texture rlb_Texture2D;
+typedef rlb_Texture rlb_TextureCubemap;
 
 }  // namespace raylib
 
-using RTexture = raylib::Texture;
-using RTexture2D = raylib::Texture2D;
-using RTextureCubemap = raylib::TextureCubemap;
+using RTexture = raylib::rlb_Texture;
+using RTexture2D = raylib::rlb_Texture2D;
+using RTextureCubemap = raylib::rlb_TextureCubemap;
 
 #endif  // RAYLIB_CPP_INCLUDE_TEXTURE_HPP_

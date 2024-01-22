@@ -16,21 +16,21 @@ namespace raylib {
  * boom.Play();
  * @endcode
  */
-class Sound : public ::Sound {
+class rlb_Sound : public ::rlb_Sound {
  public:
-    Sound(const Sound&) = delete;
-    Sound& operator=(const Sound&) = delete;
+    rlb_Sound(const rlb_Sound&) = delete;
+    rlb_Sound& operator=(const rlb_Sound&) = delete;
 
-    Sound() {
+    rlb_Sound() {
         stream = { nullptr, nullptr, 0, 0, 0 };
         frameCount = 0;
     }
 
-    Sound(::AudioStream stream, unsigned int frameCount) : ::Sound{stream, frameCount} {
+    rlb_Sound(::rlb_AudioStream stream, unsigned int frameCount) : ::rlb_Sound{stream, frameCount} {
         // Nothing.
     }
 
-    Sound(Sound&& other) {
+    rlb_Sound(rlb_Sound&& other) {
         set(other);
 
         other.stream = { nullptr, nullptr, 0, 0, 0 };
@@ -42,7 +42,7 @@ class Sound : public ::Sound {
      *
      * @throws raylib::RaylibException Throws if the Sound failed to load.
      */
-    Sound(const std::string& fileName) {
+    rlb_Sound(const std::string& fileName) {
         Load(fileName);
     }
 
@@ -51,18 +51,18 @@ class Sound : public ::Sound {
      *
      * @throws raylib::RaylibException Throws if the Sound failed to load.
      */
-    Sound(const ::Wave& wave) {
+    rlb_Sound(const ::rlb_Wave& wave) {
         Load(wave);
     }
 
-    ~Sound() {
+    ~rlb_Sound() {
         Unload();
     }
 
     GETTERSETTER(unsigned int, FrameCount, frameCount)
-    GETTERSETTER(::AudioStream, Stream, stream)
+    GETTERSETTER(::rlb_AudioStream, Stream, stream)
 
-    Sound& operator=(Sound&& other) noexcept {
+    rlb_Sound& operator=(rlb_Sound&& other) noexcept {
         if (this == &other) {
             return *this;
         }
@@ -78,7 +78,7 @@ class Sound : public ::Sound {
     /**
      * Update sound buffer with new data
      */
-    inline Sound& Update(const void *data, int samplesCount) {
+    inline rlb_Sound& Update(const void *data, int samplesCount) {
         ::UpdateSound(*this, data, samplesCount);
         return *this;
     }
@@ -86,7 +86,7 @@ class Sound : public ::Sound {
     /**
      * Update sound buffer with new data, assuming it's the same sample count.
      */
-    inline Sound& Update(const void *data) {
+    inline rlb_Sound& Update(const void *data) {
         ::UpdateSound(*this, data, static_cast<int>(frameCount));
         return *this;
     }
@@ -105,7 +105,7 @@ class Sound : public ::Sound {
     /**
      * Play a sound
      */
-    inline Sound& Play() {
+    inline rlb_Sound& Play() {
         ::PlaySound(*this);
         return *this;
     }
@@ -113,7 +113,7 @@ class Sound : public ::Sound {
     /**
      * Stop playing a sound
      */
-    inline Sound& Stop() {
+    inline rlb_Sound& Stop() {
         ::StopSound(*this);
         return *this;
     }
@@ -121,7 +121,7 @@ class Sound : public ::Sound {
     /**
      * Pause a sound
      */
-    inline Sound& Pause() {
+    inline rlb_Sound& Pause() {
         ::PauseSound(*this);
         return *this;
     }
@@ -129,7 +129,7 @@ class Sound : public ::Sound {
     /**
      * Resume a paused sound
      */
-    inline Sound& Resume() {
+    inline rlb_Sound& Resume() {
         ::ResumeSound(*this);
         return *this;
     }
@@ -144,7 +144,7 @@ class Sound : public ::Sound {
     /**
      * Set volume for a sound (1.0 is max level)
      */
-    inline Sound& SetVolume(float volume) {
+    inline rlb_Sound& SetVolume(float volume) {
         ::SetSoundVolume(*this, volume);
         return *this;
     }
@@ -152,7 +152,7 @@ class Sound : public ::Sound {
     /**
      * Set pitch for a sound (1.0 is base level)
      */
-    inline Sound& SetPitch(float pitch) {
+    inline rlb_Sound& SetPitch(float pitch) {
         ::SetSoundPitch(*this, pitch);
         return *this;
     }
@@ -160,7 +160,7 @@ class Sound : public ::Sound {
     /**
      * Set pan for a sound (0.5 is center)
      */
-    inline Sound& SetPan(float pan = 0.5f) {
+    inline rlb_Sound& SetPan(float pan = 0.5f) {
         ::SetSoundPan(*this, pan);
         return *this;
     }
@@ -182,7 +182,7 @@ class Sound : public ::Sound {
      *
      * @throws raylib::RaylibException Throws if the Sound failed to load.
      */
-    void Load(const ::Wave& wave) {
+    void Load(const ::rlb_Wave& wave) {
         set(::LoadSoundFromWave(wave));
         if (!IsReady()) {
             throw new RaylibException("Failed to load Wave");
@@ -199,13 +199,13 @@ class Sound : public ::Sound {
     }
 
  protected:
-    void set(const ::Sound& sound) {
+    void set(const ::rlb_Sound& sound) {
         frameCount = sound.frameCount;
         stream = sound.stream;
     }
 };
 }  // namespace raylib
 
-using RSound = raylib::Sound;
+using RSound = raylib::rlb_Sound;
 
 #endif  // RAYLIB_CPP_INCLUDE_SOUND_HPP_

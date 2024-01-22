@@ -15,7 +15,7 @@ extern "C" {
 #pragma GCC diagnostic push  // These throw a warnings on visual studio, need to check if __GNUC__ is defined to use it.
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #endif
-#include "raymath.h" // NOLINT
+#include "../raylib-master/src/raymath.h"//"raymath.h" // NOLINT
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif
