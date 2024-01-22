@@ -2,7 +2,6 @@
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Math.h"
-#include <raymath.h>
 
 
 namespace jothly

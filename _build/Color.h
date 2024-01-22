@@ -2,8 +2,7 @@
 
 #include <algorithm>
 
-
-struct rlb_Color;
+#include "include/Color.hpp"
 
 
 namespace jothly
@@ -53,7 +52,7 @@ namespace jothly
 		Color(const Color& col) : colorCode(col.colorCode) {}
 
 		// Don't use setters since we know rlb_Color values are unsigned chars -- clamped between 0 and 255
-		Color(const rlb_Color& col);
+		Color(const raylib::Color& col);
 
 		Color(unsigned char _r, unsigned char _g, unsigned char _b, unsigned char _a = 255) : r(_r), g(_g), b(_b), a(_a) {}
 		Color(unsigned char _rgba[4]) : r(_rgba[0]), g(_rgba[1]), b(_rgba[2]), a(_rgba[3]) {}
@@ -98,7 +97,7 @@ namespace jothly
 
 		bool operator==(Color const& other);
 
-		operator rlb_Color() const;
+		operator raylib::Color() const;
 
 
 		static Color Lerp(const Color& first, const Color& second, float portion);

@@ -6,7 +6,7 @@
 namespace jothly::con
 {
 	// Will be deprecated and replaced with Jothly version
-	static const rlb_Transform rlb_DefaultTransform =
+	static const Transform rlb_DefaultTransform =
 	{ 
 		{0, 0, 0},		// Pos
 		{0, 0, 0, 1},	// Rot
@@ -14,7 +14,7 @@ namespace jothly::con
 	};
 
 	// Will be deprecated and replaced with Jothly version
-	static const rlb_Vector2 rlb_DefaultVector2 =
+	static const Vector2 rlb_DefaultVector2 =
 	{
 		0, 0
 	};

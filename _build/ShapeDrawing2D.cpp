@@ -1,7 +1,9 @@
 #include "ShapeDrawing2D.h"
-#include "raylib.h"
 #include "Color.h"
 #include "Vector2.h"
+#include "include/raylib.hpp"
+#include "include/raylib-cpp-utils.hpp"
+#include "include/raylib-cpp.hpp"
 
 
 namespace jothly
@@ -14,6 +16,6 @@ namespace jothly
 
 	void ShapeDrawing2D::DrawCircle(Vector2 pixelCoords, float radius, Color color)
 	{
-		DrawCircleV(pixelCoords, radius, color);
+		((raylib::Vector2) pixelCoords).DrawCircle(radius, color);
 	}
 }

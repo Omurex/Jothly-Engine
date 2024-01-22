@@ -44,7 +44,7 @@ void Init()
 		Update();
 
 		BeginDrawing();
-		ClearBackground(RLB_RAYWHITE);
+		ClearBackground(RAYWHITE);
 		Draw();
 		EndDrawing();
 	}

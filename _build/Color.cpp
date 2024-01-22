@@ -1,5 +1,4 @@
 #include "Color.h"
-#include "raylib.h"
 
 
 namespace jothly
@@ -21,7 +20,7 @@ namespace jothly
 	const Color Color::CYAN = Color(0, 213, 255);
 
 
-	Color::Color(const rlb_Color& col)
+	Color::Color(const Color& col)
 	{
 		r = col.r; g = col.g; b = col.b; a = col.a;
 	}
@@ -45,7 +44,7 @@ namespace jothly
 	}
 
 
-    Color::operator rlb_Color() const
+    Color::operator raylib::Color() const
     {
 		return { r, g, b, a };
     }

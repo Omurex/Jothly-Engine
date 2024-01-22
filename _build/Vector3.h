@@ -1,6 +1,9 @@
 #pragma once
 
-#include "raylib.h"
+
+#include "include/Vector2.hpp"
+#include "include/Vector3.hpp"
+#include "include/Vector4.hpp"
 
 
 namespace jothly
@@ -28,7 +31,7 @@ namespace jothly
 		Vector3(float val) : x(val), y(val), z(val) {}
 		Vector3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
 		Vector3(const Vector3& vec3) : Vector3(vec3.x, vec3.y, vec3.z) {}
-		Vector3(const rlb_Vector3& vec3) : Vector3(vec3.x, vec3.y, vec3.z) {}
+		Vector3(const Vector3& vec3) : Vector3(vec3.x, vec3.y, vec3.z) {}
 		Vector3(const Vector2& vec2);
 		Vector3(const Vector4& vec4);
 
@@ -58,8 +61,8 @@ namespace jothly
 		//operator const float* () const;
 
 		// Convert to RayLib version
-		operator rlb_Vector2() const { return { x, y }; }
-		operator rlb_Vector3() const { return { x, y, z }; }
-		operator rlb_Vector4() const { return {x, y, z, 0 }; }
+		operator raylib::Vector2() const { return { x, y }; }
+		operator raylib::Vector3() const { return { x, y, z }; }
+		operator raylib::Vector4() const { return {x, y, z, 0 }; }
 	};
 }

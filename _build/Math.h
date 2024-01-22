@@ -2,19 +2,20 @@
 
 #include <cmath>
 
-// Degree to radians
-#define D2R 0.01745329251f
-
-// Radians to degrees
-#define R2D 57.2957795131f
-
-#define PI 3.14159265358979323846f
-
-#define MATH_DEFAULT_MARGIN_OF_ERROR .0001f
-
 
 namespace jothly
 {
+	// Degree to radians
+	#define DEG2RAD 0.01745329251f
+
+	// Radians to degrees
+	#define RAD2DEG 57.2957795131f
+
+	#define PI 3.14159265358979323846f
+
+	#define MATH_DEFAULT_MARGIN_OF_ERROR .0001f
+
+
 	struct Vector2;
 	struct Vector3;
 	struct Vector4;

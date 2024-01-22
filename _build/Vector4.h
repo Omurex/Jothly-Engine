@@ -1,6 +1,7 @@
 #pragma once
 
-#include "raylib.h"
+#include "include/Vector3.hpp"
+#include "include/Vector4.hpp"
 
 
 namespace jothly
@@ -49,7 +50,7 @@ namespace jothly
 		//operator const float*() const;
 
 		// Convert to RayLib version
-		operator rlb_Vector3() const { return { x, y, z }; };
-		operator rlb_Vector4() const { return { x, y, z, w }; };
+		operator raylib::Vector3() const { return { x, y, z }; };
+		operator raylib::Vector4() const { return { x, y, z, w }; };
 	};
 }

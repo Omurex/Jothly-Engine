@@ -272,7 +272,7 @@ typedef struct CoreData {
         Point renderOffset;                 // Offset from render area (must be divided by 2)
         Size screenMin;                     // Screen minimum width and height (for resizable window)
         Size screenMax;                     // Screen maximum width and height (for resizable window)
-        rlb_Matrix screenScale;                 // Matrix to scale screen (framebuffer rendering)
+        Matrix screenScale;                 // Matrix to scale screen (framebuffer rendering)
 
         char **dropFilepaths;               // Store dropped files paths pointers (provided by GLFW)
         unsigned int dropFileCount;         // Count dropped files strings
@@ -299,10 +299,10 @@ typedef struct CoreData {
 
         } Keyboard;
         struct {
-            rlb_Vector2 offset;                 // Mouse offset
-            rlb_Vector2 scale;                  // Mouse scaling
-            rlb_Vector2 currentPosition;        // Mouse position on screen
-            rlb_Vector2 previousPosition;       // Previous mouse position
+            Vector2 offset;                 // Mouse offset
+            Vector2 scale;                  // Mouse scaling
+            Vector2 currentPosition;        // Mouse position on screen
+            Vector2 previousPosition;       // Previous mouse position
 
             int cursor;                     // Tracks current mouse cursor
             bool cursorHidden;              // Track if cursor is hidden
@@ -310,14 +310,14 @@ typedef struct CoreData {
 
             char currentButtonState[MAX_MOUSE_BUTTONS];     // Registers current mouse button state
             char previousButtonState[MAX_MOUSE_BUTTONS];    // Registers previous mouse button state
-            rlb_Vector2 currentWheelMove;       // Registers current mouse wheel variation
-            rlb_Vector2 previousWheelMove;      // Registers previous mouse wheel variation
+            Vector2 currentWheelMove;       // Registers current mouse wheel variation
+            Vector2 previousWheelMove;      // Registers previous mouse wheel variation
 
         } Mouse;
         struct {
             int pointCount;                             // Number of touch points active
             int pointId[MAX_TOUCH_POINTS];              // Point identifiers
-            rlb_Vector2 position[MAX_TOUCH_POINTS];         // Touch position on screen
+            Vector2 position[MAX_TOUCH_POINTS];         // Touch position on screen
             char currentTouchState[MAX_TOUCH_POINTS];   // Registers current touch state
             char previousTouchState[MAX_TOUCH_POINTS];  // Registers previous touch state
 
@@ -445,7 +445,7 @@ struct AutomationEvent {
 };
 */
 
-static rlb_AutomationEventList *currentEventList = NULL;        // Current automation events list, set by user, keep internal pointer
+static AutomationEventList *currentEventList = NULL;        // Current automation events list, set by user, keep internal pointer
 static bool automationEventRecording = false;               // Recording automation events flag
 //static short automationEventEnabled = 0b0000001111111111; // TODO: Automation events enabled for recording/playing
 #endif
@@ -468,8 +468,8 @@ static void InitTimer(void);                                // Initialize timer,
 static void SetupFramebuffer(int width, int height);        // Setup main framebuffer (required by InitPlatform())
 static void SetupViewport(int width, int height);           // Set viewport for a provided width and height
 
-static void ScanDirectoryFiles(const char *basePath, rlb_FilePathList *list, const char *filter);   // Scan all files and directories in a base path
-static void ScanDirectoryFilesRecursively(const char *basePath, rlb_FilePathList *list, const char *filter);  // Scan all files and directories recursively from a base path
+static void ScanDirectoryFiles(const char *basePath, FilePathList *list, const char *filter);   // Scan all files and directories in a base path
+static void ScanDirectoryFilesRecursively(const char *basePath, FilePathList *list, const char *filter);  // Scan all files and directories recursively from a base path
 
 #if defined(SUPPORT_AUTOMATION_EVENTS)
 static void RecordAutomationEvent(void); // Record frame events (to internal events array)
@@ -608,7 +608,7 @@ void InitWindow(int width, int height, const char *title)
     // Initialize global input state
     memset(&CORE.Input, 0, sizeof(CORE.Input));     // Reset CORE.Input structure to 0
     CORE.Input.Keyboard.exitKey = KEY_ESCAPE;
-    CORE.Input.Mouse.scale = (rlb_Vector2){ 1.0f, 1.0f };
+    CORE.Input.Mouse.scale = (Vector2){ 1.0f, 1.0f };
     CORE.Input.Mouse.cursor = MOUSE_CURSOR_ARROW;
     CORE.Input.Gamepad.lastButtonPressed = GAMEPAD_BUTTON_UNKNOWN;
 
@@ -631,16 +631,16 @@ void InitWindow(int width, int height, const char *title)
     #if defined(SUPPORT_MODULE_RSHAPES)
     // Set font white rectangle for shapes drawing, so shapes and text can be batched together
     // WARNING: rshapes module is required, if not available, default internal white rectangle is used
-    rlb_Rectangle rec = GetFontDefault().recs[95];
+    Rectangle rec = GetFontDefault().recs[95];
     if (CORE.Window.flags & FLAG_MSAA_4X_HINT)
     {
         // NOTE: We try to maxime rec padding to avoid pixel bleeding on MSAA filtering
-        SetShapesTexture(GetFontDefault().texture, (rlb_Rectangle){ rec.x + 2, rec.y + 2, 1, 1 });
+        SetShapesTexture(GetFontDefault().texture, (Rectangle){ rec.x + 2, rec.y + 2, 1, 1 });
     }
     else
     {
         // NOTE: We set up a 1px padding on char rectangle to avoid pixel bleeding
-        SetShapesTexture(GetFontDefault().texture, (rlb_Rectangle){ rec.x + 1, rec.y + 1, rec.width - 2, rec.height - 2 });
+        SetShapesTexture(GetFontDefault().texture, (Rectangle){ rec.x + 1, rec.y + 1, rec.width - 2, rec.height - 2 });
     }
     #endif
 #else
@@ -810,7 +810,7 @@ bool IsCursorOnScreen(void)
 //----------------------------------------------------------------------------------
 
 // Set background color (framebuffer clear color)
-void ClearBackground(rlb_Color color)
+void ClearBackground(Color color)
 {
     rlClearColor(color.r, color.g, color.b, color.a);   // Set clear color
     rlClearScreenBuffers();                             // Clear current framebuffers
@@ -850,7 +850,7 @@ void EndDrawing(void)
         {
             // Get image data for the current frame (from backbuffer)
             // NOTE: This process is quite slow... :(
-            rlb_Vector2 scale = GetWindowScaleDPI();
+            Vector2 scale = GetWindowScaleDPI();
             unsigned char *screenData = rlReadScreenPixels((int)((float)CORE.Window.render.width*scale.x), (int)((float)CORE.Window.render.height*scale.y));
             msf_gif_frame(&gifState, screenData, 10, 16, (int)((float)CORE.Window.render.width*scale.x)*4);
 
@@ -860,8 +860,8 @@ void EndDrawing(void)
     #if defined(SUPPORT_MODULE_RSHAPES) && defined(SUPPORT_MODULE_RTEXT)
         if (((gifFrameCounter/15)%2) == 1)
         {
-            DrawCircle(30, CORE.Window.screen.height - 20, 10, RLB_MAROON);                 // WARNING: Module required: rshapes
-            DrawText("GIF RECORDING", 50, CORE.Window.screen.height - 25, 10, RLB_RED);     // WARNING: Module required: rtext
+            DrawCircle(30, CORE.Window.screen.height - 20, 10, MAROON);                 // WARNING: Module required: rshapes
+            DrawText("GIF RECORDING", 50, CORE.Window.screen.height - 25, 10, RED);     // WARNING: Module required: rtext
         }
     #endif
 
@@ -920,7 +920,7 @@ void EndDrawing(void)
                 gifRecording = true;
                 gifFrameCounter = 0;
 
-                rlb_Vector2 scale = GetWindowScaleDPI();
+                Vector2 scale = GetWindowScaleDPI();
                 msf_gif_begin(&gifState, (int)((float)CORE.Window.render.width*scale.x), (int)((float)CORE.Window.render.height*scale.y));
                 screenshotCounter++;
 
@@ -940,7 +940,7 @@ void EndDrawing(void)
 }
 
 // Initialize 2D mode with custom camera (2D)
-void BeginMode2D(rlb_Camera2D camera)
+void BeginMode2D(Camera2D camera)
 {
     rlDrawRenderBatchActive();      // Update and draw internal render batch
 
@@ -995,7 +995,7 @@ void BeginMode3D(Camera camera)
     rlLoadIdentity();               // Reset current matrix (modelview)
 
     // Setup Camera view
-    rlb_Matrix matView = MatrixLookAt(camera.position, camera.target, camera.up);
+    Matrix matView = MatrixLookAt(camera.position, camera.target, camera.up);
     rlMultMatrixf(MatrixToFloat(matView));      // Multiply modelview matrix by view matrix (camera)
 
     rlEnableDepthTest();            // Enable DEPTH_TEST for 3D
@@ -1018,7 +1018,7 @@ void EndMode3D(void)
 }
 
 // Initializes render texture for drawing
-void BeginTextureMode(rlb_RenderTexture2D target)
+void BeginTextureMode(RenderTexture2D target)
 {
     rlDrawRenderBatchActive();      // Update and draw internal render batch
 
@@ -1065,7 +1065,7 @@ void EndTextureMode(void)
 }
 
 // Begin custom shader mode
-void BeginShaderMode(rlb_Shader shader)
+void BeginShaderMode(Shader shader)
 {
     rlSetShader(shader.id, shader.locs);
 }
@@ -1106,7 +1106,7 @@ void BeginScissorMode(int x, int y, int width, int height)
 #else
     if (!CORE.Window.usingFbo && ((CORE.Window.flags & FLAG_WINDOW_HIGHDPI) > 0))
     {
-        rlb_Vector2 scale = GetWindowScaleDPI();
+        Vector2 scale = GetWindowScaleDPI();
         rlScissor((int)(x*scale.x), (int)(CORE.Window.currentFbo.height - (y + height)*scale.y), (int)(width*scale.x), (int)(height*scale.y));
     }
 #endif
@@ -1128,7 +1128,7 @@ void EndScissorMode(void)
 //----------------------------------------------------------------------------------
 
 // Begin VR drawing configuration
-void BeginVrStereoMode(rlb_VrStereoConfig config)
+void BeginVrStereoMode(VrStereoConfig config)
 {
     rlEnableStereoRender();
 
@@ -1144,9 +1144,9 @@ void EndVrStereoMode(void)
 }
 
 // Load VR stereo config for VR simulator device parameters
-rlb_VrStereoConfig LoadVrStereoConfig(rlb_VrDeviceInfo device)
+VrStereoConfig LoadVrStereoConfig(VrDeviceInfo device)
 {
-    rlb_VrStereoConfig config = { 0 };
+    VrStereoConfig config = { 0 };
 
     if (rlGetVersion() != RL_OPENGL_11)
     {
@@ -1187,7 +1187,7 @@ rlb_VrStereoConfig LoadVrStereoConfig(rlb_VrDeviceInfo device)
 
         // Compute camera projection matrices
         float projOffset = 4.0f*lensShift;      // Scaled to projection space coordinates [-1..1]
-        rlb_Matrix proj = MatrixPerspective(fovy, aspect, RL_CULL_DISTANCE_NEAR, RL_CULL_DISTANCE_FAR);
+        Matrix proj = MatrixPerspective(fovy, aspect, RL_CULL_DISTANCE_NEAR, RL_CULL_DISTANCE_FAR);
 
         config.projection[0] = MatrixMultiply(proj, MatrixTranslate(projOffset, 0.0f, 0.0f));
         config.projection[1] = MatrixMultiply(proj, MatrixTranslate(-projOffset, 0.0f, 0.0f));
@@ -1218,7 +1218,7 @@ rlb_VrStereoConfig LoadVrStereoConfig(rlb_VrDeviceInfo device)
 }
 
 // Unload VR stereo config properties
-void UnloadVrStereoConfig(rlb_VrStereoConfig config)
+void UnloadVrStereoConfig(VrStereoConfig config)
 {
     TRACELOG(LOG_INFO, "UnloadVrStereoConfig not implemented in rcore.c");
 }
@@ -1229,9 +1229,9 @@ void UnloadVrStereoConfig(rlb_VrStereoConfig config)
 
 // Load shader from files and bind default locations
 // NOTE: If shader string is NULL, using default vertex/fragment shaders
-rlb_Shader LoadShader(const char *vsFileName, const char *fsFileName)
+Shader LoadShader(const char *vsFileName, const char *fsFileName)
 {
-    rlb_Shader shader = { 0 };
+    Shader shader = { 0 };
 
     char *vShaderStr = NULL;
     char *fShaderStr = NULL;
@@ -1248,9 +1248,9 @@ rlb_Shader LoadShader(const char *vsFileName, const char *fsFileName)
 }
 
 // Load shader from code strings and bind default locations
-rlb_Shader LoadShaderFromMemory(const char *vsCode, const char *fsCode)
+Shader LoadShaderFromMemory(const char *vsCode, const char *fsCode)
 {
-    rlb_Shader shader = { 0 };
+    Shader shader = { 0 };
 
     shader.id = rlLoadShaderCode(vsCode, fsCode);
 
@@ -1298,7 +1298,7 @@ rlb_Shader LoadShaderFromMemory(const char *vsCode, const char *fsCode)
 }
 
 // Check if a shader is ready
-bool IsShaderReady(rlb_Shader shader)
+bool IsShaderReady(Shader shader)
 {
     return ((shader.id > 0) &&          // Validate shader id (loaded successfully)
             (shader.locs != NULL));     // Validate memory has been allocated for default shader locations
@@ -1330,7 +1330,7 @@ bool IsShaderReady(rlb_Shader shader)
 }
 
 // Unload shader from GPU memory (VRAM)
-void UnloadShader(rlb_Shader shader)
+void UnloadShader(Shader shader)
 {
     if (shader.id != rlGetShaderIdDefault())
     {
@@ -1342,25 +1342,25 @@ void UnloadShader(rlb_Shader shader)
 }
 
 // Get shader uniform location
-int GetShaderLocation(rlb_Shader shader, const char *uniformName)
+int GetShaderLocation(Shader shader, const char *uniformName)
 {
     return rlGetLocationUniform(shader.id, uniformName);
 }
 
 // Get shader attribute location
-int GetShaderLocationAttrib(rlb_Shader shader, const char *attribName)
+int GetShaderLocationAttrib(Shader shader, const char *attribName)
 {
     return rlGetLocationAttrib(shader.id, attribName);
 }
 
 // Set shader uniform value
-void SetShaderValue(rlb_Shader shader, int locIndex, const void *value, int uniformType)
+void SetShaderValue(Shader shader, int locIndex, const void *value, int uniformType)
 {
     SetShaderValueV(shader, locIndex, value, uniformType, 1);
 }
 
 // Set shader uniform value vector
-void SetShaderValueV(rlb_Shader shader, int locIndex, const void *value, int uniformType, int count)
+void SetShaderValueV(Shader shader, int locIndex, const void *value, int uniformType, int count)
 {
     if (locIndex > -1)
     {
@@ -1371,7 +1371,7 @@ void SetShaderValueV(rlb_Shader shader, int locIndex, const void *value, int uni
 }
 
 // Set shader uniform value (matrix 4x4)
-void SetShaderValueMatrix(rlb_Shader shader, int locIndex, rlb_Matrix mat)
+void SetShaderValueMatrix(Shader shader, int locIndex, Matrix mat)
 {
     if (locIndex > -1)
     {
@@ -1382,7 +1382,7 @@ void SetShaderValueMatrix(rlb_Shader shader, int locIndex, rlb_Matrix mat)
 }
 
 // Set shader uniform value for texture
-void SetShaderValueTexture(rlb_Shader shader, int locIndex, rlb_Texture2D texture)
+void SetShaderValueTexture(Shader shader, int locIndex, Texture2D texture)
 {
     if (locIndex > -1)
     {
@@ -1397,9 +1397,9 @@ void SetShaderValueTexture(rlb_Shader shader, int locIndex, rlb_Texture2D textur
 //----------------------------------------------------------------------------------
 
 // Get a ray trace from mouse position
-rlb_Ray GetMouseRay(rlb_Vector2 mouse, Camera camera)
+Ray GetMouseRay(Vector2 mouse, Camera camera)
 {
-    rlb_Ray ray = { 0 };
+    Ray ray = { 0 };
 
     // Calculate normalized device coordinates
     // NOTE: y value is negative
@@ -1408,12 +1408,12 @@ rlb_Ray GetMouseRay(rlb_Vector2 mouse, Camera camera)
     float z = 1.0f;
 
     // Store values in a vector
-    rlb_Vector3 deviceCoords = { x, y, z };
+    Vector3 deviceCoords = { x, y, z };
 
     // Calculate view matrix from camera look at
-    rlb_Matrix matView = MatrixLookAt(camera.position, camera.target, camera.up);
+    Matrix matView = MatrixLookAt(camera.position, camera.target, camera.up);
 
-    rlb_Matrix matProj = MatrixIdentity();
+    Matrix matProj = MatrixIdentity();
 
     if (camera.projection == CAMERA_PERSPECTIVE)
     {
@@ -1431,16 +1431,16 @@ rlb_Ray GetMouseRay(rlb_Vector2 mouse, Camera camera)
     }
 
     // Unproject far/near points
-    rlb_Vector3 nearPoint = Vector3Unproject((rlb_Vector3){ deviceCoords.x, deviceCoords.y, 0.0f }, matProj, matView);
-    rlb_Vector3 farPoint = Vector3Unproject((rlb_Vector3){ deviceCoords.x, deviceCoords.y, 1.0f }, matProj, matView);
+    Vector3 nearPoint = Vector3Unproject((Vector3){ deviceCoords.x, deviceCoords.y, 0.0f }, matProj, matView);
+    Vector3 farPoint = Vector3Unproject((Vector3){ deviceCoords.x, deviceCoords.y, 1.0f }, matProj, matView);
 
     // Unproject the mouse cursor in the near plane.
     // We need this as the source position because orthographic projects, compared to perspective doesn't have a
     // convergence point, meaning that the "eye" of the camera is more like a plane than a point.
-    rlb_Vector3 cameraPlanePointerPos = Vector3Unproject((rlb_Vector3){ deviceCoords.x, deviceCoords.y, -1.0f }, matProj, matView);
+    Vector3 cameraPlanePointerPos = Vector3Unproject((Vector3){ deviceCoords.x, deviceCoords.y, -1.0f }, matProj, matView);
 
     // Calculate normalized direction vector
-    rlb_Vector3 direction = Vector3Normalize(Vector3Subtract(farPoint, nearPoint));
+    Vector3 direction = Vector3Normalize(Vector3Subtract(farPoint, nearPoint));
 
     if (camera.projection == CAMERA_PERSPECTIVE) ray.position = camera.position;
     else if (camera.projection == CAMERA_ORTHOGRAPHIC) ray.position = cameraPlanePointerPos;
@@ -1452,15 +1452,15 @@ rlb_Ray GetMouseRay(rlb_Vector2 mouse, Camera camera)
 }
 
 // Get transform matrix for camera
-rlb_Matrix GetCameraMatrix(Camera camera)
+Matrix GetCameraMatrix(Camera camera)
 {
     return MatrixLookAt(camera.position, camera.target, camera.up);
 }
 
 // Get camera 2d transform matrix
-rlb_Matrix GetCameraMatrix2D(rlb_Camera2D camera)
+Matrix GetCameraMatrix2D(Camera2D camera)
 {
-    rlb_Matrix matTransform = { 0 };
+    Matrix matTransform = { 0 };
     // The camera in world-space is set by
     //   1. Move it to target
     //   2. Rotate by -rotation and scale by (1/zoom)
@@ -1475,10 +1475,10 @@ rlb_Matrix GetCameraMatrix2D(rlb_Camera2D camera)
     //   1. Move to offset
     //   2. Rotate and Scale
     //   3. Move by -target
-    rlb_Matrix matOrigin = MatrixTranslate(-camera.target.x, -camera.target.y, 0.0f);
-    rlb_Matrix matRotation = MatrixRotate((rlb_Vector3){ 0.0f, 0.0f, 1.0f }, camera.rotation*DEG2RAD);
-    rlb_Matrix matScale = MatrixScale(camera.zoom, camera.zoom, 1.0f);
-    rlb_Matrix matTranslation = MatrixTranslate(camera.offset.x, camera.offset.y, 0.0f);
+    Matrix matOrigin = MatrixTranslate(-camera.target.x, -camera.target.y, 0.0f);
+    Matrix matRotation = MatrixRotate((Vector3){ 0.0f, 0.0f, 1.0f }, camera.rotation*DEG2RAD);
+    Matrix matScale = MatrixScale(camera.zoom, camera.zoom, 1.0f);
+    Matrix matTranslation = MatrixTranslate(camera.offset.x, camera.offset.y, 0.0f);
 
     matTransform = MatrixMultiply(MatrixMultiply(matOrigin, MatrixMultiply(matScale, matRotation)), matTranslation);
 
@@ -1486,18 +1486,18 @@ rlb_Matrix GetCameraMatrix2D(rlb_Camera2D camera)
 }
 
 // Get the screen space position from a 3d world space position
-rlb_Vector2 GetWorldToScreen(rlb_Vector3 position, Camera camera)
+Vector2 GetWorldToScreen(Vector3 position, Camera camera)
 {
-    rlb_Vector2 screenPosition = GetWorldToScreenEx(position, camera, GetScreenWidth(), GetScreenHeight());
+    Vector2 screenPosition = GetWorldToScreenEx(position, camera, GetScreenWidth(), GetScreenHeight());
 
     return screenPosition;
 }
 
 // Get size position for a 3d world space position (useful for texture drawing)
-rlb_Vector2 GetWorldToScreenEx(rlb_Vector3 position, Camera camera, int width, int height)
+Vector2 GetWorldToScreenEx(Vector3 position, Camera camera, int width, int height)
 {
     // Calculate projection matrix (from perspective instead of frustum
-    rlb_Matrix matProj = MatrixIdentity();
+    Matrix matProj = MatrixIdentity();
 
     if (camera.projection == CAMERA_PERSPECTIVE)
     {
@@ -1515,12 +1515,12 @@ rlb_Vector2 GetWorldToScreenEx(rlb_Vector3 position, Camera camera, int width, i
     }
 
     // Calculate view matrix from camera look at (and transpose it)
-    rlb_Matrix matView = MatrixLookAt(camera.position, camera.target, camera.up);
+    Matrix matView = MatrixLookAt(camera.position, camera.target, camera.up);
 
     // TODO: Why not use Vector3Transform(Vector3 v, Matrix mat)?
 
     // Convert world position vector to quaternion
-    rlb_Quaternion worldPos = { position.x, position.y, position.z, 1.0f };
+    Quaternion worldPos = { position.x, position.y, position.z, 1.0f };
 
     // Transform world position to view
     worldPos = QuaternionTransform(worldPos, matView);
@@ -1529,30 +1529,30 @@ rlb_Vector2 GetWorldToScreenEx(rlb_Vector3 position, Camera camera, int width, i
     worldPos = QuaternionTransform(worldPos, matProj);
 
     // Calculate normalized device coordinates (inverted y)
-    rlb_Vector3 ndcPos = { worldPos.x/worldPos.w, -worldPos.y/worldPos.w, worldPos.z/worldPos.w };
+    Vector3 ndcPos = { worldPos.x/worldPos.w, -worldPos.y/worldPos.w, worldPos.z/worldPos.w };
 
     // Calculate 2d screen position vector
-    rlb_Vector2 screenPosition = { (ndcPos.x + 1.0f)/2.0f*(float)width, (ndcPos.y + 1.0f)/2.0f*(float)height };
+    Vector2 screenPosition = { (ndcPos.x + 1.0f)/2.0f*(float)width, (ndcPos.y + 1.0f)/2.0f*(float)height };
 
     return screenPosition;
 }
 
 // Get the screen space position for a 2d camera world space position
-rlb_Vector2 GetWorldToScreen2D(rlb_Vector2 position, rlb_Camera2D camera)
+Vector2 GetWorldToScreen2D(Vector2 position, Camera2D camera)
 {
-    rlb_Matrix matCamera = GetCameraMatrix2D(camera);
-    rlb_Vector3 transform = Vector3Transform((rlb_Vector3){ position.x, position.y, 0 }, matCamera);
+    Matrix matCamera = GetCameraMatrix2D(camera);
+    Vector3 transform = Vector3Transform((Vector3){ position.x, position.y, 0 }, matCamera);
 
-    return (rlb_Vector2){ transform.x, transform.y };
+    return (Vector2){ transform.x, transform.y };
 }
 
 // Get the world space position for a 2d camera screen space position
-rlb_Vector2 GetScreenToWorld2D(rlb_Vector2 position, rlb_Camera2D camera)
+Vector2 GetScreenToWorld2D(Vector2 position, Camera2D camera)
 {
-    rlb_Matrix invMatCamera = MatrixInvert(GetCameraMatrix2D(camera));
-    rlb_Vector3 transform = Vector3Transform((rlb_Vector3){ position.x, position.y, 0 }, invMatCamera);
+    Matrix invMatCamera = MatrixInvert(GetCameraMatrix2D(camera));
+    Vector3 transform = Vector3Transform((Vector3){ position.x, position.y, 0 }, invMatCamera);
 
-    return (rlb_Vector2){ transform.x, transform.y };
+    return (Vector2){ transform.x, transform.y };
 }
 
 //----------------------------------------------------------------------------------
@@ -1778,9 +1778,9 @@ void TakeScreenshot(const char *fileName)
     // Security check to (partially) avoid malicious code
     if (strchr(fileName, '\'') != NULL) { TRACELOG(LOG_WARNING, "SYSTEM: Provided fileName could be potentially malicious, avoid [\'] character"); return; }
 
-    rlb_Vector2 scale = GetWindowScaleDPI();
+    Vector2 scale = GetWindowScaleDPI();
     unsigned char *imgData = rlReadScreenPixels((int)((float)CORE.Window.render.width*scale.x), (int)((float)CORE.Window.render.height*scale.y));
-    rlb_Image image = { imgData, (int)((float)CORE.Window.render.width*scale.x), (int)((float)CORE.Window.render.height*scale.y), 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
+    Image image = { imgData, (int)((float)CORE.Window.render.width*scale.x), (int)((float)CORE.Window.render.height*scale.y), 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
 
     char path[512] = { 0 };
     strcpy(path, TextFormat("%s/%s", CORE.Storage.basePath, GetFileName(fileName)));
@@ -2124,9 +2124,9 @@ const char *GetApplicationDirectory(void)
 // NOTE: Base path is prepended to the scanned filepaths
 // WARNING: Directory is scanned twice, first time to get files count
 // No recursive scanning is done!
-rlb_FilePathList LoadDirectoryFiles(const char *dirPath)
+FilePathList LoadDirectoryFiles(const char *dirPath)
 {
-    rlb_FilePathList files = { 0 };
+    FilePathList files = { 0 };
     unsigned int fileCounter = 0;
 
     struct dirent *entity;
@@ -2162,9 +2162,9 @@ rlb_FilePathList LoadDirectoryFiles(const char *dirPath)
 
 // Load directory filepaths with extension filtering and recursive directory scan
 // NOTE: On recursive loading we do not pre-scan for file count, we use MAX_FILEPATH_CAPACITY
-rlb_FilePathList LoadDirectoryFilesEx(const char *basePath, const char *filter, bool scanSubdirs)
+FilePathList LoadDirectoryFilesEx(const char *basePath, const char *filter, bool scanSubdirs)
 {
-    rlb_FilePathList files = { 0 };
+    FilePathList files = { 0 };
 
     files.capacity = MAX_FILEPATH_CAPACITY;
     files.paths = (char **)RL_CALLOC(files.capacity, sizeof(char *));
@@ -2179,7 +2179,7 @@ rlb_FilePathList LoadDirectoryFilesEx(const char *basePath, const char *filter, 
 
 // Unload directory filepaths
 // WARNING: files.count is not reseted to 0 after unloading
-void UnloadDirectoryFiles(rlb_FilePathList files)
+void UnloadDirectoryFiles(FilePathList files)
 {
     for (unsigned int i = 0; i < files.capacity; i++) RL_FREE(files.paths[i]);
 
@@ -2213,9 +2213,9 @@ bool IsFileDropped(void)
 }
 
 // Load dropped filepaths
-rlb_FilePathList LoadDroppedFiles(void)
+FilePathList LoadDroppedFiles(void)
 {
-    rlb_FilePathList files = { 0 };
+    FilePathList files = { 0 };
 
     files.count = CORE.Window.dropFileCount;
     files.paths = CORE.Window.dropFilepaths;
@@ -2224,7 +2224,7 @@ rlb_FilePathList LoadDroppedFiles(void)
 }
 
 // Unload dropped filepaths
-void UnloadDroppedFiles(rlb_FilePathList files)
+void UnloadDroppedFiles(FilePathList files)
 {
     // WARNING: files pointers are the same as internal ones
 
@@ -2404,12 +2404,12 @@ unsigned char *DecodeDataBase64(const unsigned char *data, int *outputSize)
 //----------------------------------------------------------------------------------
 
 // Load automation events list from file, NULL for empty list, capacity = MAX_AUTOMATION_EVENTS
-rlb_AutomationEventList LoadAutomationEventList(const char *fileName)
+AutomationEventList LoadAutomationEventList(const char *fileName)
 {
-    rlb_AutomationEventList list = { 0 };
+    AutomationEventList list = { 0 };
 
     // Allocate and empty automation event list, ready to record new events
-    list.events = (rlb_AutomationEvent *)RL_CALLOC(MAX_AUTOMATION_EVENTS, sizeof(rlb_AutomationEvent));
+    list.events = (AutomationEvent *)RL_CALLOC(MAX_AUTOMATION_EVENTS, sizeof(AutomationEvent));
     list.capacity = MAX_AUTOMATION_EVENTS;
 
 #if defined(SUPPORT_AUTOMATION_EVENTS)
@@ -2484,7 +2484,7 @@ rlb_AutomationEventList LoadAutomationEventList(const char *fileName)
 }
 
 // Unload automation events list from file
-void UnloadAutomationEventList(rlb_AutomationEventList *list)
+void UnloadAutomationEventList(AutomationEventList *list)
 {
 #if defined(SUPPORT_AUTOMATION_EVENTS)
     RL_FREE(list->events);
@@ -2495,7 +2495,7 @@ void UnloadAutomationEventList(rlb_AutomationEventList *list)
 }
 
 // Export automation events list as text file
-bool ExportAutomationEventList(rlb_AutomationEventList list, const char *fileName)
+bool ExportAutomationEventList(AutomationEventList list, const char *fileName)
 {
     bool success = false;
 
@@ -2546,7 +2546,7 @@ bool ExportAutomationEventList(rlb_AutomationEventList list, const char *fileNam
 }
 
 // Setup automation event list to record to
-void SetAutomationEventList(rlb_AutomationEventList *list)
+void SetAutomationEventList(AutomationEventList *list)
 {
 #if defined(SUPPORT_AUTOMATION_EVENTS)
     currentEventList = list;
@@ -2576,7 +2576,7 @@ void StopAutomationEventRecording(void)
 }
 
 // Play a recorded automation event
-void PlayAutomationEvent(rlb_AutomationEvent event)
+void PlayAutomationEvent(AutomationEvent event)
 {
 #if defined(SUPPORT_AUTOMATION_EVENTS)
     // WARNING: When should event be played? After/before/replace PollInputEvents()? -> Up to the user!
@@ -2935,9 +2935,9 @@ int GetMouseY(void)
 }
 
 // Get mouse position XY
-rlb_Vector2 GetMousePosition(void)
+Vector2 GetMousePosition(void)
 {
-    rlb_Vector2 position = { 0 };
+    Vector2 position = { 0 };
 
     position.x = (CORE.Input.Mouse.currentPosition.x + CORE.Input.Mouse.offset.x)*CORE.Input.Mouse.scale.x;
     position.y = (CORE.Input.Mouse.currentPosition.y + CORE.Input.Mouse.offset.y)*CORE.Input.Mouse.scale.y;
@@ -2946,9 +2946,9 @@ rlb_Vector2 GetMousePosition(void)
 }
 
 // Get mouse delta between frames
-rlb_Vector2 GetMouseDelta(void)
+Vector2 GetMouseDelta(void)
 {
-    rlb_Vector2 delta = { 0 };
+    Vector2 delta = { 0 };
 
     delta.x = CORE.Input.Mouse.currentPosition.x - CORE.Input.Mouse.previousPosition.x;
     delta.y = CORE.Input.Mouse.currentPosition.y - CORE.Input.Mouse.previousPosition.y;
@@ -2960,14 +2960,14 @@ rlb_Vector2 GetMouseDelta(void)
 // NOTE: Useful when rendering to different size targets
 void SetMouseOffset(int offsetX, int offsetY)
 {
-    CORE.Input.Mouse.offset = (rlb_Vector2){ (float)offsetX, (float)offsetY };
+    CORE.Input.Mouse.offset = (Vector2){ (float)offsetX, (float)offsetY };
 }
 
 // Set mouse scaling
 // NOTE: Useful when rendering to different size targets
 void SetMouseScale(float scaleX, float scaleY)
 {
-    CORE.Input.Mouse.scale = (rlb_Vector2){ scaleX, scaleY };
+    CORE.Input.Mouse.scale = (Vector2){ scaleX, scaleY };
 }
 
 // Get mouse wheel movement Y
@@ -2982,9 +2982,9 @@ float GetMouseWheelMove(void)
 }
 
 // Get mouse wheel movement X/Y as a vector
-rlb_Vector2 GetMouseWheelMoveV(void)
+Vector2 GetMouseWheelMoveV(void)
 {
-    rlb_Vector2 result = { 0 };
+    Vector2 result = { 0 };
 
     result = CORE.Input.Mouse.currentWheelMove;
 
@@ -3009,9 +3009,9 @@ int GetTouchY(void)
 
 // Get touch position XY for a touch point index (relative to screen size)
 // TODO: Touch position should be scaled depending on display size and render size
-rlb_Vector2 GetTouchPosition(int index)
+Vector2 GetTouchPosition(int index)
 {
-    rlb_Vector2 position = { -1.0f, -1.0f };
+    Vector2 position = { -1.0f, -1.0f };
 
     if (index < MAX_TOUCH_POINTS) position = CORE.Input.Touch.position[index];
     else TRACELOG(LOG_WARNING, "INPUT: Required touch point out of range (Max touch points: %i)", MAX_TOUCH_POINTS);
@@ -3175,7 +3175,7 @@ void SetupFramebuffer(int width, int height)
 // Scan all files and directories in a base path
 // WARNING: files.paths[] must be previously allocated and
 // contain enough space to store all required paths
-static void ScanDirectoryFiles(const char *basePath, rlb_FilePathList *files, const char *filter)
+static void ScanDirectoryFiles(const char *basePath, FilePathList *files, const char *filter)
 {
     static char path[MAX_FILEPATH_LENGTH] = { 0 };
     memset(path, 0, MAX_FILEPATH_LENGTH);
@@ -3218,7 +3218,7 @@ static void ScanDirectoryFiles(const char *basePath, rlb_FilePathList *files, co
 }
 
 // Scan all files and directories recursively from a base path
-static void ScanDirectoryFilesRecursively(const char *basePath, rlb_FilePathList *files, const char *filter)
+static void ScanDirectoryFilesRecursively(const char *basePath, FilePathList *files, const char *filter)
 {
     char path[MAX_FILEPATH_LENGTH] = { 0 };
     memset(path, 0, MAX_FILEPATH_LENGTH);

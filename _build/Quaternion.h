@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Vector4.h"
+#include "include/Vector4.hpp"
+
 
 // https://www.cprogramming.com/tutorial/3d/quaternions.html
 // Quaternion rotation uses ZYX for euler rotation
@@ -88,6 +90,6 @@ namespace jothly
 		Vector4 operator*(const Vector4& other);
 		Quaternion operator*(const Quaternion& other) { return this->GetRotated(other); }
 
-		operator rlb_Quaternion() const { return { components.x, components.y, components.z, components.w }; }
+		operator raylib::Vector4() const { return { components.x, components.y, components.z, components.w }; }
 	};
 }
