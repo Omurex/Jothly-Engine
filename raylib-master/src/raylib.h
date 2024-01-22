@@ -170,33 +170,33 @@
 
 // Some Basic Colors
 // NOTE: Custom raylib color palette for amazing visuals on WHITE background
-#define LIGHTGRAY  CLITERAL(rlb_Color){ 200, 200, 200, 255 }   // Light Gray
-#define GRAY       CLITERAL(rlb_Color){ 130, 130, 130, 255 }   // Gray
-#define DARKGRAY   CLITERAL(rlb_Color){ 80, 80, 80, 255 }      // Dark Gray
-#define YELLOW     CLITERAL(rlb_Color){ 253, 249, 0, 255 }     // Yellow
-#define GOLD       CLITERAL(rlb_Color){ 255, 203, 0, 255 }     // Gold
-#define ORANGE     CLITERAL(rlb_Color){ 255, 161, 0, 255 }     // Orange
-#define PINK       CLITERAL(rlb_Color){ 255, 109, 194, 255 }   // Pink
-#define RED        CLITERAL(rlb_Color){ 230, 41, 55, 255 }     // Red
-#define MAROON     CLITERAL(rlb_Color){ 190, 33, 55, 255 }     // Maroon
-#define GREEN      CLITERAL(rlb_Color){ 0, 228, 48, 255 }      // Green
-#define LIME       CLITERAL(rlb_Color){ 0, 158, 47, 255 }      // Lime
-#define DARKGREEN  CLITERAL(rlb_Color){ 0, 117, 44, 255 }      // Dark Green
-#define SKYBLUE    CLITERAL(rlb_Color){ 102, 191, 255, 255 }   // Sky Blue
-#define BLUE       CLITERAL(rlb_Color){ 0, 121, 241, 255 }     // Blue
-#define DARKBLUE   CLITERAL(rlb_Color){ 0, 82, 172, 255 }      // Dark Blue
-#define PURPLE     CLITERAL(rlb_Color){ 200, 122, 255, 255 }   // Purple
-#define VIOLET     CLITERAL(rlb_Color){ 135, 60, 190, 255 }    // Violet
-#define DARKPURPLE CLITERAL(rlb_Color){ 112, 31, 126, 255 }    // Dark Purple
-#define BEIGE      CLITERAL(rlb_Color){ 211, 176, 131, 255 }   // Beige
-#define BROWN      CLITERAL(rlb_Color){ 127, 106, 79, 255 }    // Brown
-#define DARKBROWN  CLITERAL(rlb_Color){ 76, 63, 47, 255 }      // Dark Brown
+#define RLB_LIGHTGRAY  CLITERAL(rlb_Color){ 200, 200, 200, 255 }   // Light Gray
+#define RLB_GRAY       CLITERAL(rlb_Color){ 130, 130, 130, 255 }   // Gray
+#define RLB_DARKGRAY   CLITERAL(rlb_Color){ 80, 80, 80, 255 }      // Dark Gray
+#define RLB_YELLOW     CLITERAL(rlb_Color){ 253, 249, 0, 255 }     // Yellow
+#define RLB_GOLD       CLITERAL(rlb_Color){ 255, 203, 0, 255 }     // Gold
+#define RLB_ORANGE     CLITERAL(rlb_Color){ 255, 161, 0, 255 }     // Orange
+#define RLB_PINK       CLITERAL(rlb_Color){ 255, 109, 194, 255 }   // Pink
+#define RLB_RED        CLITERAL(rlb_Color){ 230, 41, 55, 255 }     // Red
+#define RLB_MAROON     CLITERAL(rlb_Color){ 190, 33, 55, 255 }     // Maroon
+#define RLB_GREEN      CLITERAL(rlb_Color){ 0, 228, 48, 255 }      // Green
+#define RLB_LIME       CLITERAL(rlb_Color){ 0, 158, 47, 255 }      // Lime
+#define RLB_DARKGREEN  CLITERAL(rlb_Color){ 0, 117, 44, 255 }      // Dark Green
+#define RLB_SKYBLUE    CLITERAL(rlb_Color){ 102, 191, 255, 255 }   // Sky Blue
+#define RLB_BLUE       CLITERAL(rlb_Color){ 0, 121, 241, 255 }     // Blue
+#define RLB_DARKBLUE   CLITERAL(rlb_Color){ 0, 82, 172, 255 }      // Dark Blue
+#define RLB_PURPLE     CLITERAL(rlb_Color){ 200, 122, 255, 255 }   // Purple
+#define RLB_VIOLET     CLITERAL(rlb_Color){ 135, 60, 190, 255 }    // Violet
+#define RLB_DARKPURPLE CLITERAL(rlb_Color){ 112, 31, 126, 255 }    // Dark Purple
+#define RLB_BEIGE      CLITERAL(rlb_Color){ 211, 176, 131, 255 }   // Beige
+#define RLB_BROWN      CLITERAL(rlb_Color){ 127, 106, 79, 255 }    // Brown
+#define RLB_DARKBROWN  CLITERAL(rlb_Color){ 76, 63, 47, 255 }      // Dark Brown
 
-#define WHITE      CLITERAL(rlb_Color){ 255, 255, 255, 255 }   // White
-#define BLACK      CLITERAL(rlb_Color){ 0, 0, 0, 255 }         // Black
-#define BLANK      CLITERAL(rlb_Color){ 0, 0, 0, 0 }           // Blank (Transparent)
-#define MAGENTA    CLITERAL(rlb_Color){ 255, 0, 255, 255 }     // Magenta
-#define RAYWHITE   CLITERAL(rlb_Color){ 245, 245, 245, 255 }   // My own White (raylib logo)
+#define RLB_WHITE      CLITERAL(rlb_Color){ 255, 255, 255, 255 }   // White
+#define RLB_BLACK      CLITERAL(rlb_Color){ 0, 0, 0, 255 }         // Black
+#define RLB_BLANK      CLITERAL(rlb_Color){ 0, 0, 0, 0 }           // Blank (Transparent)
+#define RLB_MAGENTA    CLITERAL(rlb_Color){ 255, 0, 255, 255 }     // Magenta
+#define RLB_RAYWHITE   CLITERAL(rlb_Color){ 245, 245, 245, 255 }   // My own White (raylib logo)
 
 //----------------------------------------------------------------------------------
 // Structures Definition

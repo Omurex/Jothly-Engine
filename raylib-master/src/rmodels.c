@@ -1976,7 +1976,7 @@ static void ProcessMaterialsOBJ(rlb_Material *materials, tinyobj_material_t *mat
         materials[m].maps[MATERIAL_MAP_SPECULAR].value = 0.0f;
 
         if (mats[m].bump_texname != NULL) materials[m].maps[MATERIAL_MAP_NORMAL].texture = LoadTexture(mats[m].bump_texname);  //char *bump_texname; // map_bump, bump
-        materials[m].maps[MATERIAL_MAP_NORMAL].color = WHITE;
+        materials[m].maps[MATERIAL_MAP_NORMAL].color = RLB_WHITE;
         materials[m].maps[MATERIAL_MAP_NORMAL].value = mats[m].shininess;
 
         materials[m].maps[MATERIAL_MAP_EMISSION].color = (rlb_Color){ (unsigned char)(mats[m].emission[0]*255.0f), (unsigned char)(mats[m].emission[1]*255.0f), (unsigned char)(mats[m].emission[2] * 255.0f), 255 }; //float emission[3];
@@ -2030,8 +2030,8 @@ rlb_Material LoadMaterialDefault(void)
     //material.maps[MATERIAL_MAP_NORMAL].texture;         // NOTE: By default, not set
     //material.maps[MATERIAL_MAP_SPECULAR].texture;       // NOTE: By default, not set
 
-    material.maps[MATERIAL_MAP_DIFFUSE].color = WHITE;    // Diffuse color
-    material.maps[MATERIAL_MAP_SPECULAR].color = WHITE;   // Specular color
+    material.maps[MATERIAL_MAP_DIFFUSE].color = RLB_WHITE;    // Diffuse color
+    material.maps[MATERIAL_MAP_SPECULAR].color = RLB_WHITE;   // Specular color
 
     return material;
 }
@@ -3088,7 +3088,7 @@ rlb_Mesh GenMeshCubicmap(rlb_Image cubicmap, rlb_Vector3 cubeSize)
             rlb_Vector3 v8 = { w*(x + 0.5f), 0, h*(z + 0.5f) };
 
             // We check pixel color to be WHITE -> draw full cube
-            if (COLOR_EQUAL(pixels[z*cubicmap.width + x], WHITE))
+            if (COLOR_EQUAL(pixels[z*cubicmap.width + x], RLB_WHITE))
             {
                 // Define triangles and checking collateral cubes
                 //------------------------------------------------
@@ -3145,7 +3145,7 @@ rlb_Mesh GenMeshCubicmap(rlb_Image cubicmap, rlb_Vector3 cubeSize)
                 tcCounter += 6;
 
                 // Checking cube on bottom of current cube
-                if (((z < cubicmap.height - 1) && COLOR_EQUAL(pixels[(z + 1)*cubicmap.width + x], BLACK)) || (z == cubicmap.height - 1))
+                if (((z < cubicmap.height - 1) && COLOR_EQUAL(pixels[(z + 1)*cubicmap.width + x], RLB_BLACK)) || (z == cubicmap.height - 1))
                 {
                     // Define front triangles (2 tris, 6 vertex) --> v2 v7 v3, v3 v7 v8
                     // NOTE: Collateral occluded faces are not generated
@@ -3175,7 +3175,7 @@ rlb_Mesh GenMeshCubicmap(rlb_Image cubicmap, rlb_Vector3 cubeSize)
                 }
 
                 // Checking cube on top of current cube
-                if (((z > 0) && COLOR_EQUAL(pixels[(z - 1)*cubicmap.width + x], BLACK)) || (z == 0))
+                if (((z > 0) && COLOR_EQUAL(pixels[(z - 1)*cubicmap.width + x], RLB_BLACK)) || (z == 0))
                 {
                     // Define back triangles (2 tris, 6 vertex) --> v1 v5 v6, v1 v4 v5
                     // NOTE: Collateral occluded faces are not generated
@@ -3205,7 +3205,7 @@ rlb_Mesh GenMeshCubicmap(rlb_Image cubicmap, rlb_Vector3 cubeSize)
                 }
 
                 // Checking cube on right of current cube
-                if (((x < cubicmap.width - 1) && COLOR_EQUAL(pixels[z*cubicmap.width + (x + 1)], BLACK)) || (x == cubicmap.width - 1))
+                if (((x < cubicmap.width - 1) && COLOR_EQUAL(pixels[z*cubicmap.width + (x + 1)], RLB_BLACK)) || (x == cubicmap.width - 1))
                 {
                     // Define right triangles (2 tris, 6 vertex) --> v3 v8 v4, v4 v8 v5
                     // NOTE: Collateral occluded faces are not generated
@@ -3235,7 +3235,7 @@ rlb_Mesh GenMeshCubicmap(rlb_Image cubicmap, rlb_Vector3 cubeSize)
                 }
 
                 // Checking cube on left of current cube
-                if (((x > 0) && COLOR_EQUAL(pixels[z*cubicmap.width + (x - 1)], BLACK)) || (x == 0))
+                if (((x > 0) && COLOR_EQUAL(pixels[z*cubicmap.width + (x - 1)], RLB_BLACK)) || (x == 0))
                 {
                     // Define left triangles (2 tris, 6 vertex) --> v1 v7 v2, v1 v6 v7
                     // NOTE: Collateral occluded faces are not generated
@@ -3265,7 +3265,7 @@ rlb_Mesh GenMeshCubicmap(rlb_Image cubicmap, rlb_Vector3 cubeSize)
                 }
             }
             // We check pixel color to be BLACK, we will only draw floor and roof
-            else if (COLOR_EQUAL(pixels[z*cubicmap.width + x], BLACK))
+            else if (COLOR_EQUAL(pixels[z*cubicmap.width + x], RLB_BLACK))
             {
                 // Define top triangles (2 tris, 6 vertex --> v1-v2-v3, v1-v3-v4)
                 mapVertices[vCounter] = v1;
@@ -3537,7 +3537,7 @@ void DrawModelEx(rlb_Model model, rlb_Vector3 position, rlb_Vector3 rotationAxis
     {
         rlb_Color color = model.materials[model.meshMaterial[i]].maps[MATERIAL_MAP_DIFFUSE].color;
 
-        rlb_Color colorTint = WHITE;
+        rlb_Color colorTint = RLB_WHITE;
         colorTint.r = (unsigned char)((((float)color.r/255.0f)*((float)tint.r/255.0f))*255.0f);
         colorTint.g = (unsigned char)((((float)color.g/255.0f)*((float)tint.g/255.0f))*255.0f);
         colorTint.b = (unsigned char)((((float)color.b/255.0f)*((float)tint.b/255.0f))*255.0f);
@@ -5889,7 +5889,7 @@ static rlb_Model LoadM3D(const char *fileName)
                     } break;
                     case m3dp_Ps:
                     {
-                        model.materials[i + 1].maps[MATERIAL_MAP_NORMAL].color = WHITE;
+                        model.materials[i + 1].maps[MATERIAL_MAP_NORMAL].color = RLB_WHITE;
                         model.materials[i + 1].maps[MATERIAL_MAP_NORMAL].value = prop->value.fnum;
                     } break;
                     default:

@@ -23,7 +23,7 @@ namespace jothly
 
 		public:
 
-		ShapeRenderer2D* Init(float _radius = 100, Color _color = Color(255, 255, 255, 255)/*Color::WHITE*/, Vector2 _offset = Vector2(0));
+		ShapeRenderer2D* Init(float _radius = 100, Color _color = Color::WHITE, Vector2 _offset = Vector2(0));
 	
 		ComponentID GetID() const override { return ComponentID::SHAPE_RENDERER; }
 

@@ -222,12 +222,12 @@ namespace jothly
 		Quaternion q1 = Quaternion(0.5f, 0, 0, 0.8660254f);
 		
 		// <1, 1, 1> 45 deg
-		Quaternion q2 = Quaternion(0.2209424, 0.2209424, 0.2209424, 0.9238795);
+		Quaternion q2 = Quaternion(0.2209424f, 0.2209424f, 0.2209424f, 0.9238795f);
 
 		// Check Hamiltonian works before anything else
-		Quaternion hamQuat = Quaternion(0.0, 0.707, 0.0, .707);
+		Quaternion hamQuat = Quaternion(0.0f, 0.707f, 0.0f, .707f);
 		Vector4 hamResult = Quaternion::Hamiltonian(hamQuat.GetComponents(), p0);
-		Vector4 expectedHam = Vector4(0.707106829, 0.0, -0.707106829, 0);
+		Vector4 expectedHam = Vector4(0.707106829f, 0.0, -0.707106829f, 0);
 
 		Vector4 rotatedQ1P0 = q1 * p0;
 		Vector4 rotatedQ1P1 = q1 * p1;
@@ -244,14 +244,14 @@ namespace jothly
 		Vector4 expectedRotatedQ1P0 = Vector4(1, 0, 0, 0);
 		Vector4 expectedRotatedQ1P1 = Vector4(1, 0.5f, 0.8660254f, 0);
 		Vector3 expectedRotatedQ1P2 = Vector3(100, 0, 0);
-		Vector3 expectedRotatedQ1P3 = Vector3(100, -36.60254, 136.6025);
+		Vector3 expectedRotatedQ1P3 = Vector3(100, -36.60254f, 136.6025f);
 		Vector2 expectedRotatedQ1P4 = Vector2(-50, 0);
 
-		Vector4 expectedRotatedQ2P0 = Vector4(0.8047378, 0.5058794, -0.3106172, 0);
-		Vector4 expectedRotatedQ2P1 = Vector4(0.4941206, 1.310617, 0.1952622, 0);
-		Vector3 expectedRotatedQ2P2 = Vector3(80.47379, 50.58794, -31.06172);
+		Vector4 expectedRotatedQ2P0 = Vector4(0.8047378f, 0.5058794f, -0.3106172f, 0);
+		Vector4 expectedRotatedQ2P1 = Vector4(0.4941206f, 1.310617f, 0.1952622f, 0);
+		Vector3 expectedRotatedQ2P2 = Vector3(80.47379f, 50.58794f, -31.06172f);
 		Vector3 expectedRotatedQ2P3 = Vector3(100, 100, 100);
-		Vector2 expectedRotatedQ2P4 = Vector2(-40.23689, -25.29397);
+		Vector2 expectedRotatedQ2P4 = Vector2(-40.23689f, -25.29397f);
 
 		int approxResult = Approx(hamResult, expectedHam);
 		AssertTest(approxResult == 1, "Quaternion Hamiltonian Product Error");

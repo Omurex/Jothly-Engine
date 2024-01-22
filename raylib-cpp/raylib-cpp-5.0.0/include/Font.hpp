@@ -214,7 +214,7 @@ class rlb_Font : public ::rlb_Font {
      * Draw text using font and additional parameters.
      */
     inline void DrawText(const std::string& text, ::rlb_Vector2 position, float fontSize,
-            float spacing, ::rlb_Color tint = WHITE) const {
+            float spacing, ::rlb_Color tint = RLB_WHITE) const {
         ::DrawTextEx(*this, text.c_str(), position,  fontSize,  spacing,  tint);
     }
 
@@ -222,7 +222,7 @@ class rlb_Font : public ::rlb_Font {
      * Draw text using font and additional parameters.
      */
     inline void DrawText(const std::string& text, int posX, int posY, float fontSize,
-            float spacing, ::rlb_Color tint = WHITE) const {
+            float spacing, ::rlb_Color tint = RLB_WHITE) const {
         ::DrawTextEx(*this, text.c_str(),
             { static_cast<float>(posX), static_cast<float>(posY) },
             fontSize, spacing, tint);
@@ -235,7 +235,7 @@ class rlb_Font : public ::rlb_Font {
             float rotation,
             float fontSize,
             float spacing,
-            ::rlb_Color tint = WHITE) const {
+            ::rlb_Color tint = RLB_WHITE) const {
         ::DrawTextPro(*this, text.c_str(),
             position, origin,
             rotation, fontSize,

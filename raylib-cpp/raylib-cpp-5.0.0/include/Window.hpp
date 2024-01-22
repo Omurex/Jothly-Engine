@@ -160,7 +160,7 @@ class Window {
     /**
      * Clear window with given color.
      */
-    inline Window& ClearBackground(const ::rlb_Color& color = BLACK) {
+    inline Window& ClearBackground(const ::rlb_Color& color = RLB_BLACK) {
         ::ClearBackground(color);
         return *this;
     }

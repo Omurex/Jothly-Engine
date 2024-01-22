@@ -50,7 +50,7 @@ class Text {
     Text(
             const std::string& text = "",
             float fontSize = 10,
-            const ::rlb_Color& color = WHITE,
+            const ::rlb_Color& color = RLB_WHITE,
             const ::rlb_Font& font = ::GetFontDefault(),
             float spacing = 0) :
             text(text),
@@ -75,7 +75,7 @@ class Text {
             const std::string& text = "",
             float fontSize = 10,
             float spacing = 0,
-            const ::rlb_Color& color = WHITE) :
+            const ::rlb_Color& color = RLB_WHITE) :
             text(text),
             fontSize(fontSize),
             color(color),

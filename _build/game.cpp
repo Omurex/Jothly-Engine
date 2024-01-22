@@ -36,9 +36,9 @@ void Init()
 
 	win.SetTargetFPS(60);
 
-	/*ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>()->Init(
+	ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>()->Init(
 		30, Color::RED
-	);*/
+	);
 
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key

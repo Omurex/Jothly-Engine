@@ -1018,8 +1018,8 @@ rlb_Image GenImageWhiteNoise(int width, int height, float factor)
 
     for (int i = 0; i < width*height; i++)
     {
-        if (GetRandomValue(0, 99) < (int)(factor*100.0f)) pixels[i] = WHITE;
-        else pixels[i] = BLACK;
+        if (GetRandomValue(0, 99) < (int)(factor*100.0f)) pixels[i] = RLB_WHITE;
+        else pixels[i] = RLB_BLACK;
     }
 
     rlb_Image image = {
@@ -1516,7 +1516,7 @@ rlb_Image ImageTextEx(rlb_Font font, const char *text, float fontSize, float spa
     rlb_Vector2 textSize = MeasureTextEx(font, text, fontSize, spacing);
 
     // Create image to store text
-    imText = GenImageColor((int)imSize.x, (int)imSize.y, BLANK);
+    imText = GenImageColor((int)imSize.x, (int)imSize.y, RLB_BLANK);
 
     for (int i = 0; i < size;)
     {
@@ -2330,8 +2330,8 @@ void ImageDither(rlb_Image *image, int rBpp, int gBpp, int bBpp, int aBpp)
         // NOTE: We will store the dithered data as unsigned short (16bpp)
         image->data = (unsigned short *)RL_MALLOC(image->width*image->height*sizeof(unsigned short));
 
-        rlb_Color oldPixel = WHITE;
-        rlb_Color newPixel = WHITE;
+        rlb_Color oldPixel = RLB_WHITE;
+        rlb_Color newPixel = RLB_WHITE;
 
         int rError, gError, bError;
         unsigned short rPixel, gPixel, bPixel, aPixel;   // Used for 16bit pixel composition
@@ -2963,7 +2963,7 @@ rlb_Color *LoadImagePalette(rlb_Image image, int maxPaletteSize, int *colorCount
     {
         palette = (rlb_Color *)RL_MALLOC(maxPaletteSize*sizeof(rlb_Color));
 
-        for (int i = 0; i < maxPaletteSize; i++) palette[i] = BLANK;   // Set all colors to BLANK
+        for (int i = 0; i < maxPaletteSize; i++) palette[i] = RLB_BLANK;   // Set all colors to BLANK
 
         for (int i = 0; i < image.width*image.height; i++)
         {
@@ -3719,7 +3719,7 @@ void ImageDrawTextEx(rlb_Image *dst, rlb_Font font, const char *text, rlb_Vector
     rlb_Rectangle srcRec = { 0.0f, 0.0f, (float)imText.width, (float)imText.height };
     rlb_Rectangle dstRec = { position.x, position.y, (float)imText.width, (float)imText.height };
 
-    ImageDraw(dst, imText, srcRec, dstRec, WHITE);
+    ImageDraw(dst, imText, srcRec, dstRec, RLB_WHITE);
 
     UnloadImage(imText);
 }
@@ -3833,12 +3833,12 @@ rlb_TextureCubemap LoadTextureCubemap(rlb_Image image, int layout)
             }
 
             // Convert image data to 6 faces in a vertical column, that's the optimum layout for loading
-            faces = GenImageColor(size, size*6, MAGENTA);
+            faces = GenImageColor(size, size*6, RLB_MAGENTA);
             ImageFormat(&faces, image.format);
 
             // NOTE: Image formatting does not work with compressed textures
 
-            for (int i = 0; i < 6; i++) ImageDraw(&faces, image, faceRecs[i], (rlb_Rectangle){ 0, (float)size*i, (float)size, (float)size }, WHITE);
+            for (int i = 0; i < 6; i++) ImageDraw(&faces, image, faceRecs[i], (rlb_Rectangle){ 0, (float)size*i, (float)size, (float)size }, RLB_WHITE);
         }
 
         // NOTE: Cubemap data is expected to be provided as 6 images in a single data array,
@@ -4656,7 +4656,7 @@ rlb_Color ColorAlpha(rlb_Color color, float alpha)
 // Get src alpha-blended into dst color with tint
 rlb_Color ColorAlphaBlend(rlb_Color dst, rlb_Color src, rlb_Color tint)
 {
-    rlb_Color out = WHITE;
+    rlb_Color out = RLB_WHITE;
 
     // Apply color tint to source color
     src.r = (unsigned char)(((unsigned int)src.r*((unsigned int)tint.r+1)) >> 8);

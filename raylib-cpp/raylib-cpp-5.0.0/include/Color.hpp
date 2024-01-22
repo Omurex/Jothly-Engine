@@ -238,32 +238,32 @@ class rlb_Color : public ::rlb_Color {
         return ::ColorAlphaBlend(dst, *this, tint);
     }
 
-    inline static rlb_Color LightGray() { return LIGHTGRAY; }
-    inline static rlb_Color Gray() { return GRAY; }
-    inline static rlb_Color DarkGray() { return DARKGRAY; }
-    inline static rlb_Color Yellow() { return YELLOW; }
-    inline static rlb_Color Gold() { return GOLD; }
-    inline static rlb_Color Orange() { return ORANGE; }
-    inline static rlb_Color Pink() { return PINK; }
-    inline static rlb_Color Red() { return RED; }
-    inline static rlb_Color Maroon() { return MAROON; }
-    inline static rlb_Color Green() { return GREEN; }
-    inline static rlb_Color Lime() { return LIME; }
-    inline static rlb_Color DarkGreen() { return DARKGREEN; }
-    inline static rlb_Color SkyBlue() { return SKYBLUE; }
-    inline static rlb_Color Blue() { return BLUE; }
-    inline static rlb_Color DarkBlue() { return DARKBLUE; }
-    inline static rlb_Color Purple() { return PURPLE; }
-    inline static rlb_Color Violet() { return VIOLET; }
-    inline static rlb_Color DarkPurple() { return DARKPURPLE; }
-    inline static rlb_Color Beige() { return BEIGE; }
-    inline static rlb_Color Brown() { return BROWN; }
-    inline static rlb_Color DarkBrown() { return DARKBROWN; }
-    inline static rlb_Color White() { return WHITE; }
-    inline static rlb_Color Black() { return BLACK; }
-    inline static rlb_Color Blank() { return BLANK; }
-    inline static rlb_Color Magenta() { return MAGENTA; }
-    inline static rlb_Color RayWhite() { return RAYWHITE; }
+    inline static rlb_Color LightGray() { return RLB_LIGHTGRAY; }
+    inline static rlb_Color Gray() { return RLB_GRAY; }
+    inline static rlb_Color DarkGray() { return RLB_DARKGRAY; }
+    inline static rlb_Color Yellow() { return RLB_YELLOW; }
+    inline static rlb_Color Gold() { return RLB_GOLD; }
+    inline static rlb_Color Orange() { return RLB_ORANGE; }
+    inline static rlb_Color Pink() { return RLB_PINK; }
+    inline static rlb_Color Red() { return RLB_RED; }
+    inline static rlb_Color Maroon() { return RLB_MAROON; }
+    inline static rlb_Color Green() { return RLB_GREEN; }
+    inline static rlb_Color Lime() { return RLB_LIME; }
+    inline static rlb_Color DarkGreen() { return RLB_DARKGREEN; }
+    inline static rlb_Color SkyBlue() { return RLB_SKYBLUE; }
+    inline static rlb_Color Blue() { return RLB_BLUE; }
+    inline static rlb_Color DarkBlue() { return RLB_DARKBLUE; }
+    inline static rlb_Color Purple() { return RLB_PURPLE; }
+    inline static rlb_Color Violet() { return RLB_VIOLET; }
+    inline static rlb_Color DarkPurple() { return RLB_DARKPURPLE; }
+    inline static rlb_Color Beige() { return RLB_BEIGE; }
+    inline static rlb_Color Brown() { return RLB_BROWN; }
+    inline static rlb_Color DarkBrown() { return RLB_DARKBROWN; }
+    inline static rlb_Color White() { return RLB_WHITE; }
+    inline static rlb_Color Black() { return RLB_BLACK; }
+    inline static rlb_Color Blank() { return RLB_BLANK; }
+    inline static rlb_Color Magenta() { return RLB_MAGENTA; }
+    inline static rlb_Color RayWhite() { return RLB_RAYWHITE; }
 
  protected:
     void set(const ::rlb_Color& color) {
