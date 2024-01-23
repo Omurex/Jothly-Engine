@@ -61,8 +61,6 @@ namespace jothly
 		//operator const float* () const;
 
 		// Convert to RayLib version
-		operator raylib::rlb_Vector2() const { return { x, y }; }
 		operator raylib::rlb_Vector3() const { return { x, y, z }; }
-		operator raylib::rlb_Vector4() const { return {x, y, z, 0 }; }
 	};
 }

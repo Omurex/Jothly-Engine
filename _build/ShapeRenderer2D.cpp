@@ -17,6 +17,6 @@ namespace jothly
 
 	void ShapeRenderer2D::Draw()
 	{
-		ShapeDrawing2D::DrawCircle(owner->transform.pos.x + offset.x, owner->transform.pos.y + offset.y, radius, color);
+		ShapeDrawing2D::DrawCircle((int) (owner->transform.pos.x + offset.x), (int) (owner->transform.pos.y + offset.y), radius, color);
 	}
 }

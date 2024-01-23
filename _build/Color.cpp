@@ -1,4 +1,5 @@
 #include "Color.h"
+//#include "include/raylib.hpp"
 
 
 
@@ -22,9 +23,6 @@ namespace jothly
 }
 
 
-//#include "include/Color.hpp"
-
-
 namespace jothly
 {
 	void Color::GetRGBA(unsigned char out_rgba[4]) const
@@ -44,7 +42,7 @@ namespace jothly
 		return colorCode == other.colorCode;
 	}
 
-	/*Color::operator raylib::Color() const
+	/*Color::operator raylib::rlb_Color() const
 	{
 		return { r, g, b, a };
 	}*/

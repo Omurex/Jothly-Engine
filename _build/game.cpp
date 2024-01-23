@@ -15,13 +15,13 @@ GameObject testObj;
 
 void Update()
 {
-	//testObj.Update(GetFrameTime());
+	testObj.Update(GetFrameTime());
 }
 
 
 void Draw()
 {
-	//testObj.Draw();
+	testObj.Draw();
 }
 
 

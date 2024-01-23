@@ -10,7 +10,7 @@ namespace jothly
 {
 	void ShapeDrawing2D::DrawCircle(int pixelX, int pixelY, float radius, Color color)
 	{
-		DrawCircle(Vector2(pixelX, pixelY), radius, color);
+		DrawCircle(Vector2((float) pixelX, (float) pixelY), radius, color);
 	}
 
 

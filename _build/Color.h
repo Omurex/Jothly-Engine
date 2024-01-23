@@ -1,11 +1,12 @@
 #pragma once
 
 #include <algorithm>
+#include "include/Color.hpp"
 
 
 //namespace raylib
 //{
-//	class Color;
+//	class rlb_Color;
 //}
 
 
@@ -15,6 +16,9 @@ namespace jothly
 	{
 		static const float CHAR2FLOAT;
 		static const float FLOAT2CHAR;
+
+
+		//struct rlb_Color;
 
 
 		union // https://www.reddit.com/r/GraphicsProgramming/comments/11m85f1/floats_vs_unsigned_ints_for_representing_colors/
@@ -34,7 +38,7 @@ namespace jothly
 
 		
 		static float CharToFloat(unsigned char c) { return c * CHAR2FLOAT; }
-		static unsigned char FloatToChar(float f) { return f * FLOAT2CHAR; }
+		static unsigned char FloatToChar(float f) { return (unsigned char) (f * FLOAT2CHAR); }
 
 
 		public:
@@ -101,7 +105,7 @@ namespace jothly
 
 		bool operator==(Color const& other);
 
-		//operator raylib::Color() const;
+		operator raylib::rlb_Color() const { return { r, g, b, a }; }
 
 
 		static Color Lerp(const Color& first, const Color& second, float portion);

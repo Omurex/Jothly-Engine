@@ -1,7 +1,6 @@
 #pragma once
 
 #include "include/Vector2.hpp"
-#include "include/Vector3.hpp"
 
 
 namespace jothly
@@ -54,6 +53,5 @@ namespace jothly
 
 		// Convert to RayLib version
 		operator raylib::rlb_Vector2() { return {x, y}; };
-		operator raylib::rlb_Vector3() { return {x, y, 0}; }
 	};
 }
