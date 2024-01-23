@@ -14,10 +14,11 @@ namespace jothly
 	typedef bool (*TestFunction)(std::string& out_shorthand, std::string& out_message);
 	
 	// Called from beginning of test functions to initialize variables and set up for AssertTest calls
+	// NOTE: If calling this, there must be an out_message string variable in scope
 	#define InitTest(sShorthand) out_shorthand = sShorthand; bool testResult = true;
 
 	// Called from test functions after doing test check, will return from function with message if result is false
-	// NOTE: If calling this, there must be a testResult boolean variable and an out_message string variable in scope
+	// NOTE: If calling this, there must be an out_message string variable in scope
 	#define AssertTest(bCheck, sFailMessage) if(bCheck == false) { out_message = sFailMessage; return false; }
 
 	class TestSet
