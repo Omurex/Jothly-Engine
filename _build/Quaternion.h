@@ -89,6 +89,8 @@ namespace jothly
 		Vector4 operator*(const Vector4& other);
 		Quaternion operator*(const Quaternion& other) { return this->GetRotated(other); }
 
+		Quaternion& operator*=(const Quaternion& other) { this->Rotate(other); return *this; }
+
 		operator raylib::rlb_Vector4() const { return { components.x, components.y, components.z, components.w }; }
 	};
 }

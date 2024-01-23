@@ -37,6 +37,7 @@ namespace jothly
 		float GetMagnitudeSquared();
 
 		void Scale(float const& scale);
+		Vector2 MultiplyComponents(const Vector2& other) { return Vector2(x * other.x, y * other.y); }
 	
 		Vector2 operator+(Vector2 const& other);
 		Vector3 operator+(Vector3 const& other);

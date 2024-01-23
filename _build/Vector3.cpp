@@ -142,10 +142,10 @@ namespace jothly
 	}
 
 
-	Vector3::operator Vector2() const
+	/*Vector3::operator Vector2() const
 	{
 		return Vector2(x, y);
-	}
+	}*/
 
 
 	Vector3::operator Vector4() const

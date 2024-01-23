@@ -17,7 +17,7 @@
 using namespace jothly;
 
 
-GameObject testObj = GameObject("TestObj", Vector3(50, 50, 0), Quaternion::Quaternion2D(0), Vector3(.1));
+GameObject testObj = GameObject("TestObj", Vector3(50, 50, 0), Quaternion::Quaternion2D(0), Vector3(.1, .2));
 
 
 void Update()
@@ -59,8 +59,11 @@ void Init()
 		Update();
 
 		win.BeginDrawing();
-		win.ClearBackground({ 255, 255, 255, 255 });
+		win.ClearBackground({ 0, 255, 255, 255 });
 		Draw();
+
+		testObj.transform.rot *= Quaternion::Quaternion2D(30 * GetFrameTime());
+
 		win.EndDrawing();
 	}
 
