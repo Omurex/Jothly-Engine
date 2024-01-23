@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <string>
 #include "Constants.hpp"
+#include "SpriteRenderer.h"
 
 
 using namespace jothly;
@@ -38,17 +39,17 @@ void Init()
 	testRunner.RunTests();
 
 	raylib::Window win = raylib::Window(400, 400, "Jothly");
-	//raylib::SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
 
 	win.SetTargetFPS(60);
 
-	ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>()->Init(
+	/*ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>()->Init(
 		30, Color::RED
-	);
+	);*/
 
 	std::cout << std::filesystem::current_path() << std::endl;
 	Texture tex = Texture(con::RESOURCE_PATH + "test.png");
 	
+	SpriteRenderer* spriteRenderer = testObj.CreateComponent<SpriteRenderer>()->Init(&tex);
 
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key

@@ -2,6 +2,7 @@
 
 #include "Texture.h"
 #include "Vector2.h"
+#include "Color.h"
 
 
 namespace jothly
@@ -9,6 +10,6 @@ namespace jothly
 	class TextureDrawing
 	{
 		public:
-		void DrawTexture(Texture& tex, Vector2 pos);
+		static void DrawTexture(Texture& tex, Vector2 pos, Color tint = Color::WHITE);
 	};
 }

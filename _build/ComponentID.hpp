@@ -4,6 +4,7 @@ namespace jothly
 {
 	enum class ComponentID
 	{
-		SHAPE_RENDERER
+		SHAPE_RENDERER,
+		SPRITE_RENDERER
 	};
 }

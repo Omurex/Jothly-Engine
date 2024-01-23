@@ -293,6 +293,7 @@
     <ClCompile Include="QuaternionTestSet.cpp" />
     <ClCompile Include="ShapeDrawing2D.cpp" />
     <ClCompile Include="ShapeRenderer2D.cpp" />
+    <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="TestRunner.cpp" />
     <ClCompile Include="TestSet.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -306,6 +307,9 @@
     <ProjectReference Include="raylib.vcxproj">
       <Project>{8898EA18-743A-15EF-5DF5-284349369C3F}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
