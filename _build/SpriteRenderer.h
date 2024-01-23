@@ -29,6 +29,8 @@ namespace jothly
 		Texture* GetSprite() { return sprite; }
 		Color GetTint() { return tint; }
 		Vector2 GetOffset() { return offset; }
+
+		Vector2 GetSpriteSize() { if (GetSprite() == nullptr) return Vector2(-1); else return sprite->GetSize(); }
 	
 		void SetSprite(Texture* _sprite) { sprite = _sprite; }
 		void SetTint(Color _tint) { tint = _tint; }

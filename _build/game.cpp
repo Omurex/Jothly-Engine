@@ -17,7 +17,7 @@
 using namespace jothly;
 
 
-GameObject testObj = GameObject("TestObj", Vector3(50, 50, 0), Quaternion::Quaternion2D(0), Vector3(.2));
+GameObject testObj = GameObject("TestObj", Vector3(50, 50, 0), Quaternion::Quaternion2D(0), Vector3(.1));
 
 
 void Update()
