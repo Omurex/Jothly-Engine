@@ -271,8 +271,11 @@
     <ClInclude Include="QuaternionTestSet.h" />
     <ClInclude Include="ShapeDrawing2D.h" />
     <ClInclude Include="ShapeRenderer2D.h" />
+    <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="TestRunner.h" />
     <ClInclude Include="TestSet.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureDrawing.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
@@ -292,6 +295,8 @@
     <ClCompile Include="ShapeRenderer2D.cpp" />
     <ClCompile Include="TestRunner.cpp" />
     <ClCompile Include="TestSet.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureDrawing.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Vector4.cpp" />

@@ -5,6 +5,12 @@
 #include "TestRunner.h"
 #include "Color.h"
 #include "include/raylib-cpp.hpp"
+#include "Texture.h"
+#include <iostream>
+#include <filesystem>
+#include <algorithm>
+#include <string>
+#include "Constants.hpp"
 
 
 using namespace jothly;
@@ -40,6 +46,10 @@ void Init()
 		30, Color::RED
 	);
 
+	std::cout << std::filesystem::current_path() << std::endl;
+	Texture tex = Texture(con::RESOURCE_PATH + "test.png");
+	
+
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key
 	{
@@ -55,8 +65,18 @@ void Init()
 }
 
 
-int main()
+int main(int argc, char* argv[])
 {
+
+	// Initialize resource path
+	std::string resourcePath = argv[0];
+	int lastSection = resourcePath.find_last_of('\\');
+	resourcePath = resourcePath.substr(0, lastSection);
+	std::replace(resourcePath.begin(), resourcePath.end(), '\\', '/');
+	resourcePath += "/../../resources/";
+	con::RESOURCE_PATH = resourcePath;
+
+
 	Init();
 
 	return 0;
