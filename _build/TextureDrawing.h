@@ -10,6 +10,6 @@ namespace jothly
 	class TextureDrawing
 	{
 		public:
-		static void DrawTexture(Texture& tex, Vector2 pos, Color tint = Color::WHITE);
+		static void DrawTexture(Texture& tex, Vector2 pos, float angleDeg = 0, float scale = 1, Color tint = Color::WHITE);
 	};
 }

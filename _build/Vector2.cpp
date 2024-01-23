@@ -99,10 +99,10 @@ namespace jothly
 	}
 
 
-	Vector3 Vector2::operator-(Vector3 const& other)
+	/*Vector3 Vector2::operator-(Vector3 const& other)
 	{
 		return Vector3(x - other.x, y - other.y, 0 - other.z);
-	}
+	}*/
 
 
 	Vector2& Vector2::operator-=(Vector2 const& other)
@@ -139,8 +139,8 @@ namespace jothly
     }
 
 
-	Vector2::operator Vector3() const
+	/*Vector2::operator Vector3() const
 	{
 		return Vector3(x, y, 0);
-	}
+	}*/
 }

@@ -1,34 +1,37 @@
 #include "Texture.h"
 
 
-Texture::Texture()
+namespace jothly
 {
-	backingTexture = raylib::rlb_Texture();
-}
+	Texture::Texture()
+	{
+		backingTexture = raylib::rlb_Texture();
+	}
 
 
-Texture::Texture(const std::string& loadPath)
-{
-	backingTexture = raylib::rlb_Texture();
-	LoadTexture(loadPath);
-}
+	Texture::Texture(const std::string& loadPath)
+	{
+		backingTexture = raylib::rlb_Texture();
+		LoadTexture(loadPath);
+	}
 
 
-void Texture::LoadTexture(const std::string& loadPath)
-{
-	backingTexture.Load(loadPath);
-}
-
-
-bool Texture::TryLoadTexture(const std::string& loadPath)
-{
-	try
+	void Texture::LoadTexture(const std::string& loadPath)
 	{
 		backingTexture.Load(loadPath);
-		return true;
 	}
-	catch (std::exception e)
+
+
+	bool Texture::TryLoadTexture(const std::string& loadPath)
 	{
-		return false;
+		try
+		{
+			backingTexture.Load(loadPath);
+			return true;
+		}
+		catch (std::exception e)
+		{
+			return false;
+		}
 	}
 }

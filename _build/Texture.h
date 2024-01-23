@@ -2,19 +2,26 @@
 
 
 #include "include/Texture.hpp"
+#include "Vector2.h"
 
 
-class Texture
+namespace jothly
 {
-	raylib::rlb_Texture backingTexture;
+	class Texture
+	{
+		raylib::rlb_Texture backingTexture;
 
 
 	public:
-	Texture();
-	Texture(const std::string& loadPath);
+		Texture();
+		Texture(const std::string& loadPath);
 
-	void LoadTexture(const std::string& loadPath);
-	bool TryLoadTexture(const std::string& loadPath);
+		void LoadTexture(const std::string& loadPath);
+		bool TryLoadTexture(const std::string& loadPath);
 
-	raylib::rlb_Texture* GetBackingTexture() { return &backingTexture; }
-};
+		raylib::rlb_Texture* GetBackingTexture() { return &backingTexture; }
+		float GetWidth() { return backingTexture.GetWidth(); }
+		float GetHeight() { return backingTexture.GetHeight(); }
+		Vector2 GetSize() { return Vector2(backingTexture.GetSize()); }
+	};
+}

@@ -13,7 +13,14 @@ namespace jothly
 
     void SpriteRenderer::Draw()
     {
-        if(sprite != nullptr) // Can't draw if there's no sprite! 
-            TextureDrawing::DrawTexture(*sprite, (Vector2) owner->transform.pos + offset, tint);
+        if (sprite != nullptr) // Can't draw if there's no sprite! 
+        {
+            // Doesn't seem to be a way to scale independently in directions, for now just use x scale
+
+            Vector2 halfSize = (sprite->GetSize() * owner->transform.scale.x) / 2.0f;
+
+            TextureDrawing::DrawTexture(*sprite, (Vector2) owner->transform.pos - halfSize + offset,
+                -owner->transform.rot.GetAngleDeg(), owner->transform.scale.x, tint);
+        }
     }
 }

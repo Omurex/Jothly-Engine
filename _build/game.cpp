@@ -17,7 +17,7 @@
 using namespace jothly;
 
 
-GameObject testObj;
+GameObject testObj = GameObject("TestObj", Vector3(50, 50, 0), Quaternion::Quaternion2D(0), Vector3(.2));
 
 
 void Update()
@@ -38,9 +38,11 @@ void Init()
 	TestRunner testRunner = TestRunner(true, true);
 	testRunner.RunTests();
 
+
 	raylib::Window win = raylib::Window(400, 400, "Jothly");
 
 	win.SetTargetFPS(60);
+	testObj.transform.pos = Vector2(GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f);
 
 	/*ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>()->Init(
 		30, Color::RED

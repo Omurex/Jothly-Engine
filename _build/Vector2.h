@@ -27,6 +27,7 @@ namespace jothly
 		Vector2(float _x, float _y) : x(_x), y(_y) {}
 		Vector2(const Vector2& vec2) : Vector2(vec2.x, vec2.y) {}
 		Vector2(const Vector3& vec3);
+		Vector2(const raylib::rlb_Vector2& vec2) : Vector2(vec2.x, vec2.y) {}
 
 		void Normalize();
 		void Normalize(float precomputedMagnitudeSquared);
@@ -42,14 +43,14 @@ namespace jothly
 		Vector2& operator+=(Vector2 const& other);
 		Vector2& operator+=(Vector3 const& other);
 		Vector2 operator-(Vector2 const& other);
-		Vector3 operator-(Vector3 const& other);
+		//Vector3 operator-(Vector3 const& other);
 		Vector2& operator-=(Vector2 const& other);
 		Vector2& operator-=(Vector3 const& other);
 		Vector2 operator*(float const& scale);
 		Vector2 operator/(float const& scale);
 		bool operator==(Vector2 const& other);
 
-		operator Vector3() const;
+		//operator Vector3() const;
 
 		// Convert to RayLib version
 		operator raylib::rlb_Vector2() { return {x, y}; };

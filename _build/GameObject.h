@@ -24,9 +24,9 @@ namespace jothly
 		public:
 
 		std::string name;
-		rlb_Transform transform;
+		Transform transform;
 
-		GameObject(std::string _name, rlb_Transform _transform = rlb_Transform()) : name(_name),
+		GameObject(std::string _name, Transform _transform = Transform()) : name(_name),
 			transform(_transform) {}
 
 		GameObject(std::string _name = "New Object", Vector3 _pos = Vector3(0), Quaternion _rot = Quaternion(), Vector3 _scale = Vector3(1))
