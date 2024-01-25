@@ -281,6 +281,8 @@
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
     <ClInclude Include="VectorTestSet.h" />
+    <ClInclude Include="WaveFunctionCollapseGrid.h" />
+    <ClInclude Include="WaveFunctionCollapseTile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Color.cpp" />
@@ -302,6 +304,8 @@
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Vector4.cpp" />
     <ClCompile Include="VectorTestSet.cpp" />
+    <ClCompile Include="WaveFunctionCollapseGrid.cpp" />
+    <ClCompile Include="WaveFunctionCollapseTile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="raylib.vcxproj">

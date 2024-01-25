@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Testing">
       <UniqueIdentifier>{e9e14fd7-a47c-4b4f-84a7-1549b0262c77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\WaveFunctionCollapse">
+      <UniqueIdentifier>{ec21bd84-c629-4957-969e-4497c054c04d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\WaveFunctionCollapse">
+      <UniqueIdentifier>{3b7542c6-6730-4afd-a7e2-2ab514d3e72d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -96,6 +102,12 @@
     <ClInclude Include="TextureDrawing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WaveFunctionCollapseGrid.h">
+      <Filter>Header Files\WaveFunctionCollapse</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveFunctionCollapseTile.h">
+      <Filter>Header Files\WaveFunctionCollapse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -154,6 +166,12 @@
     </ClCompile>
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveFunctionCollapseGrid.cpp">
+      <Filter>Source Files\WaveFunctionCollapse</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveFunctionCollapseTile.cpp">
+      <Filter>Source Files\WaveFunctionCollapse</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
