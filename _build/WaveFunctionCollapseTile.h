@@ -8,28 +8,28 @@ namespace jothly
 {
 	enum class TileRotation
 	{
-		ROT0,
-		ROT90,
-		ROT180,
-		ROT270
+		ROT0 = 0,
+		ROT90 = 1,
+		ROT180 = 2,
+		ROT270 = 3
 	};
 
 
 	enum class TileDirection
 	{
-		UP = 0,
-		RIGHT = 1,
-		DOWN = 2,
-		LEFT = 3
+		NORTH = 0,
+		EAST = 1,
+		SOUTH = 2,
+		WEST = 3
 	};
 
 
 	struct WaveFunctionCollapseTile
 	{
-		Texture* texture;
-		TileRotation tileRotation;
+		Texture* texture = nullptr;
+		TileRotation tileRotation = TileRotation::ROT0;
 
-		union
+		union // These are based on 0 rotation!
 		{
 			struct
 			{
@@ -41,6 +41,18 @@ namespace jothly
 
 			std::string dirCodes[4];
 		};
+
+
+		WaveFunctionCollapseTile() {}
+		~WaveFunctionCollapseTile() {}
+
+		std::string GetDirCodeRotated(TileDirection dir);
+
+		std::string GetNorthCode();
+		std::string GetEastCode();
+		std::string GetSouthCode();
+		std::string GetWestCode();
+
 
 		void DrawTile(Vector2 topLeftPos, Vector2 size);
 	};

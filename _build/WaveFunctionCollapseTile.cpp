@@ -1,5 +1,6 @@
 #include "WaveFunctionCollapseTile.h"
 #include "TextureDrawing.h"
+#include <assert.h>
 
 
 namespace jothly
@@ -33,5 +34,35 @@ namespace jothly
 		}
 
 		TextureDrawing::DrawTexture(*texture, topLeftPos, origin, size, rot);
+	}
+
+
+	std::string WaveFunctionCollapseTile::GetDirCodeRotated(TileDirection dir)
+	{
+		return dirCodes[((int) dir + (int)tileRotation) % 4];
+	}
+
+
+	std::string WaveFunctionCollapseTile::GetNorthCode()
+	{
+		return GetDirCodeRotated(TileDirection::NORTH);
+	}
+
+
+	std::string WaveFunctionCollapseTile::GetEastCode()
+	{
+		return GetDirCodeRotated(TileDirection::EAST);
+	}
+
+
+	std::string WaveFunctionCollapseTile::GetSouthCode()
+	{
+		return GetDirCodeRotated(TileDirection::SOUTH);
+	}
+
+
+	std::string WaveFunctionCollapseTile::GetWestCode()
+	{
+		return GetDirCodeRotated(TileDirection::WEST);
 	}
 }
