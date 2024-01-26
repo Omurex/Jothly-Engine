@@ -6,7 +6,9 @@ namespace jothly
 {
 	void WaveFunctionCollapseTile::DrawTile(Vector2 topLeftPos, Vector2 size)
 	{
-		Vector2 origin = (texture.GetSize()) / 2.0f;
+		if (texture == nullptr) return;
+
+		Vector2 origin = (texture->GetSize()) / 2.0f;
 		float rot = 0;
 
 		switch (tileRotation)
@@ -30,6 +32,6 @@ namespace jothly
 			}
 		}
 
-		TextureDrawing::DrawTexture(texture, topLeftPos, origin, size, rot);
+		TextureDrawing::DrawTexture(*texture, topLeftPos, origin, size, rot);
 	}
 }

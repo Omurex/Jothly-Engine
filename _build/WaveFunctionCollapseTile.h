@@ -16,7 +16,7 @@ namespace jothly
 
 	struct WaveFunctionCollapseTile
 	{
-		Texture texture;
+		Texture* texture;
 		
 		int x;
 		int y;
