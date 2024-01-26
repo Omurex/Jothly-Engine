@@ -18,7 +18,7 @@
 using namespace jothly;
 
 
-GameObject testObj = GameObject("TestObj", Vector3(50, 50, 0), Quaternion::Quaternion2D(0), Vector3(.1, .2));
+GameObject testObj = GameObject("TestObj", Vector3(0, 0, 0), Quaternion::Quaternion2D(0), Vector3(1, 1));
 
 
 void Update()
@@ -40,10 +40,10 @@ void Init()
 	testRunner.RunTests();
 
 
-	raylib::Window win = raylib::Window(400, 400, "Jothly");
+	raylib::Window win = raylib::Window(1000, 1000, "Jothly");
 
 	win.SetTargetFPS(60);
-	testObj.transform.pos = Vector2(GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f);
+	//testObj.transform.pos = Vector2(GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f);
 
 	/*ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>()->Init(
 		30, Color::RED
@@ -51,13 +51,23 @@ void Init()
 
 	std::cout << std::filesystem::current_path() << std::endl;
 	Texture tex = Texture(con::RESOURCE_PATH + "test.png");
+	Texture gameObjectOrigin = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
 	
-	WaveFunctionCollapseGrid wfcGrid(Vector2(0, 0), Vector2(GetScreenWidth(), GetScreenHeight()));
-	wfcGrid.GenerateInitialGrid(10, 10);
-	auto testTile = wfcGrid.GetTile(5, 5);
-	testTile.texture = &tex;
+	WaveFunctionCollapseGrid* wfcGrid = 
+		testObj.CreateComponent<WaveFunctionCollapseGrid>()->Init(Vector2(0, 0), Vector2(GetScreenWidth(), GetScreenHeight()));
 
-	//SpriteRenderer* spriteRenderer = testObj.CreateComponent<SpriteRenderer>()->Init(&tex);
+	wfcGrid->GenerateInitialGrid(1, 1);
+
+	for (int x = 0; x < wfcGrid->GetNumCellsX(); x++)
+	{
+		for (int y = 0; y < wfcGrid->GetNumCellsY(); y++)
+		{
+			auto testTile = wfcGrid->GetTile(x, y);
+			testTile->texture = &tex;
+		}
+	}
+
+	SpriteRenderer* spriteRenderer = testObj.CreateComponent<SpriteRenderer>()->Init(&gameObjectOrigin, Color::GREEN);
 
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -68,7 +78,7 @@ void Init()
 		win.ClearBackground({ 0, 128, 200, 255 });
 		Draw();
 
-		testObj.transform.rot *= Quaternion::Quaternion2D(30 * GetFrameTime());
+		//testObj.transform.rot *= Quaternion::Quaternion2D(30 * GetFrameTime());
 
 		win.EndDrawing();
 	}

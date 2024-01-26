@@ -16,7 +16,7 @@ void jothly::TextureDrawing::DrawTexture(Texture& tex, Vector2 topLeftPos, Vecto
 {
 	raylib::rlb_Texture* backingTexture = tex.GetBackingTexture();
 	raylib::rlb_Rectangle source = raylib::rlb_Rectangle(0, 0, backingTexture->GetWidth(), backingTexture->GetHeight());
-	raylib::rlb_Rectangle dest = raylib::rlb_Rectangle(topLeftPos, size);
+	raylib::rlb_Rectangle dest = raylib::rlb_Rectangle(topLeftPos + origin, size);
 
 	backingTexture->Draw(source, dest, origin, angleDegRot, tint);
 }

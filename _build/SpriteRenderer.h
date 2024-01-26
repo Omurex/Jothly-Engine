@@ -17,6 +17,7 @@ namespace jothly
 		Texture* sprite;
 		Color tint;
 		Vector2 offset;
+		// TODO: ADD VARIABLE FOR CUSTOM SIZE OF SPRITE
 
 		SpriteRenderer(GameObject* _owner) : Component(_owner) { Init(); }
 		~SpriteRenderer() {}
