@@ -40,7 +40,7 @@ void Init()
 	testRunner.RunTests();
 
 
-	raylib::Window win = raylib::Window(1000, 1000, "Jothly");
+	raylib::Window win = raylib::Window(600, 600, "Jothly");
 
 	win.SetTargetFPS(60);
 	//testObj.transform.pos = Vector2(GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f);
@@ -56,7 +56,7 @@ void Init()
 	WaveFunctionCollapseGrid* wfcGrid = 
 		testObj.CreateComponent<WaveFunctionCollapseGrid>()->Init(Vector2(0, 0), Vector2(GetScreenWidth(), GetScreenHeight()));
 
-	wfcGrid->GenerateInitialGrid(1, 1);
+	wfcGrid->GenerateInitialGrid(8, 8);
 
 	for (int x = 0; x < wfcGrid->GetNumCellsX(); x++)
 	{

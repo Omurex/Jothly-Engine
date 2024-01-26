@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "Texture.h"
 
 
@@ -14,15 +15,32 @@ namespace jothly
 	};
 
 
+	enum class TileDirection
+	{
+		UP = 0,
+		RIGHT = 1,
+		DOWN = 2,
+		LEFT = 3
+	};
+
+
 	struct WaveFunctionCollapseTile
 	{
 		Texture* texture;
-		
-		int x;
-		int y;
-
 		TileRotation tileRotation;
 
+		union
+		{
+			struct
+			{
+				std::string upCode;
+				std::string rightCode;
+				std::string downCode;
+				std::string leftCode;
+			};
+
+			std::string dirCodes[4];
+		};
 
 		void DrawTile(Vector2 topLeftPos, Vector2 size);
 	};

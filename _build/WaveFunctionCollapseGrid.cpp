@@ -14,7 +14,6 @@ namespace jothly
 			for (int y = 0; y < numCellsY; y++)
 			{
 				Vector2 topLeftPos = Vector2(xPos, ((float)y / numCellsY) * gridSize.y);
-				//topLeftPos += GetTile(x, y)->texture->GetSize() / 2;
 				topLeftPos += owner->transform.pos;
 				topLeftPos += offset;
 				GetTile(x, y)->DrawTile(topLeftPos, tileSize);
