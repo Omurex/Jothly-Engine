@@ -12,6 +12,7 @@
 #include <string>
 #include "Constants.hpp"
 #include "SpriteRenderer.h"
+#include "WaveFunctionCollapseGrid.h"
 
 
 using namespace jothly;
@@ -51,7 +52,12 @@ void Init()
 	std::cout << std::filesystem::current_path() << std::endl;
 	Texture tex = Texture(con::RESOURCE_PATH + "test.png");
 	
-	SpriteRenderer* spriteRenderer = testObj.CreateComponent<SpriteRenderer>()->Init(&tex);
+	WaveFunctionCollapseGrid wfcGrid(Vector2(0, 0), Vector2(GetScreenWidth(), GetScreenHeight()));
+	wfcGrid.GenerateInitialGrid(10, 10);
+	auto testTile = wfcGrid.GetTile(5, 5);
+	testTile.texture = &tex;
+
+	//SpriteRenderer* spriteRenderer = testObj.CreateComponent<SpriteRenderer>()->Init(&tex);
 
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -59,7 +65,7 @@ void Init()
 		Update();
 
 		win.BeginDrawing();
-		win.ClearBackground({ 0, 255, 255, 255 });
+		win.ClearBackground({ 0, 128, 200, 255 });
 		Draw();
 
 		testObj.transform.rot *= Quaternion::Quaternion2D(30 * GetFrameTime());

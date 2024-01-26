@@ -9,7 +9,7 @@ namespace jothly
 {
 	class WaveFunctionCollapseGrid
 	{
-		//WaveFunctionCollapseTile tiles[][] jo;
+		WaveFunctionCollapseTile* tiles = nullptr;
 
 		Vector2 topLeftPos;
 		Vector2 gridSize; // NOT CELL NUMBER! PHYSICAL SIZE OF GRID
@@ -18,16 +18,21 @@ namespace jothly
 		int numCellsY;
 
 		
-		WaveFunctionCollapseGrid(Vector2 _topLeftPos, Vector2 _gridSize, int _numCellsX, int _numCellsY) 
+		public:
+
+		WaveFunctionCollapseGrid(Vector2 _topLeftPos, Vector2 _gridSize)
 		{
-			SetTopLeftPos(_topLeftPos); SetGridSize(_gridSize); SetNumCellsX(_numCellsX); SetNumCellsY(_numCellsY);
+			SetTopLeftPos(_topLeftPos); SetGridSize(_gridSize);
 		}
+
+
+		void GenerateInitialGrid(int _numCellsX, int _numCellsY);
+		void ClearGrid();
 
 		void SetTopLeftPos(Vector2 _topLeftPos) { topLeftPos = _topLeftPos; }
 		void SetGridSize(Vector2 _gridSize) { gridSize = _gridSize; }
-		void SetNumCellsX(int _numCellsX) { numCellsX = _numCellsX; }
-		void SetNumCellsY(int _numCellsY) { numCellsY = _numCellsY; }
 
+		WaveFunctionCollapseTile& GetTile(int x, int y);
 		Vector2 GetTopLeftPos() { return topLeftPos; }
 		Vector2 GetGridSize() { return gridSize; }
 		int GetNumCellsX() { return numCellsX; }
