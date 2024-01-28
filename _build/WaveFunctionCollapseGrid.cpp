@@ -46,6 +46,49 @@ namespace jothly
 			for (int y = 0; y < numCellsY; y++)
 			{
 				// Loop through grid for any initialization steps
+				GetTile(x, y)->LoadPossibilities(templateTiles);
+			}
+		}
+	}
+
+
+	void WaveFunctionCollapseGrid::Run()
+	{
+		// Find least entropy
+		// Pick random fit given neighbors
+
+		int numCells = numCellsX * numCellsY;
+		std::vector<int> notCollapsedIndexes = std::vector<int>(numCells);
+
+		int numCollapsed = 0;
+
+		for (int i = 0; i < numCells; i++)
+		{
+			notCollapsedIndexes[i] = i;
+		}
+
+		std::vector<int> lowestEntropyIndexes = std::vector<int>(numCells);
+		int numLowestEntropy = 0;
+		int lowestEntropy = INT_MAX;
+
+		while (numCollapsed < numCells)
+		{
+			// Find lowest entropy indexes
+			for (int i = 0; i < numCells - numCollapsed; i++)
+			{
+				int index = notCollapsedIndexes[i];
+				WaveFunctionCollapseTile tile = tiles[index];
+
+				if (tile.GetEntropy() == lowestEntropy)
+				{
+					lowestEntropyIndexes[numLowestEntropy] = index;
+					numLowestEntropy++;
+				}
+				else if (tile.GetEntropy() < lowestEntropy)
+				{
+					lowestEntropyIndexes[0] = index;
+					numLowestEntropy = 1;
+				}
 			}
 		}
 	}

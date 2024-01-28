@@ -43,6 +43,7 @@ namespace jothly
 
 
 		void GenerateInitialGrid(int _numCellsX, int _numCellsY);
+		void Run();
 		void ClearGrid();
 
 		void SetTemplateTiles(std::vector<WaveFunctionCollapseTile>& _templateTiles) { templateTiles = _templateTiles; }

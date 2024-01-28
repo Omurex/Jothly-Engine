@@ -16,6 +16,27 @@ namespace jothly
 	}
 
 
+	int WaveFunctionCollapseTile::GetEntropy()
+	{
+		return northPossibilities.size() + eastPossibilities.size() + southPossibilities.size() + westPossibilities.size();
+	}
+
+
+	void WaveFunctionCollapseTile::LoadPossibilities(std::vector<WaveFunctionCollapseTile>& allPossibilities)
+	{
+		northPossibilities = std::vector<WaveFunctionCollapseTile>(allPossibilities);
+		eastPossibilities = std::vector<WaveFunctionCollapseTile>(allPossibilities);
+		southPossibilities = std::vector<WaveFunctionCollapseTile>(allPossibilities);
+		westPossibilities = std::vector<WaveFunctionCollapseTile>(allPossibilities);
+	}
+
+
+	bool WaveFunctionCollapseTile::Collapse()
+	{
+		collapsed = true;
+	}
+
+
 	void WaveFunctionCollapseTile::DrawTile(Vector2 topLeftPos, Vector2 size)
 	{
 		if (texture == nullptr) return;

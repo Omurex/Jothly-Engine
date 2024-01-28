@@ -29,6 +29,14 @@ namespace jothly
 		private:
 		void Copy(const WaveFunctionCollapseTile& other);
 
+		std::vector<WaveFunctionCollapseTile> northPossibilities = std::vector<WaveFunctionCollapseTile>();
+		std::vector<WaveFunctionCollapseTile> eastPossibilities = std::vector<WaveFunctionCollapseTile>();
+		std::vector<WaveFunctionCollapseTile> southPossibilities = std::vector<WaveFunctionCollapseTile>();
+		std::vector<WaveFunctionCollapseTile> westPossibilities = std::vector<WaveFunctionCollapseTile>();
+
+		bool collapsed = false;
+
+
 		public:
 		Texture* texture = nullptr;
 		TileRotation tileRotation = TileRotation::ROT0;
@@ -56,12 +64,19 @@ namespace jothly
 
 		~WaveFunctionCollapseTile() {}
 
-		std::string GetDirCodeRotated(TileDirection dir);
+		std::string GetDirCodeRotated(TileDirection dir );
 
 		std::string GetNorthCode();
 		std::string GetEastCode();
 		std::string GetSouthCode();
 		std::string GetWestCode();
+
+		int GetEntropy();
+		bool GetIsCollapsed() { return collapsed; }
+
+
+		bool Collapse();
+		void LoadPossibilities(std::vector<WaveFunctionCollapseTile>& allPossibilities);
 
 
 		void DrawTile(Vector2 topLeftPos, Vector2 size);
