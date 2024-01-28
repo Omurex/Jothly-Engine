@@ -5,6 +5,17 @@
 
 namespace jothly
 {
+	void WaveFunctionCollapseTile::Copy(const WaveFunctionCollapseTile& other)
+	{
+		texture = other.texture;
+		tileRotation = other.tileRotation;
+		upCode = other.upCode;
+		rightCode = other.rightCode;
+		downCode = other.downCode;
+		leftCode = other.leftCode;
+	}
+
+
 	void WaveFunctionCollapseTile::DrawTile(Vector2 topLeftPos, Vector2 size)
 	{
 		if (texture == nullptr) return;

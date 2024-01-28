@@ -26,6 +26,10 @@ namespace jothly
 
 	struct WaveFunctionCollapseTile
 	{
+		private:
+		void Copy(const WaveFunctionCollapseTile& other);
+
+		public:
 		Texture* texture = nullptr;
 		TileRotation tileRotation = TileRotation::ROT0;
 
@@ -39,11 +43,17 @@ namespace jothly
 				std::string leftCode;
 			};
 
-			std::string dirCodes[4];
+			std::string dirCodes[4] { "", "", "", "" };
 		};
 
 
-		WaveFunctionCollapseTile() {}
+		WaveFunctionCollapseTile() : upCode(""), rightCode(""), downCode(""), leftCode("") {}
+
+		WaveFunctionCollapseTile(const WaveFunctionCollapseTile& other) { Copy(other); }
+
+		WaveFunctionCollapseTile(Texture* _texture, TileRotation _tileRotation, std::string _upCode, std::string _rightCode, std::string _downCode, std::string _leftCode) :
+			texture(_texture), tileRotation(_tileRotation), upCode(_upCode), rightCode(_rightCode), downCode(_downCode), leftCode(_leftCode) {}
+
 		~WaveFunctionCollapseTile() {}
 
 		std::string GetDirCodeRotated(TileDirection dir);
@@ -55,5 +65,7 @@ namespace jothly
 
 
 		void DrawTile(Vector2 topLeftPos, Vector2 size);
+
+		WaveFunctionCollapseTile& operator=(const WaveFunctionCollapseTile& other) { Copy(other); return *this; }
 	};
 }

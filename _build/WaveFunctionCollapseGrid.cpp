@@ -22,8 +22,10 @@ namespace jothly
 	}
 
 
-	WaveFunctionCollapseGrid* WaveFunctionCollapseGrid::Init(Vector2 _offset, Vector2 _gridSize)
+	WaveFunctionCollapseGrid* WaveFunctionCollapseGrid::Init(std::vector<WaveFunctionCollapseTile>& _templateTiles, 
+		Vector2 _offset, Vector2 _gridSize)
 	{
+		SetTemplateTiles(_templateTiles);
 		SetOffset(_offset);
 		SetGridSize(_gridSize);
 
@@ -43,7 +45,7 @@ namespace jothly
 		{
 			for (int y = 0; y < numCellsY; y++)
 			{
-				tiles[x + numCellsX * y] = WaveFunctionCollapseTile();
+				// Loop through grid for any initialization steps
 			}
 		}
 	}

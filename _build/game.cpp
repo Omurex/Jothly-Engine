@@ -53,19 +53,24 @@ void Init()
 	Texture tex = Texture(con::RESOURCE_PATH + "test.png");
 	Texture gameObjectOrigin = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
 	
+	std::vector<WaveFunctionCollapseTile> templateTiles = std::vector<WaveFunctionCollapseTile>
+	{
+		WaveFunctionCollapseTile(&tex, TileRotation::ROT0, "AAA", "AAA", "AAA", "AAA")
+	};
+
 	WaveFunctionCollapseGrid* wfcGrid = 
-		testObj.CreateComponent<WaveFunctionCollapseGrid>()->Init(Vector2(0, 0), Vector2(GetScreenWidth(), GetScreenHeight()));
+		testObj.CreateComponent<WaveFunctionCollapseGrid>()->Init(templateTiles, Vector2(0, 0), Vector2(GetScreenWidth(), GetScreenHeight()));
 
 	wfcGrid->GenerateInitialGrid(8, 8);
 
-	for (int x = 0; x < wfcGrid->GetNumCellsX(); x++)
+	/*for (int x = 0; x < wfcGrid->GetNumCellsX(); x++)
 	{
 		for (int y = 0; y < wfcGrid->GetNumCellsY(); y++)
 		{
 			auto testTile = wfcGrid->GetTile(x, y);
 			testTile->texture = &tex;
 		}
-	}
+	}*/
 
 	SpriteRenderer* spriteRenderer = testObj.CreateComponent<SpriteRenderer>()->Init(&gameObjectOrigin, Color::GREEN);
 
