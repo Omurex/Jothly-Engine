@@ -29,10 +29,8 @@ namespace jothly
 		private:
 		void Copy(const WaveFunctionCollapseTile& other);
 
-		std::vector<WaveFunctionCollapseTile> northPossibilities = std::vector<WaveFunctionCollapseTile>();
-		std::vector<WaveFunctionCollapseTile> eastPossibilities = std::vector<WaveFunctionCollapseTile>();
-		std::vector<WaveFunctionCollapseTile> southPossibilities = std::vector<WaveFunctionCollapseTile>();
-		std::vector<WaveFunctionCollapseTile> westPossibilities = std::vector<WaveFunctionCollapseTile>();
+		// What tiles this could possibly collapse down to
+		std::vector<WaveFunctionCollapseTile> possibilities = std::vector<WaveFunctionCollapseTile>();
 
 		bool collapsed = false;
 

@@ -68,28 +68,55 @@ namespace jothly
 		}
 
 		std::vector<int> lowestEntropyIndexes = std::vector<int>(numCells);
-		int numLowestEntropy = 0;
-		int lowestEntropy = INT_MAX;
+		std::vector<int> notCollapsedIndexesLocations = std::vector<int>(numCells); // Used to keep track of where tile is in notCollapsedIndexes
 
 		while (numCollapsed < numCells)
 		{
+			int numLowestEntropy = 0;
+			int lowestEntropy = INT_MAX;
+
 			// Find lowest entropy indexes
 			for (int i = 0; i < numCells - numCollapsed; i++)
 			{
 				int index = notCollapsedIndexes[i];
-				WaveFunctionCollapseTile tile = tiles[index];
+				WaveFunctionCollapseTile* tile = tiles + index;
 
-				if (tile.GetEntropy() == lowestEntropy)
+				int entropy = tile->GetEntropy();
+
+				if (entropy == lowestEntropy)
 				{
 					lowestEntropyIndexes[numLowestEntropy] = index;
+					notCollapsedIndexesLocations[numLowestEntropy] = i;
+
 					numLowestEntropy++;
 				}
-				else if (tile.GetEntropy() < lowestEntropy)
+				else if (entropy < lowestEntropy)
 				{
 					lowestEntropyIndexes[0] = index;
+					notCollapsedIndexesLocations[0] = i;
+
+					lowestEntropy = entropy;
 					numLowestEntropy = 1;
 				}
 			}
+
+			// Pick random from lowest entropy
+			int arrIndex = rand() % numLowestEntropy;
+			int tileIndex = lowestEntropyIndexes[arrIndex];
+			int notCollapsedIndex = notCollapsedIndexesLocations[arrIndex];
+
+			WaveFunctionCollapseTile* tile = tiles + tileIndex;
+			tile->Collapse();
+
+			if (tile->GetIsCollapsed() == false) throw std::exception("Collapse failed!");
+
+			// Move tile index to the back of the notCollapsedIndexes array
+			int backNotCollapsedIndex = (numCells - numCollapsed) - 1;
+			int temp = notCollapsedIndexes[backNotCollapsedIndex];
+			notCollapsedIndexes[backNotCollapsedIndex] = notCollapsedIndexes[notCollapsedIndex];
+			notCollapsedIndexes[notCollapsedIndex] = temp;
+
+			numCollapsed++;
 		}
 	}
 
