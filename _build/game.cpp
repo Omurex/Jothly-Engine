@@ -16,12 +16,14 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "TextureDrawing.h"
 
 
 using namespace jothly;
 
 
 GameObject testObj = GameObject("TestObj", Vector3(0, 0, 0), Quaternion::Quaternion2D(0), Vector3(1, 1));
+Texture tex;
 
 
 void Update()
@@ -33,6 +35,8 @@ void Update()
 void Draw()
 {
 	testObj.Draw();
+	//TextureDrawing::DrawTexture(tex, Vector2(0, 0), Vector2(tex.GetWidth() / 2, tex.GetHeight() / 2), Vector2(100, 100), 45);
+
 }
 
 
@@ -53,7 +57,7 @@ void Init()
 	);*/
 
 	std::cout << std::filesystem::current_path() << std::endl;
-	Texture tex = Texture(con::RESOURCE_PATH + "test.png");
+	tex = Texture(con::RESOURCE_PATH + "test.png");
 	Texture gameObjectOrigin = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
 	
 	Texture ld = Texture(con::RESOURCE_PATH + "ld.png");
@@ -63,16 +67,13 @@ void Init()
 
 	std::vector<WaveFunctionCollapseTile> templateTiles = std::vector<WaveFunctionCollapseTile>
 	{
-		WaveFunctionCollapseTile(&ld, TileRotation::ROT0, "OXX", "XXO", "OOO", "OOO"),
-		WaveFunctionCollapseTile(&lu, TileRotation::ROT0, "OOO", "OXX", "XXO", "OOO"),
-		WaveFunctionCollapseTile(&ru, TileRotation::ROT0, "OOO", "OOO", "OXX", "XXO"),
-		WaveFunctionCollapseTile(&rd, TileRotation::ROT0, "XXO", "OOO", "OOO", "OXX")
+		WaveFunctionCollapseTile(&ld, "OXX", "XXO", "OOO", "OOO"),
 	};
 
 	WaveFunctionCollapseGrid* wfcGrid = 
 		testObj.CreateComponent<WaveFunctionCollapseGrid>()->Init(templateTiles, Vector2(0, 0), Vector2(GetScreenWidth(), GetScreenHeight()));
 
-	wfcGrid->GenerateInitialGrid(8, 8);
+	wfcGrid->GenerateInitialGrid(4, 4);
 	wfcGrid->Run();
 
 	/*for (int x = 0; x < wfcGrid->GetNumCellsX(); x++)

@@ -27,19 +27,19 @@ namespace jothly
 	struct WaveFunctionCollapseTile
 	{
 		private:
-		void Copy(const WaveFunctionCollapseTile& other);
 
 		// What tiles this could possibly collapse down to
 		std::vector<WaveFunctionCollapseTile> possibilities = std::vector<WaveFunctionCollapseTile>();
+		TileRotation tileRotation = TileRotation::ROT0;
 
 		bool collapsed = false;
 		int x = -1;
 		int y = -1;
 
+		void Copy(const WaveFunctionCollapseTile& other);
 
 		public:
 		Texture* texture = nullptr;
-		TileRotation tileRotation = TileRotation::ROT0;
 
 		union // These are based on 0 rotation!
 		{
@@ -59,13 +59,14 @@ namespace jothly
 
 		WaveFunctionCollapseTile(const WaveFunctionCollapseTile& other) { Copy(other); }
 
-		WaveFunctionCollapseTile(Texture* _texture, TileRotation _tileRotation, std::string _upCode, std::string _rightCode, std::string _downCode, std::string _leftCode) :
-			texture(_texture), tileRotation(_tileRotation), upCode(_upCode), rightCode(_rightCode), downCode(_downCode), leftCode(_leftCode) {}
+		WaveFunctionCollapseTile(Texture* _texture, std::string _upCode, std::string _rightCode, std::string _downCode, std::string _leftCode) :
+			texture(_texture), upCode(_upCode), rightCode(_rightCode), downCode(_downCode), leftCode(_leftCode) {}
 
 		~WaveFunctionCollapseTile() {}
 
 
 		void SetCoordinates(int _x, int _y) { x = _x; y = _y; }
+		void SetRotation(TileRotation _tileRotation) { tileRotation = _tileRotation; }
 
 
 		std::string GetDirCodeRotated(TileDirection dir );
@@ -74,6 +75,8 @@ namespace jothly
 		std::string GetEastCode();
 		std::string GetSouthCode();
 		std::string GetWestCode();
+
+		TileRotation GetRotation() { return tileRotation; }
 
 		int GetEntropy();
 		bool GetIsCollapsed() { return collapsed; }
