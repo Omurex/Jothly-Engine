@@ -13,6 +13,9 @@
 #include "Constants.hpp"
 #include "SpriteRenderer.h"
 #include "WaveFunctionCollapseGrid.h"
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 
 using namespace jothly;
@@ -103,6 +106,7 @@ void Init()
 
 int main(int argc, char* argv[])
 {
+	srand(time(NULL));
 
 	// Initialize resource path
 	std::string resourcePath = argv[0];
