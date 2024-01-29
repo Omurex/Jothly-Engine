@@ -53,9 +53,17 @@ void Init()
 	Texture tex = Texture(con::RESOURCE_PATH + "test.png");
 	Texture gameObjectOrigin = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
 	
+	Texture ld = Texture(con::RESOURCE_PATH + "ld.png");
+	Texture lu = Texture(con::RESOURCE_PATH + "lu.png");
+	Texture ru = Texture(con::RESOURCE_PATH + "ru.png");
+	Texture rd = Texture(con::RESOURCE_PATH + "rd.png");
+
 	std::vector<WaveFunctionCollapseTile> templateTiles = std::vector<WaveFunctionCollapseTile>
 	{
-		WaveFunctionCollapseTile(&tex, TileRotation::ROT0, "AAA", "AAA", "AAA", "AAA")
+		WaveFunctionCollapseTile(&ld, TileRotation::ROT0, "OXX", "XXO", "OOO", "OOO"),
+		WaveFunctionCollapseTile(&lu, TileRotation::ROT0, "OOO", "OXX", "XXO", "OOO"),
+		WaveFunctionCollapseTile(&ru, TileRotation::ROT0, "OOO", "OOO", "OXX", "XXO"),
+		WaveFunctionCollapseTile(&rd, TileRotation::ROT0, "XXO", "OOO", "OOO", "OXX")
 	};
 
 	WaveFunctionCollapseGrid* wfcGrid = 

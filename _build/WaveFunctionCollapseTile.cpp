@@ -46,16 +46,16 @@ namespace jothly
 		{
 			bool compatible = true;
 
-			WaveFunctionCollapseTile possibility = possibilities[i];
+			WaveFunctionCollapseTile& possibility = possibilities[i];
 
 			if (northTile != nullptr && northTile->collapsed) compatible &= possibility.CompareCodes(TileDirection::NORTH, northTile->GetSouthCode());
 			if (eastTile != nullptr && eastTile->collapsed) compatible &= possibility.CompareCodes(TileDirection::EAST, eastTile->GetWestCode());
 			if (southTile != nullptr && southTile->collapsed) compatible &= possibility.CompareCodes(TileDirection::SOUTH, southTile->GetNorthCode());
-			if (westTile != nullptr && westTile->collapsed) compatible &= possibility.CompareCodes(TileDirection::WEST, westTile->GetEastCode());
+			if (westTile != nullptr && westTile->collapsed) compatible &= possibility.CompareCodes(TileDirection::WEST, westTile->GetEastCode ());
 
 			if (compatible == false)
 			{
-				indexesToRemove.push_back(i);
+				indexesToRemove[numIndexesToRemove] = i;
 				numIndexesToRemove++;
 			}
 		}
