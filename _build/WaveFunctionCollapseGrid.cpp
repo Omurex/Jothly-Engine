@@ -46,7 +46,9 @@ namespace jothly
 			for (int y = 0; y < numCellsY; y++)
 			{
 				// Loop through grid for any initialization steps
-				GetTile(x, y)->LoadPossibilities(templateTiles);
+				WaveFunctionCollapseTile* tile = GetTile(x, y);
+				tile->SetCoordinates(x, y);
+				tile->LoadPossibilities(templateTiles);
 			}
 		}
 	}
@@ -105,10 +107,10 @@ namespace jothly
 			int tileIndex = lowestEntropyIndexes[arrIndex];
 			int notCollapsedIndex = notCollapsedIndexesLocations[arrIndex];
 
-			WaveFunctionCollapseTile* tile = tiles + tileIndex;
-			tile->Collapse();
+			WaveFunctionCollapseTile* collapsingTile = tiles + tileIndex;
+			collapsingTile->Collapse();
 
-			if (tile->GetIsCollapsed() == false) throw std::exception("Collapse failed!");
+			if (collapsingTile->GetIsCollapsed() == false) throw std::exception("Collapse failed!");
 
 			// Move tile index to the back of the notCollapsedIndexes array
 			int backNotCollapsedIndex = (numCells - numCollapsed) - 1;
@@ -117,6 +119,16 @@ namespace jothly
 			notCollapsedIndexes[notCollapsedIndex] = temp;
 
 			numCollapsed++;
+
+			for (int i = 0; i < numCells - numCollapsed; i++)
+			{
+				WaveFunctionCollapseTile* tile = tiles + notCollapsedIndexes[i];
+				
+				int x = tile->GetX();
+				int y = tile->GetY();
+
+				tile->FilterPossibilities(GetTile(x, y - 1), GetTile(x + 1, y), GetTile(x, y + 1), GetTile(x - 1, y));
+			}
 		}
 	}
 
@@ -131,6 +143,9 @@ namespace jothly
 
 	WaveFunctionCollapseTile* WaveFunctionCollapseGrid::GetTile(int x, int y)
 	{
+		// Cell does not exist!
+		if (x < 0 || x >= numCellsX || y < 0 || y >= numCellsY) return nullptr;
+
 		return &(tiles[x + numCellsX * y]);
 	}
 }

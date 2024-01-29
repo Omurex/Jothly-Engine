@@ -33,6 +33,8 @@ namespace jothly
 		std::vector<WaveFunctionCollapseTile> possibilities = std::vector<WaveFunctionCollapseTile>();
 
 		bool collapsed = false;
+		int x = -1;
+		int y = -1;
 
 
 		public:
@@ -62,6 +64,10 @@ namespace jothly
 
 		~WaveFunctionCollapseTile() {}
 
+
+		void SetCoordinates(int _x, int _y) { x = _x; y = _y; }
+
+
 		std::string GetDirCodeRotated(TileDirection dir );
 
 		std::string GetNorthCode();
@@ -71,6 +77,14 @@ namespace jothly
 
 		int GetEntropy();
 		bool GetIsCollapsed() { return collapsed; }
+
+		int GetX() { return x; }
+		int GetY() { return y; }
+
+		bool CompareCodes(TileDirection dir, std::string otherCode);
+
+
+		void FilterPossibilities(WaveFunctionCollapseTile* northTile, WaveFunctionCollapseTile* eastTile, WaveFunctionCollapseTile* southTile, WaveFunctionCollapseTile* westTile);
 
 
 		bool Collapse();
