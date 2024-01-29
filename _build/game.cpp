@@ -65,15 +65,47 @@ void Init()
 	Texture ru = Texture(con::RESOURCE_PATH + "ru.png");
 	Texture rd = Texture(con::RESOURCE_PATH + "rd.png");
 
-	std::vector<WaveFunctionCollapseTile> templateTiles = std::vector<WaveFunctionCollapseTile>
+	/*std::vector<WaveFunctionCollapseTile> templateTiles = std::vector<WaveFunctionCollapseTile>
 	{
 		WaveFunctionCollapseTile(&ld, "OXX", "XXO", "OOO", "OOO"),
+	};*/
+
+	// NOTE: MAKE TEXTURE MANAGER, BADLY NEEDED
+	Texture t0 = Texture(con::RESOURCE_PATH + "coding-train/0.png");
+	Texture t1 = Texture(con::RESOURCE_PATH + "coding-train/1.png");
+	Texture t2 = Texture(con::RESOURCE_PATH + "coding-train/2.png");
+	Texture t3 = Texture(con::RESOURCE_PATH + "coding-train/3.png");
+	Texture t4 = Texture(con::RESOURCE_PATH + "coding-train/4.png");
+	Texture t5 = Texture(con::RESOURCE_PATH + "coding-train/5.png");
+	Texture t6 = Texture(con::RESOURCE_PATH + "coding-train/6.png");
+	Texture t7 = Texture(con::RESOURCE_PATH + "coding-train/7.png");
+	Texture t8 = Texture(con::RESOURCE_PATH + "coding-train/8.png");
+	Texture t9 = Texture(con::RESOURCE_PATH + "coding-train/9.png");
+	Texture t10 = Texture(con::RESOURCE_PATH + "coding-train/10.png");
+	Texture t11 = Texture(con::RESOURCE_PATH + "coding-train/11.png");
+	Texture t12 = Texture(con::RESOURCE_PATH + "coding-train/12.png");
+
+	std::vector<WaveFunctionCollapseTile> templateTiles = std::vector<WaveFunctionCollapseTile>
+	{
+		WaveFunctionCollapseTile(&t0, "000", "000", "000", "000"),
+		WaveFunctionCollapseTile(&t1, "111", "111", "111", "111"),
+		WaveFunctionCollapseTile(&t2, "111", "121", "111", "111"),
+		WaveFunctionCollapseTile(&t3, "111", "131", "111", "131"),
+		WaveFunctionCollapseTile(&t4, "011", "121", "110", "000"),
+		WaveFunctionCollapseTile(&t5, "011", "111", "111", "110"),
+		WaveFunctionCollapseTile(&t6, "111", "121", "111", "121"),
+		WaveFunctionCollapseTile(&t7, "131", "121", "131", "121"),
+		WaveFunctionCollapseTile(&t8, "131", "111", "121", "111"),
+		WaveFunctionCollapseTile(&t9, "121", "121", "111", "121"),
+		WaveFunctionCollapseTile(&t10, "121", "121", "121", "121"), // check
+		WaveFunctionCollapseTile(&t11, "121", "121", "111", "111"),
+		WaveFunctionCollapseTile(&t12, "111", "121", "111", "121")
 	};
 
 	WaveFunctionCollapseGrid* wfcGrid = 
 		testObj.CreateComponent<WaveFunctionCollapseGrid>()->Init(templateTiles, Vector2(0, 0), Vector2(GetScreenWidth(), GetScreenHeight()));
 
-	wfcGrid->GenerateInitialGrid(4, 4);
+	wfcGrid->GenerateInitialGrid(50, 50);
 	wfcGrid->Run();
 
 	/*for (int x = 0; x < wfcGrid->GetNumCellsX(); x++)

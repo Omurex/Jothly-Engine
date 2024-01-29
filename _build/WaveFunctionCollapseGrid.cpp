@@ -110,7 +110,12 @@ namespace jothly
 			WaveFunctionCollapseTile* collapsingTile = tiles + tileIndex;
 			collapsingTile->Collapse();
 
-			if (collapsingTile->GetIsCollapsed() == false) throw std::exception("Collapse failed!");
+			if (collapsingTile->GetIsCollapsed() == false)
+			{
+				/*GenerateInitialGrid(numCellsX, numCellsY);
+				Run();*/
+				return;
+			}
 
 			// Move tile index to the back of the notCollapsedIndexes array
 			int backNotCollapsedIndex = (numCells - numCollapsed) - 1;
