@@ -105,7 +105,7 @@ void Init()
 	WaveFunctionCollapseGrid* wfcGrid = 
 		testObj.CreateComponent<WaveFunctionCollapseGrid>()->Init(templateTiles, Vector2(0, 0), Vector2(GetScreenWidth(), GetScreenHeight()));
 
-	wfcGrid->GenerateInitialGrid(50, 50);
+	wfcGrid->GenerateInitialGrid(20, 20);
 	wfcGrid->Run();
 
 	/*for (int x = 0; x < wfcGrid->GetNumCellsX(); x++)
@@ -139,7 +139,10 @@ void Init()
 
 int main(int argc, char* argv[])
 {
-	srand(time(NULL));
+	//srand(time(NULL));
+	srand(1706603061); // 5, 1706603061
+
+	//std::cout << "SEED: " + std::to_string(time(NULL)) << std::endl;
 
 	// Initialize resource path
 	std::string resourcePath = argv[0];

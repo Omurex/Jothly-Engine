@@ -125,6 +125,18 @@ namespace jothly
 
 			numCollapsed++;
 
+			int x = collapsingTile->GetX();
+			int y = collapsingTile->GetY();
+
+			/*if(GetTile(x, y - 1))
+				GetTile(x, y - 1)->FilterPossibilities(GetTile(x, y - 2), GetTile(x + 1, y - 1), GetTile(x, y), GetTile(x - 1, y - 1));
+			if (GetTile(x, y + 1))
+				GetTile(x, y + 1)->FilterPossibilities(GetTile(x, y), GetTile(x + 1, y + 1), GetTile(x, y + 1), GetTile(x - 1, y + 1));
+			if (GetTile(x + 1, y))
+				GetTile(x + 1, y)->FilterPossibilities(GetTile(x + 1, y - 1), GetTile(x + 2, y), GetTile(x + 1, y + 1), GetTile(x, y));
+			if (GetTile(x - 1, y))
+				GetTile(x - 1, y)->FilterPossibilities(GetTile(x - 1, y - 1), GetTile(x, y), GetTile(x - 1, y + 1), GetTile(x - 2, y));*/
+
 			for (int i = 0; i < numCells - numCollapsed; i++)
 			{
 				WaveFunctionCollapseTile* tile = tiles + notCollapsedIndexes[i];
