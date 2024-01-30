@@ -24,11 +24,16 @@ using namespace jothly;
 
 GameObject testObj = GameObject("TestObj", Vector3(0, 0, 0), Quaternion::Quaternion2D(0), Vector3(1, 1));
 Texture tex;
+WaveFunctionCollapseGrid* wfcGrid;
 
 
 void Update()
 {
 	testObj.Update(GetFrameTime());
+	if(IsKeyPressed(KEY_SPACE))
+	{
+		wfcGrid->RunNextStep();
+	}
 }
 
 
@@ -102,11 +107,11 @@ void Init()
 		WaveFunctionCollapseTile(&t12, "111", "121", "111", "121")
 	};
 
-	WaveFunctionCollapseGrid* wfcGrid = 
-		testObj.CreateComponent<WaveFunctionCollapseGrid>()->Init(templateTiles, Vector2(0, 0), Vector2(GetScreenWidth(), GetScreenHeight()));
+	wfcGrid = testObj.CreateComponent<WaveFunctionCollapseGrid>()->Init(templateTiles, Vector2(0, 0), Vector2(GetScreenWidth(), GetScreenHeight()));
 
 	wfcGrid->GenerateInitialGrid(20, 20);
-	wfcGrid->Run();
+	wfcGrid->InitializeGeneration();
+	//wfcGrid->Run();
 
 	/*for (int x = 0; x < wfcGrid->GetNumCellsX(); x++)
 	{

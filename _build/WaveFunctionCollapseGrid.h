@@ -26,12 +26,30 @@ namespace jothly
 		int numCellsX = 0;
 		int numCellsY = 0;
 
+
+		// Variables used while running
+		int numCells;
+		int numCollapsed;
+		std::vector<int> notCollapsedIndexes;
+		std::vector<int> lowestEntropyIndexes;
+		int numLowestEntropy = 0;
+		std::vector<int> notCollapsedIndexesLocations;
+
 		
 		WaveFunctionCollapseGrid(GameObject* _owner) : Component(_owner) {}
 		~WaveFunctionCollapseGrid() { ClearGrid(); }
 
 
 		void Draw() override;
+
+
+		// Returns lowest entropy
+		int GenerateLowestEntropyList(std::vector<int>& out_lowestEntropyIndexes, std::vector<int>& out_notCollapsedIndexesLocations, 
+			int& out_numLowestEntropy);
+
+		WaveFunctionCollapseTile* CollapseLowestEntropyTile();
+
+		void PropagateFromTile(WaveFunctionCollapseTile* tile);
 
 
 		public:
@@ -43,7 +61,9 @@ namespace jothly
 
 
 		void GenerateInitialGrid(int _numCellsX, int _numCellsY);
+		void InitializeGeneration();
 		void Run();
+		bool RunNextStep();
 		void ClearGrid();
 
 		void SetTemplateTiles(std::vector<WaveFunctionCollapseTile>& _templateTiles) { templateTiles = _templateTiles; }
