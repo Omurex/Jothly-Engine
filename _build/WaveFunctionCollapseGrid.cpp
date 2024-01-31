@@ -77,18 +77,7 @@ namespace jothly
 	
 	void WaveFunctionCollapseGrid::Run()
 	{
-		while (numCollapsed < numCells && RunNextStep())
-		{
-			/*for (int i = 0; i < numCells - numCollapsed; i++)
-			{
-				WaveFunctionCollapseTile* tile = tiles + notCollapsedIndexes[i];
-
-				int x = tile->GetX();
-				int y = tile->GetY();
-
-				tile->FilterPossibilities(GetTile(x, y - 1), GetTile(x + 1, y), GetTile(x, y + 1), GetTile(x - 1, y));
-			}*/
-		}
+		while (numCollapsed < numCells && RunNextStep()) {}
 	}
 
 
@@ -98,7 +87,7 @@ namespace jothly
 
  		WaveFunctionCollapseTile* collapsingTile = CollapseLowestEntropyTile();
 
-		if (collapsingTile == nullptr) return false;
+		if (collapsingTile == nullptr || collapsingTile->GetIsCollapsed() == false) return false;
 
 		PropagateFromTile(collapsingTile);
 
@@ -174,17 +163,96 @@ namespace jothly
 
 	void WaveFunctionCollapseGrid::PropagateFromTile(WaveFunctionCollapseTile* tile)
 	{
-		int x = tile->GetX();
-		int y = tile->GetY();
+		int originX = tile->GetX();
+		int originY = tile->GetY();
 
-		if (GetTile(x, y - 1))
+		int largestDimension = numCellsX > numCellsY ? numCellsX : numCellsY;
+
+		for(int radius = 1; radius <= largestDimension; radius++)
+		{
+			for(int x = -radius; x <= radius; x++)
+			{
+				int absX = abs(x);
+				int yPos = radius - absX;
+				int yNeg = -yPos;
+
+				int worldX = originX + x;
+				int worldYPos = originY + yPos;
+				int worldYNeg = originY - yPos;
+
+				WaveFunctionCollapseTile* tilePos = GetTile(worldX, worldYPos);
+				WaveFunctionCollapseTile* tileNeg = GetTile(worldX, worldYPos);
+
+
+				if(x == -radius) // Only filter based on east tile
+				{
+					if(tilePos == nullptr) continue; // TODO: Refactor so we don't have so many of these
+
+					tilePos->FilterPossibilities(nullptr, GetTile(worldX + 1, worldYPos), nullptr, nullptr);
+					continue;
+				}
+				
+				if(x == radius) // Only filter based on west tile
+				{
+					if (tilePos == nullptr) continue; // TODO: Refactor so we don't have so many of these
+
+					tilePos->FilterPossibilities(nullptr, nullptr, nullptr, GetTile(worldX - 1, worldYPos));
+					continue;
+				}
+
+				if(yPos == radius) // Only filter based on south tile for yPos and north for yNeg
+				{
+					if (tilePos != nullptr)
+					{
+						tilePos->FilterPossibilities(GetTile(worldX, worldYPos - 1), nullptr, nullptr, nullptr);
+					}
+
+					if(tileNeg != nullptr)
+					{
+						tileNeg->FilterPossibilities(nullptr, nullptr, GetTile(worldX, worldYNeg + 1), nullptr);
+					}
+
+					continue;
+				}
+
+				if(x < 0)
+				{
+					if (tilePos != nullptr)
+						tilePos->FilterPossibilities(GetTile(worldX, worldYPos - 1), GetTile(worldX + 1, worldYPos), nullptr, nullptr);
+
+					if (tileNeg != nullptr)
+						tileNeg->FilterPossibilities(nullptr, GetTile(worldX + 1, worldYPos), GetTile(worldX, worldYNeg + 1), nullptr);
+				}
+				else
+				{
+					if (tilePos != nullptr)
+						tilePos->FilterPossibilities(GetTile(worldX, worldYPos - 1), nullptr, nullptr, GetTile(worldX - 1, worldYPos));
+					
+					if(tileNeg != nullptr)
+						tileNeg->FilterPossibilities(nullptr, nullptr, GetTile(worldX, worldYNeg + 1), GetTile(worldX - 1, worldYNeg));
+				}
+			}
+
+		}
+
+		/*if (GetTile(x, y - 1))
 			GetTile(x, y - 1)->FilterPossibilities(GetTile(x, y - 2), GetTile(x + 1, y - 1), GetTile(x, y), GetTile(x - 1, y - 1));
 		if (GetTile(x, y + 1))
 			GetTile(x, y + 1)->FilterPossibilities(GetTile(x, y), GetTile(x + 1, y + 1), GetTile(x, y + 1), GetTile(x - 1, y + 1));
 		if (GetTile(x + 1, y))
 			GetTile(x + 1, y)->FilterPossibilities(GetTile(x + 1, y - 1), GetTile(x + 2, y), GetTile(x + 1, y + 1), GetTile(x, y));
 		if (GetTile(x - 1, y))
-			GetTile(x - 1, y)->FilterPossibilities(GetTile(x - 1, y - 1), GetTile(x, y), GetTile(x - 1, y + 1), GetTile(x - 2, y));
+			GetTile(x - 1, y)->FilterPossibilities(GetTile(x - 1, y - 1), GetTile(x, y), GetTile(x - 1, y + 1), GetTile(x - 2, y));*/
+
+		/*for (int i = 0; i < numCells - numCollapsed; i++)
+		{
+			WaveFunctionCollapseTile* tile = tiles + notCollapsedIndexes[i];
+
+			int x = tile->GetX();
+			int y = tile->GetY();
+
+			tile->FilterPossibilities(GetTile(x, y - 1), GetTile(x + 1, y), GetTile(x, y + 1), GetTile(x - 1, y));
+		}*/
 	}
 
 

@@ -34,6 +34,10 @@ void Update()
 	{
 		wfcGrid->RunNextStep();
 	}
+	if (IsKeyPressed(KEY_ENTER))
+	{
+		wfcGrid->Run();
+	}
 }
 
 
@@ -144,8 +148,8 @@ void Init()
 
 int main(int argc, char* argv[])
 {
-	//srand(time(NULL));
-	srand(1706603061); // 5, 1706603061
+	srand(time(NULL));
+	//srand(1706603061); // 5, 1706603061
 
 	//std::cout << "SEED: " + std::to_string(time(NULL)) << std::endl;
 
