@@ -92,19 +92,19 @@ void Init()
 
 	std::vector<WaveFunctionCollapseTile> templateTiles = std::vector<WaveFunctionCollapseTile>
 	{
-		WaveFunctionCollapseTile(&t0, "000", "000", "000", "000"),
-		WaveFunctionCollapseTile(&t1, "111", "111", "111", "111"),
+		WaveFunctionCollapseTile(&t0, "000", "000", "000", "000", TileSymmetry::FOUR_SIDED_SYMMETRIC),
+		WaveFunctionCollapseTile(&t1, "111", "111", "111", "111", TileSymmetry::FOUR_SIDED_SYMMETRIC),
 		WaveFunctionCollapseTile(&t2, "111", "121", "111", "111"),
-		WaveFunctionCollapseTile(&t3, "111", "131", "111", "131"),
+		WaveFunctionCollapseTile(&t3, "111", "131", "111", "131", TileSymmetry::TWO_SIDED_SYMMETRIC),
 		WaveFunctionCollapseTile(&t4, "011", "121", "110", "000"),
 		WaveFunctionCollapseTile(&t5, "011", "111", "111", "110"),
-		WaveFunctionCollapseTile(&t6, "111", "121", "111", "121"),
-		WaveFunctionCollapseTile(&t7, "131", "121", "131", "121"),
+		WaveFunctionCollapseTile(&t6, "111", "121", "111", "121", TileSymmetry::TWO_SIDED_SYMMETRIC),
+		WaveFunctionCollapseTile(&t7, "131", "121", "131", "121", TileSymmetry::TWO_SIDED_SYMMETRIC),
 		WaveFunctionCollapseTile(&t8, "131", "111", "121", "111"),
 		WaveFunctionCollapseTile(&t9, "121", "121", "111", "121"),
-		WaveFunctionCollapseTile(&t10, "121", "121", "121", "121"), // check
+		WaveFunctionCollapseTile(&t10, "121", "121", "121", "121", TileSymmetry::TWO_SIDED_SYMMETRIC),
 		WaveFunctionCollapseTile(&t11, "121", "121", "111", "111"),
-		WaveFunctionCollapseTile(&t12, "111", "121", "111", "121")
+		WaveFunctionCollapseTile(&t12, "111", "121", "111", "121", TileSymmetry::TWO_SIDED_SYMMETRIC)
 	};
 
 	wfcGrid = testObj.CreateComponent<WaveFunctionCollapseGrid>()->Init(templateTiles, Vector2(0, 0), Vector2(GetScreenWidth(), GetScreenHeight()));

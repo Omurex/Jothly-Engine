@@ -13,6 +13,7 @@ namespace jothly
 		rightCode = other.rightCode;
 		downCode = other.downCode;
 		leftCode = other.leftCode;
+		tileSymmetry = other.tileSymmetry;
 	}
 
 
@@ -66,8 +67,12 @@ namespace jothly
 			possibilities.push_back(allPossibilities[i]);
 			possibilities.back().SetRotation(TileRotation::ROT0);
 
+			if(allPossibilities[i].tileSymmetry == TileSymmetry::FOUR_SIDED_SYMMETRIC) continue;
+
 			possibilities.push_back(allPossibilities[i]);
 			possibilities.back().SetRotation(TileRotation::ROT90);
+
+			if(allPossibilities[i].tileSymmetry == TileSymmetry::TWO_SIDED_SYMMETRIC) continue;
 
 			possibilities.push_back(allPossibilities[i]);
 			possibilities.back().SetRotation(TileRotation::ROT180);

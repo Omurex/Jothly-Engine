@@ -24,6 +24,14 @@ namespace jothly
 	};
 
 
+	enum class TileSymmetry
+	{
+		NOT_SYMMETRIC,
+		TWO_SIDED_SYMMETRIC,
+		FOUR_SIDED_SYMMETRIC
+	};
+
+
 	struct WaveFunctionCollapseTile
 	{
 		private:
@@ -31,6 +39,7 @@ namespace jothly
 		// What tiles this could possibly collapse down to
 		std::vector<WaveFunctionCollapseTile> possibilities = std::vector<WaveFunctionCollapseTile>();
 		TileRotation tileRotation = TileRotation::ROT0;
+		TileSymmetry tileSymmetry = TileSymmetry::NOT_SYMMETRIC;
 
 		bool collapsed = false;
 		int x = -1;
@@ -59,8 +68,8 @@ namespace jothly
 
 		WaveFunctionCollapseTile(const WaveFunctionCollapseTile& other) { Copy(other); }
 
-		WaveFunctionCollapseTile(Texture* _texture, std::string _upCode, std::string _rightCode, std::string _downCode, std::string _leftCode) :
-			texture(_texture), upCode(_upCode), rightCode(_rightCode), downCode(_downCode), leftCode(_leftCode) {}
+		WaveFunctionCollapseTile(Texture* _texture, std::string _upCode, std::string _rightCode, std::string _downCode, std::string _leftCode, TileSymmetry _tileSymmetry = TileSymmetry::NOT_SYMMETRIC) :
+			texture(_texture), upCode(_upCode), rightCode(_rightCode), downCode(_downCode), leftCode(_leftCode), tileSymmetry(_tileSymmetry) {}
 
 		~WaveFunctionCollapseTile() {}
 
