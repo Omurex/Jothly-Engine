@@ -27,6 +27,9 @@ namespace jothly
 	{
 		if (possibilities.size() <= 0) return;
 
+
+		int ogPossibilities = possibilities.size();
+
 		std::vector<int> indexesToRemove = std::vector<int>(possibilities.size());
 		int numIndexesToRemove = 0;
 
@@ -49,11 +52,17 @@ namespace jothly
 			}
 		}
 
+		if(numIndexesToRemove >= ogPossibilities)
+			{//numIndexesToRemove++; // TEMP, REMOVE;
+			int a = 0;
+			a++;}
+
 		for (int i = numIndexesToRemove - 1; i >= 0; i--)
 		{
 			// Not too optimized, probably just swap with back and then have separate count
 			possibilities.erase(possibilities.begin() + indexesToRemove[i]);
 		}
+
 	}
 
 

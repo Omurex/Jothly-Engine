@@ -181,68 +181,79 @@ namespace jothly
 				int worldYNeg = originY - yPos;
 
 				WaveFunctionCollapseTile* tilePos = GetTile(worldX, worldYPos);
-				WaveFunctionCollapseTile* tileNeg = GetTile(worldX, worldYPos);
+				WaveFunctionCollapseTile* tileNeg = GetTile(worldX, worldYNeg);
 
 
-				if(x == -radius) // Only filter based on east tile
-				{
-					if(tilePos == nullptr) continue; // TODO: Refactor so we don't have so many of these
+				if(tilePos != nullptr)
+					tilePos->FilterPossibilities(GetTile(worldX, worldYPos - 1), GetTile(worldX + 1, worldYPos), GetTile(worldX, worldYPos + 1), GetTile(worldX - 1, worldYPos));
 
-					tilePos->FilterPossibilities(nullptr, GetTile(worldX + 1, worldYPos), nullptr, nullptr);
-					continue;
-				}
-				
-				if(x == radius) // Only filter based on west tile
-				{
-					if (tilePos == nullptr) continue; // TODO: Refactor so we don't have so many of these
 
-					tilePos->FilterPossibilities(nullptr, nullptr, nullptr, GetTile(worldX - 1, worldYPos));
-					continue;
-				}
+				if (tileNeg != nullptr)
+					tileNeg->FilterPossibilities(GetTile(worldX, worldYNeg - 1), GetTile(worldX + 1, worldYNeg), GetTile(worldX, worldYNeg + 1), GetTile(worldX - 1, worldYNeg));
 
-				if(yPos == radius) // Only filter based on south tile for yPos and north for yNeg
-				{
-					if (tilePos != nullptr)
-					{
-						tilePos->FilterPossibilities(GetTile(worldX, worldYPos - 1), nullptr, nullptr, nullptr);
-					}
 
-					if(tileNeg != nullptr)
-					{
-						tileNeg->FilterPossibilities(nullptr, nullptr, GetTile(worldX, worldYNeg + 1), nullptr);
-					}
+				//if(x == -radius) // Only filter based on east tile
+				//{
+				//	if(tilePos == nullptr) continue; // TODO: Refactor so we don't have so many of these
 
-					continue;
-				}
+				//	tilePos->FilterPossibilities(nullptr, GetTile(worldX + 1, worldYPos), nullptr, nullptr);
+				//	continue;
+				//}
+				//
+				//if(x == radius) // Only filter based on west tile
+				//{
+				//	if (tilePos == nullptr) continue; // TODO: Refactor so we don't have so many of these
 
-				if(x < 0)
-				{
-					if (tilePos != nullptr)
-						tilePos->FilterPossibilities(GetTile(worldX, worldYPos - 1), GetTile(worldX + 1, worldYPos), nullptr, nullptr);
+				//	tilePos->FilterPossibilities(nullptr, nullptr, nullptr, GetTile(worldX - 1, worldYPos));
+				//	continue;
+				//}
 
-					if (tileNeg != nullptr)
-						tileNeg->FilterPossibilities(nullptr, GetTile(worldX + 1, worldYPos), GetTile(worldX, worldYNeg + 1), nullptr);
-				}
-				else
-				{
-					if (tilePos != nullptr)
-						tilePos->FilterPossibilities(GetTile(worldX, worldYPos - 1), nullptr, nullptr, GetTile(worldX - 1, worldYPos));
-					
-					if(tileNeg != nullptr)
-						tileNeg->FilterPossibilities(nullptr, nullptr, GetTile(worldX, worldYNeg + 1), GetTile(worldX - 1, worldYNeg));
-				}
+				//if(yPos == radius) // Only filter based on south tile for yPos and north for yNeg
+				//{
+				//	if (tilePos != nullptr)
+				//	{
+				//		tilePos->FilterPossibilities(GetTile(worldX, worldYPos - 1), nullptr, nullptr, nullptr);
+				//		//tilePos->FilterPossibilities(nullptr, nullptr, GetTile(worldX, worldYPos + 1), nullptr);
+				//	}
+
+				//	if(tileNeg != nullptr)
+				//	{
+				//		tileNeg->FilterPossibilities(nullptr, nullptr, GetTile(worldX, worldYNeg + 1), nullptr);
+				//		//tileNeg->FilterPossibilities(GetTile(worldX, worldYNeg - 1), nullptr, nullptr, nullptr);
+				//	}
+
+				//	continue;
+				//}
+
+				//if(x < 0)
+				//{
+				//	if (tilePos != nullptr)
+				//		tilePos->FilterPossibilities(GetTile(worldX, worldYPos - 1), GetTile(worldX + 1, worldYPos), nullptr, nullptr);
+				//		//tilePos->FilterPossibilities(nullptr, GetTile(worldX + 1, worldYPos),)
+
+				//	if (tileNeg != nullptr)
+				//		tileNeg->FilterPossibilities(nullptr, GetTile(worldX + 1, worldYPos), GetTile(worldX, worldYNeg + 1), nullptr);
+				//}
+				//else
+				//{
+				//	if (tilePos != nullptr)
+				//		tilePos->FilterPossibilities(GetTile(worldX, worldYPos - 1), nullptr, nullptr, GetTile(worldX - 1, worldYPos));
+				//	
+				//	if(tileNeg != nullptr)
+				//		tileNeg->FilterPossibilities(nullptr, nullptr, GetTile(worldX, worldYNeg + 1), GetTile(worldX - 1, worldYNeg));
+				//}
 			}
 
 		}
 
-		/*if (GetTile(x, y - 1))
-			GetTile(x, y - 1)->FilterPossibilities(GetTile(x, y - 2), GetTile(x + 1, y - 1), GetTile(x, y), GetTile(x - 1, y - 1));
-		if (GetTile(x, y + 1))
-			GetTile(x, y + 1)->FilterPossibilities(GetTile(x, y), GetTile(x + 1, y + 1), GetTile(x, y + 1), GetTile(x - 1, y + 1));
-		if (GetTile(x + 1, y))
-			GetTile(x + 1, y)->FilterPossibilities(GetTile(x + 1, y - 1), GetTile(x + 2, y), GetTile(x + 1, y + 1), GetTile(x, y));
-		if (GetTile(x - 1, y))
-			GetTile(x - 1, y)->FilterPossibilities(GetTile(x - 1, y - 1), GetTile(x, y), GetTile(x - 1, y + 1), GetTile(x - 2, y));*/
+		/*if (GetTile(originX, originY - 1))
+			GetTile(originX, originY - 1)->FilterPossibilities(GetTile(originX, originY - 2), GetTile(originX + 1, originY - 1), GetTile(originX, originY), GetTile(originX - 1, originY - 1));
+		if (GetTile(originX, originY + 1))
+			GetTile(originX, originY + 1)->FilterPossibilities(GetTile(originX, originY), GetTile(originX + 1, originY + 1), GetTile(originX, originY + 1), GetTile(originX - 1, originY + 1));
+		if (GetTile(originX + 1, originY))
+			GetTile(originX + 1, originY)->FilterPossibilities(GetTile(originX + 1, originY - 1), GetTile(originX + 2, originY), GetTile(originX + 1, originY + 1), GetTile(originX, originY));
+		if (GetTile(originX - 1, originY))
+			GetTile(originX - 1, originY)->FilterPossibilities(GetTile(originX - 1, originY - 1), GetTile(originX, originY), GetTile(originX - 1, originY + 1), GetTile(originX - 2, originY));*/
 
 		/*for (int i = 0; i < numCells - numCollapsed; i++)
 		{
@@ -269,6 +280,6 @@ namespace jothly
 		// Cell does not exist!
 		if (x < 0 || x >= numCellsX || y < 0 || y >= numCellsY) return nullptr;
 
-		return &(tiles[x + numCellsX * y]);
+		return tiles + (x + numCellsX * y);
 	}
 }
