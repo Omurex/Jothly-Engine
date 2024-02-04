@@ -191,7 +191,6 @@ namespace jothly
 				if (tileNeg != nullptr)
 					tileNeg->FilterPossibilities(GetTile(worldX, worldYNeg - 1), GetTile(worldX + 1, worldYNeg), GetTile(worldX, worldYNeg + 1), GetTile(worldX - 1, worldYNeg));
 
-
 				//if(x == -radius) // Only filter based on east tile
 				//{
 				//	if(tilePos == nullptr) continue; // TODO: Refactor so we don't have so many of these

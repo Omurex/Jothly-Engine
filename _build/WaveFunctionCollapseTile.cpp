@@ -1,6 +1,8 @@
 #include "WaveFunctionCollapseTile.h"
 #include "TextureDrawing.h"
 #include <assert.h>
+#include <string>
+#include <unordered_set>
 
 
 namespace jothly
@@ -61,6 +63,73 @@ namespace jothly
 		{
 			// Not too optimized, probably just swap with back and then have separate count
 			possibilities.erase(possibilities.begin() + indexesToRemove[i]);
+		}
+
+		std::unordered_set<std::string> northTileSouthCodes;
+		std::unordered_set<std::string> eastTileWestCodes;
+		std::unordered_set<std::string> southTileNorthCodes;
+		std::unordered_set<std::string> westTileEastCodes;
+
+
+		if (northTile != nullptr && northTile->collapsed == false)
+		{
+			for (int i = 0; i < northTile->possibilities.size(); i++)
+			{
+				northTileSouthCodes.insert(northTile->possibilities[i].GetSouthCode());
+			}
+		}
+
+		if (eastTile != nullptr && eastTile->collapsed == false)
+		{
+			for (int i = 0; i < eastTile->possibilities.size(); i++)
+			{
+				eastTileWestCodes.insert(eastTile->possibilities[i].GetWestCode());
+			}
+		}
+
+		if (southTile != nullptr && southTile->collapsed == false)
+		{
+			for (int i = 0; i < southTile->possibilities.size(); i++)
+			{
+				southTileNorthCodes.insert(southTile->possibilities[i].GetNorthCode());
+			}
+		}
+
+		if (westTile != nullptr && westTile->collapsed == false)
+		{
+			for (int i = 0; i < westTile->possibilities.size(); i++)
+			{
+				westTileEastCodes.insert(westTile->possibilities[i].GetEastCode());
+			}
+		}
+
+
+		for (int i = possibilities.size() - 1; i >= 0; i--)
+		{
+			//std::string possibilityWest = possibility
+
+			std::string nRev = possibilities[i].GetNorthCode();
+			std::reverse(nRev.begin(), nRev.end());
+
+			std::string eRev = possibilities[i].GetEastCode();
+			std::reverse(eRev.begin(), eRev.end());
+
+			std::string sRev = possibilities[i].GetSouthCode();
+			std::reverse(sRev.begin(), sRev.end());
+
+			std::string wRev = possibilities[i].GetWestCode();
+			std::reverse(wRev.begin(), wRev.end());
+
+			bool possibilityPossible =
+				(northTileSouthCodes.size() == 0 || northTileSouthCodes.find(nRev) != northTileSouthCodes.end()) &&
+				(eastTileWestCodes.size() == 0 || eastTileWestCodes.find(eRev) != eastTileWestCodes.end()) &&
+				(southTileNorthCodes.size() == 0 || southTileNorthCodes.find(sRev) != southTileNorthCodes.end()) &&
+				(westTileEastCodes.size() == 0 || westTileEastCodes.find(wRev) != westTileEastCodes.end());
+
+			if (!possibilityPossible)
+			{
+				possibilities.erase(possibilities.begin() + i);
+			}
 		}
 
 	}

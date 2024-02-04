@@ -30,7 +30,7 @@ WaveFunctionCollapseGrid* wfcGrid;
 void Update()
 {
 	testObj.Update(GetFrameTime());
-	if(IsKeyPressed(KEY_F) || IsKeyDown(KEY_F))
+	if(IsKeyPressed(KEY_SPACE) || IsKeyDown(KEY_F))
 	{
 		wfcGrid->RunNextStep();
 	}
@@ -150,6 +150,7 @@ int main(int argc, char* argv[])
 {
 	srand(time(NULL));
 	//srand(1706603061); // 5, 1706603061
+	//srand(1707010537);
 
 	std::cout << "SEED: " + std::to_string(time(NULL)) << std::endl;
 
