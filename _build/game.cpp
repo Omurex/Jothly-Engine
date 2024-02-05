@@ -126,7 +126,7 @@ void Init()
 		}
 	}*/
 
-	SpriteRenderer* spriteRenderer = testObj.CreateComponent<SpriteRenderer>()->Init(&gameObjectOrigin, Color::GREEN);
+	//SpriteRenderer* spriteRenderer = testObj.CreateComponent<SpriteRenderer>()->Init(&gameObjectOrigin, Color::GREEN);
 
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key
