@@ -37,6 +37,9 @@
     <Filter Include="Source Files\WaveFunctionCollapse">
       <UniqueIdentifier>{3b7542c6-6730-4afd-a7e2-2ab514d3e72d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Navmesh">
+      <UniqueIdentifier>{07d2e419-b6d8-4a3c-b633-1541ea67e3b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -108,6 +111,9 @@
     <ClInclude Include="WaveFunctionCollapseTile.h">
       <Filter>Header Files\WaveFunctionCollapse</Filter>
     </ClInclude>
+    <ClInclude Include="DelaunayPoint.h">
+      <Filter>Header Files\Navmesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -173,6 +179,11 @@
     <ClCompile Include="WaveFunctionCollapseTile.cpp">
       <Filter>Source Files\WaveFunctionCollapse</Filter>
     </ClCompile>
+    <ClCompile Include="DelaunayTriangle.h">
+      <Filter>Header Files\Navmesh</Filter>
+    </ClCompile>
+    <ClCompile Include="DelaunayTriangle.cpp" />
+    <ClCompile Include="DelaunayPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

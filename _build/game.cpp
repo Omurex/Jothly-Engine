@@ -17,20 +17,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "TextureDrawing.h"
+#include "DelaunayTriangle.h"
+#include "DelaunayPoint.h"
 
 
 using namespace jothly;
 
 
 GameObject testObj = GameObject("TestObj", Vector3(0, 0, 0), Quaternion::Quaternion2D(0), Vector3(1, 1));
-Texture tex;
+Texture testTex;
 WaveFunctionCollapseGrid* wfcGrid;
 
+DelaunayPoint dPoint = DelaunayPoint(Vector2(0, 0));
 
-void Update()
+
+void UpdateWFC()
 {
-	testObj.Update(GetFrameTime());
-	if(IsKeyPressed(KEY_SPACE) || IsKeyDown(KEY_F))
+	if (IsKeyPressed(KEY_SPACE) || IsKeyDown(KEY_F))
 	{
 		wfcGrid->RunNextStep();
 	}
@@ -41,34 +44,16 @@ void Update()
 }
 
 
-void Draw()
+void Update()
 {
-	testObj.Draw();
-	//TextureDrawing::DrawTexture(tex, Vector2(0, 0), Vector2(tex.GetWidth() / 2, tex.GetHeight() / 2), Vector2(100, 100), 45);
-
+	testObj.Update(GetFrameTime());
+	
+	//UpdateWFC();
 }
 
 
-void Init()
+void InitWFC()
 {
-	// Run tests before starting engine
-	TestRunner testRunner = TestRunner(true, true);
-	testRunner.RunTests();
-
-
-	raylib::Window win = raylib::Window(600, 600, "Jothly");
-
-	win.SetTargetFPS(60);
-	//testObj.transform.pos = Vector2(GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f);
-
-	/*ShapeRenderer2D* sr2D = testObj.CreateComponent<ShapeRenderer2D>()->Init(
-		30, Color::RED
-	);*/
-
-	std::cout << std::filesystem::current_path() << std::endl;
-	tex = Texture(con::RESOURCE_PATH + "test.png");
-	Texture gameObjectOrigin = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
-	
 	Texture ld = Texture(con::RESOURCE_PATH + "ld.png");
 	Texture lu = Texture(con::RESOURCE_PATH + "lu.png");
 	Texture ru = Texture(con::RESOURCE_PATH + "ru.png");
@@ -115,18 +100,33 @@ void Init()
 
 	wfcGrid->GenerateInitialGrid(20, 20);
 	wfcGrid->InitializeGeneration();
-	//wfcGrid->Run();
+}
 
-	/*for (int x = 0; x < wfcGrid->GetNumCellsX(); x++)
-	{
-		for (int y = 0; y < wfcGrid->GetNumCellsY(); y++)
-		{
-			auto testTile = wfcGrid->GetTile(x, y);
-			testTile->texture = &tex;
-		}
-	}*/
 
-	//SpriteRenderer* spriteRenderer = testObj.CreateComponent<SpriteRenderer>()->Init(&gameObjectOrigin, Color::GREEN);
+
+void Draw()
+{
+	testObj.Draw();
+	dPoint.Draw(&testTex, Vector2(100, 100));
+}
+
+
+void Init()
+{
+	// Run tests before starting engine
+	TestRunner testRunner = TestRunner(true, true);
+	testRunner.RunTests();
+
+
+	raylib::Window win = raylib::Window(600, 600, "Jothly");
+
+	win.SetTargetFPS(60);
+	
+	std::cout << std::filesystem::current_path() << std::endl;
+	testTex = Texture(con::RESOURCE_PATH + "test.png");
+	Texture gameObjectOrigin = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
+
+	//InitWFC();
 
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -136,8 +136,6 @@ void Init()
 		win.BeginDrawing();
 		win.ClearBackground({ 0, 128, 200, 255 });
 		Draw();
-
-		//testObj.transform.rot *= Quaternion::Quaternion2D(30 * GetFrameTime());
 
 		win.EndDrawing();
 	}

@@ -265,6 +265,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentID.hpp" />
     <ClInclude Include="Constants.hpp" />
+    <ClInclude Include="DelaunayPoint.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Quaternion.h" />
@@ -288,6 +289,9 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ColorTestSet.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DelaunayPoint.cpp" />
+    <ClCompile Include="DelaunayTriangle.cpp" />
+    <ClCompile Include="DelaunayTriangle.h" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Math.cpp" />
