@@ -7,7 +7,9 @@ namespace jothly
 {
 	void DelaunayTriangle::Draw()
 	{
-		ShapeDrawing2D::DrawLine(Vector2(100, 100), Vector2(200, 300), 1, Color::WHITE);
+		ShapeDrawing2D::DrawLine(points[0].pos, points[1].pos, 1, Color::WHITE);
+		ShapeDrawing2D::DrawLine(points[1].pos, points[2].pos, 1, Color::WHITE);
+		ShapeDrawing2D::DrawLine(points[2].pos, points[0].pos, 1, Color::WHITE);
 	}
 
 
