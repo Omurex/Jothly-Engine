@@ -22,6 +22,6 @@ namespace jothly
 
     void ShapeDrawing2D::DrawLine(Vector2 start, Vector2 end, float thickness, Color color)
     {
-		DrawLineEx(start, end, thickness, color);
+		((raylib::rlb_Vector2) start).DrawLine(end, thickness, color);
     }
 }

@@ -114,7 +114,7 @@
     <ClInclude Include="DelaunayPoint.h">
       <Filter>Header Files\Navmesh</Filter>
     </ClInclude>
-    <ClInclude Include="Navmesh.h">
+    <ClInclude Include="NavMesh.h">
       <Filter>Header Files\Navmesh</Filter>
     </ClInclude>
   </ItemGroup>
@@ -187,6 +187,7 @@
     </ClCompile>
     <ClCompile Include="DelaunayTriangle.cpp" />
     <ClCompile Include="DelaunayPoint.cpp" />
+    <ClCompile Include="NavMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

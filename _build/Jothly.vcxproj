@@ -268,7 +268,7 @@
     <ClInclude Include="DelaunayPoint.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Math.h" />
-    <ClInclude Include="Navmesh.h" />
+    <ClInclude Include="NavMesh.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="QuaternionTestSet.h" />
     <ClInclude Include="ShapeDrawing2D.h" />
@@ -296,6 +296,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Math.cpp" />
+    <ClCompile Include="NavMesh.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="QuaternionTestSet.cpp" />
     <ClCompile Include="ShapeDrawing2D.cpp" />

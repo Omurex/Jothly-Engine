@@ -21,7 +21,7 @@ namespace jothly
 		DelaunayTriangle(Vector2 p0, Vector2 p1, Vector2 p2) : 
 			DelaunayTriangle(DelaunayPoint(p0), DelaunayPoint(p1), DelaunayPoint(p2)) {}
 
-		void Draw(float thickness, Color lineColor = Color::WHITE, Texture* pointTexture = nullptr, Vector2 pointSize = Vector2(5));
+		void Draw(float thickness, Color lineColor = Color::WHITE, float pointRadius = 1, Color pointColor = Color::BLACK);
 
 	};
 }

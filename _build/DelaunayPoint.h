@@ -2,6 +2,7 @@
 
 #include "Vector2.h"
 #include "Texture.h"
+#include "Color.h"
 
 
 namespace jothly
@@ -14,6 +15,6 @@ namespace jothly
 		DelaunayPoint() : pos(Vector2(0)) {}
 		DelaunayPoint(Vector2 _pos) : pos(_pos) {}
 
-		void Draw(Texture* tex, Vector2 size);
+		void Draw(float radius, Color color);
 	};
 }

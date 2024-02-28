@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include "TextureDrawing.h"
 #include "DelaunayTriangle.h"
+#include "NavMesh.h"
 
 
 using namespace jothly;
@@ -29,8 +30,9 @@ WaveFunctionCollapseGrid* wfcGrid;
 Texture smallBlackDot;
 
 //GameObject dTriangle;
-DelaunayTriangle tri;
+//DelaunayTriangle tri;
 //DelaunayPoint dPoint = DelaunayPoint(Vector2(0, 0));
+GameObject navmesh;
 
 
 void UpdateWFC()
@@ -49,6 +51,8 @@ void UpdateWFC()
 void Update()
 {
 	testObj.Update(GetFrameTime());
+
+	navmesh.Update(GetFrameTime());
 
 	//UpdateWFC();
 }
@@ -109,8 +113,9 @@ void InitWFC()
 void Draw()
 {
 	testObj.Draw();
+	navmesh.Draw();
 
-	tri.Draw(1, Color::RED);
+	//tri.Draw(1, Color::RED);
 	//dTriangle.Draw();
 	//dPoint.Draw(&testTex, Vector2(100, 100));
 }
@@ -131,8 +136,10 @@ void Init()
 	testTex = Texture(con::RESOURCE_PATH + "test.png");
 	smallBlackDot = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
 
-	tri = DelaunayTriangle(Vector2(0, 0), Vector2(100, 100), Vector2(200, 400));
+	//tri = DelaunayTriangle(Vector2(0, 0), Vector2(100, 100), Vector2(200, 400));
 	//dTriangle.CreateComponent<DelaunayTriangle>()->Init(Vector2(0, 0), Vector2(100, 100), Vector2(200, 400), &testTex);
+
+	navmesh.CreateComponent<NavMesh>();
 
 	//InitWFC();
 
