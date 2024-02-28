@@ -25,7 +25,7 @@ namespace jothly
 	public:
 		DelaunayTriangle() : Component(nullptr) {}
 
-		DelaunayTriangle Init(DelaunayPoint p0 = DelaunayPoint(), DelaunayPoint p1 = DelaunayPoint(),
+		DelaunayTriangle* Init(DelaunayPoint p0 = DelaunayPoint(), DelaunayPoint p1 = DelaunayPoint(),
 			DelaunayPoint p2 = DelaunayPoint(), Texture * _pointTexture = nullptr);
 
 			//DelaunayTriangle Init(DelaunayPoint _points[3], Texture* _pointTexture = nullptr) {}
