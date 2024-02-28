@@ -128,7 +128,7 @@ void Init()
 	Texture gameObjectOrigin = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
 
 	//DelaunayTriangle tri = DelaunayTriangle();
-	dTriangle.CreateComponent<DelaunayTriangle>()->Init(Vector2(0, 0), Vector2(100, 100), Vector2(500, 600), &testTex);
+	dTriangle.CreateComponent<DelaunayTriangle>();//->Init(Vector2(0, 0), Vector2(100, 100), Vector2(500, 600), &testTex);
 
 	//InitWFC();
 

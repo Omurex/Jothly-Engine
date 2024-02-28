@@ -19,10 +19,10 @@ namespace jothly
 
 		DelaunayTriangle(GameObject* _owner) : Component(_owner) {}
 
-		//void Draw() override;
+		void Draw() override;
 
 
-	public:
+		public:
 		DelaunayTriangle() : Component(nullptr) {}
 
 		DelaunayTriangle* Init(DelaunayPoint p0 = DelaunayPoint(), DelaunayPoint p1 = DelaunayPoint(),

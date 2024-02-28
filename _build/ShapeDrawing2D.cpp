@@ -18,4 +18,10 @@ namespace jothly
 	{
 		((raylib::rlb_Vector2) pixelCoords).DrawCircle(radius, {color.GetR(), color.GetG(), color.GetB(), color.GetA()});
 	}
+
+
+    void ShapeDrawing2D::DrawLine(Vector2 start, Vector2 end, float thickness, Color color)
+    {
+		DrawLineEx(start, end, thickness, color);
+    }
 }
