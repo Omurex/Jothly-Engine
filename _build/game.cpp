@@ -26,8 +26,10 @@ using namespace jothly;
 GameObject testObj = GameObject("TestObj", Vector3(0, 0, 0), Quaternion::Quaternion2D(0), Vector3(1, 1));
 Texture testTex;
 WaveFunctionCollapseGrid* wfcGrid;
+Texture smallBlackDot;
 
-GameObject dTriangle;
+//GameObject dTriangle;
+DelaunayTriangle tri;
 //DelaunayPoint dPoint = DelaunayPoint(Vector2(0, 0));
 
 
@@ -107,7 +109,9 @@ void InitWFC()
 void Draw()
 {
 	testObj.Draw();
-	dTriangle.Draw();
+
+	tri.Draw(1, Color::RED);
+	//dTriangle.Draw();
 	//dPoint.Draw(&testTex, Vector2(100, 100));
 }
 
@@ -125,10 +129,10 @@ void Init()
 
 	std::cout << std::filesystem::current_path() << std::endl;
 	testTex = Texture(con::RESOURCE_PATH + "test.png");
-	Texture gameObjectOrigin = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
+	smallBlackDot = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
 
-	//DelaunayTriangle tri = DelaunayTriangle();
-	dTriangle.CreateComponent<DelaunayTriangle>()->Init(Vector2(0, 0), Vector2(100, 100), Vector2(200, 400), &testTex);
+	tri = DelaunayTriangle(Vector2(0, 0), Vector2(100, 100), Vector2(200, 400));
+	//dTriangle.CreateComponent<DelaunayTriangle>()->Init(Vector2(0, 0), Vector2(100, 100), Vector2(200, 400), &testTex);
 
 	//InitWFC();
 

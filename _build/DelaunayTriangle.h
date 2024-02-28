@@ -3,37 +3,25 @@
 
 #include "DelaunayPoint.h"
 #include "Texture.h"
-#include "Component.h"
+#include "Color.h"
 
 
 namespace jothly
 {
-	class DelaunayTriangle : public Component
+	struct DelaunayTriangle
 	{
-		friend class GameObject;
-
 		DelaunayPoint points[3] = { DelaunayPoint(), DelaunayPoint(), DelaunayPoint() };
 
-		Texture* pointTexture = nullptr;
+		DelaunayTriangle(DelaunayPoint p0 = DelaunayPoint(), DelaunayPoint p1 = DelaunayPoint(),
+			DelaunayPoint p2 = DelaunayPoint()) : points { p0, p1, p2 } {}
 
+		DelaunayTriangle(DelaunayPoint _points[3]) : 
+			DelaunayTriangle(_points[0], _points[1], _points[2]) {}
 
-		DelaunayTriangle(GameObject* _owner) : Component(_owner) {}
+		DelaunayTriangle(Vector2 p0, Vector2 p1, Vector2 p2) : 
+			DelaunayTriangle(DelaunayPoint(p0), DelaunayPoint(p1), DelaunayPoint(p2)) {}
 
-		void Draw() override;
-
-
-		public:
-		//DelaunayTriangle() : Component(nullptr) {}
-
-		// Inherited via Component
-		ComponentID GetID() const override;
-		
-		DelaunayTriangle* Init(DelaunayPoint p0 = DelaunayPoint(), DelaunayPoint p1 = DelaunayPoint(),
-			DelaunayPoint p2 = DelaunayPoint(), Texture * _pointTexture = nullptr);
-
-		DelaunayTriangle* Init(DelaunayPoint _points[3], Texture* _pointTexture = nullptr);
-
-		DelaunayTriangle* Init(Vector2 p0, Vector2 p1, Vector2 p2, Texture* _pointTexture = nullptr);
+		void Draw(float thickness, Color lineColor = Color::WHITE, Texture* pointTexture = nullptr, Vector2 pointSize = Vector2(5));
 
 	};
 }

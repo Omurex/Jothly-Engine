@@ -1,43 +1,20 @@
 #include "DelaunayTriangle.h"
 #include "ShapeDrawing2D.h"
-#include "Color.h"
 
 
 namespace jothly
 {
-	void DelaunayTriangle::Draw()
+	void DelaunayTriangle::Draw(float thickness, Color lineColor, Texture* pointTexture, Vector2 pointSize)
 	{
-		ShapeDrawing2D::DrawLine(points[0].pos, points[1].pos, 1, Color::WHITE);
-		ShapeDrawing2D::DrawLine(points[1].pos, points[2].pos, 1, Color::WHITE);
-		ShapeDrawing2D::DrawLine(points[2].pos, points[0].pos, 1, Color::WHITE);
-	}
+		if (pointTexture != nullptr)
+		{
+			points[0].Draw(pointTexture, pointSize);
+			points[1].Draw(pointTexture, pointSize);
+			points[2].Draw(pointTexture, pointSize);
+		}
 
-
-	DelaunayTriangle* DelaunayTriangle::Init(DelaunayPoint p0, DelaunayPoint p1, DelaunayPoint p2, Texture* _pointTexture)
-	{
-		points[0] = p0;
-		points[1] = p1;
-		points[2] = p2;
-
-		pointTexture = _pointTexture;
-		return this;
-	}
-
-
-	DelaunayTriangle* DelaunayTriangle::Init(DelaunayPoint _points[3], Texture* _pointTexture)
-	{
-		return Init(_points[0], _points[1], _points[2], _pointTexture);
-	}
-
-
-	DelaunayTriangle* DelaunayTriangle::Init(Vector2 p0, Vector2 p1, Vector2 p2, Texture* _pointTexture)
-	{
-		return Init(DelaunayPoint(p0), DelaunayPoint(p1), DelaunayPoint(p2), _pointTexture);
-	}
-
-
-	ComponentID DelaunayTriangle::GetID() const
-	{
-		return ComponentID::DELAUNAY_TRIANGLE;
+		ShapeDrawing2D::DrawLine(points[0].pos, points[1].pos, thickness, lineColor);
+		ShapeDrawing2D::DrawLine(points[1].pos, points[2].pos, thickness, lineColor);
+		ShapeDrawing2D::DrawLine(points[2].pos, points[0].pos, thickness, lineColor);
 	}
 }

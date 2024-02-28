@@ -114,6 +114,9 @@
     <ClInclude Include="DelaunayPoint.h">
       <Filter>Header Files\Navmesh</Filter>
     </ClInclude>
+    <ClInclude Include="Navmesh.h">
+      <Filter>Header Files\Navmesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
