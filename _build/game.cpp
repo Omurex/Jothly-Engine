@@ -18,7 +18,6 @@
 #include <stdlib.h>
 #include "TextureDrawing.h"
 #include "DelaunayTriangle.h"
-#include "DelaunayPoint.h"
 
 
 using namespace jothly;
@@ -28,7 +27,8 @@ GameObject testObj = GameObject("TestObj", Vector3(0, 0, 0), Quaternion::Quatern
 Texture testTex;
 WaveFunctionCollapseGrid* wfcGrid;
 
-DelaunayPoint dPoint = DelaunayPoint(Vector2(0, 0));
+GameObject dTriangle;
+//DelaunayPoint dPoint = DelaunayPoint(Vector2(0, 0));
 
 
 void UpdateWFC()
@@ -47,7 +47,7 @@ void UpdateWFC()
 void Update()
 {
 	testObj.Update(GetFrameTime());
-	
+
 	//UpdateWFC();
 }
 
@@ -107,7 +107,8 @@ void InitWFC()
 void Draw()
 {
 	testObj.Draw();
-	dPoint.Draw(&testTex, Vector2(100, 100));
+	//dPoint.Draw(&testTex, Vector2(100, 100));
+	//dTriangle.Draw();
 }
 
 
@@ -121,10 +122,13 @@ void Init()
 	raylib::Window win = raylib::Window(600, 600, "Jothly");
 
 	win.SetTargetFPS(60);
-	
+
 	std::cout << std::filesystem::current_path() << std::endl;
 	testTex = Texture(con::RESOURCE_PATH + "test.png");
 	Texture gameObjectOrigin = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
+
+	//DelaunayTriangle tri = DelaunayTriangle();
+	dTriangle.CreateComponent<DelaunayTriangle>()->Init(Vector2(0, 0), Vector2(100, 100), Vector2(500, 600), &testTex);
 
 	//InitWFC();
 
