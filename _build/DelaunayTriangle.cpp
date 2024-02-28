@@ -22,6 +22,18 @@ namespace jothly
 	}
 
 
+	DelaunayTriangle* DelaunayTriangle::Init(DelaunayPoint _points[3], Texture* _pointTexture)
+	{
+		return Init(_points[0], _points[1], _points[2], _pointTexture);
+	}
+
+
+	DelaunayTriangle* DelaunayTriangle::Init(Vector2 p0, Vector2 p1, Vector2 p2, Texture* _pointTexture)
+	{
+		return Init(DelaunayPoint(p0), DelaunayPoint(p1), DelaunayPoint(p2), _pointTexture);
+	}
+
+
 	ComponentID DelaunayTriangle::GetID() const
 	{
 		return ComponentID::DELAUNAY_TRIANGLE;
