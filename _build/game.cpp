@@ -139,7 +139,10 @@ void Init()
 	//tri = DelaunayTriangle(Vector2(0, 0), Vector2(100, 100), Vector2(200, 400));
 	//dTriangle.CreateComponent<DelaunayTriangle>()->Init(Vector2(0, 0), Vector2(100, 100), Vector2(200, 400), &testTex);
 
-	navmesh.CreateComponent<NavMesh>();
+	std::vector<Vector2> testPoints { Vector2(100, 100), Vector2(50, 100), Vector2(200, 300), Vector2(150, 250) };
+
+	NavMesh* navmeshComponent = navmesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 1, Color::WHITE, false);
+	navmeshComponent->LoadPoints(testPoints);
 
 	//InitWFC();
 

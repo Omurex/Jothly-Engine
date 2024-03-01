@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "ComponentID.hpp"
 #include "DelaunayTriangle.h"
+#include "DelaunayPoint.h"
 
 
 namespace jothly
@@ -12,7 +13,7 @@ namespace jothly
 	{
 		friend class GameObject;
 
-		std::vector<Vector2> points;
+		std::vector<DelaunayPoint> points;
 		std::vector<DelaunayTriangle> triangles;
 
 		float pointRadius = 1;
@@ -21,6 +22,9 @@ namespace jothly
 		float lineThickness = 1;
 		Color lineColor = Color::WHITE;
 
+		bool drawPoints = true;
+		bool drawTriangles = true;
+
 
 		NavMesh(GameObject* _owner) : Component(_owner) {}
 		void Draw() override;
@@ -28,8 +32,8 @@ namespace jothly
 
 		public:
 
-		NavMesh* Init(float _pointRadius = 1, Color _pointColor = Color::BLACK, float _lineThickness = 1, 
-			Color _lineColor = Color::WHITE);
+		NavMesh* Init(float _pointRadius = 1, Color _pointColor = Color::BLACK, bool _drawPoints = true, float _lineThickness = 1, 
+			Color _lineColor = Color::WHITE, bool _drawTriangles = true);
 
 		ComponentID GetID() const override;
 
