@@ -39,5 +39,7 @@ namespace jothly
 
 		void LoadPoints(std::vector<Vector2> _points);
 		bool GenerateDelaunayTriangles();
+
+		void GenerateRandomPoints(int numPoints, Vector2 lowerbound, Vector2 upperbound);
 	};
 }

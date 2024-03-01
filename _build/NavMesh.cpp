@@ -56,4 +56,21 @@ namespace jothly
 			points[i] = DelaunayPoint(_points[i]);
 		}
 	}
+
+
+	// https://stackoverflow.com/questions/686353/random-float-number-generation
+	void NavMesh::GenerateRandomPoints(int numPoints, Vector2 lowerbound, Vector2 upperbound)
+	{
+		std::vector<Vector2> randomPoints(numPoints);
+
+		for(int i = 0; i < numPoints; i++)
+		{
+			randomPoints[i] = Vector2(
+				lowerbound.x + static_cast<float> (rand()) / (static_cast<float> (RAND_MAX / (upperbound.x - lowerbound.x))),
+				lowerbound.y + static_cast<float> (rand()) / (static_cast<float> (RAND_MAX / (upperbound.y - lowerbound.y)))
+			);
+		}
+
+		LoadPoints(randomPoints);
+	}
 }
