@@ -23,5 +23,7 @@ namespace jothly
 
 		void Draw(float thickness, Color lineColor = Color::WHITE, float pointRadius = 1, Color pointColor = Color::BLACK);
 
+		float GetArea();
+		float GetCircumradius();
 	};
 }

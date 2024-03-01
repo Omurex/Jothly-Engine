@@ -58,6 +58,12 @@ namespace jothly
 	}
 
 
+    bool NavMesh::GenerateDelaunayTriangles()
+    {
+        return false;
+    }
+
+
 	// https://stackoverflow.com/questions/686353/random-float-number-generation
 	void NavMesh::GenerateRandomPoints(int numPoints, Vector2 lowerbound, Vector2 upperbound)
 	{
