@@ -19,6 +19,7 @@
 #include "TextureDrawing.h"
 #include "DelaunayTriangle.h"
 #include "NavMesh.h"
+#include <Eigen/Dense>
 
 
 using namespace jothly;
@@ -144,6 +145,23 @@ void Init()
 	NavMesh* navmeshComponent = navmesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 1, Color::WHITE, false);
 	navmeshComponent->GenerateRandomPoints(100, Vector2(0, 0), Vector2(600, 600));
 	//navmeshComponent->LoadPoints(testPoints);
+
+	Eigen::Matrix2f testA;
+	testA << 100, 100, -100, 100;
+
+	/*Eigen::Matrix<float, 2, 3> testA;
+	testA << 100, 100, 100, -100, 100, 0;*/
+
+	std::cout << "TEST A: \n" << testA << "\n\n";
+
+
+	Eigen::Vector2f testB(100, 0);
+	Eigen::Vector2f re = testA.colPivHouseholderQr().solve(testB);
+
+	////std::cout << "RESULT OF \n" << testA << "\nAND\n" << testB << "\nSOLVE:\N" << testA.colPivHouseholderQr(testB);
+	//Eigen::Vector2f result = testA.colPivHouseholderQr();
+	//std::cout << "RESULT OF \n" << testA << "\nSOLVE:\N" << result;
+
 
 	//InitWFC();
 

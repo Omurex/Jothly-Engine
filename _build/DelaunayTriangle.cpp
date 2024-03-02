@@ -41,6 +41,7 @@ namespace jothly
 
 
 	// https://www.geeksforgeeks.org/program-for-point-of-intersection-of-two-lines/
+	// https://stackoverflow.com/questions/50762948/calculating-the-intersection-point-of-two-lines-with-eigen
 	Vector2 DelaunayTriangle::GetCircumcenter()
 	{
 		Vector2 abMid = (points[0].pos + points[1].pos) / 2.0f;
@@ -48,5 +49,7 @@ namespace jothly
 
 		float abPerpSlope = -(points[1].pos.x - points[0].pos.x) / (points[1].pos.y - points[0].pos.y);
 		float bcPerpSlope = -(points[2].pos.x - points[1].pos.x) / (points[2].pos.y - points[1].pos.y);
+
+		return Vector2(0);
 	}
 }
