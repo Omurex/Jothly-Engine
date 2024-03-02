@@ -2,6 +2,7 @@
 #include "VectorTestSet.h"
 #include "QuaternionTestSet.h"
 #include "ColorTestSet.h"
+#include "DelaunayTriangleTestSet.h"
 
 
 namespace jothly
@@ -20,5 +21,6 @@ namespace jothly
 		AddTestSet<VectorTestSet>(throwErrorOnFail);
 		AddTestSet<QuaternionTestSet>(throwErrorOnFail);
 		AddTestSet<ColorTestSet>(throwErrorOnFail);
+		AddTestSet<DelaunayTriangleTestSet>(throwErrorOnFail);
 	}
 }

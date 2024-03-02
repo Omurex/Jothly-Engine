@@ -38,4 +38,15 @@ namespace jothly
 
 		return (a * b * c) / sqrtf((a + b + c) * (-a + b + c) * (a - b + c) * (a + b - c));
 	}
+
+
+	// https://www.geeksforgeeks.org/program-for-point-of-intersection-of-two-lines/
+	Vector2 DelaunayTriangle::GetCircumcenter()
+	{
+		Vector2 abMid = (points[0].pos + points[1].pos) / 2.0f;
+		Vector2 bcMid = (points[1].pos + points[2].pos) / 2.0f;
+
+		float abPerpSlope = -(points[1].pos.x - points[0].pos.x) / (points[1].pos.y - points[0].pos.y);
+		float bcPerpSlope = -(points[2].pos.x - points[1].pos.x) / (points[2].pos.y - points[1].pos.y);
+	}
 }

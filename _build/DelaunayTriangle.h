@@ -25,5 +25,6 @@ namespace jothly
 
 		float GetArea();
 		float GetCircumradius();
+		Vector2 GetCircumcenter();
 	};
 }

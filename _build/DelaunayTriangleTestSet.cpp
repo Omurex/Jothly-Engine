@@ -1,5 +1,6 @@
 #include "DelaunayTriangleTestSet.h"
 #include "DelaunayTriangle.h"
+#include "Math.h"
 
 
 namespace jothly
@@ -20,7 +21,12 @@ namespace jothly
 	{
 		InitTest("Delaunay Triangle Circumcircle Test");
 
-		DelaunayTriangle
+		DelaunayTriangle tri = DelaunayTriangle(Vector2(100, 100), Vector2(200, 100), Vector2(75, 300));
+
+		float calculatedCircumradius = tri.GetCircumradius();
+		float expectedCircumradius = 118.84248043629391f;
+
+		AssertTest(Approx(calculatedCircumradius, expectedCircumradius), "Delaunay Triangle Circumradius Calculation Error");
 
 		return true;
 	}

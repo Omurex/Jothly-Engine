@@ -266,6 +266,7 @@
     <ClInclude Include="ComponentID.hpp" />
     <ClInclude Include="Constants.hpp" />
     <ClInclude Include="DelaunayPoint.h" />
+    <ClInclude Include="DelaunayTriangleTestSet.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="NavMesh.h" />
@@ -293,6 +294,7 @@
     <ClCompile Include="DelaunayPoint.cpp" />
     <ClCompile Include="DelaunayTriangle.cpp" />
     <ClCompile Include="DelaunayTriangle.h" />
+    <ClCompile Include="DelaunayTriangleTestSet.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Math.cpp" />
