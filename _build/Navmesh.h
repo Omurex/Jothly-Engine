@@ -39,10 +39,10 @@ namespace jothly
 		ComponentID GetID() const override;
 
 		void LoadPoints(std::vector<Vector2> _points);
-		//bool GenerateDelaunayTriangles();
+		bool GenerateDelaunayTriangles();
 
-		//bool GetPointBounds(Vector2 out_lb, Vector2 out_ub); // Returns lowerbound and upperbound
-		//DelaunayTriangle GetSuperTriangle();
+		bool GetPointBounds(Vector2& out_lb, Vector2& out_ub); // Returns lowerbound and upperbound
+		DelaunayTriangle GetSuperTriangle();
 
 		void GenerateRandomPoints(int numPoints, Vector2 lowerbound, Vector2 upperbound);
 	};

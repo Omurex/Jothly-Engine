@@ -116,7 +116,7 @@ void Draw()
 {
 	testObj.Draw();
 	navmesh.Draw();
-	//superTri.Draw(3, Color::YELLOW);
+	superTri.Draw(3, Color::YELLOW);
 
 	//tri.Draw(1, Color::RED);
 	//dTriangle.Draw();
@@ -151,10 +151,10 @@ void Init()
 	//std::vector<Vector2> testPoints { Vector2(100, 100), Vector2(50, 100), Vector2(200, 300), Vector2(150, 250) };
 
 	NavMesh* navmeshComponent = navmesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 1, Color::WHITE, false);
-	navmeshComponent->GenerateRandomPoints(100, Vector2(100, 100), Vector2(500, 500));
+	navmeshComponent->GenerateRandomPoints(2, Vector2(200, 200), Vector2(400, 400));
 	//navmeshComponent->LoadPoints(testPoints);
 
-	//superTri = navmeshComponent->GetSuperTriangle();
+	superTri = navmeshComponent->GetSuperTriangle();
 
 	//navmeshComponent->GenerateDelaunayTriangles();
 
