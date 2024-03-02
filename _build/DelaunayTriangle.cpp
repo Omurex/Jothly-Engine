@@ -1,6 +1,7 @@
 #include "DelaunayTriangle.h"
 #include "ShapeDrawing2D.h"
 #include "Math.h"
+#include "Vector3.h"
 
 
 namespace jothly
@@ -44,12 +45,27 @@ namespace jothly
 	// https://stackoverflow.com/questions/50762948/calculating-the-intersection-point-of-two-lines-with-eigen
 	Vector2 DelaunayTriangle::GetCircumcenter()
 	{
-		Vector2 abMid = (points[0].pos + points[1].pos) / 2.0f;
-		Vector2 bcMid = (points[1].pos + points[2].pos) / 2.0f;
+		Vector2 a = points[0].pos;
+		Vector2 b = points[1].pos;
+		Vector2 c = points[2].pos;
 
-		float abPerpSlope = -(points[1].pos.x - points[0].pos.x) / (points[1].pos.y - points[0].pos.y);
-		float bcPerpSlope = -(points[2].pos.x - points[1].pos.x) / (points[2].pos.y - points[1].pos.y);
+		Vector2 abMid = (a + b) / 2.0f;
+		Vector2 bcMid = (b + c) / 2.0f;
 
-		return Vector2(0);
+		// Negative reciprocal, so y goes in x spot and vice versa, then multiply by -1
+		Vector2 abPerpSlope = Vector2(b.y - a.y, a.x - b.x);
+		Vector2 bcPerpSlope = Vector2(c.y - b.y, b.x - c.x);
+
+
+
+		/*float abPerpSlope = -(points[1].pos.x - points[0].pos.x) / (points[1].pos.y - points[0].pos.y);
+		float bcPerpSlope = -(points[2].pos.x - points[1].pos.x) / (points[2].pos.y - points[1].pos.y);*/
+
+		Vector2 solution = SolveSystemOfEquations(
+			Vector3(abPerpSlope.x, -bcPerpSlope.x, bcMid.x - abMid.x),
+			Vector3(abPerpSlope.y, -bcPerpSlope.y, bcMid.y - abMid.y)
+		);
+
+		return abMid + (abPerpSlope * solution.x);
 	}
 }

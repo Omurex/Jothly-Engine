@@ -19,7 +19,6 @@
 #include "TextureDrawing.h"
 #include "DelaunayTriangle.h"
 #include "NavMesh.h"
-#include <Eigen/Dense>
 
 
 using namespace jothly;
@@ -31,7 +30,7 @@ WaveFunctionCollapseGrid* wfcGrid;
 Texture smallBlackDot;
 
 //GameObject dTriangle;
-//DelaunayTriangle tri;
+DelaunayTriangle tri;
 //DelaunayPoint dPoint = DelaunayPoint(Vector2(0, 0));
 GameObject navmesh;
 
@@ -137,7 +136,8 @@ void Init()
 	testTex = Texture(con::RESOURCE_PATH + "test.png");
 	smallBlackDot = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
 
-	//tri = DelaunayTriangle(Vector2(0, 0), Vector2(100, 100), Vector2(200, 400));
+	tri = DelaunayTriangle(Vector2(0, 0), Vector2(100, 100), Vector2(200, 400));
+	Vector2 triCenter = tri.GetCircumcenter();
 	//dTriangle.CreateComponent<DelaunayTriangle>()->Init(Vector2(0, 0), Vector2(100, 100), Vector2(200, 400), &testTex);
 
 	//std::vector<Vector2> testPoints { Vector2(100, 100), Vector2(50, 100), Vector2(200, 300), Vector2(150, 250) };
@@ -145,23 +145,6 @@ void Init()
 	NavMesh* navmeshComponent = navmesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 1, Color::WHITE, false);
 	navmeshComponent->GenerateRandomPoints(100, Vector2(0, 0), Vector2(600, 600));
 	//navmeshComponent->LoadPoints(testPoints);
-
-	Eigen::Matrix2f testA;
-	testA << 100, 100, -100, 100;
-
-	/*Eigen::Matrix<float, 2, 3> testA;
-	testA << 100, 100, 100, -100, 100, 0;*/
-
-	std::cout << "TEST A: \n" << testA << "\n\n";
-
-
-	Eigen::Vector2f testB(100, 0);
-	Eigen::Vector2f re = testA.colPivHouseholderQr().solve(testB);
-
-	////std::cout << "RESULT OF \n" << testA << "\nAND\n" << testB << "\nSOLVE:\N" << testA.colPivHouseholderQr(testB);
-	//Eigen::Vector2f result = testA.colPivHouseholderQr();
-	//std::cout << "RESULT OF \n" << testA << "\nSOLVE:\N" << result;
-
 
 	//InitWFC();
 

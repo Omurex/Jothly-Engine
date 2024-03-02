@@ -32,5 +32,6 @@ namespace jothly
 	int Approx(const Vector2 val1, const Vector2 val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
 	int Approx(const Vector3 val1, const Vector3 val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
 	int Approx(const Vector4 val1, const Vector4 val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
-	//int Approx(const rlb_Color val1, const rlb_Color val2, float marginOfError = MATH_DEFAULT_MARGIN_OF_ERROR);
+	
+	Vector2 SolveSystemOfEquations(const Vector3 row1, const Vector3 row2);
 }

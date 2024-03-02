@@ -6,6 +6,8 @@
 #include "Vector4.h"
 #include "Color.h"
 
+#include <Eigen/Dense>
+
 
 namespace jothly
 {
@@ -43,6 +45,18 @@ namespace jothly
 	int Approx(const Vector4 val1, const Vector4 val2, float marginOfError)
 	{
 		return Approx(val1.components, val2.components, 4, marginOfError);
+	}
+
+
+	Vector2 SolveSystemOfEquations(const Vector3 row1, const Vector3 row2)
+	{
+		Eigen::Matrix2f mat;
+		mat << row1.x, row1.y, row2.x, row2.y;
+
+		Eigen::Vector2f lastCol(row1.z, row2.z);
+		Eigen::Vector2f result = mat.colPivHouseholderQr().solve(lastCol);
+
+		return Vector2(result.x(), result.y());
 	}
 
 
