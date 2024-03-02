@@ -19,6 +19,7 @@
 #include "TextureDrawing.h"
 #include "DelaunayTriangle.h"
 #include "NavMesh.h"
+#include "ShapeDrawing2D.h"
 
 
 using namespace jothly;
@@ -118,6 +119,11 @@ void Draw()
 	//tri.Draw(1, Color::RED);
 	//dTriangle.Draw();
 	//dPoint.Draw(&testTex, Vector2(100, 100));
+
+	ShapeDrawing2D::DrawCircle(tri.GetCircumcenter(), tri.GetCircumradius(), Color::RED);
+	tri.Draw(3);
+	ShapeDrawing2D::DrawCircle(tri.GetCircumcenter(), 10, Color::BLUE);
+
 }
 
 
@@ -136,14 +142,14 @@ void Init()
 	testTex = Texture(con::RESOURCE_PATH + "test.png");
 	smallBlackDot = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
 
-	tri = DelaunayTriangle(Vector2(0, 0), Vector2(100, 100), Vector2(200, 400));
-	Vector2 triCenter = tri.GetCircumcenter();
+	tri = DelaunayTriangle(Vector2(100, 100), Vector2(400, 200), Vector2(200, 400));
+
 	//dTriangle.CreateComponent<DelaunayTriangle>()->Init(Vector2(0, 0), Vector2(100, 100), Vector2(200, 400), &testTex);
 
 	//std::vector<Vector2> testPoints { Vector2(100, 100), Vector2(50, 100), Vector2(200, 300), Vector2(150, 250) };
 
 	NavMesh* navmeshComponent = navmesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 1, Color::WHITE, false);
-	navmeshComponent->GenerateRandomPoints(100, Vector2(0, 0), Vector2(600, 600));
+	//navmeshComponent->GenerateRandomPoints(100, Vector2(0, 0), Vector2(600, 600));
 	//navmeshComponent->LoadPoints(testPoints);
 
 	//InitWFC();
