@@ -107,7 +107,8 @@ namespace jothly
 		triangles.clear();
 		triangles.reserve(reserveSize);
 
-		triangles.push_back(GetSuperTriangle());
+		DelaunayTriangle superTriangle = GetSuperTriangle();
+		triangles.push_back(superTriangle);
 
 		std::vector<int> badTriangleIndexes;
 		badTriangleIndexes.reserve(reserveSize);
@@ -125,16 +126,18 @@ namespace jothly
 			DelaunayPoint pointToAdd = points[i];
 
 			// Loop through triangles looking to see if their circumcircles contain our point we're adding
-			for (int i = 0; i < triangles.size(); i++)
+			for (int j = 0; j < triangles.size(); j++)
 			{
-				DelaunayTriangle& tri = triangles[i];
+				DelaunayTriangle& tri = triangles[j];
 
-				Vector2 center = triangles[i].GetCircumcenter();
-				float radius = triangles[i].GetCircumradius();
+				Vector2 center = triangles[j].GetCircumcenter();
+				float radius = triangles[j].GetCircumradius();
 
-				if ((pointToAdd.pos - center).GetMagnitudeSquared() <= radius * radius) // Check if point in circle
+				float dist = (pointToAdd.pos - center).GetMagnitude();
+
+				if (dist < radius) // Check if point in circle
 				{
-					badTriangleIndexes.push_back(i);
+					badTriangleIndexes.push_back(j);
 					edges.push_back({ tri.points[0], tri.points[1] });
 					edges.push_back({ tri.points[1], tri.points[2] });
 					edges.push_back({ tri.points[2], tri.points[0] });
@@ -144,14 +147,26 @@ namespace jothly
 			// Get rid of any triangles that had invalid circumcircles
 			for (int j = badTriangleIndexes.size() - 1; j >= 0; --j)
 			{
+				//if(j != 0) // Don't delete super triangle
 				triangles.erase(triangles.begin() + j);
 			}
 
 			EraseDuplicateEdges(edges);
 
-			for (int i = 0; i < edges.size(); i++)
+			for (int j = 0; j < edges.size(); j++)
 			{
-				triangles.push_back(DelaunayTriangle(edges[i].p0, edges[i].p1, pointToAdd));
+				triangles.push_back(DelaunayTriangle(edges[j].p0, edges[j].p1, pointToAdd));
+			}
+		}
+
+		for (int i = triangles.size() - 1; i >= 0; --i)
+		{
+			DelaunayTriangle tri = triangles[i];
+
+			if (tri.HasPoint(superTriangle.points[0]) || tri.HasPoint(superTriangle.points[1])
+				|| tri.HasPoint(superTriangle.points[2]))
+			{
+				triangles.erase(triangles.begin() + i);
 			}
 		}
 
@@ -184,7 +199,8 @@ namespace jothly
 
 	DelaunayTriangle NavMesh::GetSuperTriangle()
 	{
-		const float BUFFER_AMOUNT = 15;
+		const float BUFFER_AMOUNT = 100;
+		const float MULT_AMOUNT = 100;
 
 		Vector2 lb;
 		Vector2 ub;
@@ -202,9 +218,9 @@ namespace jothly
 		float halfWidth = (ub.x - lb.x) / 2.0f;
 
 		return DelaunayTriangle(
-			Vector2(((lb.x + ub.x) / 2.0f), ub.y + height), // Top point
-			Vector2(ub.x + halfWidth, lb.y), // Right bottom point
-			Vector2(lb.x - halfWidth, lb.y) // Left bottom point
+			Vector2(((lb.x + ub.x) / 2.0f), ub.y + (height * MULT_AMOUNT)), // Top point
+			Vector2(ub.x + (halfWidth * MULT_AMOUNT), lb.y - (BUFFER_AMOUNT * MULT_AMOUNT)), // Right bottom point
+			Vector2(lb.x - (halfWidth * MULT_AMOUNT), lb.y - (BUFFER_AMOUNT * MULT_AMOUNT)) // Left bottom point
 		);
 	}
 

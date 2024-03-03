@@ -26,7 +26,11 @@ namespace jothly
 		float calculatedCircumradius = tri.GetCircumradius();
 		float expectedCircumradius = 118.84248043629391f;
 
+		Vector2 calculatedCircumcenter = tri.GetCircumcenter();
+		Vector2 expectedCircumcenter = Vector2(150, 207.812515);
+
 		AssertTest(Approx(calculatedCircumradius, expectedCircumradius), "Delaunay Triangle Circumradius Calculation Error");
+		AssertTest(Approx(calculatedCircumcenter, expectedCircumcenter), "Delaunay Triangle Circumcenter Calculation Error");
 
 		return true;
 	}
