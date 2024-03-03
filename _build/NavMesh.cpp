@@ -1,8 +1,22 @@
 #include "NavMesh.h"
+#include <set>
 
 
 namespace jothly
 {
+	struct Edge
+	{
+		DelaunayPoint p0;
+		DelaunayPoint p1;
+
+		bool operator==(const Edge& other)
+		{
+			return (p0 == other.p0 && p1 == other.p1)
+				|| (p1 == other.p0 && p0 == other.p1);
+		}
+	};
+
+
 	NavMesh* NavMesh::Init(float _pointRadius, Color _pointColor, bool _drawPoints, float _lineThickness, Color _lineColor, bool _drawTriangles)
 	{
 		pointRadius = _pointRadius;
@@ -59,32 +73,85 @@ namespace jothly
 	}
 
 
+	// Remove duplicate edges from edges array
+	void EraseDuplicateEdges(std::vector<Edge>& edges)
+	{
+		std::set<int> edgeIndexesToRemove;
+
+		for (int i = 0; i < edges.size(); i++)
+		{
+			for (int j = i + 1; j < edges.size(); j++)
+			{
+				if (edges[i] == edges[j])
+				{
+					edgeIndexesToRemove.insert(i);
+					edgeIndexesToRemove.insert(j);
+				}
+			}
+		}
+
+		// Remove all edges marked as duplicate
+		for (auto it = edgeIndexesToRemove.rbegin(); it != edgeIndexesToRemove.rend(); ++it)
+		{
+			edges.erase(edges.begin() + *it);
+		}
+	}
+
+
     bool NavMesh::GenerateDelaunayTriangles()
     {
 		if (points.size() < 3) return false;
 
+		int reserveSize = (points.size() / 2.0f) + 8;
+
 		triangles.clear();
-		triangles.reserve((points.size() / 2.0f) + 8);
+		triangles.reserve(reserveSize);
 
-		//triangles[0] = 
+		triangles.push_back(GetSuperTriangle());
 
-		triangles.push_back(DelaunayTriangle(points[0], points[1], points[2]));
+		std::vector<int> badTriangleIndexes;
+		badTriangleIndexes.reserve(reserveSize);
+
+		std::vector<Edge> edges;
+		edges.reserve(reserveSize * 3);
 
 		// Loop through each point and add it to delaunay
-		for (int i = 3; i < points.size(); i++)
+		for (int i = 0; i < points.size(); i++)
 		{
+			badTriangleIndexes.clear();
+			edges.clear();
+
 			// Note: At some point cache circumcenter and circumradius so we don't have to recalculate
 			DelaunayPoint pointToAdd = points[i];
 
+			// Loop through triangles looking to see if their circumcircles contain our point we're adding
 			for (int i = 0; i < triangles.size(); i++)
 			{
+				DelaunayTriangle& tri = triangles[i];
+
 				Vector2 center = triangles[i].GetCircumcenter();
 				float radius = triangles[i].GetCircumradius();
 
 				if ((pointToAdd.pos - center).GetMagnitudeSquared() <= radius * radius) // Check if point in circle
 				{
-
+					badTriangleIndexes.push_back(i);
+					edges.push_back({ tri.points[0], tri.points[1] });
+					edges.push_back({ tri.points[1], tri.points[2] });
+					edges.push_back({ tri.points[2], tri.points[0] });
 				}
+			}
+
+			// Get rid of any triangles that had invalid circumcircles
+			for (int j = badTriangleIndexes.size() - 1; j >= 0; --j)
+			{
+				triangles.erase(triangles.begin() + j);
+			}
+
+			EraseDuplicateEdges(edges);
+
+			for (int i = 0; i < edges.size(); i++)
+			{
+				triangles.push_back(DelaunayTriangle(edges[i].p0, edges[i].p1, pointToAdd));
 			}
 		}
 
@@ -117,7 +184,7 @@ namespace jothly
 
 	DelaunayTriangle NavMesh::GetSuperTriangle()
 	{
-		const float BUFFER_AMOUNT = 5;
+		const float BUFFER_AMOUNT = 15;
 
 		Vector2 lb;
 		Vector2 ub;

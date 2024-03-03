@@ -16,5 +16,7 @@ namespace jothly
 		DelaunayPoint(Vector2 _pos) : pos(_pos) {}
 
 		void Draw(float radius, Color color);
+
+		bool operator==(const DelaunayPoint& rhs);
 	};
 }

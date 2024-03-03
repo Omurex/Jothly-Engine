@@ -68,4 +68,40 @@ namespace jothly
 
 		return abMid + (abPerpSlope * solution.x);
 	}
+
+
+	int DelaunayTriangle::SharesEdge(const DelaunayTriangle& other, DelaunayPoint& out_edgeP0, DelaunayPoint& out_edgeP1)
+	{
+		int sharedPointCount = 0;
+		
+		for (int i = 0; i < 3; i++)
+		{
+			DelaunayPoint& thisP = points[i];
+			
+			for (int k = 0; k < 3; k++)
+			{
+				bool samePoint = thisP == other.points[k];
+
+				if (samePoint)
+				{
+					++sharedPointCount;
+
+					if (sharedPointCount == 1) out_edgeP0 = thisP;
+					else if (sharedPointCount == 2) out_edgeP1 = thisP;
+
+					break;
+				}
+			}
+		}
+
+		if (sharedPointCount == 2) return 1;
+		else if (sharedPointCount == 3) return 0;
+		else return -1;
+	}
+
+
+	bool DelaunayTriangle::HasPoint(const DelaunayPoint& point)
+	{
+		return points[0] == point || points[1] == point || points[2] == point;
+	}
 }
