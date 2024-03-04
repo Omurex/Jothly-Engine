@@ -17,6 +17,6 @@ namespace jothly
 
 		void Draw(float radius, Color color);
 
-		bool operator==(const DelaunayPoint& rhs);
+		bool operator==(const DelaunayPoint& rhs) const;
 	};
 }

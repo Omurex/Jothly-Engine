@@ -70,6 +70,12 @@ namespace jothly
 	}
 
 
+    Vector2 DelaunayTriangle::GetCentroid()
+    {
+		return (points[0].pos + points[1].pos + points[2].pos) / 3.0f;
+    }
+
+
 	int DelaunayTriangle::SharesEdge(const DelaunayTriangle& other, DelaunayPoint& out_edgeP0, DelaunayPoint& out_edgeP1)
 	{
 		int sharedPointCount = 0;

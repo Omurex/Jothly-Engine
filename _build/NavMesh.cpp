@@ -1,5 +1,8 @@
 #include "NavMesh.h"
 #include <set>
+#include <map>
+#include <unordered_map>>
+#include <functional>
 
 
 namespace jothly
@@ -9,10 +12,100 @@ namespace jothly
 		DelaunayPoint p0;
 		DelaunayPoint p1;
 
-		bool operator==(const Edge& other)
+
+		Edge(DelaunayPoint _p0, DelaunayPoint _p1) { p0 = _p0; p1 = _p1; }
+		Edge(const Edge& other) { p0 = other.p0; p1 = other.p1; }
+
+
+		bool operator==(const Edge& other) const
 		{
 			return (p0 == other.p0 && p1 == other.p1)
 				|| (p1 == other.p0 && p0 == other.p1);
+		}
+
+
+		Edge GetFlippedBasedOnCoordinates() const
+		{
+			Edge newEdge = *this;
+			newEdge.FlipBasedOnCoordinates();
+			return newEdge;
+		}
+
+
+		void FlipBasedOnCoordinates()
+		{
+			if(p0.pos.x > p1.pos.x)
+			{
+				Flip();
+			}
+			else if(p0.pos == p1.pos)
+			{
+				if(p0.pos.y > p1.pos.y)
+				{
+					Flip();
+				}
+			}
+		}
+
+
+		void Flip()
+		{
+			DelaunayPoint temp = p0;
+			p0 = p1;
+			p1 = temp;
+		}
+
+
+		/*bool operator<(const Edge& other) const
+		{
+			Edge edge1 = *this;
+			Edge edge2 = other;
+
+			edge1.FlipBasedOnCoordinates();
+			edge2.FlipBasedOnCoordinates();
+
+			return edge1.p0.pos.x < edge2.p0.pos.x;
+		}*/
+
+
+		// https://stackoverflow.com/questions/17016175/c-unordered-map-using-a-custom-class-type-as-the-key
+		//std::size_t operator()(const Edge& k) const
+		//{
+		//	using std::size_t;
+		//	using std::hash;
+		//	using std::string;
+
+		//	// Compute individual hash values for first,
+		//	// second and third and combine them using XOR
+		//	// and bit shifting:
+
+		//	Edge newEdge = GetFlippedBasedOnCoordinates();
+
+		//	return ((hash<float>()(newEdge.p0.pos.x)
+		//		^ (hash<float>()(newEdge.p0.pos.y) << 1)) >> 1)
+		//		^ (hash<float>()(newEdge.p1.pos.x) << 1)
+		//		^ (hash<float>()(newEdge.p1.pos.y) << 1);
+		//}
+
+
+	};
+
+
+	// https://stackoverflow.com/questions/1102392/how-can-i-use-stdmaps-with-user-defined-types-as-key
+	struct EdgeCompare
+	{
+		std::size_t operator()(const Edge& k) const
+		{
+			using std::size_t;
+			using std::hash;
+			using std::string;
+
+				Edge newEdge = k.GetFlippedBasedOnCoordinates();
+
+			return ((hash<float>()(newEdge.p0.pos.x)
+				^ (hash<float>()(newEdge.p0.pos.y) << 1)) >> 1)
+				^ (hash<float>()(newEdge.p1.pos.x) << 1)
+				^ (hash<float>()(newEdge.p1.pos.y) << 1);
 		}
 	};
 
@@ -354,9 +447,24 @@ namespace jothly
 			edges.push_back({ tri.points[0], tri.points[1] });
 			edges.push_back({ tri.points[1], tri.points[2] });
 			edges.push_back({ tri.points[2], tri.points[0] });
+
+			graph.CreateNode(tri.GetCentroid());
 		}
 
 		EraseDuplicateEdges(edges);
+
+		//std::unordered_map<Edge, std::vector<int>> edgesToTriangles;
+		std::unordered_map<Edge, std::vector<int>, EdgeCompare> edgesToTriangles;
+
+		for(int i = 0; i < edges.size(); i++)
+		{
+			Edge edge = edges[i];
+
+			if(edgesToTriangles.find(edge) == edgesToTriangles.end()) // Not in map
+			{
+				edgesToTriangles.insert({edge, {-1, -1}});
+			}
+		}
 
 		return graph;
 	}

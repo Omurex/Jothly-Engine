@@ -11,7 +11,7 @@ namespace jothly
 	}
 
 
-    bool DelaunayPoint::operator==(const DelaunayPoint& rhs)
+    bool DelaunayPoint::operator==(const DelaunayPoint& rhs) const
     {
 		return Approx(pos, rhs.pos) == 1;
     }

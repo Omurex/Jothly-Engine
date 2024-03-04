@@ -11,7 +11,7 @@ namespace jothly
 
 		public:
 		Color nodeColor = Color::PURPLE;
-		float nodeRadius = 10;
+		float nodeRadius = 5;
 
 		Color nodeConnectionLineColor = Color::BLACK;
 		float nodeConnectionLineThickness = 5;
