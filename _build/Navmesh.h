@@ -34,6 +34,7 @@ namespace jothly
 		bool drawPoints = true;
 		bool drawTriangles = true;
 		bool drawObstaclePoints = true;
+		bool drawObstacles = true;
 
 
 		NavMesh(GameObject* _owner) : Component(_owner) {}
@@ -44,7 +45,7 @@ namespace jothly
 
 			NavMesh* Init(float _pointRadius = 5, Color _pointColor = Color::BLACK, bool _drawPoints = true, float _lineThickness = 1,
 				Color _lineColor = Color::WHITE, bool _drawTriangles = true, float _obstaclePointRadius = 5,
-				Color _obstaclePointColor = Color::RED, bool _drawObstaclePoints = true);
+				Color _obstaclePointColor = Color::RED, bool _drawObstaclePoints = true, bool _drawObstacles = true);
 
 		ComponentID GetID() const override;
 

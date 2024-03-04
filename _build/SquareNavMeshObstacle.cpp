@@ -1,4 +1,5 @@
 #include "SquareNavMeshObstacle.h"
+//#include "ShapeDrawing2D.h"
 
 
 namespace jothly
@@ -43,4 +44,10 @@ namespace jothly
 
 		return point.x < topRight.x && point.y < topRight.y && point.x > bottomLeft.x && point.y > bottomLeft.y;
 	}
+
+
+	/*void SquareNavMeshObstacle::Draw()
+	{
+		ShapeDrawing2D::DrawSquare(centerPos, sideLength, Color::WHITE);
+	}*/
 }

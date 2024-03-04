@@ -24,4 +24,10 @@ namespace jothly
     {
 		((raylib::rlb_Vector2) start).DrawLine(end, thickness, color);
     }
+
+
+	void ShapeDrawing2D::DrawSquare(Vector2 center, float sideLength, Color color, float rotationDeg)
+	{
+		((raylib::rlb_Vector2)center).DrawRectangle(Vector2(sideLength, sideLength), color);
+	}
 }

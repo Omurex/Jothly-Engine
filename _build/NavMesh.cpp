@@ -19,7 +19,7 @@ namespace jothly
 
 	NavMesh* NavMesh::Init(float _pointRadius, Color _pointColor, bool _drawPoints, float _lineThickness, 
 		Color _lineColor, bool _drawTriangles, float _obstaclePointRadius, Color _obstaclePointColor, 
-		bool _drawObstaclePoints)
+		bool _drawObstaclePoints, bool _drawObstacles)
 	{
 		pointRadius = _pointRadius;
 		pointColor = _pointColor;
@@ -31,6 +31,7 @@ namespace jothly
 		drawPoints = _drawPoints;
 		drawTriangles = _drawTriangles;
 		drawObstaclePoints = _drawObstaclePoints;
+		drawObstacles = _drawObstacles;
 
 		return this;
 	}
@@ -62,6 +63,14 @@ namespace jothly
 			for (int i = 0; i < obstaclePoints.size(); i++)
 			{
 				obstaclePoints[i].Draw(obstaclePointRadius, obstaclePointColor);
+			}
+		}
+
+		if (drawObstacles)
+		{
+			for (int i = 0; i < obstacles.size(); i++)
+			{
+				//obstacles[i]->Draw();
 			}
 		}
 	}

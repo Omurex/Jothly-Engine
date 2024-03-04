@@ -173,7 +173,7 @@ void Init()
 	/*navmeshComponent->AddPoints(std::vector<Vector2> { Vector2(200, 200), Vector2(250, 200), Vector2(250, 250), Vector2(200, 250),
 		Vector2(225, 200), Vector2(225, 250), Vector2(200, 225), Vector2(250, 225)});*/
 	navmeshComponent->AddPoints(std::vector<Vector2> {Vector2(5, 5), Vector2(595, 5), Vector2(595, 595), Vector2(5, 595)});
-	navmeshComponent->AddPoints(std::vector<Vector2>{Vector2(240, 240)});
+	//navmeshComponent->AddPoints(std::vector<Vector2>{Vector2(240, 240)});
 
 	/*navmeshComponent->LoadPoints(std::vector<Vector2>{
 		Vector2(355.442963, 330.130920),

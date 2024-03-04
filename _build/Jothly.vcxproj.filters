@@ -209,7 +209,9 @@
     <ClCompile Include="DelaunayTriangleTestSet.cpp">
       <Filter>Source Files\Testing</Filter>
     </ClCompile>
-    <ClCompile Include="SquareNavMeshObstacle.cpp" />
+    <ClCompile Include="SquareNavMeshObstacle.cpp">
+      <Filter>Source Files\NavMesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

@@ -13,5 +13,7 @@ namespace jothly
 		static void DrawCircle(Vector2 pixelCoords, float radius, Color color);
 
 		static void DrawLine(Vector2 start, Vector2 end, float thickness, Color color);
+
+		static void DrawSquare(Vector2 center, float sideLength, Color color, float rotationDeg = 0);
 	};
 }

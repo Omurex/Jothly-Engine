@@ -19,5 +19,8 @@ namespace jothly
 
 		// Inherited via NavMeshObstacle
 		bool IsPointInObstacle(Vector2 point) override;
+
+		// Inherited via NavMeshObstacle
+		//void Draw() override;
 	};
 }
