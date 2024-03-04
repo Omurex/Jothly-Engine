@@ -73,6 +73,11 @@ namespace jothly
 				obstacles[i]->Draw();
 			}
 		}
+
+		if (drawAStar)
+		{
+			graph.Draw();
+		}
 	}
 
 
@@ -250,6 +255,8 @@ namespace jothly
 		points.resize(loggedPointsSize); // Get rid of obstacle points from points list
 		obstaclePoints.resize(loggedObstaclePointsSize);
 
+		GenerateAStarGraph();
+
 		return true;
     }
 
@@ -330,5 +337,27 @@ namespace jothly
 		}
 
 		LoadPoints(randomPoints);
+	}
+
+
+	AStarGraph& NavMesh::GenerateAStarGraph()
+	{
+		graph.Clear();
+
+		std::vector<Edge> edges;
+		edges.reserve(triangles.size() * 3);
+
+		for (int i = 0; i < triangles.size(); i++)
+		{
+			DelaunayTriangle tri = triangles[i];
+
+			edges.push_back({ tri.points[0], tri.points[1] });
+			edges.push_back({ tri.points[1], tri.points[2] });
+			edges.push_back({ tri.points[2], tri.points[0] });
+		}
+
+		EraseDuplicateEdges(edges);
+
+		return graph;
 	}
 }

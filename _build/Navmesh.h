@@ -7,6 +7,7 @@
 #include "DelaunayTriangle.h"
 #include "DelaunayPoint.h"
 #include "NavMeshObstacle.h"
+#include "AStarGraph.h"
 
 
 namespace jothly
@@ -22,6 +23,8 @@ namespace jothly
 
 		std::vector<DelaunayPoint> obstaclePoints;
 
+		AStarGraph graph;
+
 		float pointRadius = 5;
 		Color pointColor = Color::BLACK;
 
@@ -35,6 +38,7 @@ namespace jothly
 		bool drawTriangles = true;
 		bool drawObstaclePoints = true;
 		bool drawObstacles = true;
+		bool drawAStar = true;
 
 
 		NavMesh(GameObject* _owner) : Component(_owner) {}
@@ -43,9 +47,9 @@ namespace jothly
 
 		public:
 
-			NavMesh* Init(float _pointRadius = 5, Color _pointColor = Color::BLACK, bool _drawPoints = true, float _lineThickness = 1,
-				Color _lineColor = Color::WHITE, bool _drawTriangles = true, float _obstaclePointRadius = 5,
-				Color _obstaclePointColor = Color::RED, bool _drawObstaclePoints = true, bool _drawObstacles = true);
+		NavMesh* Init(float _pointRadius = 5, Color _pointColor = Color::BLACK, bool _drawPoints = true, float _lineThickness = 1,
+			Color _lineColor = Color::WHITE, bool _drawTriangles = true, float _obstaclePointRadius = 5,
+			Color _obstaclePointColor = Color::RED, bool _drawObstaclePoints = true, bool _drawObstacles = true);
 
 		ComponentID GetID() const override;
 
@@ -62,5 +66,7 @@ namespace jothly
 		DelaunayTriangle GetSuperTriangle();
 
 		void GenerateRandomPoints(int numPoints, Vector2 lowerbound, Vector2 upperbound);
+
+		AStarGraph& GenerateAStarGraph();
 	};
 }

@@ -260,6 +260,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AStarGraph.h" />
+    <ClInclude Include="AStarNode.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ColorTestSet.h" />
     <ClInclude Include="Component.h" />
@@ -290,6 +292,8 @@
     <ClInclude Include="WaveFunctionCollapseTile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AStarGraph.cpp" />
+    <ClCompile Include="AStarNode.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ColorTestSet.cpp" />
     <ClCompile Include="Component.cpp" />
