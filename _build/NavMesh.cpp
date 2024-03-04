@@ -148,7 +148,7 @@ namespace jothly
 			for (int j = badTriangleIndexes.size() - 1; j >= 0; --j)
 			{
 				//if(j != 0) // Don't delete super triangle
-				triangles.erase(triangles.begin() + j);
+				triangles.erase(triangles.begin() + badTriangleIndexes[j]);
 			}
 
 			EraseDuplicateEdges(edges);
@@ -200,7 +200,7 @@ namespace jothly
 	DelaunayTriangle NavMesh::GetSuperTriangle()
 	{
 		const float BUFFER_AMOUNT = 100;
-		const float MULT_AMOUNT = 100;
+		const float MULT_AMOUNT = 1;
 
 		Vector2 lb;
 		Vector2 ub;

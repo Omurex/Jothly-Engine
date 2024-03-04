@@ -151,7 +151,13 @@ void Init()
 	//std::vector<Vector2> testPoints { Vector2(100, 100), Vector2(50, 100), Vector2(200, 300), Vector2(150, 250) };
 
 	NavMesh* navmeshComponent = navmesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 1, Color::WHITE, true);
-	navmeshComponent->GenerateRandomPoints(4, Vector2(200, 200), Vector2(400, 400));
+	navmeshComponent->GenerateRandomPoints(20, Vector2(50, 50), Vector2(550, 550));
+	/*navmeshComponent->LoadPoints(std::vector<Vector2>{
+		Vector2(355.442963, 330.130920),
+		Vector2(210.492264, 248.774689),
+		Vector2(294.906464, 251.637314),
+		Vector2(249.470505, 328.202148)
+	});*/
 	/*navmeshComponent->LoadPoints( std::vector<Vector2> { Vector2(291.720337f, 323.941772f), Vector2(231.952881f, 289.461945f),
 		Vector2(357.774597, 380.449829) } );*/
 	//navmeshComponent->LoadPoints(std::vector<Vector2> {Vector2(384.026611, 255.885498), Vector2(316.727173, 296.194336), Vector2(218.359940, 343.644531)});
