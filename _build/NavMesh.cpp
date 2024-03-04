@@ -73,6 +73,12 @@ namespace jothly
 	}
 
 
+	void NavMesh::AddObstacle(NavMeshObstacle* obstacle)
+	{
+		obstacles.push_back(obstacle);
+	}
+
+
 	void NavMesh::LoadPoints(std::vector<Vector2> _points)
 	{
 		points.clear();
@@ -142,6 +148,29 @@ namespace jothly
 		std::vector<Edge> edges;
 		edges.reserve(reserveSize * 3);
 
+		int loggedPointsSize = points.size();
+		int loggedObstaclePointsSize = obstaclePoints.size();
+
+		for (int i = 0; i < obstacles.size(); i++)
+		{
+			std::vector<DelaunayPoint> obstacleNavMeshPoints = obstacles[i]->GetNavMeshPoints();
+			std::vector<DelaunayPoint> obstacleObstaclePoints = obstacles[i]->GetObstaclePoints();
+
+			points.insert(points.end(), obstacleNavMeshPoints.begin(), obstacleNavMeshPoints.end());
+			obstaclePoints.insert(obstaclePoints.end(), obstacleObstaclePoints.begin(), obstacleObstaclePoints.end());
+		}
+
+		for (int i = points.size() - 1; i >= 0; --i)
+		{
+			for (int j = 0; j < obstacles.size(); ++j)
+			{
+				if (obstacles[j]->IsPointInObstacle(points[i].pos))
+				{
+					points.erase(points.begin() + i);
+				}
+			}
+		}
+
 		points.insert(points.end(), obstaclePoints.begin(), obstaclePoints.end());
 
 		// Loop through each point and add it to delaunay
@@ -187,8 +216,6 @@ namespace jothly
 			}
 		}
 
-		points.resize(points.size() - obstaclePoints.size()); // Get rid of obstacle points from points list
-
 		// Cleanup super triangle and obstacle triangles
 		for (int i = triangles.size() - 1; i >= 0; --i)
 		{
@@ -210,6 +237,9 @@ namespace jothly
 				}
 			}
 		}
+
+		points.resize(loggedPointsSize); // Get rid of obstacle points from points list
+		obstaclePoints.resize(loggedObstaclePointsSize);
 
 		return true;
     }

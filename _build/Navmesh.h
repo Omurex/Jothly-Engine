@@ -6,6 +6,7 @@
 #include "Color.h"
 #include "DelaunayTriangle.h"
 #include "DelaunayPoint.h"
+#include "NavMeshObstacle.h"
 
 
 namespace jothly
@@ -13,6 +14,8 @@ namespace jothly
 	class NavMesh : public Component
 	{
 		friend class GameObject;
+
+		std::vector<NavMeshObstacle*> obstacles;
 
 		std::vector<DelaunayPoint> points;
 		std::vector<DelaunayTriangle> triangles;
@@ -45,8 +48,11 @@ namespace jothly
 
 		ComponentID GetID() const override;
 
+		void AddObstacle(NavMeshObstacle* obstacle);
+
 		void LoadPoints(std::vector<Vector2> _points);
 		void LoadObstaclePoints(std::vector<Vector2> _obstaclePoints);
+
 		bool GenerateDelaunayTriangles();
 
 		void AddPoints(std::vector<Vector2> _points);

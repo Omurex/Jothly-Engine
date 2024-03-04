@@ -123,6 +123,12 @@
     <ClInclude Include="DelaunayTriangleTestSet.h">
       <Filter>Header Files\Testing</Filter>
     </ClInclude>
+    <ClInclude Include="NavMeshObstacle.h">
+      <Filter>Header Files\Navmesh</Filter>
+    </ClInclude>
+    <ClInclude Include="SquareNavMeshObstacle.h">
+      <Filter>Header Files\Navmesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -203,6 +209,7 @@
     <ClCompile Include="DelaunayTriangleTestSet.cpp">
       <Filter>Source Files\Testing</Filter>
     </ClCompile>
+    <ClCompile Include="SquareNavMeshObstacle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
