@@ -1,5 +1,5 @@
 #include "SquareNavMeshObstacle.h"
-//#include "ShapeDrawing2D.h"
+#include "ShapeDrawing2D.h"
 
 
 namespace jothly
@@ -46,8 +46,8 @@ namespace jothly
 	}
 
 
-	/*void SquareNavMeshObstacle::Draw()
+	void SquareNavMeshObstacle::Draw()
 	{
-		ShapeDrawing2D::DrawSquare(centerPos, sideLength, Color::WHITE);
-	}*/
+		ShapeDrawing2D::DrawSquare(centerPos - (Vector2(sideLength) / 2.0f), sideLength, color);
+	}
 }

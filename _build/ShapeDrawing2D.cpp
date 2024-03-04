@@ -26,8 +26,8 @@ namespace jothly
     }
 
 
-	void ShapeDrawing2D::DrawSquare(Vector2 center, float sideLength, Color color, float rotationDeg)
+	void ShapeDrawing2D::DrawSquare(Vector2 topLeft, float sideLength, Color color, float rotationDeg)
 	{
-		((raylib::rlb_Vector2)center).DrawRectangle(Vector2(sideLength, sideLength), color);
+		((raylib::rlb_Vector2)topLeft).DrawRectangle(Vector2(sideLength, sideLength), color);
 	}
 }

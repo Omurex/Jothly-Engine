@@ -12,6 +12,7 @@ namespace jothly
 			NavMeshObstacle(_centerPos), sideLength(_sideLength) {}
 
 		float sideLength;
+		Color color;
 
 		// Inherited via NavMeshObstacle
 		std::vector<DelaunayPoint> GetNavMeshPoints() override;
@@ -21,6 +22,6 @@ namespace jothly
 		bool IsPointInObstacle(Vector2 point) override;
 
 		// Inherited via NavMeshObstacle
-		//void Draw() override;
+		void Draw() override;
 	};
 }

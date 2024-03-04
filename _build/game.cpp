@@ -117,7 +117,7 @@ void Draw()
 {
 	testObj.Draw();
 	navmesh.Draw();
-	superTri.Draw(3, Color::YELLOW);
+	//superTri.Draw(3, Color::YELLOW);
 
 	//tri.Draw(1, Color::RED);
 	//dTriangle.Draw();
@@ -155,6 +155,8 @@ void Init()
 	navmeshComponent->GenerateRandomPoints(20, Vector2(5, 5), Vector2(595, 595));
 
 	SquareNavMeshObstacle squareObstacle1 = SquareNavMeshObstacle(Vector2(225, 225));
+	squareObstacle1.color = Color::RED;
+
 	navmeshComponent->AddObstacle(&squareObstacle1);
 
 	//navmeshComponent->LoadObstaclePoints(std::vector<Vector2>{

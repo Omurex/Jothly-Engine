@@ -70,7 +70,7 @@ namespace jothly
 		{
 			for (int i = 0; i < obstacles.size(); i++)
 			{
-				//obstacles[i]->Draw();
+				obstacles[i]->Draw();
 			}
 		}
 	}

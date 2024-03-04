@@ -14,6 +14,6 @@ namespace jothly
 
 		static void DrawLine(Vector2 start, Vector2 end, float thickness, Color color);
 
-		static void DrawSquare(Vector2 center, float sideLength, Color color, float rotationDeg = 0);
+		static void DrawSquare(Vector2 topLeft, float sideLength, Color color, float rotationDeg = 0);
 	};
 }
