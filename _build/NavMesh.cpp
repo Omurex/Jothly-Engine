@@ -17,15 +17,20 @@ namespace jothly
 	};
 
 
-	NavMesh* NavMesh::Init(float _pointRadius, Color _pointColor, bool _drawPoints, float _lineThickness, Color _lineColor, bool _drawTriangles)
+	NavMesh* NavMesh::Init(float _pointRadius, Color _pointColor, bool _drawPoints, float _lineThickness, 
+		Color _lineColor, bool _drawTriangles, float _obstaclePointRadius, Color _obstaclePointColor, 
+		bool _drawObstaclePoints)
 	{
 		pointRadius = _pointRadius;
 		pointColor = _pointColor;
 		lineThickness = _lineThickness;
 		lineColor = _lineColor;
+		obstaclePointRadius = _obstaclePointRadius;
+		obstaclePointColor = _obstaclePointColor;
 
 		drawPoints = _drawPoints;
 		drawTriangles = _drawTriangles;
+		drawObstaclePoints = _drawObstaclePoints;
 
 		return this;
 	}
@@ -51,6 +56,14 @@ namespace jothly
 				points[i].Draw(pointRadius, pointColor);
 			}
 		}
+
+		if (drawObstaclePoints)
+		{
+			for (int i = 0; i < obstaclePoints.size(); i++)
+			{
+				obstaclePoints[i].Draw(obstaclePointRadius, obstaclePointColor);
+			}
+		}
 	}
 
 
@@ -69,6 +82,19 @@ namespace jothly
 		for(int i = 0; i < points.size(); i++)
 		{
 			points[i] = DelaunayPoint(_points[i]);
+		}
+	}
+
+
+	void NavMesh::LoadObstaclePoints(std::vector<Vector2> _obstaclePoints)
+	{
+		obstaclePoints.clear();
+
+		obstaclePoints.resize(_obstaclePoints.size());
+
+		for (int i = 0; i < obstaclePoints.size(); i++)
+		{
+			obstaclePoints[i] = DelaunayPoint(_obstaclePoints[i]);
 		}
 	}
 
@@ -116,6 +142,8 @@ namespace jothly
 		std::vector<Edge> edges;
 		edges.reserve(reserveSize * 3);
 
+		points.insert(points.end(), obstaclePoints.begin(), obstaclePoints.end());
+
 		// Loop through each point and add it to delaunay
 		for (int i = 0; i < points.size(); i++)
 		{
@@ -159,6 +187,9 @@ namespace jothly
 			}
 		}
 
+		points.resize(points.size() - obstaclePoints.size()); // Get rid of obstacle points from points list
+
+		// Cleanup super triangle and obstacle triangles
 		for (int i = triangles.size() - 1; i >= 0; --i)
 		{
 			DelaunayTriangle tri = triangles[i];
@@ -167,11 +198,32 @@ namespace jothly
 				|| tri.HasPoint(superTriangle.points[2]))
 			{
 				triangles.erase(triangles.begin() + i);
+				continue;
+			}
+			
+			for (int j = 0; j < obstaclePoints.size(); ++j)
+			{
+				if (tri.HasPoint(obstaclePoints[j]))
+				{
+					triangles.erase(triangles.begin() + i);
+					break;
+				}
 			}
 		}
 
 		return true;
     }
+
+
+	void NavMesh::AddPoints(std::vector<Vector2> _points)
+	{
+		points.reserve(points.size() + _points.size());
+
+		for (int i = 0; i < _points.size(); ++i)
+		{
+			points.push_back(_points[i]);
+		}
+	}
 
 
 	bool NavMesh::GetPointBounds(Vector2& out_lb, Vector2& out_ub)
