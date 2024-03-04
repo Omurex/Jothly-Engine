@@ -436,35 +436,74 @@ namespace jothly
 	AStarGraph& NavMesh::GenerateAStarGraph()
 	{
 		graph.Clear();
+		graph.ReserveGraphSize(triangles.size());
 
-		std::vector<Edge> edges;
-		edges.reserve(triangles.size() * 3);
+		/*std::vector<Edge> edges;
+		edges.reserve(triangles.size() * 3);*/
 
+		// Key: Appropriately flipped edge, Value: Triangle indexes in triangles vector
+		std::unordered_map<Edge, std::vector<int>, EdgeCompare> edgesToTriangles;
+
+		std::vector<int> nodeIndexToTriangleIndex;
+
+		// Note: Since one AStar node is added for every triangle, triangles array lines up with graph nodes array
 		for (int i = 0; i < triangles.size(); i++)
 		{
 			DelaunayTriangle tri = triangles[i];
 
-			edges.push_back({ tri.points[0], tri.points[1] });
-			edges.push_back({ tri.points[1], tri.points[2] });
-			edges.push_back({ tri.points[2], tri.points[0] });
+			Edge triEdges[] = { 
+				Edge(tri.points[0], tri.points[1]),
+				Edge(tri.points[1], tri.points[2]),
+				Edge(tri.points[2], tri.points[0])
+			};
+
+
+			for(int j = 0; j < 3; j++)
+			{
+				Edge e = triEdges[j];
+				e.FlipBasedOnCoordinates();
+
+				if (edgesToTriangles.find(e) == edgesToTriangles.end()) // Edge not in map, put it in
+				{
+					edgesToTriangles.insert({e, {i, -1}}); // Add edge with first element in value being this triangle index
+				}
+				else
+				{
+					edgesToTriangles[e][1] = i; // Make second element in value be this triangle index
+				}
+			}
 
 			graph.CreateNode(tri.GetCentroid());
 		}
 
-		EraseDuplicateEdges(edges);
+		std::vector<AStarNode*> nodes = graph.GetNodes();
+
+		for(auto it = edgesToTriangles.begin(); it != edgesToTriangles.end(); ++it)
+		{
+			int triIndex0 = it->second[0];
+			int triIndex1 = it->second[1];
+
+			if(triIndex1 < 0) continue; // No edge sharing triangles
+
+			nodes[triIndex0]->Form2WayConnection(nodes[triIndex1]);
+		}
+
+		//EraseDuplicateEdges(edges);
 
 		//std::unordered_map<Edge, std::vector<int>> edgesToTriangles;
-		std::unordered_map<Edge, std::vector<int>, EdgeCompare> edgesToTriangles;
 
-		for(int i = 0; i < edges.size(); i++)
-		{
-			Edge edge = edges[i];
+		//for(int i = 0; i < edges.size(); i++)
+		//{
+		//	Edge edge = edges[i];
+		//	edge.FlipBasedOnCoordinates();
 
-			if(edgesToTriangles.find(edge) == edgesToTriangles.end()) // Not in map
-			{
-				edgesToTriangles.insert({edge, {-1, -1}});
-			}
-		}
+		//	if(edgesToTriangles.find(edge) == edgesToTriangles.end()) // Not in map
+		//	{
+		//		edgesToTriangles.insert({edge, {-1, -1}});
+		//	}
+		//}
+
+
 
 		return graph;
 	}
