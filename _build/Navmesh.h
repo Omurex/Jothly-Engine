@@ -54,6 +54,7 @@ namespace jothly
 		ComponentID GetID() const override;
 
 		void AddObstacle(NavMeshObstacle* obstacle);
+		void AddObstacles(std::vector<NavMeshObstacle>& newObstacles);
 
 		void LoadPoints(std::vector<Vector2> _points);
 		void LoadObstaclePoints(std::vector<Vector2> _obstaclePoints);

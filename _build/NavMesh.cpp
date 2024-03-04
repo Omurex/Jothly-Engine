@@ -186,6 +186,17 @@ namespace jothly
 	}
 
 
+	void NavMesh::AddObstacles(std::vector<NavMeshObstacle>& newObstacles)
+	{
+		obstacles.reserve(obstacles.size() + newObstacles.size());
+
+		for (int i = 0; i < newObstacles.size(); i++)
+		{
+			obstacles.push_back(&newObstacles[i]);
+		}
+	}
+
+
 	void NavMesh::LoadPoints(std::vector<Vector2> _points)
 	{
 		points.clear();
@@ -487,23 +498,6 @@ namespace jothly
 
 			nodes[triIndex0]->Form2WayConnection(nodes[triIndex1]);
 		}
-
-		//EraseDuplicateEdges(edges);
-
-		//std::unordered_map<Edge, std::vector<int>> edgesToTriangles;
-
-		//for(int i = 0; i < edges.size(); i++)
-		//{
-		//	Edge edge = edges[i];
-		//	edge.FlipBasedOnCoordinates();
-
-		//	if(edgesToTriangles.find(edge) == edgesToTriangles.end()) // Not in map
-		//	{
-		//		edgesToTriangles.insert({edge, {-1, -1}});
-		//	}
-		//}
-
-
 
 		return graph;
 	}

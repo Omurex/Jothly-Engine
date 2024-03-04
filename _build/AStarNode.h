@@ -21,5 +21,8 @@ namespace jothly
 
 		void Draw(Color nodeColor, float nodeRadius, Color connectionLineColor, float connectionLineThickness);
 
+		/*float CalculatePathCost();
+		float 
+		float CalculateScore(AStarNode* start, AStarNode* end);*/
 	};
 }

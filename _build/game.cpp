@@ -160,8 +160,15 @@ void Init()
 	SquareNavMeshObstacle squareObstacle2 = SquareNavMeshObstacle(Vector2(400, 400));
 	squareObstacle2.color = Color::RED;
 
+	SquareNavMeshObstacle squareObstacle3 = SquareNavMeshObstacle(Vector2(450, 250));
+	squareObstacle3.color = Color::RED;
+
+	SquareNavMeshObstacle squareObstacle4 = SquareNavMeshObstacle(Vector2(100, 100));
+	squareObstacle4.color = Color::RED;
+
 	navmeshComponent->AddObstacle(&squareObstacle1);
 	navmeshComponent->AddObstacle(&squareObstacle2);
+	navmeshComponent->AddObstacle(&squareObstacle3);
 
 	//navmeshComponent->LoadObstaclePoints(std::vector<Vector2>{
 	//	//Vector2(225, 225),

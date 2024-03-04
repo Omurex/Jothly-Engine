@@ -16,6 +16,16 @@ namespace jothly
 	}
 
 
+	std::vector<AStarNode*> AStarGraph::GetPath(AStarNode* start, AStarNode* end)
+	{
+		std::vector<AStarNode*> frontier(nodes.size());
+		std::vector<AStarNode*> closed(nodes.size());
+		std::vector<AStarNode*> open(nodes.size());
+
+		return std::vector<AStarNode*>();
+	}
+
+
 	void AStarGraph::Clear()
 	{
 		for (int i = nodes.size() - 1; i >= 0; --i)

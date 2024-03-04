@@ -24,6 +24,8 @@ namespace jothly
 
 		void ReserveGraphSize(size_t size) { nodes.reserve(size); }
 
+		std::vector<AStarNode*> GetPath(AStarNode* start, AStarNode* end);
+
 		void Clear();
 
 		void Draw();
