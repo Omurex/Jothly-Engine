@@ -6,7 +6,7 @@ namespace jothly
 {
 	std::vector<DelaunayPoint> SquareNavMeshObstacle::GetNavMeshPoints()
 	{
-		float halfLength = sideLength / 2.0f;
+		float halfLength = sideLength / (2.0f - NAVMESH_OFFSET_MAGNITUDE);
 
 		return std::vector<DelaunayPoint>
 		{
@@ -24,7 +24,7 @@ namespace jothly
 
 	std::vector<DelaunayPoint> SquareNavMeshObstacle::GetObstaclePoints()
 	{
-		float halfLength = sideLength / 2.0f;
+		float halfLength = sideLength / (2.0f - NAVMESH_OFFSET_MAGNITUDE);
 
 		return std::vector<DelaunayPoint>
 		{
@@ -38,7 +38,7 @@ namespace jothly
 
 	bool SquareNavMeshObstacle::IsPointInObstacle(Vector2 point)
 	{
-		float halfLength = sideLength / 2.0f;
+		float halfLength = sideLength / (2.0f - NAVMESH_OFFSET_MAGNITUDE);
 		Vector2 bottomLeft = centerPos - Vector2(halfLength);
 		Vector2 topRight = centerPos + Vector2(halfLength);
 

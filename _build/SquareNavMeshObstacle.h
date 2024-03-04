@@ -7,6 +7,8 @@ namespace jothly
 {
 	class SquareNavMeshObstacle : public NavMeshObstacle
 	{
+		const float NAVMESH_OFFSET_MAGNITUDE = .2f;
+
 		public:
 		SquareNavMeshObstacle(Vector2 _centerPos = Vector2(0, 0), float _sideLength = 50) : 
 			NavMeshObstacle(_centerPos), sideLength(_sideLength) {}
