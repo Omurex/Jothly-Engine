@@ -1,5 +1,6 @@
 #include "AStarGraph.h"
 
+
 namespace jothly
 {
 	AStarGraph::~AStarGraph()
@@ -16,11 +17,23 @@ namespace jothly
 	}
 
 
+	// https://theory.stanford.edu/~amitp/GameProgramming/MapRepresentations.html
 	std::vector<AStarNode*> AStarGraph::GetPath(AStarNode* start, AStarNode* end)
 	{
-		std::vector<AStarNode*> frontier(nodes.size());
-		std::vector<AStarNode*> closed(nodes.size());
-		std::vector<AStarNode*> open(nodes.size());
+		std::vector<AStarNode*> frontier;
+		std::vector<AStarNode*> closed;
+		std::vector<AStarNode*> open;
+
+		frontier.reserve(nodes.size());
+		closed.reserve(nodes.size());
+		open.reserve(nodes.size());
+
+		open.push_back(start);
+
+		while (!open.empty())
+		{
+
+		}
 
 		return std::vector<AStarNode*>();
 	}
