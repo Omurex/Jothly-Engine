@@ -9,6 +9,9 @@ namespace jothly
 	struct AStarNode
 	{
 		private:
+		AStarNode* pathParent = nullptr;
+		float pathLength = 0;
+
 		AStarNode* AddReverseConnection(AStarNode* node);
 		
 		public:
@@ -21,8 +24,12 @@ namespace jothly
 
 		void Draw(Color nodeColor, float nodeRadius, Color connectionLineColor, float connectionLineThickness);
 
-		/*float CalculatePathCost();
-		float 
-		float CalculateScore(AStarNode* start, AStarNode* end);*/
+		float CalculateG(AStarNode* proposedPathParent) const; // Distance between current node and start node
+		float CalculateH(AStarNode* end) const; // Estimated distance from current node to the end node
+		float CalculateScore(AStarNode* start, AStarNode* end);
+
+		float CalculateHeuristic(AStarNode* other); // Heuristic we use is square of distance between nodes
+
+		void ResetPathFindingVariables() { pathParent = nullptr; }
 	};
 }

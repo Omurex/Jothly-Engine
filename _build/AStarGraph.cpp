@@ -1,4 +1,6 @@
 #include "AStarGraph.h"
+#include <queue>
+#include <unordered_set>
 
 
 namespace jothly
@@ -20,19 +22,16 @@ namespace jothly
 	// https://theory.stanford.edu/~amitp/GameProgramming/MapRepresentations.html
 	std::vector<AStarNode*> AStarGraph::GetPath(AStarNode* start, AStarNode* end)
 	{
-		std::vector<AStarNode*> frontier;
-		std::vector<AStarNode*> closed;
-		std::vector<AStarNode*> open;
+		std::unordered_set<AStarNode*> closed;
+		std::priority_queue<AStarNode*> open;
 
-		frontier.reserve(nodes.size());
 		closed.reserve(nodes.size());
-		open.reserve(nodes.size());
 
-		open.push_back(start);
+		open.push(start);
 
 		while (!open.empty())
 		{
-
+			
 		}
 
 		return std::vector<AStarNode*>();

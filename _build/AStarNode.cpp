@@ -28,4 +28,27 @@ namespace jothly
 			ShapeDrawing2D::DrawLine(pos, connections[i]->pos, connectionLineThickness, connectionLineColor);
 		}
 	}
+
+	float AStarNode::CalculateG(AStarNode* proposedPathParent) const
+	{
+		return 0.0f;
+	}
+
+
+	float AStarNode::CalculateH(AStarNode* end) const
+	{
+		return 0.0f;
+	}
+
+
+	float AStarNode::CalculateScore(AStarNode* start, AStarNode* end)
+	{
+		return 0.0f;
+	}
+
+
+	float AStarNode::CalculateHeuristic(AStarNode* other)
+	{
+		return (pos - other->pos).GetMagnitudeSquared();
+	}
 }
