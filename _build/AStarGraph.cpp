@@ -31,6 +31,8 @@ namespace jothly
 	std::vector<AStarNode*> ConstructPath(AStarNode* end)
 	{
 		std::vector<AStarNode*> path;
+		if(end->GetPathParent() == nullptr) return path; // If no solution found, return empty vector
+
 		AStarNode* node = end;
 
 		while(node != nullptr)
@@ -48,6 +50,12 @@ namespace jothly
 	// https://theory.stanford.edu/~amitp/GameProgramming/MapRepresentations.html
 	std::vector<AStarNode*> AStarGraph::GetPath(AStarNode* start, AStarNode* end)
 	{
+		if(start == end) // If we try navigating to same spot, path will only have this spot's node
+		{
+			lastPathComputedDestination = end;
+			return std::vector { start };
+		}
+
 		std::unordered_set<AStarNode*> closed; // Shortest path already calculated for all these nodes
 
 		// https://stackoverflow.com/questions/16111337/declaring-a-priority-queue-in-c-with-a-custom-comparator

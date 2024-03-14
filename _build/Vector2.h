@@ -38,6 +38,8 @@ namespace jothly
 
 		void Scale(float const& scale);
 		Vector2 MultiplyComponents(const Vector2& other) { return Vector2(x * other.x, y * other.y); }
+
+		std::string ToString() { return "<" + std::to_string(x) + " , " + std::to_string(y) + ">"; }
 	
 		Vector2 operator+(Vector2 const& other) const;
 		Vector3 operator+(Vector3 const& other) const;

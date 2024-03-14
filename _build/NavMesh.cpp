@@ -38,7 +38,7 @@ namespace jothly
 			{
 				Flip();
 			}
-			else if(p0.pos == p1.pos)
+			else if(p0.pos.x == p1.pos.x)
 			{
 				if(p0.pos.y > p1.pos.y)
 				{

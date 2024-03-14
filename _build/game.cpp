@@ -203,7 +203,11 @@ void Init()
 	navmeshComponent->GenerateDelaunayTriangles();
 
 	AStarGraph* graph = navmeshComponent->GetAStarGraph();
-	graph->GetPath(graph->GetNodes()[rand() % graph->GetNodes().size()], graph->GetNodes()[rand() % graph->GetNodes().size()]);
+
+	AStarNode* startNode = graph->GetNodes()[rand() % graph->GetNodes().size()];
+	AStarNode* endNode = graph->GetNodes()[rand() % graph->GetNodes().size()];
+
+	std::vector<AStarNode*> path = graph->GetPath(startNode, endNode);
 
 	//navmeshComponent->GenerateDelaunayTriangles();
 
@@ -227,8 +231,8 @@ void Init()
 
 int main(int argc, char* argv[])
 {
-	//srand(time(NULL));
-	srand(1710452288);
+	srand(time(NULL));
+	srand(1710453055);
 
 	std::cout << "SEED: " + std::to_string(time(NULL)) << std::endl;
 
