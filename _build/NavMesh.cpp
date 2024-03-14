@@ -257,7 +257,7 @@ namespace jothly
 		triangles.clear();
 		triangles.reserve(reserveSize);
 
-		DelaunayTriangle superTriangle = GetSuperTriangle();
+		DelaunayTriangle superTriangle = CalculateSuperTriangle();
 		triangles.push_back(superTriangle);
 
 		std::vector<int> badTriangleIndexes;
@@ -376,7 +376,7 @@ namespace jothly
 	}
 
 
-	bool NavMesh::GetPointBounds(Vector2& out_lb, Vector2& out_ub)
+	bool NavMesh::CalculatePointBounds(Vector2& out_lb, Vector2& out_ub)
 	{
 		if (points.size() <= 0) return false;
 
@@ -399,7 +399,7 @@ namespace jothly
 	}
 
 
-	DelaunayTriangle NavMesh::GetSuperTriangle()
+	DelaunayTriangle NavMesh::CalculateSuperTriangle()
 	{
 		const float BUFFER_AMOUNT = 100;
 		const float MULT_AMOUNT = 1;
@@ -407,7 +407,7 @@ namespace jothly
 		Vector2 lb;
 		Vector2 ub;
 
-		bool boundsValid = GetPointBounds(lb, ub);
+		bool boundsValid = CalculatePointBounds(lb, ub);
 
 		if (!boundsValid) return DelaunayTriangle();
 

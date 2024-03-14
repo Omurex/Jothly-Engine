@@ -19,13 +19,30 @@ namespace jothly
 	}
 
 
-	struct CompareNodePathCosts
+	struct CompareNodeScores
 	{
 		bool operator() (AStarNode* const node0, AStarNode* const node1)
 		{
-			return node1->GetPathCost() < node0->GetPathCost();
+			return node1->GetScore() < node0->GetScore();
 		}
 	};
+
+
+	std::vector<AStarNode*> ConstructPath(AStarNode* end)
+	{
+		std::vector<AStarNode*> path;
+		AStarNode* node = end;
+
+		while(node != nullptr)
+		{
+			path.push_back(node);
+			node = node->GetPathParent();
+		}
+
+		std::reverse(path.begin(), path.end());
+
+		return path;
+	}
 
 
 	// https://theory.stanford.edu/~amitp/GameProgramming/MapRepresentations.html
@@ -35,7 +52,14 @@ namespace jothly
 
 		// https://stackoverflow.com/questions/16111337/declaring-a-priority-queue-in-c-with-a-custom-comparator
 		// https://en.cppreference.com/w/cpp/language/decltype
-		std::priority_queue<AStarNode*, std::vector<AStarNode*>, CompareNodePathCosts> open;
+		std::priority_queue<AStarNode*, std::vector<AStarNode*>, CompareNodeScores> open;
+
+		for(int i = 0; i < nodes.size(); i++)
+		{
+			nodes[i]->ResetPathFindingVariables();
+		}
+
+		start->SetPathCost(0);
 
 		closed.reserve(nodes.size());
 
@@ -43,18 +67,33 @@ namespace jothly
 
 		while (!open.empty())
 		{
-			// Get lowest path cost node
+			// Get lowest path score node
 			AStarNode* node = open.top();
 			open.pop();
 
 			if(closed.find(node) != closed.end()) continue; // Node already visited
-
-			for(int i = 0; i < node->connections.size(); i++)
+			if(node == end)
 			{
+				break;
 			}
+
+			for(int i = 0; i < node->connections.size(); ++i)
+			{
+				if(node->connections[i]->UpdatePathDataWithLowerScore(node))
+				{
+					node->connections[i]->UpdateHeuristicFromEnd(end); // Make sure heuristic is properly updated before pushing
+					open.push(node->connections[i]);
+				}
+			}
+
+			closed.insert(node);
 		}
 
-		return std::vector<AStarNode*>();
+		std::vector<AStarNode*> path = ConstructPath(end);
+
+		lastPathComputedDestination = end;
+
+		return path;
 	}
 
 
@@ -67,11 +106,30 @@ namespace jothly
 	}
 
 
-	void AStarGraph::Draw()
+	void AStarGraph::Draw(bool drawNodes, bool drawConnections, bool drawLastComputedPath)
 	{
-		for (int i = 0; i < nodes.size(); i++)
+		float nodeRadiusToDraw = 0;
+		float nodeConnectionLineThicknessToDraw = 0;
+
+		if(drawNodes) nodeRadiusToDraw = nodeRadius;
+		if(drawConnections) nodeConnectionLineThicknessToDraw = nodeConnectionLineThickness;
+
+		for (int i = 0; i < nodes.size(); ++i)
 		{
-			nodes[i]->Draw(nodeColor, nodeRadius, nodeConnectionLineColor, nodeConnectionLineThickness);
+			nodes[i]->Draw(nodeColor, nodeRadiusToDraw, nodeConnectionLineColor, nodeConnectionLineThicknessToDraw);
+		}
+
+		if(drawLastComputedPath && lastPathComputedDestination != nullptr)
+		{
+			AStarNode* fromNode = lastPathComputedDestination;
+			AStarNode* toNode = lastPathComputedDestination->GetPathParent();
+			
+			while(toNode != nullptr)
+			{
+				fromNode->DrawConnection(toNode, pathLineColor, pathLineThickness);
+				fromNode = toNode;
+				toNode = toNode->GetPathParent();
+			}
 		}
 	}
 }

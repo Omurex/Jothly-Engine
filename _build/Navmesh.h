@@ -53,6 +53,8 @@ namespace jothly
 
 		ComponentID GetID() const override;
 
+		AStarGraph* GetAStarGraph() { return &graph; }
+
 		void AddObstacle(NavMeshObstacle* obstacle);
 		void AddObstacles(std::vector<NavMeshObstacle>& newObstacles);
 
@@ -63,8 +65,8 @@ namespace jothly
 
 		void AddPoints(std::vector<Vector2> _points);
 
-		bool GetPointBounds(Vector2& out_lb, Vector2& out_ub); // Returns lowerbound and upperbound
-		DelaunayTriangle GetSuperTriangle();
+		bool CalculatePointBounds(Vector2& out_lb, Vector2& out_ub); // Returns lowerbound and upperbound
+		DelaunayTriangle CalculateSuperTriangle();
 
 		void GenerateRandomPoints(int numPoints, Vector2 lowerbound, Vector2 upperbound);
 

@@ -25,8 +25,14 @@ namespace jothly
 
 		for (int i = 0; i < connections.size(); i++)
 		{
-			ShapeDrawing2D::DrawLine(pos, connections[i]->pos, connectionLineThickness, connectionLineColor);
+			DrawConnection(connections[i], connectionLineColor, connectionLineThickness);
 		}
+	}
+
+
+	void AStarNode::DrawConnection(AStarNode* other, Color connectionLineColor, float connectionLineThickness)
+	{
+		ShapeDrawing2D::DrawLine(pos, other->pos, connectionLineThickness, connectionLineColor);
 	}
 
 
@@ -38,17 +44,23 @@ namespace jothly
 
 	float AStarNode::CalculateH(AStarNode* end) const
 	{
-		return 0.0f;
+		return CalculateHeuristic(end);
 	}
 
 
-	float AStarNode::CalculateScore(AStarNode* start, AStarNode* end) const
+	float AStarNode::GetScore() const
 	{
-		return 0.0f;
+		return pathCost + heuristicFromEnd;
 	}
 
 
-	bool AStarNode::UpdatePathDataIfShorter(AStarNode* proposedPathParent)
+	void AStarNode::UpdateHeuristicFromEnd(AStarNode* end)
+	{
+		heuristicFromEnd = CalculateH(end);
+	}
+
+
+	bool AStarNode::UpdatePathDataWithLowerScore(AStarNode* proposedPathParent)
 	{
 		float g = CalculateG(proposedPathParent);
 

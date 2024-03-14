@@ -199,8 +199,11 @@ void Init()
 	//navmeshComponent->LoadPoints(std::vector<Vector2> {Vector2(384.026611, 255.885498), Vector2(316.727173, 296.194336), Vector2(218.359940, 343.644531)});
 	//navmeshComponent->LoadPoints(testPoints);
 
-	superTri = navmeshComponent->GetSuperTriangle();
+	superTri = navmeshComponent->CalculateSuperTriangle();
 	navmeshComponent->GenerateDelaunayTriangles();
+
+	AStarGraph* graph = navmeshComponent->GetAStarGraph();
+	graph->GetPath(graph->GetNodes()[rand() % graph->GetNodes().size()], graph->GetNodes()[rand() % graph->GetNodes().size()]);
 
 	//navmeshComponent->GenerateDelaunayTriangles();
 
@@ -224,9 +227,8 @@ void Init()
 
 int main(int argc, char* argv[])
 {
-	srand(time(NULL));
-	//srand(1706603061); // 5, 1706603061
-	//srand(1707010537);
+	//srand(time(NULL));
+	srand(1710452288);
 
 	std::cout << "SEED: " + std::to_string(time(NULL)) << std::endl;
 
