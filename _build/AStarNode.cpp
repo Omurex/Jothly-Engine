@@ -29,9 +29,10 @@ namespace jothly
 		}
 	}
 
+
 	float AStarNode::CalculateG(AStarNode* proposedPathParent) const
 	{
-		return 0.0f;
+		return CalculateHeuristic(proposedPathParent) + proposedPathParent->pathCost;
 	}
 
 
@@ -41,13 +42,28 @@ namespace jothly
 	}
 
 
-	float AStarNode::CalculateScore(AStarNode* start, AStarNode* end)
+	float AStarNode::CalculateScore(AStarNode* start, AStarNode* end) const
 	{
 		return 0.0f;
 	}
 
 
-	float AStarNode::CalculateHeuristic(AStarNode* other)
+	bool AStarNode::UpdatePathDataIfShorter(AStarNode* proposedPathParent)
+	{
+		float g = CalculateG(proposedPathParent);
+
+		if(g < pathCost)
+		{
+			pathCost = g;
+			pathParent = proposedPathParent;
+			return true;
+		}
+
+		return false;
+	}
+
+
+	float AStarNode::CalculateHeuristic(AStarNode* other) const
 	{
 		return (pos - other->pos).GetMagnitudeSquared();
 	}

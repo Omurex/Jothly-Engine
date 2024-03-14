@@ -65,13 +65,13 @@ namespace jothly
 	}
 
 
-	Vector2 Vector2::operator+(Vector2 const& other)
+	Vector2 Vector2::operator+(Vector2 const& other) const
 	{
 		return Vector2(x + other.x, y + other.y);
 	}
 
 
-    Vector3 Vector2::operator+(Vector3 const& other)
+    Vector3 Vector2::operator+(Vector3 const& other) const
     {
         return Vector3(other.x + x, other.y + y, other.z);
     }
@@ -93,7 +93,7 @@ namespace jothly
 	}
 
 
-	Vector2 Vector2::operator-(Vector2 const& other)
+	Vector2 Vector2::operator-(Vector2 const& other) const
 	{
 		return Vector2(x - other.x, y - other.y);
 	}
@@ -121,13 +121,13 @@ namespace jothly
 	}
 
 
-	Vector2 Vector2::operator*(float const& scale)
+	Vector2 Vector2::operator*(float const& scale) const
 	{
 		return Vector2(x * scale, y * scale);
 	}
 
 
-	Vector2 Vector2::operator/(float const& scale)
+	Vector2 Vector2::operator/(float const& scale) const
 	{
 		return Vector2(x / scale, y / scale);
 	}

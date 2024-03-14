@@ -19,11 +19,23 @@ namespace jothly
 	}
 
 
+	struct CompareNodePathCosts
+	{
+		bool operator() (AStarNode* const node0, AStarNode* const node1)
+		{
+			return node1->GetPathCost() < node0->GetPathCost();
+		}
+	};
+
+
 	// https://theory.stanford.edu/~amitp/GameProgramming/MapRepresentations.html
 	std::vector<AStarNode*> AStarGraph::GetPath(AStarNode* start, AStarNode* end)
 	{
-		std::unordered_set<AStarNode*> closed;
-		std::priority_queue<AStarNode*> open;
+		std::unordered_set<AStarNode*> closed; // Shortest path already calculated for all these nodes
+
+		// https://stackoverflow.com/questions/16111337/declaring-a-priority-queue-in-c-with-a-custom-comparator
+		// https://en.cppreference.com/w/cpp/language/decltype
+		std::priority_queue<AStarNode*, std::vector<AStarNode*>, CompareNodePathCosts> open;
 
 		closed.reserve(nodes.size());
 
@@ -31,7 +43,15 @@ namespace jothly
 
 		while (!open.empty())
 		{
-			
+			// Get lowest path cost node
+			AStarNode* node = open.top();
+			open.pop();
+
+			if(closed.find(node) != closed.end()) continue; // Node already visited
+
+			for(int i = 0; i < node->connections.size(); i++)
+			{
+			}
 		}
 
 		return std::vector<AStarNode*>();

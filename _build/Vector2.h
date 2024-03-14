@@ -39,16 +39,16 @@ namespace jothly
 		void Scale(float const& scale);
 		Vector2 MultiplyComponents(const Vector2& other) { return Vector2(x * other.x, y * other.y); }
 	
-		Vector2 operator+(Vector2 const& other);
-		Vector3 operator+(Vector3 const& other);
+		Vector2 operator+(Vector2 const& other) const;
+		Vector3 operator+(Vector3 const& other) const;
 		Vector2& operator+=(Vector2 const& other);
 		Vector2& operator+=(Vector3 const& other);
-		Vector2 operator-(Vector2 const& other);
+		Vector2 operator-(Vector2 const& other) const;
 		//Vector3 operator-(Vector3 const& other);
 		Vector2& operator-=(Vector2 const& other);
 		Vector2& operator-=(Vector3 const& other);
-		Vector2 operator*(float const& scale);
-		Vector2 operator/(float const& scale);
+		Vector2 operator*(float const& scale) const;
+		Vector2 operator/(float const& scale) const;
 		bool operator==(Vector2 const& other);
 
 		//operator Vector3() const;
