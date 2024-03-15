@@ -87,11 +87,13 @@ namespace jothly
 
 			for(int i = 0; i < node->connections.size(); ++i)
 			{
-				if(node->connections[i]->UpdatePathDataWithLowerScore(node))
+				AStarNode* connection = node->connections[i];
+
+				if(connection->UpdatePathDataWithLowerScore(node))
 				{
-					node->connections[i]->UpdateHeuristicFromEnd(end); // Make sure heuristic is properly updated before pushing
+					connection->UpdateHeuristicFromEnd(end); // Make sure heuristic is properly updated before pushing
 					
-					open.push(node->connections[i]);
+					open.push(connection);
 				}
 			}
 

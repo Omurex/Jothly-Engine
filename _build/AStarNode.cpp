@@ -77,6 +77,6 @@ namespace jothly
 
 	float AStarNode::CalculateHeuristic(AStarNode* other) const
 	{
-		return (pos - other->pos).GetMagnitudeSquared();
+		return (pos - other->pos).GetMagnitude();
 	}
 }
