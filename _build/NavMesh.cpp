@@ -1,8 +1,9 @@
 #include "NavMesh.h"
 #include <set>
 #include <map>
-#include <unordered_map>>
+#include <unordered_map>
 #include <functional>
+#include <unordered_set>
 
 
 namespace jothly
@@ -70,13 +71,27 @@ namespace jothly
 			using std::hash;
 			using std::string;
 
-				Edge newEdge = k.GetFlippedBasedOnCoordinates();
+			Edge newEdge = k.GetFlippedBasedOnCoordinates();
 
 			return ((hash<float>()(newEdge.p0.pos.x)
 				^ (hash<float>()(newEdge.p0.pos.y) << 1)) >> 1)
 				^ (hash<float>()(newEdge.p1.pos.x) << 1)
 				^ (hash<float>()(newEdge.p1.pos.y) << 1);
 		}
+	};
+
+
+	struct DelaunayPointCompare
+	{
+		std::size_t operator()(const DelaunayPoint& k) const
+		{
+			using std::size_t;
+			using std::hash;
+			using std::string;
+
+			return ((hash<float>()(k.pos.x)
+				^ (hash<float>()(k.pos.y) << 1)) >> 1);
+		};
 	};
 
 
@@ -426,10 +441,13 @@ namespace jothly
 		// Holds what two triangles share an edge
 		std::unordered_map<Edge, std::vector<int>, EdgeCompare> edgesToTriangles;
 
-		std::vector<std::vector<Edge>> trianglesToEdges; // Index = triangle index in triangles array, values = edges of triangle
-		trianglesToEdges.resize(triangles.size());
+		std::vector<std::vector<Edge>> trianglesToEdges(triangles.size()); // Index = triangle index in triangles array, values = edges of triangle
 
 		std::unordered_map<Edge, std::vector<AStarNode*>, EdgeCompare> edgesToAStarNodes;
+
+		std::unordered_map<DelaunayPoint, std::vector<Edge>, DelaunayPointCompare> pointToEdges; // Index = index in point array, value = edges that have an endpoint at that point
+
+		std::unordered_map<DelaunayPoint, AStarNode*, DelaunayPointCompare> pointToNode;
 
 		//std::vector<int> nodeIndexToTriangleIndex;
 
@@ -458,10 +476,67 @@ namespace jothly
 				{
 					edgesToTriangles[e][1] = i; // Make second element in value be this triangle index
 				}
+
+				// Fill out point to edges map
+				if(pointToEdges.find(e.p0) == pointToEdges.end())
+				{
+					pointToEdges.insert({ e.p0, std::vector<Edge> { e } });
+				}
+				else
+				{
+					pointToEdges[e.p0].push_back(e);
+				}
+
+				if(pointToEdges.find(e.p1) == pointToEdges.end())
+				{
+					pointToEdges.insert({ e.p1, std::vector<Edge> { e } });
+				}
+				else
+				{
+					pointToEdges[e.p1].push_back(e);
+				}
 			}
 
 			trianglesToEdges[i] = std::vector<Edge>(triEdges, triEdges + 3);
 		}
+
+
+		// Set up astar points
+		for(auto it = pointToEdges.begin(); it != pointToEdges.end(); ++it)
+		{
+			pointToNode.insert( { it->first, graph.CreateNode(it->first.pos) } );
+		}
+
+		std::unordered_set<DelaunayPoint, DelaunayPointCompare> processedPoints;
+		for(auto it = pointToNode.begin(); it != pointToNode.end(); ++it)
+		{
+			AStarNode* node = pointToNode[it->first];
+			std::vector<Edge>& connectedEdges = pointToEdges[it->first];
+
+			for(int i = 0; i < connectedEdges.size(); ++i)
+			{
+				DelaunayPoint other0 = connectedEdges[i].p0;
+				if(processedPoints.find(other0) == processedPoints.end())
+				{
+					node->Form2WayConnection(pointToNode[other0]);
+				}
+
+				DelaunayPoint other1 = connectedEdges[i].p1;
+				if (processedPoints.find(other1) == processedPoints.end())
+				{
+					node->Form2WayConnection(pointToNode[other1]);
+				}
+			}
+
+			processedPoints.insert(it->first);
+		}
+
+
+		// Load pointToEdges
+		/*for(auto it = edgesToTriangles.begin(); it != edgesToTriangles.end(); ++it)
+		{
+			pointTo
+		}*/
 
 
 		// Create nodes at end, middle, and start of edge
@@ -481,12 +556,12 @@ namespace jothly
 		}*/
 
 
-		std::vector<AStarNode*> nodes = graph.GetNodes();
+		/*std::vector<AStarNode*> nodes = graph.GetNodes();
 
 		for(auto it = trianglesToEdges.begin(); it != trianglesToEdges.end(); ++it)
 		{
 			
-		}
+		}*/
 
 		//for(auto it = edgesToTriangles.begin(); it != edgesToTriangles.end(); ++it)
 		//{
