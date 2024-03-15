@@ -90,6 +90,7 @@ namespace jothly
 				if(node->connections[i]->UpdatePathDataWithLowerScore(node))
 				{
 					node->connections[i]->UpdateHeuristicFromEnd(end); // Make sure heuristic is properly updated before pushing
+					
 					open.push(node->connections[i]);
 				}
 			}

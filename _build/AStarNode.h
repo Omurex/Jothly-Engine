@@ -29,6 +29,7 @@ namespace jothly
 		void SetPathCost(float _pathCost) { pathCost = _pathCost; }
 
 		AStarNode* Form2WayConnection(AStarNode* node);
+		AStarNode* Form1WayConnection(AStarNode* node); // This node to other node
 
 		void Draw(Color nodeColor, float nodeRadius, Color connectionLineColor, float connectionLineThickness);
 		void DrawConnection(AStarNode* other, Color connectionLineColor, float connectionLineThickness);

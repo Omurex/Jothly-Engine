@@ -482,7 +482,7 @@ namespace jothly
 				{
 					pointToEdges.insert({ e.p0, std::vector<Edge> { e } });
 				}
-				else
+				else if(std::find(pointToEdges[e.p0].begin(), pointToEdges[e.p0].end(), e) == pointToEdges[e.p0].end()) // Make sure edge isn't already accounted for
 				{
 					pointToEdges[e.p0].push_back(e);
 				}
@@ -491,7 +491,7 @@ namespace jothly
 				{
 					pointToEdges.insert({ e.p1, std::vector<Edge> { e } });
 				}
-				else
+				else if (std::find(pointToEdges[e.p1].begin(), pointToEdges[e.p1].end(), e) == pointToEdges[e.p1].end())
 				{
 					pointToEdges[e.p1].push_back(e);
 				}
@@ -515,7 +515,7 @@ namespace jothly
 
 			for(int i = 0; i < connectedEdges.size(); ++i)
 			{
-				DelaunayPoint other0 = connectedEdges[i].p0;
+				/*DelaunayPoint other0 = connectedEdges[i].p0;
 				if(processedPoints.find(other0) == processedPoints.end())
 				{
 					node->Form2WayConnection(pointToNode[other0]);
@@ -525,6 +525,15 @@ namespace jothly
 				if (processedPoints.find(other1) == processedPoints.end())
 				{
 					node->Form2WayConnection(pointToNode[other1]);
+				}*/
+
+				if(it->first == connectedEdges[i].p0) // p0 is this, so connect p1
+				{
+					node->Form1WayConnection(pointToNode[connectedEdges[i].p1]);
+				}
+				else // p1 is this, so connect p0
+				{
+					node->Form1WayConnection(pointToNode[connectedEdges[i].p0]);
 				}
 			}
 

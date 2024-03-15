@@ -3,20 +3,20 @@
 
 
 namespace jothly
-{
-	AStarNode* AStarNode::AddReverseConnection(AStarNode* node)
+{	
+	AStarNode* AStarNode::Form2WayConnection(AStarNode* node)
+    {
+        Form1WayConnection(node);
+		node->Form1WayConnection(this);
+		return this;
+    }
+
+
+	AStarNode* AStarNode::Form1WayConnection(AStarNode* node)
 	{
 		connections.push_back(node);
 		return this;
 	}
-
-	
-	AStarNode* AStarNode::Form2WayConnection(AStarNode* node)
-    {
-        connections.push_back(node);
-		node->AddReverseConnection(this);
-		return this;
-    }
 
 
     void AStarNode::Draw(Color nodeColor, float nodeRadius, Color connectionLineColor, float connectionLineThickness)
