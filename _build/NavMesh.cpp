@@ -56,37 +56,7 @@ namespace jothly
 		}
 
 
-		/*bool operator<(const Edge& other) const
-		{
-			Edge edge1 = *this;
-			Edge edge2 = other;
-
-			edge1.FlipBasedOnCoordinates();
-			edge2.FlipBasedOnCoordinates();
-
-			return edge1.p0.pos.x < edge2.p0.pos.x;
-		}*/
-
-
-		// https://stackoverflow.com/questions/17016175/c-unordered-map-using-a-custom-class-type-as-the-key
-		//std::size_t operator()(const Edge& k) const
-		//{
-		//	using std::size_t;
-		//	using std::hash;
-		//	using std::string;
-
-		//	// Compute individual hash values for first,
-		//	// second and third and combine them using XOR
-		//	// and bit shifting:
-
-		//	Edge newEdge = GetFlippedBasedOnCoordinates();
-
-		//	return ((hash<float>()(newEdge.p0.pos.x)
-		//		^ (hash<float>()(newEdge.p0.pos.y) << 1)) >> 1)
-		//		^ (hash<float>()(newEdge.p1.pos.x) << 1)
-		//		^ (hash<float>()(newEdge.p1.pos.y) << 1);
-		//}
-
+		Vector2 CalculateMidPoint() { return (p0.pos + p1.pos) / 2.0f; }
 
 	};
 
@@ -453,9 +423,15 @@ namespace jothly
 		edges.reserve(triangles.size() * 3);*/
 
 		// Key: Appropriately flipped edge, Value: Triangle indexes in triangles vector
+		// Holds what two triangles share an edge
 		std::unordered_map<Edge, std::vector<int>, EdgeCompare> edgesToTriangles;
 
-		std::vector<int> nodeIndexToTriangleIndex;
+		std::vector<std::vector<Edge>> trianglesToEdges; // Index = triangle index in triangles array, values = edges of triangle
+		trianglesToEdges.resize(triangles.size());
+
+		std::unordered_map<Edge, std::vector<AStarNode*>, EdgeCompare> edgesToAStarNodes;
+
+		//std::vector<int> nodeIndexToTriangleIndex;
 
 		// Note: Since one AStar node is added for every triangle, triangles array lines up with graph nodes array
 		for (int i = 0; i < triangles.size(); i++)
@@ -484,20 +460,45 @@ namespace jothly
 				}
 			}
 
-			graph.CreateNode(tri.GetCentroid());
+			trianglesToEdges[i] = std::vector<Edge>(triEdges, triEdges + 3);
 		}
+
+
+		// Create nodes at end, middle, and start of edge
+		/*for(auto it = edgesToTriangles.begin(); it != edgesToTriangles.end(); ++it)
+		{
+			Edge edge = it->first;
+
+			edgesToAStarNodes.insert({ edge, std::vector<AStarNode*>(3) });
+
+			std::vector<AStarNode*>& edgeNodes = edgesToAStarNodes[edge];
+			edgeNodes[0] = (graph.CreateNode(edge.p0.pos));
+			edgeNodes[1] = (graph.CreateNode(edge.CalculateMidPoint()));
+			edgeNodes[2] = (graph.CreateNode(edge.p1.pos));
+
+			edgeNodes[0]->Form2WayConnection(edgeNodes[1]);
+			edgeNodes[1]->Form2WayConnection(edgeNodes[2]);
+		}*/
+
 
 		std::vector<AStarNode*> nodes = graph.GetNodes();
 
-		for(auto it = edgesToTriangles.begin(); it != edgesToTriangles.end(); ++it)
+		for(auto it = trianglesToEdges.begin(); it != trianglesToEdges.end(); ++it)
 		{
-			int triIndex0 = it->second[0];
-			int triIndex1 = it->second[1];
-
-			if(triIndex1 < 0) continue; // No edge sharing triangles
-
-			nodes[triIndex0]->Form2WayConnection(nodes[triIndex1]);
+			
 		}
+
+		//for(auto it = edgesToTriangles.begin(); it != edgesToTriangles.end(); ++it)
+		//{
+		//	std::vector<AStarNode*> &triNodes = edgesToAStarNodes[it->first];
+
+		//	int triIndex0 = it->second[0];
+		//	int triIndex1 = it->second[1];
+
+		//	if(triIndex1 < 0) continue; // No edge sharing triangles
+
+		//	nodes[triIndex0]->Form2WayConnection(nodes[triIndex1]);
+		//}
 
 		return graph;
 	}
