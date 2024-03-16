@@ -42,9 +42,9 @@ namespace jothly
 	}
 
 
-	float AStarNode::CalculateH(AStarNode* end) const
+	float AStarNode::CalculateH(AStarNode* other) const
 	{
-		return CalculateHeuristic(end);
+		return CalculateHeuristic(other);
 	}
 
 

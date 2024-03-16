@@ -10,8 +10,16 @@ namespace jothly
 {
 	struct Edge
 	{
-		DelaunayPoint p0;
-		DelaunayPoint p1;
+		union
+		{
+			struct
+			{
+				DelaunayPoint p0;
+				DelaunayPoint p1;
+			};
+
+			DelaunayPoint p[2];
+		};
 
 
 		Edge(DelaunayPoint _p0, DelaunayPoint _p1) { p0 = _p0; p1 = _p1; }
@@ -439,15 +447,15 @@ namespace jothly
 
 		// Key: Appropriately flipped edge, Value: Triangle indexes in triangles vector
 		// Holds what two triangles share an edge
-		std::unordered_map<Edge, std::vector<int>, EdgeCompare> edgesToTriangles;
+		std::unordered_map<Edge, std::vector<int>, EdgeCompare> edgeToTriangles;
 
 		std::vector<std::vector<Edge>> trianglesToEdges(triangles.size()); // Index = triangle index in triangles array, values = edges of triangle
-
-		std::unordered_map<Edge, std::vector<AStarNode*>, EdgeCompare> edgesToAStarNodes;
 
 		std::unordered_map<DelaunayPoint, std::vector<Edge>, DelaunayPointCompare> pointToEdges; // Index = index in point array, value = edges that have an endpoint at that point
 
 		std::unordered_map<DelaunayPoint, AStarNode*, DelaunayPointCompare> pointToNode;
+
+		std::unordered_map<Edge, AStarNode*, EdgeCompare> edgeToMidpointAStarNode;
 
 		//std::vector<int> nodeIndexToTriangleIndex;
 
@@ -468,36 +476,41 @@ namespace jothly
 				Edge e = triEdges[j];
 				e.FlipBasedOnCoordinates();
 
-				if (edgesToTriangles.find(e) == edgesToTriangles.end()) // Edge not in map, put it in
+				if (edgeToTriangles.find(e) == edgeToTriangles.end()) // Edge not in map, put it in
 				{
-					edgesToTriangles.insert({e, {i, -1}}); // Add edge with first element in value being this triangle index
+					edgeToTriangles.insert({e, {i, -1}}); // Add edge with first element in value being this triangle index
 				}
 				else
 				{
-					edgesToTriangles[e][1] = i; // Make second element in value be this triangle index
+					edgeToTriangles[e][1] = i; // Make second element in value be this triangle index
 				}
 
-				// Fill out point to edges map
-				if(pointToEdges.find(e.p0) == pointToEdges.end())
+				for(int k = 0; k < 2; ++k) // For each endpoint of edge, load pointToEdges map with appropriate data
 				{
-					pointToEdges.insert({ e.p0, std::vector<Edge> { e } });
-				}
-				else if(std::find(pointToEdges[e.p0].begin(), pointToEdges[e.p0].end(), e) == pointToEdges[e.p0].end()) // Make sure edge isn't already accounted for
-				{
-					pointToEdges[e.p0].push_back(e);
-				}
+					DelaunayPoint edgePoint = e.p[k];
 
-				if(pointToEdges.find(e.p1) == pointToEdges.end())
-				{
-					pointToEdges.insert({ e.p1, std::vector<Edge> { e } });
-				}
-				else if (std::find(pointToEdges[e.p1].begin(), pointToEdges[e.p1].end(), e) == pointToEdges[e.p1].end())
-				{
-					pointToEdges[e.p1].push_back(e);
+					// Fill out point to edges map
+					if (pointToEdges.find(edgePoint) == pointToEdges.end())
+					{
+						pointToEdges.insert({ edgePoint, std::vector<Edge> { e }});
+					}
+					// Make sure edge isn't already accounted for
+					else if (std::find(pointToEdges[edgePoint].begin(), pointToEdges[edgePoint].end(), e) == pointToEdges[edgePoint].end())
+					{
+						pointToEdges[edgePoint].push_back(e);
+					}
 				}
 			}
 
 			trianglesToEdges[i] = std::vector<Edge>(triEdges, triEdges + 3);
+		}
+
+		
+		// Add midpoint astar nodes to graph
+		for(auto it = edgeToTriangles.begin(); it != edgeToTriangles.end(); ++it)
+		{
+			Edge edge = it->first;
+			edgeToMidpointAStarNode.insert({ edge, graph.CreateNode(edge.CalculateMidPoint()) });
 		}
 
 
@@ -507,7 +520,6 @@ namespace jothly
 			pointToNode.insert( { it->first, graph.CreateNode(it->first.pos) } );
 		}
 
-		std::unordered_set<DelaunayPoint, DelaunayPointCompare> processedPoints;
 		for(auto it = pointToNode.begin(); it != pointToNode.end(); ++it)
 		{
 			AStarNode* node = pointToNode[it->first];
@@ -515,29 +527,49 @@ namespace jothly
 
 			for(int i = 0; i < connectedEdges.size(); ++i)
 			{
-				/*DelaunayPoint other0 = connectedEdges[i].p0;
-				if(processedPoints.find(other0) == processedPoints.end())
-				{
-					node->Form2WayConnection(pointToNode[other0]);
-				}
+				node->Form2WayConnection(edgeToMidpointAStarNode[connectedEdges[i]]);
 
-				DelaunayPoint other1 = connectedEdges[i].p1;
-				if (processedPoints.find(other1) == processedPoints.end())
-				{
-					node->Form2WayConnection(pointToNode[other1]);
-				}*/
+				// Use below commented code if we're connecting points in triangle to each other, not using midpoints
+				//if(it->first == connectedEdges[i].p0) // p0 is this, so connect p1
+				//{
+				//	node->Form1WayConnection(pointToNode[connectedEdges[i].p1]);
+				//}
+				//else // p1 is this, so connect p0
+				//{
+				//	node->Form1WayConnection(pointToNode[connectedEdges[i].p0]);
+				//}
+			}
+		}
 
-				if(it->first == connectedEdges[i].p0) // p0 is this, so connect p1
+
+		// Connect edge midpoints in triangle
+		for(auto it = edgeToTriangles.begin(); it != edgeToTriangles.end(); ++it) // Loop through each edge
+		{
+			Edge edge = it->first;
+			std::vector<int>& triangleIndexes = it->second;
+			AStarNode* edgeMidPoint = edgeToMidpointAStarNode[edge];
+
+			for (int i = 0; i < triangleIndexes.size(); ++i) // Loop through triangles edge is connected to
+			{
+				int triIndex = triangleIndexes[i];
+
+				if(triIndex < 0) continue; // No second triangle has this edge
+
+				DelaunayTriangle& tri = triangles[triIndex];
+
+				std::vector<Edge>& triEdges = trianglesToEdges[triIndex];
+
+				for(int j = 0; j < triEdges.size(); ++j) // Loop through each edge of the triangle
 				{
-					node->Form1WayConnection(pointToNode[connectedEdges[i].p1]);
-				}
-				else // p1 is this, so connect p0
-				{
-					node->Form1WayConnection(pointToNode[connectedEdges[i].p0]);
+					Edge triEdge = triEdges[j];
+
+					if(edge == triEdge) continue; // Don't connect edge midpoint to itself
+
+					AStarNode* triEdgeMidPoint = edgeToMidpointAStarNode[triEdge];
+
+					edgeMidPoint->Form1WayConnection(triEdgeMidPoint);
 				}
 			}
-
-			processedPoints.insert(it->first);
 		}
 
 

@@ -151,7 +151,7 @@ void Init()
 
 	//std::vector<Vector2> testPoints { Vector2(100, 100), Vector2(50, 100), Vector2(200, 300), Vector2(150, 250) };
 
-	NavMesh* navmeshComponent = navmesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 1, Color::WHITE, true);
+	NavMesh* navmeshComponent = navmesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 2, Color::WHITE, true);
 	navmeshComponent->GenerateRandomPoints(20, Vector2(5, 5), Vector2(595, 595));
 
 	SquareNavMeshObstacle squareObstacle1 = SquareNavMeshObstacle(Vector2(225, 225));
@@ -232,7 +232,7 @@ void Init()
 int main(int argc, char* argv[])
 {
 	srand(time(NULL));
-	srand(1710527596);
+	//srand(1710547673);
 
 	std::cout << "SEED: " + std::to_string(time(NULL)) << std::endl;
 
