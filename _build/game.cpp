@@ -129,10 +129,10 @@ void Draw()
 		ShapeDrawing2D::DrawLine(navMeshPath[i - 1], navMeshPath[i], 10, Color::PURPLE);
 	}
 
-	if(navMeshPath.size() >= 2)
+	/*if(navMeshPath.size() >= 2)
 	{
 		ShapeDrawing2D::DrawLine(navMeshPath[0], navMeshPath[navMeshPath.size() - 1], 10, Color::BLACK);
-	}
+	}*/
 
 	//superTri.Draw(3, Color::YELLOW);
 
@@ -171,7 +171,7 @@ void Init()
 	NavMesh* navmeshComponent = navmesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 2, Color::WHITE, true,
 		5.0f, Color::RED, true, true, false);
 
-	//navmeshComponent->GenerateRandomPoints(20, Vector2(5, 5), Vector2(595, 595));
+	navmeshComponent->GenerateRandomPoints(20, Vector2(5, 5), Vector2(595, 595));
 
 	SquareNavMeshObstacle squareObstacle1 = SquareNavMeshObstacle(Vector2(225, 225));
 	squareObstacle1.color = Color::RED;

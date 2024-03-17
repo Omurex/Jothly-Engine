@@ -78,7 +78,7 @@ namespace jothly
 		/*Vector2 topLeft, topRight, rightTop, rightBottom, 
 		bottomLeft, bottomRight, leftTop, leftBottom = centerPos;*/
 
-		float halfLength = sideLength / 2.0f;
+		float halfLength = sideLength * (NAVMESH_OFFSET_MAGNITUDE * .99f) / 2.0f;
 
 		Vector2 corners[] { 
 			Vector2(-halfLength, -halfLength),

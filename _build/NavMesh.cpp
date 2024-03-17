@@ -184,6 +184,49 @@ namespace jothly
 	}
 
 
+	bool NavMesh::DoesLineIntersectWithAnyObstacles(Vector2 p0, Vector2 p1)
+	{
+		for (int i = 0; i < obstacles.size(); i++)
+		{
+			if (obstacles[i]->DoesLineSegmentIntersectObstacle(p0, p1))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	void NavMesh::SmoothPath(std::vector<Vector2>& path)
+	{
+		std::vector<Vector2> smoothedPath;
+		smoothedPath.reserve(path.size());
+
+		int numSkips;
+
+		for(int i = 0; i < path.size(); i += numSkips)
+		{
+			numSkips = 1;
+
+			// Make sure we're not out of bounds of path array
+			while(i + numSkips + 1 < path.size())
+			{
+				if(DoesLineIntersectWithAnyObstacles(path[i], path[i + numSkips + 1]))
+				{
+					break;
+				}
+
+				numSkips += 1;
+			}
+
+			smoothedPath.push_back(path[i]);
+		}
+
+		path = smoothedPath;
+	}
+
+
 	ComponentID NavMesh::GetID() const
 	{
 		return ComponentID::NAVMESH;
@@ -678,18 +721,7 @@ namespace jothly
 			endNode->Remove2WayConnection(endTriangleAStar[i]);
 		}
 
-		if(IsKeyDown(KeyboardKey::KEY_SPACE))
-		{
-			std::cout << "HIT BREAKPOINT\n";
-		}
-
-		for(int i = 0; i < obstacles.size(); i++)
-		{
-			if(obstacles[i]->DoesLineSegmentIntersectObstacle(start, end))
-			{
-				std::cout << "INTERSECTING WITH OBSTACLE" + end.ToString() + "\n";;
-			}
-		}
+		SmoothPath(path);
 
 		return path;
 	}

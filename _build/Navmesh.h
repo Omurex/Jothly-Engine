@@ -48,6 +48,9 @@ namespace jothly
 
 		int FindTriangleIndexContainingPoint(Vector2 point);
 
+		bool DoesLineIntersectWithAnyObstacles(Vector2 p0, Vector2 p1);
+		void SmoothPath(std::vector<Vector2>& path);
+
 		public:
 
 		NavMesh* Init(float _pointRadius = 5, Color _pointColor = Color::BLACK, bool _drawPoints = true, float _lineThickness = 1,
