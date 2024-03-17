@@ -68,6 +68,11 @@ namespace jothly
 
 		Vector2 CalculateMidPoint() { return (p0.pos + p1.pos) / 2.0f; }
 
+		bool HasPoint(DelaunayPoint& point)
+		{
+			return p0 == point || p1 == point;
+		}
+
 	};
 
 
@@ -588,7 +593,7 @@ namespace jothly
 			pointToNode.insert( { it->first, graph.CreateNode(it->first.pos) } );
 		}
 
-		for(auto it = pointToNode.begin(); it != pointToNode.end(); ++it)
+		for(auto it = pointToNode.begin(); it != pointToNode.end(); ++it) // Loop through each point, and its associated AStar
 		{
 			AStarNode* node = pointToNode[it->first];
 			std::vector<Edge>& connectedEdges = pointToEdges[it->first];
@@ -597,7 +602,7 @@ namespace jothly
 			{
 				node->Form2WayConnection(edgeToMidpointAStarNode[connectedEdges[i]]);
 
-				// Use below commented code if we're connecting points in triangle to each other, not using midpoints
+				// Use below commented code if we're connecting vertices in triangle to each other, not using midpoints
 				//if(it->first == connectedEdges[i].p0) // p0 is this, so connect p1
 				//{
 				//	node->Form1WayConnection(pointToNode[connectedEdges[i].p1]);
@@ -638,6 +643,18 @@ namespace jothly
 					AStarNode* triEdgeMidPoint = edgeToMidpointAStarNode[triEdge];
 
 					edgeMidPoint->Form2WayConnection(triEdgeMidPoint);
+
+					// For each edge, connect midpoint to opposing vertex
+					for(int k = 0; k < 3; ++k)
+					{
+						DelaunayPoint triVertex = tri.points[k];
+
+						if(triEdge.HasPoint(triVertex)) continue; // Point is on this edge, not opposite we're looking for
+					
+						edgeMidPoint->Form2WayConnection(pointToNode[triVertex]);
+
+						break;
+					}
 				}
 			}
 		}
@@ -667,13 +684,13 @@ namespace jothly
 	}
 
 
-	std::vector<Vector2> NavMesh::CalculatePath(Vector2 start, Vector2 end)
+	std::vector<Vector2> NavMesh::CalculatePathWithoutSmoothing(Vector2 start, Vector2 end)
 	{
 		int startTriangleIndex = FindTriangleIndexContainingPoint(start);
 		int endTriangleIndex = FindTriangleIndexContainingPoint(end);
 
-		if(startTriangleIndex < 0) { std::cout << "No triangle containing start point\n"; return std::vector<Vector2>(); }
-		if(endTriangleIndex < 0) { std::cout << "No triangle containing end point\n"; return std::vector<Vector2>(); }
+		if (startTriangleIndex < 0) { std::cout << "No triangle containing start point\n"; return std::vector<Vector2>(); }
+		if (endTriangleIndex < 0) { std::cout << "No triangle containing end point\n"; return std::vector<Vector2>(); }
 
 		DelaunayPoint* startPoints = triangles[startTriangleIndex].points;
 		DelaunayPoint* endPoints = triangles[endTriangleIndex].points;
@@ -691,12 +708,12 @@ namespace jothly
 		AStarNode* endNode = graph.CreateNode(end);
 
 		// Connect temporary start and end node to astar system
-		for(int i = 0; i < startTriangleAStar.size(); ++i)
+		for (int i = 0; i < startTriangleAStar.size(); ++i)
 		{
 			startNode->Form2WayConnection(startTriangleAStar[i]);
 		}
 
-		for(int i = 0; i < endTriangleAStar.size(); ++i)
+		for (int i = 0; i < endTriangleAStar.size(); ++i)
 		{
 			endNode->Form2WayConnection(endTriangleAStar[i]);
 		}
@@ -705,7 +722,7 @@ namespace jothly
 		std::vector<Vector2> path(aStarPath.size());
 
 		// Convert astar path to positions
-		for(int i = 0; i < aStarPath.size(); ++i)
+		for (int i = 0; i < aStarPath.size(); ++i)
 		{
 			path[i] = aStarPath[i]->pos;
 		}
@@ -720,6 +737,14 @@ namespace jothly
 		{
 			endNode->Remove2WayConnection(endTriangleAStar[i]);
 		}
+
+		return path;
+	}
+
+
+	std::vector<Vector2> NavMesh::CalculatePathWithSmoothing(Vector2 start, Vector2 end)
+	{
+		std::vector<Vector2> path = CalculatePathWithoutSmoothing(start, end);
 
 		SmoothPath(path);
 

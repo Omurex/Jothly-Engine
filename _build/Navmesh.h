@@ -80,6 +80,8 @@ namespace jothly
 		AStarGraph& GenerateAStarGraph();
 
 		bool FindTriangleContainingPoint(Vector2 point, DelaunayTriangle& out_triangle); // True if successful
-		std::vector<Vector2> CalculatePath(Vector2 start, Vector2 end);
+
+		std::vector<Vector2> CalculatePathWithoutSmoothing(Vector2 start, Vector2 end);
+		std::vector<Vector2> CalculatePathWithSmoothing(Vector2 start, Vector2 end);
 	};
 }

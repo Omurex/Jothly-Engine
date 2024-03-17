@@ -37,7 +37,10 @@ DelaunayTriangle tri;
 DelaunayTriangle superTri;
 GameObject navmesh;
 
-std::vector<Vector2> navMeshPath;
+Vector2 startOfPath = Vector2(50, 10);
+
+std::vector<Vector2> notSmoothNavMeshPath;
+std::vector<Vector2> smoothNavMeshPath;
 
 
 void UpdateWFC()
@@ -53,14 +56,42 @@ void UpdateWFC()
 }
 
 
+void UpdateNavMesh()
+{
+	if (IsKeyPressed(KeyboardKey::KEY_SPACE))
+	{
+		startOfPath = { GetMousePosition().x, GetMousePosition().y };
+	}
+
+	if(IsMouseButtonDown(MouseButton::MOUSE_BUTTON_RIGHT))
+	{
+		notSmoothNavMeshPath = ((NavMesh*)navmesh.GetComponent(ComponentID::NAVMESH))->CalculatePathWithoutSmoothing(
+			startOfPath, { GetMousePosition().x, GetMousePosition().y });
+	}
+	else
+	{
+		notSmoothNavMeshPath = std::vector<Vector2>();
+	}
+
+	if(IsMouseButtonDown(MouseButton::MOUSE_BUTTON_LEFT))
+	{
+		smoothNavMeshPath = ((NavMesh*)navmesh.GetComponent(ComponentID::NAVMESH))->CalculatePathWithSmoothing(
+			startOfPath, { GetMousePosition().x, GetMousePosition().y });
+	}
+	else
+	{
+		smoothNavMeshPath = std::vector<Vector2>();
+	}
+}
+
+
 void Update()
 {
 	testObj.Update(GetFrameTime());
 
 	navmesh.Update(GetFrameTime());
 
-	navMeshPath = ((NavMesh*) navmesh.GetComponent(ComponentID::NAVMESH))->CalculatePath(
-		Vector2(120, 100), { GetMousePosition().x, GetMousePosition().y });
+	UpdateNavMesh();
 
 	//UpdateWFC();
 }
@@ -123,10 +154,16 @@ void Draw()
 	testObj.Draw();
 	navmesh.Draw();
 
-	for(int i = 1; i < navMeshPath.size(); i++)
+	for (int i = 1; i < notSmoothNavMeshPath.size(); i++)
 	{
-		ShapeDrawing2D::DrawCircle(navMeshPath[i], 7, Color::ORANGE);
-		ShapeDrawing2D::DrawLine(navMeshPath[i - 1], navMeshPath[i], 10, Color::PURPLE);
+		ShapeDrawing2D::DrawCircle(notSmoothNavMeshPath[i], 3, Color::BLUE);
+		ShapeDrawing2D::DrawLine(notSmoothNavMeshPath[i - 1], notSmoothNavMeshPath[i], 5, Color::RED);
+	}
+
+	for(int i = 1; i < smoothNavMeshPath.size(); i++)
+	{
+		ShapeDrawing2D::DrawCircle(smoothNavMeshPath[i], 7, Color::ORANGE);
+		ShapeDrawing2D::DrawLine(smoothNavMeshPath[i - 1], smoothNavMeshPath[i], 10, Color::PURPLE);
 	}
 
 	/*if(navMeshPath.size() >= 2)
@@ -171,7 +208,7 @@ void Init()
 	NavMesh* navmeshComponent = navmesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 2, Color::WHITE, true,
 		5.0f, Color::RED, true, true, false);
 
-	navmeshComponent->GenerateRandomPoints(20, Vector2(5, 5), Vector2(595, 595));
+	//navmeshComponent->GenerateRandomPoints(20, Vector2(5, 5), Vector2(595, 595));
 
 	SquareNavMeshObstacle squareObstacle1 = SquareNavMeshObstacle(Vector2(225, 225));
 	squareObstacle1.color = Color::RED;
@@ -185,9 +222,18 @@ void Init()
 	SquareNavMeshObstacle squareObstacle4 = SquareNavMeshObstacle(Vector2(100, 100));
 	squareObstacle4.color = Color::RED;
 
+	SquareNavMeshObstacle squareObstacle5 = SquareNavMeshObstacle(Vector2(50, 400));
+	squareObstacle5.color = Color::RED;
+
+	SquareNavMeshObstacle squareObstacle6 = SquareNavMeshObstacle(Vector2(300, 300));
+	squareObstacle6.color = Color::RED;
+
 	navmeshComponent->AddObstacle(&squareObstacle1);
 	navmeshComponent->AddObstacle(&squareObstacle2);
 	navmeshComponent->AddObstacle(&squareObstacle3);
+	navmeshComponent->AddObstacle(&squareObstacle4);
+	navmeshComponent->AddObstacle(&squareObstacle5);
+	navmeshComponent->AddObstacle(&squareObstacle6);
 
 	navmeshComponent->AddPoints(std::vector<Vector2> {Vector2(5, 5), Vector2(595, 5), Vector2(595, 595), Vector2(5, 595)});
 
