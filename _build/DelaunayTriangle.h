@@ -31,5 +31,7 @@ namespace jothly
 		// -1 if doesn't share edge (outs won't be set), 0 if same triangle (outs won't be set), 1 if shares edge
 		int SharesEdge(const DelaunayTriangle& other, DelaunayPoint& out_edgeP0, DelaunayPoint& out_edgeP1);
 		bool HasPoint(const DelaunayPoint& point);
+
+		bool ContainsPointInTriangle(Vector2 point);
 	};
 }

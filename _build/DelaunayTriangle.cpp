@@ -2,6 +2,7 @@
 #include "ShapeDrawing2D.h"
 #include "Math.h"
 #include "Vector3.h"
+#include <limits>
 
 
 namespace jothly
@@ -110,4 +111,29 @@ namespace jothly
 	{
 		return points[0] == point || points[1] == point || points[2] == point;
 	}
+
+
+	// https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
+	// ^ Code snippet from answer
+    bool DelaunayTriangle::ContainsPointInTriangle(Vector2 p)
+    {
+		static constexpr float SMALLEST_NEG_FLOAT = -std::numeric_limits<float>::min();
+
+		Vector2 v0 = points[0].pos;
+		Vector2 v1 = points[1].pos;
+		Vector2 v2 = points[2].pos;
+
+		int as_x = p.x - v0.x;
+		int as_y = p.y - v0.y;
+
+		bool s_ab = (v1.x - v0.x) * as_y - (v1.y - v0.y) * as_x >= SMALLEST_NEG_FLOAT;
+
+		if ((v2.x - v0.x) * as_y - (v2.y - v0.y) * as_x >= SMALLEST_NEG_FLOAT == s_ab)
+			return false;
+
+		if ((v2.x - v1.x) * (p.y - v1.y) - (v2.y - v1.y) * (p.x - v1.x) >= SMALLEST_NEG_FLOAT != s_ab)
+			return false;
+
+		return true;
+    }
 }

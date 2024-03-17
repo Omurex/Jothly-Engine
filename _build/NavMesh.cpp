@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <functional>
 #include <unordered_set>
+#include <iostream>
 
 
 namespace jothly
@@ -105,7 +106,7 @@ namespace jothly
 
 	NavMesh* NavMesh::Init(float _pointRadius, Color _pointColor, bool _drawPoints, float _lineThickness, 
 		Color _lineColor, bool _drawTriangles, float _obstaclePointRadius, Color _obstaclePointColor, 
-		bool _drawObstaclePoints, bool _drawObstacles)
+		bool _drawObstaclePoints, bool _drawObstacles, bool _drawAStar)
 	{
 		pointRadius = _pointRadius;
 		pointColor = _pointColor;
@@ -118,6 +119,7 @@ namespace jothly
 		drawTriangles = _drawTriangles;
 		drawObstaclePoints = _drawObstaclePoints;
 		drawObstacles = _drawObstacles;
+		drawAStar = _drawAStar;
 
 		return this;
 	}
@@ -164,6 +166,21 @@ namespace jothly
 		{
 			graph.Draw();
 		}
+	}
+
+
+	int NavMesh::FindTriangleIndexContainingPoint(Vector2 point)
+	{
+		// Optimize this later with binary search (use edges that are sorted? make the maps we generate during astar member vars)
+		for(int i = 0; i < triangles.size(); i++)
+		{
+			if(triangles[i].ContainsPointInTriangle(point))
+			{
+				return i;
+			}
+		}
+
+		return -1;
 	}
 
 
@@ -617,5 +634,31 @@ namespace jothly
 		//}
 
 		return graph;
+	}
+
+
+	bool NavMesh::FindTriangleContainingPoint(Vector2 point, DelaunayTriangle& out_triangle)
+	{
+		int index = FindTriangleIndexContainingPoint(point);
+
+		if(index < 0) return false;
+
+		out_triangle = triangles[index];
+
+		return true;
+	}
+
+
+	std::vector<Vector2> NavMesh::CalculatePath(Vector2 start, Vector2 end)
+	{
+		int index = FindTriangleIndexContainingPoint(start);
+
+		if(index == -1) { std::cout << "No triangle containing point\n"; return std::vector<Vector2>(); }
+
+		DelaunayPoint* points = triangles[index].points;
+		std::cout << "Points containing: " + points[0].pos.ToString() + " , " + points[1].pos.ToString() + " , " + 
+			points[2].pos.ToString() + "\n";
+
+		return std::vector<Vector2> { points[0].pos, points[1].pos, points[2].pos };
 	}
 }

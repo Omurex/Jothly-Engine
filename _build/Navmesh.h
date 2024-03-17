@@ -44,12 +44,14 @@ namespace jothly
 		NavMesh(GameObject* _owner) : Component(_owner) {}
 		void Draw() override;
 
+		int FindTriangleIndexContainingPoint(Vector2 point);
 
 		public:
 
 		NavMesh* Init(float _pointRadius = 5, Color _pointColor = Color::BLACK, bool _drawPoints = true, float _lineThickness = 1,
 			Color _lineColor = Color::WHITE, bool _drawTriangles = true, float _obstaclePointRadius = 5,
-			Color _obstaclePointColor = Color::RED, bool _drawObstaclePoints = true, bool _drawObstacles = true);
+			Color _obstaclePointColor = Color::RED, bool _drawObstaclePoints = true, bool _drawObstacles = true,
+			bool _drawAStar = true);
 
 		ComponentID GetID() const override;
 
@@ -71,5 +73,8 @@ namespace jothly
 		void GenerateRandomPoints(int numPoints, Vector2 lowerbound, Vector2 upperbound);
 
 		AStarGraph& GenerateAStarGraph();
+
+		bool FindTriangleContainingPoint(Vector2 point, DelaunayTriangle& out_triangle); // True if successful
+		std::vector<Vector2> CalculatePath(Vector2 start, Vector2 end);
 	};
 }

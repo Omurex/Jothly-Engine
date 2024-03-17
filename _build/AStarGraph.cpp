@@ -48,7 +48,7 @@ namespace jothly
 
 
 	// https://theory.stanford.edu/~amitp/GameProgramming/MapRepresentations.html
-	std::vector<AStarNode*> AStarGraph::GetPath(AStarNode* start, AStarNode* end)
+	std::vector<AStarNode*> AStarGraph::CalculatePath(AStarNode* start, AStarNode* end)
 	{
 		if(start == end) // If we try navigating to same spot, path will only have this spot's node
 		{

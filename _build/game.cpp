@@ -37,6 +37,8 @@ DelaunayTriangle tri;
 DelaunayTriangle superTri;
 GameObject navmesh;
 
+std::vector<Vector2> containingTriangle;
+
 
 void UpdateWFC()
 {
@@ -56,6 +58,9 @@ void Update()
 	testObj.Update(GetFrameTime());
 
 	navmesh.Update(GetFrameTime());
+
+	containingTriangle = ((NavMesh*) navmesh.GetComponent(ComponentID::NAVMESH))->CalculatePath(
+		{ GetMousePosition().x, GetMousePosition().y }, Vector2(100, 100));
 
 	//UpdateWFC();
 }
@@ -117,6 +122,12 @@ void Draw()
 {
 	testObj.Draw();
 	navmesh.Draw();
+
+	for(int i = 0; i < containingTriangle.size(); i++)
+	{
+		ShapeDrawing2D::DrawCircle(containingTriangle[i], 7, Color::ORANGE);
+	}
+
 	//superTri.Draw(3, Color::YELLOW);
 
 	//tri.Draw(1, Color::RED);
@@ -151,7 +162,9 @@ void Init()
 
 	//std::vector<Vector2> testPoints { Vector2(100, 100), Vector2(50, 100), Vector2(200, 300), Vector2(150, 250) };
 
-	NavMesh* navmeshComponent = navmesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 2, Color::WHITE, true);
+	NavMesh* navmeshComponent = navmesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 2, Color::WHITE, true,
+		5.0f, Color::RED, true, true, false);
+
 	navmeshComponent->GenerateRandomPoints(20, Vector2(5, 5), Vector2(595, 595));
 
 	SquareNavMeshObstacle squareObstacle1 = SquareNavMeshObstacle(Vector2(225, 225));
@@ -170,34 +183,7 @@ void Init()
 	navmeshComponent->AddObstacle(&squareObstacle2);
 	navmeshComponent->AddObstacle(&squareObstacle3);
 
-	//navmeshComponent->LoadObstaclePoints(std::vector<Vector2>{
-	//	//Vector2(225, 225),
-	//	Vector2(220, 220),
-	//	Vector2(230, 220),
-	//	Vector2(230, 230),
-	//	Vector2(220, 230)
-	//	/*Vector2(205, 205),
-	//	Vector2(245, 205),
-	//	Vector2(245, 245),
-	//	Vector2(205, 245)*/
-	//});
-
-	//navmeshComponent->AddPoints(std::vector<Vector2> { Vector2(195, 195), Vector2(255, 195), Vector2(255, 255), Vector2(195, 255) });
-	/*navmeshComponent->AddPoints(std::vector<Vector2> { Vector2(200, 200), Vector2(250, 200), Vector2(250, 250), Vector2(200, 250),
-		Vector2(225, 200), Vector2(225, 250), Vector2(200, 225), Vector2(250, 225)});*/
 	navmeshComponent->AddPoints(std::vector<Vector2> {Vector2(5, 5), Vector2(595, 5), Vector2(595, 595), Vector2(5, 595)});
-	//navmeshComponent->AddPoints(std::vector<Vector2>{Vector2(240, 240)});
-
-	/*navmeshComponent->LoadPoints(std::vector<Vector2>{
-		Vector2(355.442963, 330.130920),
-		Vector2(210.492264, 248.774689),
-		Vector2(294.906464, 251.637314),
-		Vector2(249.470505, 328.202148)
-	});*/
-	/*navmeshComponent->LoadPoints( std::vector<Vector2> { Vector2(291.720337f, 323.941772f), Vector2(231.952881f, 289.461945f),
-		Vector2(357.774597, 380.449829) } );*/
-	//navmeshComponent->LoadPoints(std::vector<Vector2> {Vector2(384.026611, 255.885498), Vector2(316.727173, 296.194336), Vector2(218.359940, 343.644531)});
-	//navmeshComponent->LoadPoints(testPoints);
 
 	superTri = navmeshComponent->CalculateSuperTriangle();
 	navmeshComponent->GenerateDelaunayTriangles();
@@ -207,7 +193,9 @@ void Init()
 	AStarNode* startNode = graph->GetNodes()[rand() % graph->GetNodes().size()];
 	AStarNode* endNode = graph->GetNodes()[rand() % graph->GetNodes().size()];
 
-	std::vector<AStarNode*> path = graph->GetPath(startNode, endNode);
+	std::vector<AStarNode*> path = graph->CalculatePath(startNode, endNode);
+
+	//containingTriangle = navmeshComponent->CalculatePath(Vector2(10, 10), Vector2(100, 100));
 
 	//navmeshComponent->GenerateDelaunayTriangles();
 
