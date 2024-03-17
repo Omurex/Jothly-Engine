@@ -13,8 +13,6 @@ namespace jothly
 		AStarNode* pathParent = nullptr;
 		float pathCost = 0;
 		float heuristicFromEnd = 0;
-
-		AStarNode* AddReverseConnection(AStarNode* node);
 		
 		public:
 		std::vector<AStarNode*> connections;
@@ -30,6 +28,9 @@ namespace jothly
 
 		AStarNode* Form2WayConnection(AStarNode* node);
 		AStarNode* Form1WayConnection(AStarNode* node); // This node to other node
+
+		AStarNode* Remove2WayConnection(AStarNode* node);
+		AStarNode* Remove1WayConnection(AStarNode* node);
 
 		void Draw(Color nodeColor, float nodeRadius, Color connectionLineColor, float connectionLineThickness);
 		void DrawConnection(AStarNode* other, Color connectionLineColor, float connectionLineThickness);

@@ -126,12 +126,12 @@ namespace jothly
 		int as_x = p.x - v0.x;
 		int as_y = p.y - v0.y;
 
-		bool s_ab = (v1.x - v0.x) * as_y - (v1.y - v0.y) * as_x >= SMALLEST_NEG_FLOAT;
+		bool s_ab = (v1.x - v0.x) * as_y - (v1.y - v0.y) * as_x >= 0;
 
-		if ((v2.x - v0.x) * as_y - (v2.y - v0.y) * as_x >= SMALLEST_NEG_FLOAT == s_ab)
+		if ((v2.x - v0.x) * as_y - (v2.y - v0.y) * as_x > -100 == s_ab)
 			return false;
 
-		if ((v2.x - v1.x) * (p.y - v1.y) - (v2.y - v1.y) * (p.x - v1.x) >= SMALLEST_NEG_FLOAT != s_ab)
+		if ((v2.x - v1.x) * (p.y - v1.y) - (v2.y - v1.y) * (p.x - v1.x) > 100 != s_ab)
 			return false;
 
 		return true;

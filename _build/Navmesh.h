@@ -23,6 +23,8 @@ namespace jothly
 
 		std::vector<DelaunayPoint> obstaclePoints;
 
+		std::vector<std::vector<AStarNode*>> triangleToMidpoints;
+
 		AStarGraph graph;
 
 		float pointRadius = 5;

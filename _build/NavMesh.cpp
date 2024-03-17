@@ -459,6 +459,8 @@ namespace jothly
 		graph.Clear();
 		graph.ReserveGraphSize(triangles.size());
 
+		triangleToMidpoints.resize(triangles.size());
+
 		/*std::vector<Edge> edges;
 		edges.reserve(triangles.size() * 3);*/
 
@@ -566,11 +568,13 @@ namespace jothly
 			std::vector<int>& triangleIndexes = it->second;
 			AStarNode* edgeMidPoint = edgeToMidpointAStarNode[edge];
 
-			for (int i = 0; i < triangleIndexes.size(); ++i) // Loop through triangles edge is connected to
+			for (int i = 0; i < 2; ++i) // Loop through triangles edge is connected to
 			{
 				int triIndex = triangleIndexes[i];
 
 				if(triIndex < 0) continue; // No second triangle has this edge
+
+				triangleToMidpoints[triIndex].push_back(edgeMidPoint);
 
 				DelaunayTriangle& tri = triangles[triIndex];
 
@@ -589,49 +593,7 @@ namespace jothly
 			}
 		}
 
-
-		// Load pointToEdges
-		/*for(auto it = edgesToTriangles.begin(); it != edgesToTriangles.end(); ++it)
-		{
-			pointTo
-		}*/
-
-
-		// Create nodes at end, middle, and start of edge
-		/*for(auto it = edgesToTriangles.begin(); it != edgesToTriangles.end(); ++it)
-		{
-			Edge edge = it->first;
-
-			edgesToAStarNodes.insert({ edge, std::vector<AStarNode*>(3) });
-
-			std::vector<AStarNode*>& edgeNodes = edgesToAStarNodes[edge];
-			edgeNodes[0] = (graph.CreateNode(edge.p0.pos));
-			edgeNodes[1] = (graph.CreateNode(edge.CalculateMidPoint()));
-			edgeNodes[2] = (graph.CreateNode(edge.p1.pos));
-
-			edgeNodes[0]->Form2WayConnection(edgeNodes[1]);
-			edgeNodes[1]->Form2WayConnection(edgeNodes[2]);
-		}*/
-
-
-		/*std::vector<AStarNode*> nodes = graph.GetNodes();
-
-		for(auto it = trianglesToEdges.begin(); it != trianglesToEdges.end(); ++it)
-		{
-			
-		}*/
-
-		//for(auto it = edgesToTriangles.begin(); it != edgesToTriangles.end(); ++it)
-		//{
-		//	std::vector<AStarNode*> &triNodes = edgesToAStarNodes[it->first];
-
-		//	int triIndex0 = it->second[0];
-		//	int triIndex1 = it->second[1];
-
-		//	if(triIndex1 < 0) continue; // No edge sharing triangles
-
-		//	nodes[triIndex0]->Form2WayConnection(nodes[triIndex1]);
-		//}
+		
 
 		return graph;
 	}
@@ -651,14 +613,57 @@ namespace jothly
 
 	std::vector<Vector2> NavMesh::CalculatePath(Vector2 start, Vector2 end)
 	{
-		int index = FindTriangleIndexContainingPoint(start);
+		int startTriangleIndex = FindTriangleIndexContainingPoint(start);
+		int endTriangleIndex = FindTriangleIndexContainingPoint(end);
 
-		if(index == -1) { std::cout << "No triangle containing point\n"; return std::vector<Vector2>(); }
+		if(startTriangleIndex < 0) { std::cout << "No triangle containing start point\n"; return std::vector<Vector2>(); }
+		if(endTriangleIndex < 0) { std::cout << "No triangle containing end point\n"; return std::vector<Vector2>(); }
 
-		DelaunayPoint* points = triangles[index].points;
-		std::cout << "Points containing: " + points[0].pos.ToString() + " , " + points[1].pos.ToString() + " , " + 
-			points[2].pos.ToString() + "\n";
+		DelaunayPoint* startPoints = triangles[startTriangleIndex].points;
+		DelaunayPoint* endPoints = triangles[endTriangleIndex].points;
 
-		return std::vector<Vector2> { points[0].pos, points[1].pos, points[2].pos };
+		/*std::cout << "Points containing start: " + startPoints[0].pos.ToString() + " , " + startPoints[1].pos.ToString() + " , " +
+			startPoints[2].pos.ToString() + "\n";
+
+		std::cout << "Points containing end: " + endPoints[0].pos.ToString() + " , " + endPoints[1].pos.ToString() + " , " +
+			endPoints[2].pos.ToString() + "\n";*/
+
+		std::vector<AStarNode*> startTriangleMidpoints = triangleToMidpoints[startTriangleIndex];
+		std::vector<AStarNode*> endTriangleMidpoints = triangleToMidpoints[endTriangleIndex];
+
+		AStarNode* startNode = graph.CreateNode(start);
+		AStarNode* endNode = graph.CreateNode(end);
+
+		for(int i = 0; i < startTriangleMidpoints.size(); ++i)
+		{
+			startTriangleMidpoints[i]->Form2WayConnection(startNode);
+		}
+
+		for(int i = 0; i < endTriangleMidpoints.size(); ++i)
+		{
+			endTriangleMidpoints[i]->Form2WayConnection(endNode);
+		}
+
+		std::vector<AStarNode*> aStarPath = graph.CalculatePath(startNode, endNode);
+		std::vector<Vector2> path(aStarPath.size());
+
+		std::cout << path.size() << std::endl;
+
+		for(int i = 0; i < aStarPath.size(); ++i)
+		{
+			path[i] = aStarPath[i]->pos;
+		}
+
+		for (int i = 0; i < startTriangleMidpoints.size(); ++i)
+		{
+			startTriangleMidpoints[i]->Remove2WayConnection(startNode);
+		}
+
+		for (int i = 0; i < endTriangleMidpoints.size(); ++i)
+		{
+			endTriangleMidpoints[i]->Remove2WayConnection(endNode);
+		}
+
+		return path;
 	}
 }

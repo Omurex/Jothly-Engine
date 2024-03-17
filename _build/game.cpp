@@ -37,7 +37,7 @@ DelaunayTriangle tri;
 DelaunayTriangle superTri;
 GameObject navmesh;
 
-std::vector<Vector2> containingTriangle;
+std::vector<Vector2> navMeshPath;
 
 
 void UpdateWFC()
@@ -59,7 +59,7 @@ void Update()
 
 	navmesh.Update(GetFrameTime());
 
-	containingTriangle = ((NavMesh*) navmesh.GetComponent(ComponentID::NAVMESH))->CalculatePath(
+	navMeshPath = ((NavMesh*) navmesh.GetComponent(ComponentID::NAVMESH))->CalculatePath(
 		{ GetMousePosition().x, GetMousePosition().y }, Vector2(100, 100));
 
 	//UpdateWFC();
@@ -123,9 +123,10 @@ void Draw()
 	testObj.Draw();
 	navmesh.Draw();
 
-	for(int i = 0; i < containingTriangle.size(); i++)
+	for(int i = 1; i < navMeshPath.size(); i++)
 	{
-		ShapeDrawing2D::DrawCircle(containingTriangle[i], 7, Color::ORANGE);
+		ShapeDrawing2D::DrawCircle(navMeshPath[i], 7, Color::ORANGE);
+		ShapeDrawing2D::DrawLine(navMeshPath[i - 1], navMeshPath[i], 10, Color::PURPLE);
 	}
 
 	//superTri.Draw(3, Color::YELLOW);
@@ -219,8 +220,8 @@ void Init()
 
 int main(int argc, char* argv[])
 {
-	srand(time(NULL));
-	//srand(1710547673);
+	//srand(time(NULL));
+	srand(1710635000);
 
 	std::cout << "SEED: " + std::to_string(time(NULL)) << std::endl;
 

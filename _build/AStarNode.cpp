@@ -19,6 +19,21 @@ namespace jothly
 	}
 
 
+    AStarNode* AStarNode::Remove2WayConnection(AStarNode* node)
+    {
+        Remove1WayConnection(node);
+		node->Remove1WayConnection(this);
+		return this;
+    }
+
+
+	AStarNode* AStarNode::Remove1WayConnection(AStarNode* node)
+	{
+		connections.erase(std::remove(connections.begin(), connections.end(), node), connections.end());
+		return this;
+	}
+
+
     void AStarNode::Draw(Color nodeColor, float nodeRadius, Color connectionLineColor, float connectionLineThickness)
 	{
 		ShapeDrawing2D::DrawCircle(pos, nodeRadius, nodeColor);
