@@ -459,7 +459,14 @@ namespace jothly
 		graph.Clear();
 		graph.ReserveGraphSize(triangles.size());
 
-		triangleToMidpoints.resize(triangles.size());
+		triangleToAStarPoints.resize(triangles.size());
+
+		// Since we know each triangle will have 6 astar points (3 vertices, 3 midpoints), reserve arrays now
+		// so that they don't dynamically resize while running
+		for(int i = 0; i < triangleToAStarPoints.size(); ++i)
+		{
+			triangleToAStarPoints[i].reserve(6);
+		}
 
 		/*std::vector<Edge> edges;
 		edges.reserve(triangles.size() * 3);*/
@@ -478,7 +485,6 @@ namespace jothly
 
 		//std::vector<int> nodeIndexToTriangleIndex;
 
-		// Note: Since one AStar node is added for every triangle, triangles array lines up with graph nodes array
 		for (int i = 0; i < triangles.size(); i++)
 		{
 			DelaunayTriangle tri = triangles[i];
@@ -574,7 +580,7 @@ namespace jothly
 
 				if(triIndex < 0) continue; // No second triangle has this edge
 
-				triangleToMidpoints[triIndex].push_back(edgeMidPoint);
+				triangleToAStarPoints[triIndex].push_back(edgeMidPoint); // Log midpoints in triangle to astar dict
 
 				DelaunayTriangle& tri = triangles[triIndex];
 
@@ -588,12 +594,19 @@ namespace jothly
 
 					AStarNode* triEdgeMidPoint = edgeToMidpointAStarNode[triEdge];
 
-					edgeMidPoint->Form1WayConnection(triEdgeMidPoint);
+					edgeMidPoint->Form2WayConnection(triEdgeMidPoint);
 				}
 			}
 		}
 
-		
+		// Add vertex astar points to mapping
+		for(int i = 0; i < triangles.size(); ++i)
+		{
+			for(int j = 0; j < 3; ++j)
+			{
+				triangleToAStarPoints[i].push_back(pointToNode[triangles[i].points[j]]);
+			}
+		}
 
 		return graph;
 	}
@@ -622,32 +635,30 @@ namespace jothly
 		DelaunayPoint* startPoints = triangles[startTriangleIndex].points;
 		DelaunayPoint* endPoints = triangles[endTriangleIndex].points;
 
-		/*std::cout << "Points containing start: " + startPoints[0].pos.ToString() + " , " + startPoints[1].pos.ToString() + " , " +
+		std::cout << "Points containing start: " + startPoints[0].pos.ToString() + " , " + startPoints[1].pos.ToString() + " , " +
 			startPoints[2].pos.ToString() + "\n";
 
 		std::cout << "Points containing end: " + endPoints[0].pos.ToString() + " , " + endPoints[1].pos.ToString() + " , " +
-			endPoints[2].pos.ToString() + "\n";*/
+			endPoints[2].pos.ToString() + "\n";
 
-		std::vector<AStarNode*> startTriangleMidpoints = triangleToMidpoints[startTriangleIndex];
-		std::vector<AStarNode*> endTriangleMidpoints = triangleToMidpoints[endTriangleIndex];
+		std::vector<AStarNode*> startTriangleMidpoints = triangleToAStarPoints[startTriangleIndex];
+		std::vector<AStarNode*> endTriangleMidpoints = triangleToAStarPoints[endTriangleIndex];
 
 		AStarNode* startNode = graph.CreateNode(start);
 		AStarNode* endNode = graph.CreateNode(end);
 
 		for(int i = 0; i < startTriangleMidpoints.size(); ++i)
 		{
-			startTriangleMidpoints[i]->Form2WayConnection(startNode);
+			startNode->Form2WayConnection(startTriangleMidpoints[i]);
 		}
 
 		for(int i = 0; i < endTriangleMidpoints.size(); ++i)
 		{
-			endTriangleMidpoints[i]->Form2WayConnection(endNode);
+			endNode->Form2WayConnection(endTriangleMidpoints[i]);
 		}
 
 		std::vector<AStarNode*> aStarPath = graph.CalculatePath(startNode, endNode);
 		std::vector<Vector2> path(aStarPath.size());
-
-		std::cout << path.size() << std::endl;
 
 		for(int i = 0; i < aStarPath.size(); ++i)
 		{
@@ -656,12 +667,12 @@ namespace jothly
 
 		for (int i = 0; i < startTriangleMidpoints.size(); ++i)
 		{
-			startTriangleMidpoints[i]->Remove2WayConnection(startNode);
+			startNode->Form2WayConnection(startTriangleMidpoints[i]);
 		}
 
 		for (int i = 0; i < endTriangleMidpoints.size(); ++i)
 		{
-			endTriangleMidpoints[i]->Remove2WayConnection(endNode);
+			endNode->Form2WayConnection(endTriangleMidpoints[i]);
 		}
 
 		return path;

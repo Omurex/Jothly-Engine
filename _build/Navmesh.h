@@ -23,7 +23,7 @@ namespace jothly
 
 		std::vector<DelaunayPoint> obstaclePoints;
 
-		std::vector<std::vector<AStarNode*>> triangleToMidpoints;
+		std::vector<std::vector<AStarNode*>> triangleToAStarPoints;
 
 		AStarGraph graph;
 
