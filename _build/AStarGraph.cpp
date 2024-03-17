@@ -85,14 +85,14 @@ namespace jothly
 				break;
 			}
 
-			for(int i = 0; i < node->connections.size(); ++i)
+			for(auto it = node->connections.begin(); it != node->connections.end(); ++it)
 			{
-				AStarNode* connection = node->connections[i];
+				AStarNode* connection = *it;
 
-				if(connection->UpdatePathDataWithLowerScore(node))
+				if (connection->UpdatePathDataWithLowerScore(node))
 				{
 					connection->UpdateHeuristicFromEnd(end); // Make sure heuristic is properly updated before pushing
-					
+
 					open.push(connection);
 				}
 			}

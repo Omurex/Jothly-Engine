@@ -641,20 +641,20 @@ namespace jothly
 		std::cout << "Points containing end: " + endPoints[0].pos.ToString() + " , " + endPoints[1].pos.ToString() + " , " +
 			endPoints[2].pos.ToString() + "\n";
 
-		std::vector<AStarNode*> startTriangleMidpoints = triangleToAStarPoints[startTriangleIndex];
-		std::vector<AStarNode*> endTriangleMidpoints = triangleToAStarPoints[endTriangleIndex];
+		std::vector<AStarNode*> startTriangleAStar = triangleToAStarPoints[startTriangleIndex];
+		std::vector<AStarNode*> endTriangleAStar = triangleToAStarPoints[endTriangleIndex];
 
 		AStarNode* startNode = graph.CreateNode(start);
 		AStarNode* endNode = graph.CreateNode(end);
 
-		for(int i = 0; i < startTriangleMidpoints.size(); ++i)
+		for(int i = 0; i < startTriangleAStar.size(); ++i)
 		{
-			startNode->Form2WayConnection(startTriangleMidpoints[i]);
+			startNode->Form2WayConnection(startTriangleAStar[i]);
 		}
 
-		for(int i = 0; i < endTriangleMidpoints.size(); ++i)
+		for(int i = 0; i < endTriangleAStar.size(); ++i)
 		{
-			endNode->Form2WayConnection(endTriangleMidpoints[i]);
+			endNode->Form2WayConnection(endTriangleAStar[i]);
 		}
 
 		std::vector<AStarNode*> aStarPath = graph.CalculatePath(startNode, endNode);
@@ -665,14 +665,14 @@ namespace jothly
 			path[i] = aStarPath[i]->pos;
 		}
 
-		for (int i = 0; i < startTriangleMidpoints.size(); ++i)
+		for (int i = 0; i < startTriangleAStar.size(); ++i)
 		{
-			startNode->Form2WayConnection(startTriangleMidpoints[i]);
+			startNode->Remove2WayConnection(startTriangleAStar[i]);
 		}
 
-		for (int i = 0; i < endTriangleMidpoints.size(); ++i)
+		for (int i = 0; i < endTriangleAStar.size(); ++i)
 		{
-			endNode->Form2WayConnection(endTriangleMidpoints[i]);
+			endNode->Remove2WayConnection(endTriangleAStar[i]);
 		}
 
 		return path;

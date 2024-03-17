@@ -60,7 +60,7 @@ void Update()
 	navmesh.Update(GetFrameTime());
 
 	navMeshPath = ((NavMesh*) navmesh.GetComponent(ComponentID::NAVMESH))->CalculatePath(
-		{ GetMousePosition().x, GetMousePosition().y }, Vector2(100, 100));
+		Vector2(120, 100), { GetMousePosition().x, GetMousePosition().y });
 
 	//UpdateWFC();
 }
@@ -166,7 +166,7 @@ void Init()
 	NavMesh* navmeshComponent = navmesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 2, Color::WHITE, true,
 		5.0f, Color::RED, true, true, false);
 
-	navmeshComponent->GenerateRandomPoints(20, Vector2(5, 5), Vector2(595, 595));
+	//navmeshComponent->GenerateRandomPoints(20, Vector2(5, 5), Vector2(595, 595));
 
 	SquareNavMeshObstacle squareObstacle1 = SquareNavMeshObstacle(Vector2(225, 225));
 	squareObstacle1.color = Color::RED;
@@ -220,8 +220,8 @@ void Init()
 
 int main(int argc, char* argv[])
 {
-	//srand(time(NULL));
-	srand(1710635000);
+	srand(time(NULL));
+	//srand(1710635000);
 
 	std::cout << "SEED: " + std::to_string(time(NULL)) << std::endl;
 

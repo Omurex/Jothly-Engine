@@ -14,7 +14,7 @@ namespace jothly
 
 	AStarNode* AStarNode::Form1WayConnection(AStarNode* node)
 	{
-		connections.push_back(node);
+		connections.insert(node);
 		return this;
 	}
 
@@ -29,7 +29,7 @@ namespace jothly
 
 	AStarNode* AStarNode::Remove1WayConnection(AStarNode* node)
 	{
-		connections.erase(std::remove(connections.begin(), connections.end(), node), connections.end());
+		connections.erase(node);
 		return this;
 	}
 
@@ -38,9 +38,9 @@ namespace jothly
 	{
 		ShapeDrawing2D::DrawCircle(pos, nodeRadius, nodeColor);
 
-		for (int i = 0; i < connections.size(); i++)
+		for(auto it = connections.begin(); it != connections.end(); ++it)
 		{
-			DrawConnection(connections[i], connectionLineColor, connectionLineThickness);
+			DrawConnection(*it, connectionLineColor, connectionLineThickness);
 		}
 	}
 

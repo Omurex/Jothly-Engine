@@ -3,6 +3,7 @@
 #include "Color.h"
 #include <vector>
 #include <limits>
+#include <unordered_set>
 
 
 namespace jothly
@@ -15,7 +16,7 @@ namespace jothly
 		float heuristicFromEnd = 0;
 		
 		public:
-		std::vector<AStarNode*> connections;
+		std::unordered_set<AStarNode*> connections;
 		Vector2 pos;
 
 		AStarNode(Vector2 _pos) : pos(_pos) {}
