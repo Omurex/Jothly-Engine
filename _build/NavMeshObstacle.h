@@ -19,6 +19,7 @@ namespace jothly
 		virtual std::vector<DelaunayPoint> GetObstaclePoints() = 0;
 
 		virtual bool IsPointInObstacle(Vector2 point) = 0;
+		virtual bool DoesLineSegmentIntersectObstacle(Vector2 p0, Vector2 p1) = 0;
 
 		virtual void Draw() = 0;
 	};

@@ -7,7 +7,7 @@ namespace jothly
 {
 	class SquareNavMeshObstacle : public NavMeshObstacle
 	{
-		const float NAVMESH_OFFSET_MAGNITUDE = 1.f;
+		const float NAVMESH_OFFSET_MAGNITUDE = 2.f;
 
 		public:
 		SquareNavMeshObstacle(Vector2 _centerPos = Vector2(0, 0), float _sideLength = 50) : 
@@ -25,5 +25,8 @@ namespace jothly
 
 		// Inherited via NavMeshObstacle
 		void Draw() override;
+
+		// Inherited via NavMeshObstacle
+		bool DoesLineSegmentIntersectObstacle(Vector2 p0, Vector2 p1) override;
 	};
 }

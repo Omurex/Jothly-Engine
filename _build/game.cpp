@@ -129,6 +129,11 @@ void Draw()
 		ShapeDrawing2D::DrawLine(navMeshPath[i - 1], navMeshPath[i], 10, Color::PURPLE);
 	}
 
+	if(navMeshPath.size() >= 2)
+	{
+		ShapeDrawing2D::DrawLine(navMeshPath[0], navMeshPath[navMeshPath.size() - 1], 10, Color::BLACK);
+	}
+
 	//superTri.Draw(3, Color::YELLOW);
 
 	//tri.Draw(1, Color::RED);

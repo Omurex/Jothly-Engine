@@ -635,11 +635,11 @@ namespace jothly
 		DelaunayPoint* startPoints = triangles[startTriangleIndex].points;
 		DelaunayPoint* endPoints = triangles[endTriangleIndex].points;
 
-		std::cout << "Points containing start: " + startPoints[0].pos.ToString() + " , " + startPoints[1].pos.ToString() + " , " +
+		/*std::cout << "Points containing start: " + startPoints[0].pos.ToString() + " , " + startPoints[1].pos.ToString() + " , " +
 			startPoints[2].pos.ToString() + "\n";
 
 		std::cout << "Points containing end: " + endPoints[0].pos.ToString() + " , " + endPoints[1].pos.ToString() + " , " +
-			endPoints[2].pos.ToString() + "\n";
+			endPoints[2].pos.ToString() + "\n";*/
 
 		std::vector<AStarNode*> startTriangleAStar = triangleToAStarPoints[startTriangleIndex];
 		std::vector<AStarNode*> endTriangleAStar = triangleToAStarPoints[endTriangleIndex];
@@ -647,6 +647,7 @@ namespace jothly
 		AStarNode* startNode = graph.CreateNode(start);
 		AStarNode* endNode = graph.CreateNode(end);
 
+		// Connect temporary start and end node to astar system
 		for(int i = 0; i < startTriangleAStar.size(); ++i)
 		{
 			startNode->Form2WayConnection(startTriangleAStar[i]);
@@ -660,11 +661,13 @@ namespace jothly
 		std::vector<AStarNode*> aStarPath = graph.CalculatePath(startNode, endNode);
 		std::vector<Vector2> path(aStarPath.size());
 
+		// Convert astar path to positions
 		for(int i = 0; i < aStarPath.size(); ++i)
 		{
 			path[i] = aStarPath[i]->pos;
 		}
 
+		// Remove temporary start and end node from astar system
 		for (int i = 0; i < startTriangleAStar.size(); ++i)
 		{
 			startNode->Remove2WayConnection(startTriangleAStar[i]);
@@ -673,6 +676,19 @@ namespace jothly
 		for (int i = 0; i < endTriangleAStar.size(); ++i)
 		{
 			endNode->Remove2WayConnection(endTriangleAStar[i]);
+		}
+
+		if(IsKeyDown(KeyboardKey::KEY_SPACE))
+		{
+			std::cout << "HIT BREAKPOINT\n";
+		}
+
+		for(int i = 0; i < obstacles.size(); i++)
+		{
+			if(obstacles[i]->DoesLineSegmentIntersectObstacle(start, end))
+			{
+				std::cout << "INTERSECTING WITH OBSTACLE" + end.ToString() + "\n";;
+			}
 		}
 
 		return path;
