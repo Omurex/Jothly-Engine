@@ -29,7 +29,7 @@ namespace jothly
 
 		void ReserveGraphSize(size_t size) { nodes.reserve(size); }
 
-		std::vector<AStarNode*> CalculatePath(AStarNode* start, AStarNode* end);
+		std::vector<AStarNode*> CalculatePath(AStarNode* start, AStarNode* end, bool removeFirst = false, bool removeLast = false);
 
 		void Clear();
 

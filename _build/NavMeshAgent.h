@@ -18,7 +18,10 @@ namespace jothly
 		std::vector<Vector2> currentPath;
 		Vector2 destination;
 
-		bool positionLocked;
+		bool navigating;
+		int currentPathIndex = -1;
+
+		void Update(float dt) override;
 
 		protected:
 
@@ -35,6 +38,9 @@ namespace jothly
 		void SetSpeed(float _speed) { speed = _speed; }
 		void SetPathRefreshRate(float _pathRefreshRate = std::numeric_limits<float>::max()) { pathRefreshRate = _pathRefreshRate; }
 
+		void MoveTowardsPoint(Vector2 point, float dt);
+
+		void TravelPath(float dt);
 
 		// Inherited via Component
 		ComponentID GetID() const override;

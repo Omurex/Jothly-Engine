@@ -684,7 +684,7 @@ namespace jothly
 	}
 
 
-	std::vector<Vector2> NavMesh::CalculatePathWithoutSmoothing(Vector2 start, Vector2 end)
+	std::vector<Vector2> NavMesh::CalculatePathWithoutSmoothing(Vector2 start, Vector2 end, bool removeFirst, bool removeLast)
 	{
 		int startTriangleIndex = FindTriangleIndexContainingPoint(start);
 		int endTriangleIndex = FindTriangleIndexContainingPoint(end);
@@ -718,7 +718,7 @@ namespace jothly
 			endNode->Form2WayConnection(endTriangleAStar[i]);
 		}
 
-		std::vector<AStarNode*> aStarPath = graph.CalculatePath(startNode, endNode);
+		std::vector<AStarNode*> aStarPath = graph.CalculatePath(startNode, endNode, removeFirst, removeLast);
 		std::vector<Vector2> path(aStarPath.size());
 
 		// Convert astar path to positions
@@ -742,9 +742,9 @@ namespace jothly
 	}
 
 
-	std::vector<Vector2> NavMesh::CalculatePathWithSmoothing(Vector2 start, Vector2 end)
+	std::vector<Vector2> NavMesh::CalculatePathWithSmoothing(Vector2 start, Vector2 end, bool removeFirst, bool removeLast)
 	{
-		std::vector<Vector2> path = CalculatePathWithoutSmoothing(start, end);
+		std::vector<Vector2> path = CalculatePathWithoutSmoothing(start, end, removeFirst, removeLast);
 
 		SmoothPath(path);
 

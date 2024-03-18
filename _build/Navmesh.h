@@ -81,7 +81,7 @@ namespace jothly
 
 		bool FindTriangleContainingPoint(Vector2 point, DelaunayTriangle& out_triangle); // True if successful
 
-		std::vector<Vector2> CalculatePathWithoutSmoothing(Vector2 start, Vector2 end);
-		std::vector<Vector2> CalculatePathWithSmoothing(Vector2 start, Vector2 end);
+		std::vector<Vector2> CalculatePathWithoutSmoothing(Vector2 start, Vector2 end, bool removeFirst = true, bool removeLast = false);
+		std::vector<Vector2> CalculatePathWithSmoothing(Vector2 start, Vector2 end, bool removeFirst = true, bool removeLast = false);
 	};
 }

@@ -28,7 +28,7 @@ namespace jothly
 	};
 
 
-	std::vector<AStarNode*> ConstructPath(AStarNode* end)
+	std::vector<AStarNode*> ConstructPath(AStarNode* end, bool removeFirst, bool removeLast)
 	{
 		std::vector<AStarNode*> path;
 		if(end->GetPathParent() == nullptr) return path; // If no solution found, return empty vector
@@ -41,14 +41,18 @@ namespace jothly
 			node = node->GetPathParent();
 		}
 
+		if (removeFirst && path.size() > 0) path.pop_back();
+
 		std::reverse(path.begin(), path.end());
+
+		if (removeLast && path.size() > 0) path.pop_back();
 
 		return path;
 	}
 
 
 	// https://theory.stanford.edu/~amitp/GameProgramming/MapRepresentations.html
-	std::vector<AStarNode*> AStarGraph::CalculatePath(AStarNode* start, AStarNode* end)
+	std::vector<AStarNode*> AStarGraph::CalculatePath(AStarNode* start, AStarNode* end, bool removeFirst, bool removeLast)
 	{
 		if(start == end) // If we try navigating to same spot, path will only have this spot's node
 		{
@@ -100,7 +104,7 @@ namespace jothly
 			closed.insert(node);
 		}
 
-		std::vector<AStarNode*> path = ConstructPath(end);
+		std::vector<AStarNode*> path = ConstructPath(end, removeFirst, removeLast);
 
 		lastPathComputedDestination = end;
 
