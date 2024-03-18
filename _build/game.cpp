@@ -33,6 +33,7 @@ WaveFunctionCollapseGrid* wfcGrid;
 Texture smallBlackDot;
 
 GameObject navMeshAgent = GameObject("NavMeshAgent", Vector2(200, 100), Quaternion::Quaternion2D(0), Vector2(1));
+NavMeshAgent* navMeshAgentComponent = nullptr;
 
 //GameObject dTriangle;
 DelaunayTriangle tri;
@@ -61,15 +62,10 @@ void UpdateWFC()
 
 void UpdateNavMesh()
 {
-	if (IsKeyPressed(KeyboardKey::KEY_SPACE))
-	{
-		startOfPath = { GetMousePosition().x, GetMousePosition().y };
-	}
-
 	if(IsMouseButtonDown(MouseButton::MOUSE_BUTTON_RIGHT))
 	{
 		notSmoothNavMeshPath = ((NavMesh*)navMesh.GetComponent(ComponentID::NAVMESH))->CalculatePathWithoutSmoothing(
-			startOfPath, { GetMousePosition().x, GetMousePosition().y });
+			navMeshAgent.transform.pos, { GetMousePosition().x, GetMousePosition().y }, false);
 	}
 	else
 	{
@@ -79,11 +75,16 @@ void UpdateNavMesh()
 	if(IsMouseButtonDown(MouseButton::MOUSE_BUTTON_LEFT))
 	{
 		smoothNavMeshPath = ((NavMesh*)navMesh.GetComponent(ComponentID::NAVMESH))->CalculatePathWithSmoothing(
-			startOfPath, { GetMousePosition().x, GetMousePosition().y });
+			navMeshAgent.transform.pos, { GetMousePosition().x, GetMousePosition().y }, false);
 	}
 	else
 	{
 		smoothNavMeshPath = std::vector<Vector2>();
+	}
+
+	if (IsKeyDown(KeyboardKey::KEY_SPACE))
+	{
+		navMeshAgentComponent->SetDestination({ GetMousePosition().x, GetMousePosition().y });
 	}
 }
 
@@ -231,7 +232,7 @@ void Init()
 	SquareNavMeshObstacle squareObstacle5 = SquareNavMeshObstacle(Vector2(50, 400));
 	squareObstacle5.color = Color::RED;
 
-	SquareNavMeshObstacle squareObstacle6 = SquareNavMeshObstacle(Vector2(300, 300));
+	SquareNavMeshObstacle squareObstacle6 = SquareNavMeshObstacle(Vector2(450, 300));
 	squareObstacle6.color = Color::RED;
 
 	navMeshComponent->AddObstacle(&squareObstacle1);
@@ -255,7 +256,7 @@ void Init()
 
 	navMeshAgent.transform.scale = Vector2(.3f);
 	navMeshAgent.CreateComponent<SpriteRenderer>()->Init(&smallBlackDot);
-	navMeshAgent.CreateComponent<NavMeshAgent>()->Init(navMeshComponent)->SetDestination(Vector2(400, 500));
+	navMeshAgentComponent = navMeshAgent.CreateComponent<NavMeshAgent>()->Init(navMeshComponent, 100);
 
 	//containingTriangle = navmeshComponent->CalculatePath(Vector2(10, 10), Vector2(100, 100));
 
@@ -281,8 +282,8 @@ void Init()
 
 int main(int argc, char* argv[])
 {
-	srand(time(NULL));
-	//srand(1710635000);
+	//srand(time(NULL));
+	srand(1710794466);
 
 	std::cout << "SEED: " + std::to_string(time(NULL)) << std::endl;
 

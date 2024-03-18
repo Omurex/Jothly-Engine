@@ -5,6 +5,7 @@
 #include <functional>
 #include <unordered_set>
 #include <iostream>
+#include "Math.h"
 
 
 namespace jothly
@@ -205,6 +206,11 @@ namespace jothly
 
 	void NavMesh::SmoothPath(std::vector<Vector2>& path)
 	{
+		if (IsKeyDown(KEY_BACKSPACE))
+		{
+			std::cout << "stop" << std::endl;
+		}
+
 		std::vector<Vector2> smoothedPath;
 		smoothedPath.reserve(path.size());
 
@@ -217,7 +223,7 @@ namespace jothly
 			// Make sure we're not out of bounds of path array
 			while(i + numSkips + 1 < path.size())
 			{
-				if(DoesLineIntersectWithAnyObstacles(path[i], path[i + numSkips + 1]))
+				if (DoesLineIntersectWithAnyObstacles(path[i], path[i + numSkips + 1]))
 				{
 					break;
 				}
@@ -226,6 +232,11 @@ namespace jothly
 			}
 
 			smoothedPath.push_back(path[i]);
+		}
+
+		if (path.size() != smoothedPath.size())
+		{
+			SmoothPath(smoothedPath);
 		}
 
 		path = smoothedPath;
@@ -651,7 +662,7 @@ namespace jothly
 
 						if(triEdge.HasPoint(triVertex)) continue; // Point is on this edge, not opposite we're looking for
 					
-						edgeMidPoint->Form2WayConnection(pointToNode[triVertex]);
+						triEdgeMidPoint->Form2WayConnection(pointToNode[triVertex]);
 
 						break;
 					}

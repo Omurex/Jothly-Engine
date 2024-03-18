@@ -22,7 +22,7 @@ namespace jothly
 
     bool NavMeshAgent::UpdatePathToDestination()
     {
-        currentPath = navMesh->CalculatePathWithSmoothing(owner->transform.pos, destination, true, false);
+        currentPath = navMesh->CalculatePathWithSmoothing(owner->transform.pos, destination, false, false);
 
         if (currentPath.size() > 0) // Path successfully generated
         {
