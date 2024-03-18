@@ -14,6 +14,7 @@ namespace jothly
 
 		float speed;
 		float pathRefreshRate; // Every time pathRefreshRate seconds pass, update path
+		float pathPointCheckRadius;
 
 		std::vector<Vector2> currentPath;
 		Vector2 destination;
@@ -30,9 +31,10 @@ namespace jothly
 
 
 		public:
-		NavMeshAgent* Init(NavMesh* _navMesh = nullptr, float _speed = 20, float _pathRefreshRate = .1f, bool _positionLocked = false);
+		NavMeshAgent* Init(NavMesh* _navMesh = nullptr, float _speed = 40, float _pathRefreshRate = .1f, 
+				float _pathPointCheckRadius = 3.0f, bool _positionLocked = false);
 
-		void SetDestination(Vector2 _destination) { destination = _destination; }
+		void SetDestination(Vector2 _destination) { destination = _destination; UpdatePathToDestination(); }
 		bool UpdatePathToDestination(); // true if path valid, false if not
 
 		void SetSpeed(float _speed) { speed = _speed; }

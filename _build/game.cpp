@@ -21,6 +21,7 @@
 #include "NavMesh.h"
 #include "ShapeDrawing2D.h"
 #include "SquareNavMeshObstacle.h"
+#include "NavMeshAgent.h"
 
 
 using namespace jothly;
@@ -31,11 +32,13 @@ Texture testTex;
 WaveFunctionCollapseGrid* wfcGrid;
 Texture smallBlackDot;
 
+GameObject navMeshAgent = GameObject("NavMeshAgent", Vector2(200, 100), Quaternion::Quaternion2D(0), Vector2(1));
+
 //GameObject dTriangle;
 DelaunayTriangle tri;
 //DelaunayPoint dPoint = DelaunayPoint(Vector2(0, 0));
 DelaunayTriangle superTri;
-GameObject navmesh;
+GameObject navMesh;
 
 Vector2 startOfPath = Vector2(50, 10);
 
@@ -65,7 +68,7 @@ void UpdateNavMesh()
 
 	if(IsMouseButtonDown(MouseButton::MOUSE_BUTTON_RIGHT))
 	{
-		notSmoothNavMeshPath = ((NavMesh*)navmesh.GetComponent(ComponentID::NAVMESH))->CalculatePathWithoutSmoothing(
+		notSmoothNavMeshPath = ((NavMesh*)navMesh.GetComponent(ComponentID::NAVMESH))->CalculatePathWithoutSmoothing(
 			startOfPath, { GetMousePosition().x, GetMousePosition().y });
 	}
 	else
@@ -75,7 +78,7 @@ void UpdateNavMesh()
 
 	if(IsMouseButtonDown(MouseButton::MOUSE_BUTTON_LEFT))
 	{
-		smoothNavMeshPath = ((NavMesh*)navmesh.GetComponent(ComponentID::NAVMESH))->CalculatePathWithSmoothing(
+		smoothNavMeshPath = ((NavMesh*)navMesh.GetComponent(ComponentID::NAVMESH))->CalculatePathWithSmoothing(
 			startOfPath, { GetMousePosition().x, GetMousePosition().y });
 	}
 	else
@@ -89,7 +92,9 @@ void Update()
 {
 	testObj.Update(GetFrameTime());
 
-	navmesh.Update(GetFrameTime());
+	navMesh.Update(GetFrameTime());
+
+	navMeshAgent.Update(GetFrameTime());
 
 	UpdateNavMesh();
 
@@ -152,7 +157,8 @@ void InitWFC()
 void Draw()
 {
 	testObj.Draw();
-	navmesh.Draw();
+	navMesh.Draw();
+	navMeshAgent.Draw();
 
 	for (int i = 1; i < notSmoothNavMeshPath.size(); i++)
 	{
@@ -205,7 +211,7 @@ void Init()
 
 	//std::vector<Vector2> testPoints { Vector2(100, 100), Vector2(50, 100), Vector2(200, 300), Vector2(150, 250) };
 
-	NavMesh* navmeshComponent = navmesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 2, Color::WHITE, true,
+	NavMesh* navMeshComponent = navMesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 2, Color::WHITE, true,
 		5.0f, Color::RED, true, true, false);
 
 	//navmeshComponent->GenerateRandomPoints(20, Vector2(5, 5), Vector2(595, 595));
@@ -228,24 +234,28 @@ void Init()
 	SquareNavMeshObstacle squareObstacle6 = SquareNavMeshObstacle(Vector2(300, 300));
 	squareObstacle6.color = Color::RED;
 
-	navmeshComponent->AddObstacle(&squareObstacle1);
-	navmeshComponent->AddObstacle(&squareObstacle2);
-	navmeshComponent->AddObstacle(&squareObstacle3);
-	navmeshComponent->AddObstacle(&squareObstacle4);
-	navmeshComponent->AddObstacle(&squareObstacle5);
-	navmeshComponent->AddObstacle(&squareObstacle6);
+	navMeshComponent->AddObstacle(&squareObstacle1);
+	navMeshComponent->AddObstacle(&squareObstacle2);
+	navMeshComponent->AddObstacle(&squareObstacle3);
+	navMeshComponent->AddObstacle(&squareObstacle4);
+	navMeshComponent->AddObstacle(&squareObstacle5);
+	navMeshComponent->AddObstacle(&squareObstacle6);
 
-	navmeshComponent->AddPoints(std::vector<Vector2> {Vector2(5, 5), Vector2(595, 5), Vector2(595, 595), Vector2(5, 595)});
+	navMeshComponent->AddPoints(std::vector<Vector2> {Vector2(5, 5), Vector2(595, 5), Vector2(595, 595), Vector2(5, 595)});
 
-	superTri = navmeshComponent->CalculateSuperTriangle();
-	navmeshComponent->GenerateDelaunayTriangles();
+	superTri = navMeshComponent->CalculateSuperTriangle();
+	navMeshComponent->GenerateDelaunayTriangles();
 
-	AStarGraph* graph = navmeshComponent->GetAStarGraph();
+	AStarGraph* graph = navMeshComponent->GetAStarGraph();
 
 	AStarNode* startNode = graph->GetNodes()[rand() % graph->GetNodes().size()];
 	AStarNode* endNode = graph->GetNodes()[rand() % graph->GetNodes().size()];
 
 	std::vector<AStarNode*> path = graph->CalculatePath(startNode, endNode);
+
+	navMeshAgent.transform.scale = Vector2(.3f);
+	navMeshAgent.CreateComponent<SpriteRenderer>()->Init(&smallBlackDot);
+	navMeshAgent.CreateComponent<NavMeshAgent>()->Init(navMeshComponent)->SetDestination(Vector2(400, 500));
 
 	//containingTriangle = navmeshComponent->CalculatePath(Vector2(10, 10), Vector2(100, 100));
 
