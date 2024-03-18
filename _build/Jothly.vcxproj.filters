@@ -135,6 +135,9 @@
     <ClInclude Include="AStarGraph.h">
       <Filter>Header Files\Navmesh</Filter>
     </ClInclude>
+    <ClInclude Include="NavMeshAgent.h">
+      <Filter>Header Files\Navmesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -222,6 +225,9 @@
       <Filter>Source Files\NavMesh</Filter>
     </ClCompile>
     <ClCompile Include="AStarGraph.cpp">
+      <Filter>Source Files\NavMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="NavMeshAgent.cpp">
       <Filter>Source Files\NavMesh</Filter>
     </ClCompile>
   </ItemGroup>

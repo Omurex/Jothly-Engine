@@ -272,6 +272,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="NavMesh.h" />
+    <ClInclude Include="NavMeshAgent.h" />
     <ClInclude Include="NavMeshObstacle.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="QuaternionTestSet.h" />
@@ -305,6 +306,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="NavMesh.cpp" />
+    <ClCompile Include="NavMeshAgent.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="QuaternionTestSet.cpp" />
     <ClCompile Include="ShapeDrawing2D.cpp" />
