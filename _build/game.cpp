@@ -282,8 +282,8 @@ void Init()
 
 int main(int argc, char* argv[])
 {
-	//srand(time(NULL));
-	srand(1710794466);
+	srand(time(NULL));
+	//srand(1710794466);
 
 	std::cout << "SEED: " + std::to_string(time(NULL)) << std::endl;
 
