@@ -251,9 +251,12 @@ void Init()
 	std::cout << std::filesystem::current_path() << std::endl;
 	testTex = Texture(con::RESOURCE_PATH + "test.png");
 	smallBlackDot = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
+	
+	Texture ticTacToeXTex = Texture(con::RESOURCE_PATH + "TicTacToeX.png");
+	Texture ticTacToeOTex = Texture(con::RESOURCE_PATH + "TicTacToeO.png");
 
-	ticTacToeObject.CreateComponent<TicTacToeBoard>()->Init();
-	ticTacToeObject.CreateComponent<SpriteRenderer>()->Init(&smallBlackDot);
+	ticTacToeObject.CreateComponent<TicTacToeBoard>()->Init(&ticTacToeXTex, &ticTacToeOTex);
+	//ticTacToeObject.CreateComponent<SpriteRenderer>()->Init(&smallBlackDot);
 
 	//InitWFC();
 
