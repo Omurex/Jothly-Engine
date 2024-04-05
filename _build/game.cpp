@@ -22,33 +22,35 @@
 #include "ShapeDrawing2D.h"
 #include "SquareNavMeshObstacle.h"
 #include "NavMeshAgent.h"
+#include "TicTacToeBoard.h"
 
 
 using namespace jothly;
 
 
-GameObject testObj = GameObject("TestObj", Vector3(0, 0, 0), Quaternion::Quaternion2D(0), Vector3(1, 1));
+// WFC Variables
+GameObject wfcObject = GameObject("WFC Object", Vector3(0, 0, 0), Quaternion::Quaternion2D(0), Vector3(1, 1));
 Texture testTex;
 WaveFunctionCollapseGrid* wfcGrid;
 Texture smallBlackDot;
 
+// NavMesh Variables
 GameObject navMeshAgent = GameObject("NavMeshAgent", Vector2(200, 100), Quaternion::Quaternion2D(0), Vector2(1));
 NavMeshAgent* navMeshAgentComponent = nullptr;
-
-//GameObject dTriangle;
 DelaunayTriangle tri;
-//DelaunayPoint dPoint = DelaunayPoint(Vector2(0, 0));
 DelaunayTriangle superTri;
 GameObject navMesh;
-
 Vector2 startOfPath = Vector2(50, 10);
-
 std::vector<Vector2> notSmoothNavMeshPath;
 std::vector<Vector2> smoothNavMeshPath;
+
+GameObject ticTacToeObject = GameObject("Tic Tac Toe Object", Vector2(300, 300), Quaternion::Quaternion2D(0), Vector2(1));
 
 
 void UpdateWFC()
 {
+	wfcObject.Update(GetFrameTime());
+
 	if (IsKeyPressed(KEY_SPACE) || IsKeyDown(KEY_F))
 	{
 		wfcGrid->RunNextStep();
@@ -62,6 +64,9 @@ void UpdateWFC()
 
 void UpdateNavMesh()
 {
+	navMesh.Update(GetFrameTime());
+	navMeshAgent.Update(GetFrameTime());
+
 	if(IsMouseButtonDown(MouseButton::MOUSE_BUTTON_RIGHT))
 	{
 		notSmoothNavMeshPath = ((NavMesh*)navMesh.GetComponent(ComponentID::NAVMESH))->CalculatePathWithoutSmoothing(
@@ -91,15 +96,10 @@ void UpdateNavMesh()
 
 void Update()
 {
-	testObj.Update(GetFrameTime());
-
-	navMesh.Update(GetFrameTime());
-
-	navMeshAgent.Update(GetFrameTime());
-
-	UpdateNavMesh();
-
 	//UpdateWFC();
+	//UpdateNavMesh();
+
+	ticTacToeObject.Update(GetFrameTime());
 }
 
 
@@ -147,75 +147,17 @@ void InitWFC()
 		WaveFunctionCollapseTile(&t12, "111", "121", "111", "121", TileSymmetry::TWO_SIDED_SYMMETRIC)
 	};
 
-	wfcGrid = testObj.CreateComponent<WaveFunctionCollapseGrid>()->Init(templateTiles, Vector2(0, 0), Vector2(GetScreenWidth(), GetScreenHeight()));
+	wfcGrid = wfcObject.CreateComponent<WaveFunctionCollapseGrid>()->Init(templateTiles, Vector2(0, 0), Vector2(GetScreenWidth(), GetScreenHeight()));
 
 	wfcGrid->GenerateInitialGrid(20, 20);
 	wfcGrid->InitializeGeneration();
 }
 
 
-
-void Draw()
+void InitNavMesh()
 {
-	testObj.Draw();
-	navMesh.Draw();
-	navMeshAgent.Draw();
-
-	for (int i = 1; i < notSmoothNavMeshPath.size(); i++)
-	{
-		ShapeDrawing2D::DrawCircle(notSmoothNavMeshPath[i], 3, Color::BLUE);
-		ShapeDrawing2D::DrawLine(notSmoothNavMeshPath[i - 1], notSmoothNavMeshPath[i], 5, Color::RED);
-	}
-
-	for(int i = 1; i < smoothNavMeshPath.size(); i++)
-	{
-		ShapeDrawing2D::DrawCircle(smoothNavMeshPath[i], 7, Color::ORANGE);
-		ShapeDrawing2D::DrawLine(smoothNavMeshPath[i - 1], smoothNavMeshPath[i], 10, Color::PURPLE);
-	}
-
-	/*if(navMeshPath.size() >= 2)
-	{
-		ShapeDrawing2D::DrawLine(navMeshPath[0], navMeshPath[navMeshPath.size() - 1], 10, Color::BLACK);
-	}*/
-
-	//superTri.Draw(3, Color::YELLOW);
-
-	//tri.Draw(1, Color::RED);
-	//dTriangle.Draw();
-	//dPoint.Draw(&testTex, Vector2(100, 100));
-
-	/*ShapeDrawing2D::DrawCircle(tri.GetCircumcenter(), tri.GetCircumradius(), Color::RED);
-	tri.Draw(3);
-	ShapeDrawing2D::DrawCircle(tri.GetCircumcenter(), 10, Color::BLUE);*/
-
-}
-
-
-void Init()
-{
-	// Run tests before starting engine
-	TestRunner testRunner = TestRunner(true, true);
-	testRunner.RunTests();
-
-
-	raylib::Window win = raylib::Window(600, 600, "Jothly");
-
-	win.SetTargetFPS(60);
-
-	std::cout << std::filesystem::current_path() << std::endl;
-	testTex = Texture(con::RESOURCE_PATH + "test.png");
-	smallBlackDot = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
-
-	//tri = DelaunayTriangle(Vector2(100, 100), Vector2(400, 200), Vector2(200, 400));
-
-	//dTriangle.CreateComponent<DelaunayTriangle>()->Init(Vector2(0, 0), Vector2(100, 100), Vector2(200, 400), &testTex);
-
-	//std::vector<Vector2> testPoints { Vector2(100, 100), Vector2(50, 100), Vector2(200, 300), Vector2(150, 250) };
-
 	NavMesh* navMeshComponent = navMesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 2, Color::WHITE, true,
 		5.0f, Color::RED, true, true, false);
-
-	//navmeshComponent->GenerateRandomPoints(20, Vector2(5, 5), Vector2(595, 595));
 
 	SquareNavMeshObstacle squareObstacle1 = SquareNavMeshObstacle(Vector2(225, 225));
 	squareObstacle1.color = Color::RED;
@@ -257,10 +199,61 @@ void Init()
 	navMeshAgent.transform.scale = Vector2(.3f);
 	navMeshAgent.CreateComponent<SpriteRenderer>()->Init(&smallBlackDot);
 	navMeshAgentComponent = navMeshAgent.CreateComponent<NavMeshAgent>()->Init(navMeshComponent, 100);
+}
 
-	//containingTriangle = navmeshComponent->CalculatePath(Vector2(10, 10), Vector2(100, 100));
 
-	//navmeshComponent->GenerateDelaunayTriangles();
+void DrawWFC()
+{
+	wfcObject.Draw();
+}
+
+
+void DrawNavMesh()
+{
+	navMesh.Draw();
+	navMeshAgent.Draw();
+
+	for (int i = 1; i < notSmoothNavMeshPath.size(); i++)
+	{
+		ShapeDrawing2D::DrawCircle(notSmoothNavMeshPath[i], 3, Color::BLUE);
+		ShapeDrawing2D::DrawLine(notSmoothNavMeshPath[i - 1], notSmoothNavMeshPath[i], 5, Color::RED);
+	}
+
+	for (int i = 1; i < smoothNavMeshPath.size(); i++)
+	{
+		ShapeDrawing2D::DrawCircle(smoothNavMeshPath[i], 7, Color::ORANGE);
+		ShapeDrawing2D::DrawLine(smoothNavMeshPath[i - 1], smoothNavMeshPath[i], 10, Color::PURPLE);
+	}
+}
+
+
+
+void Draw()
+{
+	ticTacToeObject.Draw();
+
+	/*DrawWFC();
+	DrawNavMesh();*/
+}
+
+
+void Init()
+{
+	// Run tests before starting engine
+	TestRunner testRunner = TestRunner(true, true);
+	testRunner.RunTests();
+
+
+	raylib::Window win = raylib::Window(600, 600, "Jothly");
+
+	win.SetTargetFPS(60);
+
+	std::cout << std::filesystem::current_path() << std::endl;
+	testTex = Texture(con::RESOURCE_PATH + "test.png");
+	smallBlackDot = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
+
+	ticTacToeObject.CreateComponent<TicTacToeBoard>()->Init();
+	ticTacToeObject.CreateComponent<SpriteRenderer>()->Init(&smallBlackDot);
 
 	//InitWFC();
 
