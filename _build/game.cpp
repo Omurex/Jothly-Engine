@@ -43,6 +43,12 @@ GameObject navMesh;
 Vector2 startOfPath = Vector2(50, 10);
 std::vector<Vector2> notSmoothNavMeshPath;
 std::vector<Vector2> smoothNavMeshPath;
+SquareNavMeshObstacle squareObstacle1;
+SquareNavMeshObstacle squareObstacle2;
+SquareNavMeshObstacle squareObstacle3;
+SquareNavMeshObstacle squareObstacle4;
+SquareNavMeshObstacle squareObstacle5;
+SquareNavMeshObstacle squareObstacle6;
 
 GameObject ticTacToeObject = GameObject("Tic Tac Toe Object", Vector2(300, 300), Quaternion::Quaternion2D(0), Vector2(1));
 TicTacToeBoard* ticTacToe = nullptr;
@@ -98,9 +104,9 @@ void UpdateNavMesh()
 void Update()
 {
 	//UpdateWFC();
-	//UpdateNavMesh();
+	UpdateNavMesh();
 
-	ticTacToeObject.Update(GetFrameTime());
+	//ticTacToeObject.Update(GetFrameTime());
 }
 
 
@@ -110,11 +116,6 @@ void InitWFC()
 	Texture lu = Texture(con::RESOURCE_PATH + "lu.png");
 	Texture ru = Texture(con::RESOURCE_PATH + "ru.png");
 	Texture rd = Texture(con::RESOURCE_PATH + "rd.png");
-
-	/*std::vector<WaveFunctionCollapseTile> templateTiles = std::vector<WaveFunctionCollapseTile>
-	{
-		WaveFunctionCollapseTile(&ld, "OXX", "XXO", "OOO", "OOO"),
-	};*/
 
 	// NOTE: MAKE TEXTURE MANAGER, BADLY NEEDED
 	Texture t0 = Texture(con::RESOURCE_PATH + "coding-train/0.png");
@@ -160,22 +161,22 @@ void InitNavMesh()
 	NavMesh* navMeshComponent = navMesh.CreateComponent<NavMesh>()->Init(5, Color::BLACK, true, 2, Color::WHITE, true,
 		5.0f, Color::RED, true, true, false);
 
-	SquareNavMeshObstacle squareObstacle1 = SquareNavMeshObstacle(Vector2(225, 225));
+	squareObstacle1 = SquareNavMeshObstacle(Vector2(225, 225));
 	squareObstacle1.color = Color::RED;
 
-	SquareNavMeshObstacle squareObstacle2 = SquareNavMeshObstacle(Vector2(400, 400));
+	squareObstacle2 = SquareNavMeshObstacle(Vector2(400, 400));
 	squareObstacle2.color = Color::RED;
 
-	SquareNavMeshObstacle squareObstacle3 = SquareNavMeshObstacle(Vector2(450, 250));
+	squareObstacle3 = SquareNavMeshObstacle(Vector2(450, 250));
 	squareObstacle3.color = Color::RED;
 
-	SquareNavMeshObstacle squareObstacle4 = SquareNavMeshObstacle(Vector2(100, 100));
+	squareObstacle4 = SquareNavMeshObstacle(Vector2(100, 100));
 	squareObstacle4.color = Color::RED;
 
-	SquareNavMeshObstacle squareObstacle5 = SquareNavMeshObstacle(Vector2(50, 400));
+	squareObstacle5 = SquareNavMeshObstacle(Vector2(50, 400));
 	squareObstacle5.color = Color::RED;
 
-	SquareNavMeshObstacle squareObstacle6 = SquareNavMeshObstacle(Vector2(450, 300));
+	squareObstacle6 = SquareNavMeshObstacle(Vector2(450, 300));
 	squareObstacle6.color = Color::RED;
 
 	navMeshComponent->AddObstacle(&squareObstacle1);
@@ -231,10 +232,10 @@ void DrawNavMesh()
 
 void Draw()
 {
-	ticTacToeObject.Draw();
+	//ticTacToeObject.Draw();
 
-	/*DrawWFC();
-	DrawNavMesh();*/
+	//DrawWFC();
+	DrawNavMesh();
 }
 
 
@@ -267,10 +268,11 @@ void Init()
 	ticTacToe->PlaceSquare(2, 2, false);
 	ticTacToe->PlaceSquare(2, 1, false);
 
-	TicTacToeBoard::Result gameResult = ticTacToe->CheckForEndOfGame();
+	TTTResult gameResult = ticTacToe->CheckForEndOfGame();
 	std::cout << gameResult;
 
 	//InitWFC();
+	InitNavMesh();
 
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key

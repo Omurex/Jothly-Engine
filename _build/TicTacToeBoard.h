@@ -3,37 +3,24 @@
 #include "Component.h"
 #include "Vector2.h"
 #include "Texture.h"
+#include "TicTacToeData.hpp"
 #include <vector>
+#include "TicTacToePlayer.h"
 
 
 namespace jothly
 {
 	class TicTacToeBoard : public Component
-	{
-		public:
-
-		enum Square : char
-		{
-			EMPTY,
-			X,
-			O
-		};
-
-		enum Result : int
-		{
-			STILL_PLAYING,
-			X_WIN,
-			O_WIN,
-			DRAW
-		};
-		
+	{	
 		private:
-		static const int NUM_SPACES = 9;
-
 		friend class GameObject;
 
-		Square board[NUM_SPACES];
+		TTTSquare board[TTT_NUM_SPACES];
 		std::vector<int> emptySpaceIndexes;
+
+		TicTacToePlayer* xPlayer;
+		TicTacToePlayer* oPlayer;
+		bool xTurn;
 
 		Texture* xTexture = nullptr;
 		Texture* oTexture = nullptr;
@@ -47,7 +34,7 @@ namespace jothly
 
 		Vector2 GetSquareWorldPos(int index);
 		int GetSquareIndex(int row, int column);
-		Square GetSquare(int row, int column);
+		TTTSquare GetSquare(int row, int column);
 
 		protected:
 
@@ -60,9 +47,10 @@ namespace jothly
 			Vector2 _offset = Vector2(0), float _size = 300);
 
 		ComponentID GetID() const override { return ComponentID::TIC_TAC_TOE_BOARD; }
+		bool GetBoardCopy(TTTSquare out_board[TTT_NUM_SPACES]);
 
 		bool PlaceSquare(int row, int column, bool placingX, bool overwriteExisting = false);
-		Result CheckForEndOfGame(); // 0 = Still playing, 1 = X win, 2 = O win, 3 = Draw
+		TTTResult CheckForEndOfGame(); // 0 = Still playing, 1 = X win, 2 = O win, 3 = Draw
 
 		void ResetBoard();
 	};

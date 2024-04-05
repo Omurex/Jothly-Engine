@@ -49,6 +49,12 @@
     <Filter Include="Source Files\TicTacToe">
       <UniqueIdentifier>{769847d8-13e9-43e5-8298-25e17bc70d6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{4a99f1bd-933c-4c09-864d-59ee186dd0bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{8054896d-a818-4459-83c7-64e39e5d112c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -147,6 +153,21 @@
     <ClInclude Include="TicTacToeBoard.h">
       <Filter>Header Files\TicTacToe</Filter>
     </ClInclude>
+    <ClInclude Include="TicTacToePlayer.h">
+      <Filter>Header Files\TicTacToe</Filter>
+    </ClInclude>
+    <ClInclude Include="TicTacToeData.hpp">
+      <Filter>Header Files\TicTacToe</Filter>
+    </ClInclude>
+    <ClInclude Include="TicTacToeHumanPlayer.h">
+      <Filter>Header Files\TicTacToe</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="InputCodes.hpp">
+      <Filter>Enums</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -241,6 +262,12 @@
     </ClCompile>
     <ClCompile Include="TicTacToeBoard.cpp">
       <Filter>Source Files\TicTacToe</Filter>
+    </ClCompile>
+    <ClCompile Include="TicTacToeHumanPlayer.cpp">
+      <Filter>Source Files\TicTacToe</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -28,5 +28,12 @@ namespace jothly
 
 		// Inherited via NavMeshObstacle
 		bool DoesLineSegmentIntersectObstacle(Vector2 p0, Vector2 p1) override;
+
+		void operator=(const SquareNavMeshObstacle& other)
+		{
+			centerPos = other.centerPos;
+			sideLength = other.sideLength;
+			color = other.color;
+		}
 	};
 }

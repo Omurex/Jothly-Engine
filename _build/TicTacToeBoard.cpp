@@ -15,15 +15,15 @@ namespace jothly
 		Vector2 pos = owner->transform.pos + offset;
 		Vector2 topLeft = pos - Vector2(halfSize);
 
-		for(int i = 0; i < NUM_SPACES; ++i)
+		for(int i = 0; i < TTT_NUM_SPACES; ++i)
 		{
 			Texture* tex = nullptr;
 
-			if(board[i] == Square::X)
+			if(board[i] == TTTSquare::X)
 			{
 				tex = xTexture;	
 			}
-			else if(board[i] == Square::O)
+			else if(board[i] == TTTSquare::O)
 			{
 				tex = oTexture;
 			}
@@ -67,7 +67,7 @@ namespace jothly
 	}
 
 
-	TicTacToeBoard::Square TicTacToeBoard::GetSquare(int row, int column)
+	TTTSquare TicTacToeBoard::GetSquare(int row, int column)
 	{
 		return board[GetSquareIndex(row, column)];
 	}
@@ -77,6 +77,17 @@ namespace jothly
 	{
 		Init(); 
 		ResetBoard();
+	}
+
+
+	bool TicTacToeBoard::GetBoardCopy(TTTSquare out_board[TTT_NUM_SPACES])
+	{
+		for (int i = 0; i < TTT_NUM_SPACES; ++i)
+		{
+			out_board[i] = board[i];
+		}
+
+		return true;
 	}
 
 
@@ -97,10 +108,10 @@ namespace jothly
 	{
 		int index = GetSquareIndex(row, column);
 		
-		if(index < 0 || index > NUM_SPACES) return false;
-		if(board[index] != Square::EMPTY && !overwriteExisting) return false;
+		if(index < 0 || index > TTT_NUM_SPACES) return false;
+		if(board[index] != TTTSquare::EMPTY && !overwriteExisting) return false;
 
-		board[index] = placingX ? Square::X : Square::O;
+		board[index] = placingX ? TTTSquare::X : TTTSquare::O;
 
 		emptySpaceIndexes.erase(std::find(emptySpaceIndexes.begin(), emptySpaceIndexes.end(), index));
 
@@ -109,17 +120,17 @@ namespace jothly
 
 
 	// Note: Never pass empty into this function, it will return O_Win
-	TicTacToeBoard::Result SquareToFinalGameResult(TicTacToeBoard::Square square)
+	TTTResult SquareToFinalGameResult(TTTSquare square)
 	{
-		if (square == TicTacToeBoard::Square::X) return TicTacToeBoard::X_WIN;
-		else return TicTacToeBoard::O_WIN;
+		if (square == TTTSquare::X) return X_WIN;
+		else return O_WIN;
 	}
 
 
-	#define CALCULATE_END_OF_GAME if(s0 == s1 && s1 == s2 && s0 != Square::EMPTY) { return SquareToFinalGameResult(s0); }
-	TicTacToeBoard::Result TicTacToeBoard::CheckForEndOfGame()
+	#define CALCULATE_END_OF_GAME if(s0 == s1 && s1 == s2 && s0 != TTTSquare::EMPTY) { return SquareToFinalGameResult(s0); }
+	TTTResult TicTacToeBoard::CheckForEndOfGame()
 	{
-		Square s0, s1, s2;
+		TTTSquare s0, s1, s2;
 
 		// Check columns for win
 		for(int c = 0; c < 3; ++c)
@@ -152,19 +163,19 @@ namespace jothly
 		CALCULATE_END_OF_GAME
 
 		// No winners and no more spaces to play
-		if(emptySpaceIndexes.size() == 0) return Result::DRAW;
+		if(emptySpaceIndexes.size() == 0) return TTTResult::DRAW;
 
-		return Result::STILL_PLAYING;
+		return TTTResult::STILL_PLAYING;
 	}
 
 
 	void TicTacToeBoard::ResetBoard()
 	{
-		emptySpaceIndexes = std::vector<int>(NUM_SPACES);
+		emptySpaceIndexes = std::vector<int>(TTT_NUM_SPACES);
 
-		for(int i = 0; i < NUM_SPACES; ++i)
+		for(int i = 0; i < TTT_NUM_SPACES; ++i)
 		{
-			board[i] = Square::EMPTY;
+			board[i] = TTTSquare::EMPTY;
 			emptySpaceIndexes[i] = i;
 		}
 	}
