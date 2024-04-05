@@ -23,6 +23,7 @@
 #include "SquareNavMeshObstacle.h"
 #include "NavMeshAgent.h"
 #include "TicTacToeBoard.h"
+#include "Input.h"
 
 
 using namespace jothly;
@@ -74,7 +75,7 @@ void UpdateNavMesh()
 	navMesh.Update(GetFrameTime());
 	navMeshAgent.Update(GetFrameTime());
 
-	if(IsMouseButtonDown(MouseButton::MOUSE_BUTTON_RIGHT))
+	if(Input::GetMouseButtonDown(MouseCode::MB_RIGHT))
 	{
 		notSmoothNavMeshPath = ((NavMesh*)navMesh.GetComponent(ComponentID::NAVMESH))->CalculatePathWithoutSmoothing(
 			navMeshAgent.transform.pos, { GetMousePosition().x, GetMousePosition().y }, false);
@@ -84,7 +85,7 @@ void UpdateNavMesh()
 		notSmoothNavMeshPath = std::vector<Vector2>();
 	}
 
-	if(IsMouseButtonDown(MouseButton::MOUSE_BUTTON_LEFT))
+	if(Input::GetMouseButtonDown(MouseCode::MB_LEFT))
 	{
 		smoothNavMeshPath = ((NavMesh*)navMesh.GetComponent(ComponentID::NAVMESH))->CalculatePathWithSmoothing(
 			navMeshAgent.transform.pos, { GetMousePosition().x, GetMousePosition().y }, false);
@@ -94,7 +95,7 @@ void UpdateNavMesh()
 		smoothNavMeshPath = std::vector<Vector2>();
 	}
 
-	if (IsKeyDown(KeyboardKey::KEY_SPACE))
+	if (Input::GetKeyDown(KeyCode::SPACE))
 	{
 		navMeshAgentComponent->SetDestination({ GetMousePosition().x, GetMousePosition().y });
 	}

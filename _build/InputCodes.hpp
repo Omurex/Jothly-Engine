@@ -2,7 +2,7 @@
 
 namespace jothly
 {
-	enum MouseCode
+	enum class MouseCode
 	{
 		MB_LEFT = 0,       // Mouse button left
 		MB_RIGHT = 1,       // Mouse button right
@@ -13,9 +13,9 @@ namespace jothly
 		MB_BACK = 6,       // Mouse button back (advanced mouse device)
 	};
 
-	enum KeyCode
+	enum class KeyCode
 	{
-		NULL = 0,        // Key: NULL, used for no key pressed
+		KEY_NULL = 0,        // Key: NULL, used for no key pressed
 		// Alphanumeric keys
 		APOSTROPHE = 39,       // Key: '
 		COMMA = 44,       // Key: ,

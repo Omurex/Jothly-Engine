@@ -7,18 +7,20 @@ namespace jothly
 {
 	class Input
 	{
-		bool GetKeyPressed(KeyCode keyCode);
-		bool GetKeyReleased(KeyCode keyCode);
-		
-		bool GetKeyDown(KeyCode keyCode);
-		bool GetKeyUp(KeyCode keyCode);
+		public:
 
-		bool GetMousePressed(MouseCode mouseCode);
-		bool GetMouseReleased(MouseCode mouseCode);
-
-		bool GetMouseButtonDown(MouseCode mouseCode);
-		bool GetMouseButtonUp(MouseCode mouseCode);
-
-		Vector2 GetMousePosition();
+		static bool GetKeyPressed(KeyCode keyCode);
+		static bool GetKeyReleased(KeyCode keyCode);
+		 
+		static bool GetKeyDown(KeyCode keyCode);
+		static bool GetKeyUp(KeyCode keyCode);
+		 
+		static bool GetMousePressed(MouseCode mouseCode);
+		static bool GetMouseReleased(MouseCode mouseCode);
+		 
+		static bool GetMouseButtonDown(MouseCode mouseCode);
+		static bool GetMouseButtonUp(MouseCode mouseCode);
+		 
+		static Vector2 GetMousePosition();
 	};
 }
