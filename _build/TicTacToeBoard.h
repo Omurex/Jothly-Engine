@@ -18,8 +18,8 @@ namespace jothly
 		TTTSquare board[TTT_NUM_SPACES];
 		std::vector<int> emptySpaceIndexes;
 
-		TicTacToePlayer* xPlayer;
-		TicTacToePlayer* oPlayer;
+		TicTacToePlayer* xPlayer = nullptr;
+		TicTacToePlayer* oPlayer = nullptr;
 		bool xTurn;
 
 		Texture* xTexture = nullptr;

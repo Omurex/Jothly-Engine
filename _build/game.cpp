@@ -24,6 +24,8 @@
 #include "NavMeshAgent.h"
 #include "TicTacToeBoard.h"
 #include "Input.h"
+#include "TicTacToePlayer.h"
+#include "TicTacToeHumanPlayer.h"
 
 
 using namespace jothly;
@@ -34,6 +36,8 @@ GameObject wfcObject = GameObject("WFC Object", Vector3(0, 0, 0), Quaternion::Qu
 Texture testTex;
 WaveFunctionCollapseGrid* wfcGrid;
 Texture smallBlackDot;
+Texture ld, lu, ru, rd, t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12;
+std::vector<WaveFunctionCollapseTile> templateTiles;
 
 // NavMesh Variables
 GameObject navMeshAgent = GameObject("NavMeshAgent", Vector2(200, 100), Quaternion::Quaternion2D(0), Vector2(1));
@@ -44,15 +48,14 @@ GameObject navMesh;
 Vector2 startOfPath = Vector2(50, 10);
 std::vector<Vector2> notSmoothNavMeshPath;
 std::vector<Vector2> smoothNavMeshPath;
-SquareNavMeshObstacle squareObstacle1;
-SquareNavMeshObstacle squareObstacle2;
-SquareNavMeshObstacle squareObstacle3;
-SquareNavMeshObstacle squareObstacle4;
-SquareNavMeshObstacle squareObstacle5;
-SquareNavMeshObstacle squareObstacle6;
+SquareNavMeshObstacle squareObstacle1, squareObstacle2, squareObstacle3, squareObstacle4, squareObstacle5, squareObstacle6;
 
+// TicTacToe Variables
 GameObject ticTacToeObject = GameObject("Tic Tac Toe Object", Vector2(300, 300), Quaternion::Quaternion2D(0), Vector2(1));
 TicTacToeBoard* ticTacToe = nullptr;
+TicTacToeHumanPlayer xPlayer;
+TicTacToeHumanPlayer oPlayer;
+
 
 
 void UpdateWFC()
@@ -105,35 +108,35 @@ void UpdateNavMesh()
 void Update()
 {
 	//UpdateWFC();
-	UpdateNavMesh();
+	//UpdateNavMesh();
 
-	//ticTacToeObject.Update(GetFrameTime());
+	ticTacToeObject.Update(GetFrameTime());
 }
 
 
 void InitWFC()
 {
-	Texture ld = Texture(con::RESOURCE_PATH + "ld.png");
-	Texture lu = Texture(con::RESOURCE_PATH + "lu.png");
-	Texture ru = Texture(con::RESOURCE_PATH + "ru.png");
-	Texture rd = Texture(con::RESOURCE_PATH + "rd.png");
+	ld = Texture(con::RESOURCE_PATH + "ld.png");
+	lu = Texture(con::RESOURCE_PATH + "lu.png");
+	ru = Texture(con::RESOURCE_PATH + "ru.png");
+	rd = Texture(con::RESOURCE_PATH + "rd.png");
 
 	// NOTE: MAKE TEXTURE MANAGER, BADLY NEEDED
-	Texture t0 = Texture(con::RESOURCE_PATH + "coding-train/0.png");
-	Texture t1 = Texture(con::RESOURCE_PATH + "coding-train/1.png");
-	Texture t2 = Texture(con::RESOURCE_PATH + "coding-train/2.png");
-	Texture t3 = Texture(con::RESOURCE_PATH + "coding-train/3.png");
-	Texture t4 = Texture(con::RESOURCE_PATH + "coding-train/4.png");
-	Texture t5 = Texture(con::RESOURCE_PATH + "coding-train/5.png");
-	Texture t6 = Texture(con::RESOURCE_PATH + "coding-train/6.png");
-	Texture t7 = Texture(con::RESOURCE_PATH + "coding-train/7.png");
-	Texture t8 = Texture(con::RESOURCE_PATH + "coding-train/8.png");
-	Texture t9 = Texture(con::RESOURCE_PATH + "coding-train/9.png");
-	Texture t10 = Texture(con::RESOURCE_PATH + "coding-train/10.png");
-	Texture t11 = Texture(con::RESOURCE_PATH + "coding-train/11.png");
-	Texture t12 = Texture(con::RESOURCE_PATH + "coding-train/12.png");
+	t0 = Texture(con::RESOURCE_PATH + "coding-train/0.png");
+	t1 = Texture(con::RESOURCE_PATH + "coding-train/1.png");
+	t2 = Texture(con::RESOURCE_PATH + "coding-train/2.png");
+	t3 = Texture(con::RESOURCE_PATH + "coding-train/3.png");
+	t4 = Texture(con::RESOURCE_PATH + "coding-train/4.png");
+	t5 = Texture(con::RESOURCE_PATH + "coding-train/5.png");
+	t6 = Texture(con::RESOURCE_PATH + "coding-train/6.png");
+	t7 = Texture(con::RESOURCE_PATH + "coding-train/7.png");
+	t8 = Texture(con::RESOURCE_PATH + "coding-train/8.png");
+	t9 = Texture(con::RESOURCE_PATH + "coding-train/9.png");
+	t10 = Texture(con::RESOURCE_PATH + "coding-train/10.png");
+	t11 = Texture(con::RESOURCE_PATH + "coding-train/11.png");
+	t12 = Texture(con::RESOURCE_PATH + "coding-train/12.png");
 
-	std::vector<WaveFunctionCollapseTile> templateTiles = std::vector<WaveFunctionCollapseTile>
+	templateTiles = std::vector<WaveFunctionCollapseTile>
 	{
 		WaveFunctionCollapseTile(&t0, "000", "000", "000", "000", TileSymmetry::FOUR_SIDED_SYMMETRIC),
 		WaveFunctionCollapseTile(&t1, "111", "111", "111", "111", TileSymmetry::FOUR_SIDED_SYMMETRIC),
@@ -233,10 +236,10 @@ void DrawNavMesh()
 
 void Draw()
 {
-	//ticTacToeObject.Draw();
+	ticTacToeObject.Draw();
 
 	//DrawWFC();
-	DrawNavMesh();
+	//DrawNavMesh();
 }
 
 
@@ -269,11 +272,8 @@ void Init()
 	ticTacToe->PlaceSquare(2, 2, false);
 	ticTacToe->PlaceSquare(2, 1, false);
 
-	TTTResult gameResult = ticTacToe->CheckForEndOfGame();
-	std::cout << gameResult;
-
 	//InitWFC();
-	InitNavMesh();
+	//InitNavMesh();
 
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key

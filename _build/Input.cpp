@@ -3,13 +3,13 @@
 
 namespace jothly
 {
-	bool Input::GetKeyPressed(KeyCode keyCode)
+	bool Input::GetKeyJustPressed(KeyCode keyCode)
 	{
 		return IsKeyPressed((int) keyCode);
 	}
 
 
-	bool Input::GetKeyReleased(KeyCode keyCode)
+	bool Input::GetKeyJustReleased(KeyCode keyCode)
 	{
 		return IsKeyReleased((int) keyCode);
 	}
@@ -27,13 +27,13 @@ namespace jothly
 	}
 
 
-	bool Input::GetMousePressed(MouseCode mouseCode)
+	bool Input::GetMouseJustPressed(MouseCode mouseCode)
 	{
 		return IsMouseButtonPressed((int) mouseCode);
 	}
 
 
-	bool Input::GetMouseReleased(MouseCode mouseCode)
+	bool Input::GetMouseJustReleased(MouseCode mouseCode)
 	{
 		return IsMouseButtonReleased((int) mouseCode);
 	}

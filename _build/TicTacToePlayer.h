@@ -9,6 +9,6 @@ namespace jothly
 	class TicTacToePlayer
 	{
 		public:
-		virtual bool GetNextMove(const TicTacToeBoard& tttBoard, float dt, TTTSquare &out_move) = 0;
+		virtual bool GetNextMove(const TicTacToeBoard& tttBoard, float dt, int& out_row, int& out_column) = 0;
 	};
 }

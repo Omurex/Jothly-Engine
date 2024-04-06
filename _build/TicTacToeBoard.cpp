@@ -46,6 +46,28 @@ namespace jothly
 
 	void TicTacToeBoard::Update(float dt)
 	{
+		TicTacToePlayer* player = nullptr;
+
+		if(xTurn)
+		{
+			player = xPlayer;
+		}
+		else
+		{
+			player = oPlayer;
+		}
+
+		if(player == nullptr) return;
+
+		int row;
+		int column;
+		
+		if (!player->GetNextMove(*this, dt, row, column)) return; // No move given
+
+		int index = GetSquareIndex(row, column);
+			
+		if(index < 0 || index >= TTT_NUM_SPACES) return; // Index invalid
+		if(board[index] != TTTSquare::EMPTY) return; // Invalid move
 	}
 
 

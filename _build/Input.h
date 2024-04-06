@@ -9,14 +9,14 @@ namespace jothly
 	{
 		public:
 
-		static bool GetKeyPressed(KeyCode keyCode);
-		static bool GetKeyReleased(KeyCode keyCode);
+		static bool GetKeyJustPressed(KeyCode keyCode);
+		static bool GetKeyJustReleased(KeyCode keyCode);
 		 
 		static bool GetKeyDown(KeyCode keyCode);
 		static bool GetKeyUp(KeyCode keyCode);
 		 
-		static bool GetMousePressed(MouseCode mouseCode);
-		static bool GetMouseReleased(MouseCode mouseCode);
+		static bool GetMouseJustPressed(MouseCode mouseCode);
+		static bool GetMouseJustReleased(MouseCode mouseCode);
 		 
 		static bool GetMouseButtonDown(MouseCode mouseCode);
 		static bool GetMouseButtonUp(MouseCode mouseCode);
