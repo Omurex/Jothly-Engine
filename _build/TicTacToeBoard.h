@@ -29,12 +29,15 @@ namespace jothly
 		Vector2 offset = Vector2(0);
 		float size = 300;
 
+		bool gameOver = false;
+
+
 		void Draw() override;
 		void Update(float dt) override;
 
-		Vector2 GetSquareWorldPos(int index);
-		int GetSquareIndex(int row, int column);
-		TTTSquare GetSquare(int row, int column);
+		Vector2 GetSquareWorldPos(int index) const;
+		int GetSquareIndex(int row, int column) const;
+		TTTSquare GetSquare(int row, int column) const;
 
 		protected:
 
@@ -46,11 +49,18 @@ namespace jothly
 		TicTacToeBoard* Init(Texture* _xTexture = nullptr, Texture* _oTexture = nullptr, Texture* _emptyTexture = nullptr, 
 			Vector2 _offset = Vector2(0), float _size = 300);
 
-		ComponentID GetID() const override { return ComponentID::TIC_TAC_TOE_BOARD; }
-		bool GetBoardCopy(TTTSquare out_board[TTT_NUM_SPACES]);
+		void SetXPlayer(TicTacToePlayer* _xPlayer) { xPlayer = _xPlayer; }
+		void SetYPlayer(TicTacToePlayer* _oPlayer) { oPlayer = _oPlayer; }
+		void SetPlayers(TicTacToePlayer* _xPlayer, TicTacToePlayer* _oPlayer) { SetXPlayer(_xPlayer); SetYPlayer(_oPlayer); }
 
+		ComponentID GetID() const override { return ComponentID::TIC_TAC_TOE_BOARD; }
+		bool GetBoardCopy(TTTSquare out_board[TTT_NUM_SPACES]) const;
+
+		bool PlaceSquare(int index, bool placingX, bool overwriteExisting = false);
 		bool PlaceSquare(int row, int column, bool placingX, bool overwriteExisting = false);
-		TTTResult CheckForEndOfGame(); // 0 = Still playing, 1 = X win, 2 = O win, 3 = Draw
+		TTTResult CheckForEndOfGame() const; // 0 = Still playing, 1 = X win, 2 = O win, 3 = Draw
+
+		int GetIndexFromWorldPoint(Vector2 worldPoint) const; // Returns index if point valid in board, -1 otherwise
 
 		void ResetBoard();
 	};

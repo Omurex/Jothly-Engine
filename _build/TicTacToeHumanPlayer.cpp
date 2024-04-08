@@ -1,13 +1,19 @@
 #include "TicTacToeHumanPlayer.h"
 #include "TicTacToeBoard.h"
 #include "Input.h"
+#include <iostream>
+
 
 namespace jothly
 {
-	bool TicTacToeHumanPlayer::GetNextMove(const TicTacToeBoard& tttBoard, float dt, int& out_row, int& out_column)
+	bool TicTacToeHumanPlayer::GetNextMove(const TicTacToeBoard& tttBoard, float dt, int& out_index)
 	{
-		if(Input::GetKeyJustPressed(KeyCode::SPACE))
+		if(Input::GetMouseJustPressed(MouseCode::MB_LEFT))
 		{
+			out_index = tttBoard.GetIndexFromWorldPoint(Input::GetMousePosition());
+			if(out_index == -1) return false;
+
+			return true;
 		}
 
 		return false;

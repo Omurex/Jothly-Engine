@@ -262,7 +262,7 @@ void Init()
 	Texture ticTacToeOTex = Texture(con::RESOURCE_PATH + "TicTacToeO.png");
 
 	ticTacToe = ticTacToeObject.CreateComponent<TicTacToeBoard>()->Init(&ticTacToeXTex, &ticTacToeOTex);
-	ticTacToe->PlaceSquare(0, 2, false);
+	/*ticTacToe->PlaceSquare(0, 2, false);
 	ticTacToe->PlaceSquare(1, 1, true);
 	ticTacToe->PlaceSquare(2, 0, true);
 	ticTacToe->PlaceSquare(0, 1, false);
@@ -270,7 +270,9 @@ void Init()
 	ticTacToe->PlaceSquare(1, 0, false);
 	ticTacToe->PlaceSquare(1, 2, true);
 	ticTacToe->PlaceSquare(2, 2, false);
-	ticTacToe->PlaceSquare(2, 1, false);
+	ticTacToe->PlaceSquare(2, 1, false);*/
+
+	ticTacToe->SetPlayers(&xPlayer, &oPlayer);
 
 	//InitWFC();
 	//InitNavMesh();

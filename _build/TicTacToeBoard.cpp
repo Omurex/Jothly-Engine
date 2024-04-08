@@ -2,6 +2,7 @@
 #include "ShapeDrawing2D.h"
 #include "TextureDrawing.h"
 #include "Color.h"
+#include <iostream>
 
 
 namespace jothly
@@ -44,8 +45,12 @@ namespace jothly
 	}
 
 
+	#define INVALID_PLAYER_CHECK
+
 	void TicTacToeBoard::Update(float dt)
 	{
+		if(gameOver) return;
+
 		TicTacToePlayer* player = nullptr;
 
 		if(xTurn)
@@ -57,21 +62,38 @@ namespace jothly
 			player = oPlayer;
 		}
 
-		if(player == nullptr) return;
+		if (player == nullptr) // Player invalid!
+		{
+			std::cout << "No " << (xTurn ? "X" : "O") << " player set!" << std::endl; 
+			xTurn = !xTurn; 
+			return; 
+		}
 
-		int row;
-		int column;
-		
-		if (!player->GetNextMove(*this, dt, row, column)) return; // No move given
+		int index; // Index at which to place move
+		if (!player->GetNextMove(*this, dt, index)) return; // No move given
+		if(!PlaceSquare(index, xTurn)) return; // Invalid move
 
-		int index = GetSquareIndex(row, column);
-			
-		if(index < 0 || index >= TTT_NUM_SPACES) return; // Index invalid
-		if(board[index] != TTTSquare::EMPTY) return; // Invalid move
+		TTTResult result = CheckForEndOfGame();
+
+		if (result != TTTResult::STILL_PLAYING) // Do end of game actions
+		{
+			gameOver = true;
+
+			if(result == TTTResult::DRAW) { std::cout << "DRAW!" << std::endl; return; }
+
+			std::string winner = 
+				result == TTTResult::X_WIN ? "X" : "O";
+
+			std::cout << winner << " WINS!" << std::endl;
+
+			return;
+		}
+
+		xTurn = !xTurn;
 	}
 
 
-	Vector2 TicTacToeBoard::GetSquareWorldPos(int index)
+	Vector2 TicTacToeBoard::GetSquareWorldPos(int index) const
 	{
 		Vector2 topLeft = owner->transform.pos + offset - Vector2(size / 2.0f);
 		float spacer = size / 3.0f;
@@ -83,13 +105,13 @@ namespace jothly
 	}
 
 
-	int TicTacToeBoard::GetSquareIndex(int row, int column)
+	int TicTacToeBoard::GetSquareIndex(int row, int column) const
 	{
 		return row * 3 + column;
 	}
 
 
-	TTTSquare TicTacToeBoard::GetSquare(int row, int column)
+	TTTSquare TicTacToeBoard::GetSquare(int row, int column) const
 	{
 		return board[GetSquareIndex(row, column)];
 	}
@@ -102,7 +124,7 @@ namespace jothly
 	}
 
 
-	bool TicTacToeBoard::GetBoardCopy(TTTSquare out_board[TTT_NUM_SPACES])
+	bool TicTacToeBoard::GetBoardCopy(TTTSquare out_board[TTT_NUM_SPACES]) const
 	{
 		for (int i = 0; i < TTT_NUM_SPACES; ++i)
 		{
@@ -126,18 +148,23 @@ namespace jothly
 	}
 
 
-	bool TicTacToeBoard::PlaceSquare(int row, int column, bool placingX, bool overwriteExisting)
+	bool TicTacToeBoard::PlaceSquare(int index, bool placingX, bool overwriteExisting)
 	{
-		int index = GetSquareIndex(row, column);
-		
-		if(index < 0 || index > TTT_NUM_SPACES) return false;
-		if(board[index] != TTTSquare::EMPTY && !overwriteExisting) return false;
+		if (index < 0 || index > TTT_NUM_SPACES) return false;
+		if (board[index] != TTTSquare::EMPTY && !overwriteExisting) return false;
 
 		board[index] = placingX ? TTTSquare::X : TTTSquare::O;
 
 		emptySpaceIndexes.erase(std::find(emptySpaceIndexes.begin(), emptySpaceIndexes.end(), index));
 
 		return true;
+	}
+
+
+	bool TicTacToeBoard::PlaceSquare(int row, int column, bool placingX, bool overwriteExisting)
+	{
+		int index = GetSquareIndex(row, column);
+		return PlaceSquare(index, placingX, overwriteExisting);
 	}
 
 
@@ -150,7 +177,7 @@ namespace jothly
 
 
 	#define CALCULATE_END_OF_GAME if(s0 == s1 && s1 == s2 && s0 != TTTSquare::EMPTY) { return SquareToFinalGameResult(s0); }
-	TTTResult TicTacToeBoard::CheckForEndOfGame()
+	TTTResult TicTacToeBoard::CheckForEndOfGame() const
 	{
 		TTTSquare s0, s1, s2;
 
@@ -200,5 +227,27 @@ namespace jothly
 			board[i] = TTTSquare::EMPTY;
 			emptySpaceIndexes[i] = i;
 		}
+
+		xTurn = true;
+		gameOver = false;
+	}
+
+
+	int TicTacToeBoard::GetIndexFromWorldPoint(Vector2 worldPoint) const
+	{
+		float halfSize = size / 2.0f;
+		float thirdSize = size / 3.0f;
+
+		Vector2 pos = owner->transform.pos + offset;
+		Vector2 topLeft = pos - Vector2(halfSize);
+
+		Vector2 offset = worldPoint - topLeft;
+		int row = offset.y / thirdSize;
+		int column = offset.x / thirdSize;
+
+		int index = GetSquareIndex(row, column);
+		if(index < 0 || index >= TTT_NUM_SPACES) return -1;
+
+		return index;
 	}
 }
