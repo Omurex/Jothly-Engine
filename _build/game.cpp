@@ -273,6 +273,7 @@ void Init()
 	ticTacToe->PlaceSquare(2, 2, false);
 	ticTacToe->PlaceSquare(2, 1, false);*/
 
+	oPlayer.SetMaxDepth(100);
 	ticTacToe->SetPlayers(&xPlayer, &oPlayer);
 
 	//InitWFC();

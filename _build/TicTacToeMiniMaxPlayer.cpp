@@ -11,7 +11,7 @@ namespace jothly
 	}
 
 
-	int TicTacToeMiniMaxPlayer::MiniMax(TTTSquare board[TTT_NUM_SPACES], TTTSquare square, bool maximizing)
+	int TicTacToeMiniMaxPlayer::MiniMax(TTTSquare board[TTT_NUM_SPACES], TTTSquare square, bool maximizing, int depth)
 	{
 		TTTResult endOfGameResult = TicTacToeBoard::CheckForEndOfGame(board);
 		if (endOfGameResult != TTTResult::STILL_PLAYING)
@@ -20,9 +20,11 @@ namespace jothly
 
 			// If X Win and X Square: 1
 			// If X Win and O Square: -1
-			int score (2 * (square == TicTacToeBoard::FinalGameResultToSquare(endOfGameResult)) - 1);
+			int score = (2 * (square == TicTacToeBoard::FinalGameResultToSquare(endOfGameResult)) - 1);
 			return score * (2 * maximizing - 1);
 		}
+
+		if(depth > maxDepth) return 0;
 
 		int best = maximizing ? -INT16_MAX : INT16_MAX;
 		for (int i = 0; i < TTT_NUM_SPACES; ++i)
@@ -30,7 +32,7 @@ namespace jothly
 			if (board[i] == TTTSquare::EMPTY)
 			{
 				board[i] = square;
-				int miniMaxResult = MiniMax(board, GetOppositeSquare(square), !maximizing);
+				int miniMaxResult = MiniMax(board, GetOppositeSquare(square), !maximizing, depth + 1);
 				board[i] = TTTSquare::EMPTY;
 
 				if((maximizing && miniMaxResult > best) || (!maximizing && miniMaxResult < best)) best = miniMaxResult;
