@@ -289,6 +289,7 @@
     <ClInclude Include="TicTacToeBoard.h" />
     <ClInclude Include="TicTacToeData.hpp" />
     <ClInclude Include="TicTacToeHumanPlayer.h" />
+    <ClInclude Include="TicTacToeMiniMaxPlayer.h" />
     <ClInclude Include="TicTacToePlayer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector2.h" />
@@ -326,6 +327,7 @@
     <ClCompile Include="TextureDrawing.cpp" />
     <ClCompile Include="TicTacToeBoard.cpp" />
     <ClCompile Include="TicTacToeHumanPlayer.cpp" />
+    <ClCompile Include="TicTacToeMiniMaxPlayer.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Vector4.cpp" />

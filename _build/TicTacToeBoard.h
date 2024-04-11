@@ -35,10 +35,6 @@ namespace jothly
 		void Draw() override;
 		void Update(float dt) override;
 
-		Vector2 GetSquareWorldPos(int index) const;
-		int GetSquareIndex(int row, int column) const;
-		TTTSquare GetSquare(int row, int column) const;
-
 		protected:
 
 		TicTacToeBoard(GameObject* _owner);
@@ -59,6 +55,17 @@ namespace jothly
 		bool PlaceSquare(int index, bool placingX, bool overwriteExisting = false);
 		bool PlaceSquare(int row, int column, bool placingX, bool overwriteExisting = false);
 		TTTResult CheckForEndOfGame() const; // 0 = Still playing, 1 = X win, 2 = O win, 3 = Draw
+
+		Vector2 GetSquareWorldPos(int index) const;
+		TTTSquare GetSquare(int row, int column) const;
+		TTTSquare GetSquare(int index) const;
+
+		static TTTResult CheckForEndOfGame(const TTTSquare sampleBoard[TTT_NUM_SPACES]);
+		static int GetSquareIndex(int row, int column);
+		static TTTSquare GetSquare(int row, int column, const TTTSquare sampleBoard[TTT_NUM_SPACES]);
+		static TTTSquare GetSquare(int index, const TTTSquare sampleBoard[TTT_NUM_SPACES]);
+		static TTTResult SquareToFinalGameResult(TTTSquare square);
+		static TTTSquare FinalGameResultToSquare(TTTResult result);
 
 		int GetIndexFromWorldPoint(Vector2 worldPoint) const; // Returns index if point valid in board, -1 otherwise
 

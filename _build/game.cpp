@@ -26,6 +26,7 @@
 #include "Input.h"
 #include "TicTacToePlayer.h"
 #include "TicTacToeHumanPlayer.h"
+#include "TicTacToeMiniMaxPlayer.h"
 
 
 using namespace jothly;
@@ -54,7 +55,7 @@ SquareNavMeshObstacle squareObstacle1, squareObstacle2, squareObstacle3, squareO
 GameObject ticTacToeObject = GameObject("Tic Tac Toe Object", Vector2(300, 300), Quaternion::Quaternion2D(0), Vector2(1));
 TicTacToeBoard* ticTacToe = nullptr;
 TicTacToeHumanPlayer xPlayer;
-TicTacToeHumanPlayer oPlayer;
+TicTacToeMiniMaxPlayer oPlayer;
 
 
 

@@ -6,7 +6,7 @@
 
 namespace jothly
 {
-	bool TicTacToeHumanPlayer::GetNextMove(const TicTacToeBoard& tttBoard, float dt, int& out_index)
+	bool TicTacToeHumanPlayer::GetNextMove(const TicTacToeBoard& tttBoard, TTTSquare playerSquare, float dt, int& out_index)
 	{
 		if(Input::GetMouseJustPressed(MouseCode::MB_LEFT))
 		{

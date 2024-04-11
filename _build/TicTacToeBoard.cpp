@@ -45,21 +45,22 @@ namespace jothly
 	}
 
 
-	#define INVALID_PLAYER_CHECK
-
 	void TicTacToeBoard::Update(float dt)
 	{
 		if(gameOver) return;
 
 		TicTacToePlayer* player = nullptr;
+		TTTSquare square = TTTSquare::EMPTY;
 
 		if(xTurn)
 		{
 			player = xPlayer;
+			square = TTTSquare::X;
 		}
 		else
 		{
 			player = oPlayer;
+			square = TTTSquare::O;
 		}
 
 		if (player == nullptr) // Player invalid!
@@ -70,7 +71,7 @@ namespace jothly
 		}
 
 		int index; // Index at which to place move
-		if (!player->GetNextMove(*this, dt, index)) return; // No move given
+		if (!player->GetNextMove(*this, square, dt, index)) return; // No move given
 		if(!PlaceSquare(index, xTurn)) return; // Invalid move
 
 		TTTResult result = CheckForEndOfGame();
@@ -105,15 +106,33 @@ namespace jothly
 	}
 
 
-	int TicTacToeBoard::GetSquareIndex(int row, int column) const
+	int TicTacToeBoard::GetSquareIndex(int row, int column)
 	{
 		return row * 3 + column;
 	}
 
 
+	TTTSquare TicTacToeBoard::GetSquare(int row, int column, const TTTSquare sampleBoard[TTT_NUM_SPACES])
+	{
+		return GetSquare(GetSquareIndex(row, column), sampleBoard);
+	}
+
+
 	TTTSquare TicTacToeBoard::GetSquare(int row, int column) const
 	{
-		return board[GetSquareIndex(row, column)];
+		return GetSquare(row, column, board);
+	}
+
+
+	TTTSquare TicTacToeBoard::GetSquare(int index) const
+	{
+		return GetSquare(index, board);
+	}
+
+
+	TTTSquare TicTacToeBoard::GetSquare(int index, const TTTSquare sampleBoard[TTT_NUM_SPACES])
+	{
+		return sampleBoard[index];
 	}
 
 
@@ -169,52 +188,72 @@ namespace jothly
 
 
 	// Note: Never pass empty into this function, it will return O_Win
-	TTTResult SquareToFinalGameResult(TTTSquare square)
+	TTTResult TicTacToeBoard::SquareToFinalGameResult(TTTSquare square)
 	{
+		if(square == TTTSquare::EMPTY) return TTTResult::STILL_PLAYING;
+
 		if (square == TTTSquare::X) return X_WIN;
 		else return O_WIN;
 	}
 
 
+	TTTSquare TicTacToeBoard::FinalGameResultToSquare(TTTResult result)
+	{
+		if(result == TTTResult::X_WIN) return TTTSquare::X;
+		else if(result == TTTResult::O_WIN) return TTTSquare::O;
+
+		return TTTSquare::EMPTY;
+	}
+
+
 	#define CALCULATE_END_OF_GAME if(s0 == s1 && s1 == s2 && s0 != TTTSquare::EMPTY) { return SquareToFinalGameResult(s0); }
-	TTTResult TicTacToeBoard::CheckForEndOfGame() const
+	TTTResult TicTacToeBoard::CheckForEndOfGame(const TTTSquare sampleBoard[TTT_NUM_SPACES])
 	{
 		TTTSquare s0, s1, s2;
+		bool emptySquareExists = false;
 
 		// Check columns for win
-		for(int c = 0; c < 3; ++c)
+		for (int c = 0; c < 3; ++c)
 		{
-			s0 = GetSquare(0, c);
-			s1 = GetSquare(1, c);
-			s2 = GetSquare(2, c);
+			s0 = GetSquare(0, c, sampleBoard);
+			s1 = GetSquare(1, c, sampleBoard);
+			s2 = GetSquare(2, c, sampleBoard);
 			CALCULATE_END_OF_GAME
 		}
 
 		// Check columns for win
 		for (int r = 0; r < 3; ++r)
 		{
-			s0 = GetSquare(r, 0);
-			s1 = GetSquare(r, 1);
-			s2 = GetSquare(r, 2);
+			s0 = GetSquare(r, 0, sampleBoard);
+			s1 = GetSquare(r, 1, sampleBoard);
+			s2 = GetSquare(r, 2, sampleBoard);
+
+			emptySquareExists |= s0 == TTTSquare::EMPTY || s1 == TTTSquare::EMPTY || s2 == TTTSquare::EMPTY;
+
 			CALCULATE_END_OF_GAME
 		}
 
 		// Check top left -> bottom right diagonal
-		s0 = GetSquare(0, 0);
-		s1 = GetSquare(1, 1);
-		s2 = GetSquare(2, 2);
+		s0 = GetSquare(0, 0, sampleBoard);
+		s1 = GetSquare(1, 1, sampleBoard);
+		s2 = GetSquare(2, 2, sampleBoard);
 		CALCULATE_END_OF_GAME
 
 		// Check top right -> bottom left diagonal
-		s0 = GetSquare(2, 0);
-		s1 = GetSquare(1, 1);
-		s2 = GetSquare(0, 2);
+		s0 = GetSquare(2, 0, sampleBoard);
+		s1 = GetSquare(1, 1, sampleBoard);
+		s2 = GetSquare(0, 2, sampleBoard);
 		CALCULATE_END_OF_GAME
 
-		// No winners and no more spaces to play
-		if(emptySpaceIndexes.size() == 0) return TTTResult::DRAW;
+		if(!emptySquareExists) return TTTResult::DRAW;
 
 		return TTTResult::STILL_PLAYING;
+	}
+
+
+	TTTResult TicTacToeBoard::CheckForEndOfGame() const
+	{
+		return CheckForEndOfGame(board);
 	}
 
 

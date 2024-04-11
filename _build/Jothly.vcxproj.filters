@@ -168,6 +168,9 @@
     <ClInclude Include="InputCodes.hpp">
       <Filter>Enums</Filter>
     </ClInclude>
+    <ClInclude Include="TicTacToeMiniMaxPlayer.h">
+      <Filter>Header Files\TicTacToe</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -269,6 +272,7 @@
     <ClCompile Include="Input.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
+    <ClCompile Include="TicTacToeMiniMaxPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
