@@ -1,0 +1,3 @@
+[submodule "simplesock"]
+	path = simplesock
+	url = https://github.com/sabarrett/simplesock.git
