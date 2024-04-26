@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{7d6866d4-6423-402d-9087-4586d6496b84}</ProjectGuid>
-    <RootNamespace>raylibcpp</RootNamespace>
+    <ProjectGuid>{0a75ddf1-08e5-4f70-b6c5-96b2d893572e}</ProjectGuid>
+    <RootNamespace>socklib</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -104,7 +104,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)raylib-cpp\raylib-cpp-5.0.0;$(SolutionDir)raylib-cpp\raylib-cpp-5.0.0\include;$(SolutionDir)raylib-master\src\external\glfw\include;$(SolutionDir)raylib-master\src\external;$(SolutionDir)raylib-master;$(SolutionDir)raylib-master\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,78 +127,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="raylib-cpp-5.0.0\examples\audio\audio_music_stream.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\audio\audio_sound_loading.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\core\core_basic_window.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\core\core_basic_window_web.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\core\core_drop_files.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\core\core_input_mouse.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\core\core_loading_thread.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\core\core_random_values.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\core\core_window_letterbox.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\core\core_world_screen.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\models\models_billboard.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\models\models_first_person_maze.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\multiple\main.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\multiple\Player.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\shaders\shaders_texture_waves.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\shapes\shapes_collision_area.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\shapes\shapes_logo_raylib.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\textures\textures_bunnymark.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\textures\textures_image_drawing.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\textures\textures_image_loading.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\text\text_font_filters.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\text\text_font_loading.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\text\text_font_spritefont.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\examples\text\text_raylib_fonts.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\projects\CMake\main.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\projects\VSCode\FirstPerson.cpp" />
-    <ClCompile Include="raylib-cpp-5.0.0\tests\raylib_cpp_test.cpp" />
+    <ClCompile Include="simplesock\allocators.cpp" />
+    <ClCompile Include="simplesock\main.cpp" />
+    <ClCompile Include="simplesock\out\build\x64-Debug\CMakeFiles\3.27.2-msvc1\CompilerIdCXX\CMakeCXXCompilerId.cpp" />
+    <ClCompile Include="simplesock\out\build\x64-Debug\CMakeFiles\3.27.2-msvc1\CompilerIdC\CMakeCCompilerId.c" />
+    <ClCompile Include="simplesock\out\build\x64-Debug\CMakeFiles\ShowIncludes\main.c" />
+    <ClCompile Include="simplesock\pool.cpp" />
+    <ClCompile Include="simplesock\socklib_generic.cpp" />
+    <ClCompile Include="simplesock\socklib_win32.cpp" />
+    <ClCompile Include="simplesock\strlcpy.cpp" />
+    <ClCompile Include="simplesock\tests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="raylib-cpp-5.0.0\examples\core\resources\core_basic_window_web.html" />
+    <None Include="simplesock\out\build\x64-Debug\CMakeFiles\3.27.2-msvc1\CMakeDetermineCompilerABI_C.bin" />
+    <None Include="simplesock\out\build\x64-Debug\CMakeFiles\3.27.2-msvc1\CMakeDetermineCompilerABI_CXX.bin" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="raylib-cpp-5.0.0\examples\multiple\Player.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\AudioDevice.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\AudioStream.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\BoundingBox.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Camera2D.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Camera3D.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Color.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Font.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Functions.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Gamepad.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Image.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Material.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Matrix.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Mesh.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Model.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\ModelAnimation.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Mouse.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Music.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Ray.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\RayCollision.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\raylib-cpp-utils.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\raylib-cpp.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\raylib.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\RaylibException.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\raymath.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Rectangle.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\RenderTexture.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Shader.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Sound.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Text.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Texture.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\TextureUnmanaged.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Touch.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Vector2.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Vector3.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Vector4.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\VrStereoConfig.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Wave.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\include\Window.hpp" />
-    <ClInclude Include="raylib-cpp-5.0.0\tests\raylib-assert.h" />
+    <ClInclude Include="simplesock\allocators.h" />
+    <ClInclude Include="simplesock\constants.h" />
+    <ClInclude Include="simplesock\defer.h" />
+    <ClInclude Include="simplesock\out\build\x64-Debug\CMakeFiles\ShowIncludes\foo.h" />
+    <ClInclude Include="simplesock\pool.h" />
+    <ClInclude Include="simplesock\socklib.h" />
+    <ClInclude Include="simplesock\tests.h" />
+    <ClInclude Include="simplesock\udp_client.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

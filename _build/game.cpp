@@ -10,7 +10,7 @@
 #include <filesystem>
 #include <algorithm>
 #include <string>
-#include "Constants.hpp"
+//#include "Constants.hpp"
 #include "SpriteRenderer.h"
 #include "WaveFunctionCollapseGrid.h"
 #include <time.h>
@@ -27,6 +27,8 @@
 #include "TicTacToePlayer.h"
 #include "TicTacToeHumanPlayer.h"
 #include "TicTacToeMiniMaxPlayer.h"
+//#include "socklib.h"
+//#include "../simplesock/socklib.h"
 
 
 using namespace jothly;
@@ -56,6 +58,8 @@ GameObject ticTacToeObject = GameObject("Tic Tac Toe Object", Vector2(300, 300),
 TicTacToeBoard* ticTacToe = nullptr;
 TicTacToeHumanPlayer xPlayer;
 TicTacToeMiniMaxPlayer oPlayer;
+
+std::string con::RESOURCE_PATH;
 
 
 
@@ -276,6 +280,10 @@ void Init()
 	oPlayer.SetMaxDepth(100);
 	ticTacToe->SetPlayers(&xPlayer, &oPlayer);
 
+	//SockLibInit();
+	//Socket sock(Socket::Family::INET, Socket::Type::STREAM);
+	//SockLibShutdown();
+
 	//InitWFC();
 	//InitNavMesh();
 
@@ -308,7 +316,7 @@ int main(int argc, char* argv[])
 	resourcePath = resourcePath.substr(0, lastSection);
 	std::replace(resourcePath.begin(), resourcePath.end(), '\\', '/');
 	resourcePath += "/../../resources/";
-	con::RESOURCE_PATH = resourcePath;
+	//con::RESOURCE_PATH = resourcePath;
 
 
 	Init();
