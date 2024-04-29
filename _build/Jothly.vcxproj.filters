@@ -55,6 +55,9 @@
     <Filter Include="Source Files\Input">
       <UniqueIdentifier>{8054896d-a818-4459-83c7-64e39e5d112c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="_SockLib">
+      <UniqueIdentifier>{7aef08c3-40dc-4d4a-a27a-02d0108d0f10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -171,6 +174,21 @@
     <ClInclude Include="TicTacToeMiniMaxPlayer.h">
       <Filter>Header Files\TicTacToe</Filter>
     </ClInclude>
+    <ClInclude Include="constants.h">
+      <Filter>_SockLib</Filter>
+    </ClInclude>
+    <ClInclude Include="defer.h">
+      <Filter>_SockLib</Filter>
+    </ClInclude>
+    <ClInclude Include="pool.h">
+      <Filter>_SockLib</Filter>
+    </ClInclude>
+    <ClInclude Include="socklib.h">
+      <Filter>_SockLib</Filter>
+    </ClInclude>
+    <ClInclude Include="tests.h">
+      <Filter>_SockLib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -273,6 +291,21 @@
       <Filter>Source Files\Input</Filter>
     </ClCompile>
     <ClCompile Include="TicTacToeMiniMaxPlayer.cpp" />
+    <ClCompile Include="pool.cpp">
+      <Filter>_SockLib</Filter>
+    </ClCompile>
+    <ClCompile Include="socklib_generic.cpp">
+      <Filter>_SockLib</Filter>
+    </ClCompile>
+    <ClCompile Include="socklib_win32.cpp">
+      <Filter>_SockLib</Filter>
+    </ClCompile>
+    <ClCompile Include="strlcpy.cpp">
+      <Filter>_SockLib</Filter>
+    </ClCompile>
+    <ClCompile Include="tests.cpp">
+      <Filter>_SockLib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

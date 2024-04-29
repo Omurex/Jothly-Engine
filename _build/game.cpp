@@ -27,6 +27,7 @@
 #include "TicTacToePlayer.h"
 #include "TicTacToeHumanPlayer.h"
 #include "TicTacToeMiniMaxPlayer.h"
+#include "socklib.h"
 
 
 using namespace jothly;
@@ -56,6 +57,9 @@ GameObject ticTacToeObject = GameObject("Tic Tac Toe Object", Vector2(300, 300),
 TicTacToeBoard* ticTacToe = nullptr;
 TicTacToeHumanPlayer xPlayer;
 TicTacToeMiniMaxPlayer oPlayer;
+
+// Networking
+Socket sock;
 
 
 
@@ -297,10 +301,21 @@ void Init()
 
 int main(int argc, char* argv[])
 {
+	SockLibInit();
 	srand(time(NULL));
 	//srand(1710794466);
 
 	std::cout << "SEED: " + std::to_string(time(NULL)) << std::endl;
+
+	char buffer[4096];
+	std::string sendStr = "Hello World!";
+
+	sock.Create(Socket::Family::INET, Socket::Type::STREAM);
+	sock.Bind(Address("0.0.0.0", 1293));
+	sock.Listen();
+	sock.Accept();
+	//sock.Connect(Address("0.0.0.0", 9079));
+	//sock.Send(sendStr.c_str(), sendStr.size());
 
 	// Initialize resource path
 	std::string resourcePath = argv[0];
@@ -312,6 +327,8 @@ int main(int argc, char* argv[])
 
 
 	Init();
+
+	SockLibShutdown();
 
 	return 0;
 }
