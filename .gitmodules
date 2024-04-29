@@ -1,3 +1,6 @@
 [submodule "simplesock"]
 	path = simplesock
 	url = https://github.com/sabarrett/simplesock.git
+[submodule "vcpkg"]
+	path = vcpkg
+	url = https://github.com/microsoft/vcpkg.git
