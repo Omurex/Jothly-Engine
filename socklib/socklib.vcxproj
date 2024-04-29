@@ -131,7 +131,6 @@
     <ClCompile Include="simplesock\main.cpp" />
     <ClCompile Include="simplesock\out\build\x64-Debug\CMakeFiles\3.27.2-msvc1\CompilerIdCXX\CMakeCXXCompilerId.cpp" />
     <ClCompile Include="simplesock\out\build\x64-Debug\CMakeFiles\3.27.2-msvc1\CompilerIdC\CMakeCCompilerId.c" />
-    <ClCompile Include="simplesock\out\build\x64-Debug\CMakeFiles\ShowIncludes\main.c" />
     <ClCompile Include="simplesock\pool.cpp" />
     <ClCompile Include="simplesock\socklib_generic.cpp" />
     <ClCompile Include="simplesock\socklib_win32.cpp" />
@@ -146,7 +145,6 @@
     <ClInclude Include="simplesock\allocators.h" />
     <ClInclude Include="simplesock\constants.h" />
     <ClInclude Include="simplesock\defer.h" />
-    <ClInclude Include="simplesock\out\build\x64-Debug\CMakeFiles\ShowIncludes\foo.h" />
     <ClInclude Include="simplesock\pool.h" />
     <ClInclude Include="simplesock\socklib.h" />
     <ClInclude Include="simplesock\tests.h" />

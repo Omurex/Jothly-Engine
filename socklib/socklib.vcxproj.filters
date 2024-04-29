@@ -21,9 +21,6 @@
     <ClCompile Include="simplesock\out\build\x64-Debug\CMakeFiles\3.27.2-msvc1\CompilerIdCXX\CMakeCXXCompilerId.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="simplesock\out\build\x64-Debug\CMakeFiles\ShowIncludes\main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="simplesock\allocators.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -55,9 +52,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="simplesock\out\build\x64-Debug\CMakeFiles\ShowIncludes\foo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="simplesock\allocators.h">
       <Filter>Header Files</Filter>
     </ClInclude>

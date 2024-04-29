@@ -10,7 +10,7 @@
 #include <filesystem>
 #include <algorithm>
 #include <string>
-//#include "Constants.hpp"
+#include "Constants.hpp"
 #include "SpriteRenderer.h"
 #include "WaveFunctionCollapseGrid.h"
 #include <time.h>
@@ -35,7 +35,7 @@ using namespace jothly;
 
 
 // WFC Variables
-GameObject wfcObject = GameObject("WFC Object", Vector3(0, 0, 0), Quaternion::Quaternion2D(0), Vector3(1, 1));
+GameObject wfcObject = GameObject("WFC Object", Vector3(0, 0, 0), Quaternion::Quaternion2D(0), Vector3(1, 1));;
 Texture testTex;
 WaveFunctionCollapseGrid* wfcGrid;
 Texture smallBlackDot;
@@ -59,7 +59,7 @@ TicTacToeBoard* ticTacToe = nullptr;
 TicTacToeHumanPlayer xPlayer;
 TicTacToeMiniMaxPlayer oPlayer;
 
-std::string con::RESOURCE_PATH;
+//std::string RESOURCE_PATH = "";
 
 
 
@@ -112,8 +112,8 @@ void UpdateNavMesh()
 
 void Update()
 {
-	//UpdateWFC();
-	//UpdateNavMesh();
+	UpdateWFC();
+	UpdateNavMesh();
 
 	ticTacToeObject.Update(GetFrameTime());
 }
@@ -241,7 +241,7 @@ void DrawNavMesh()
 
 void Draw()
 {
-	ticTacToeObject.Draw();
+	//ticTacToeObject.Draw();
 
 	//DrawWFC();
 	//DrawNavMesh();
@@ -316,7 +316,7 @@ int main(int argc, char* argv[])
 	resourcePath = resourcePath.substr(0, lastSection);
 	std::replace(resourcePath.begin(), resourcePath.end(), '\\', '/');
 	resourcePath += "/../../resources/";
-	//con::RESOURCE_PATH = resourcePath;
+	con::RESOURCE_PATH = resourcePath;
 
 
 	Init();
