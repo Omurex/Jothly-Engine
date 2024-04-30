@@ -28,6 +28,7 @@
 #include "TicTacToeHumanPlayer.h"
 #include "TicTacToeMiniMaxPlayer.h"
 #include "socklib.h"
+#include "SnakeHead.h"
 
 
 using namespace jothly;
@@ -60,6 +61,10 @@ TicTacToeMiniMaxPlayer oPlayer;
 
 // Networking
 Socket sock;
+GameObject headObject;
+SnakeHead* head;
+Texture snakeHeadTex;
+Texture snakeBodyTex;
 
 
 struct Server
@@ -136,7 +141,9 @@ void Update()
 	//UpdateWFC();
 	//UpdateNavMesh();
 
-	ticTacToeObject.Update(GetFrameTime());
+	//ticTacToeObject.Update(GetFrameTime());
+
+	headObject.Update(GetFrameTime());
 }
 
 
@@ -262,7 +269,9 @@ void DrawNavMesh()
 
 void Draw()
 {
-	ticTacToeObject.Draw();
+	//ticTacToeObject.Draw();
+
+	headObject.Draw();
 
 	//DrawWFC();
 	//DrawNavMesh();
@@ -284,22 +293,28 @@ void Init()
 	testTex = Texture(con::RESOURCE_PATH + "test.png");
 	smallBlackDot = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
 	
-	Texture ticTacToeXTex = Texture(con::RESOURCE_PATH + "TicTacToeX.png");
-	Texture ticTacToeOTex = Texture(con::RESOURCE_PATH + "TicTacToeO.png");
+	//Texture ticTacToeXTex = Texture(con::RESOURCE_PATH + "TicTacToeX.png");
+	//Texture ticTacToeOTex = Texture(con::RESOURCE_PATH + "TicTacToeO.png");
 
-	ticTacToe = ticTacToeObject.CreateComponent<TicTacToeBoard>()->Init(&ticTacToeXTex, &ticTacToeOTex);
-	/*ticTacToe->PlaceSquare(0, 2, false);
-	ticTacToe->PlaceSquare(1, 1, true);
-	ticTacToe->PlaceSquare(2, 0, true);
-	ticTacToe->PlaceSquare(0, 1, false);
-	ticTacToe->PlaceSquare(0, 0, true);
-	ticTacToe->PlaceSquare(1, 0, false);
-	ticTacToe->PlaceSquare(1, 2, true);
-	ticTacToe->PlaceSquare(2, 2, false);
-	ticTacToe->PlaceSquare(2, 1, false);*/
+	//ticTacToe = ticTacToeObject.CreateComponent<TicTacToeBoard>()->Init(&ticTacToeXTex, &ticTacToeOTex);
+	///*ticTacToe->PlaceSquare(0, 2, false);
+	//ticTacToe->PlaceSquare(1, 1, true);
+	//ticTacToe->PlaceSquare(2, 0, true);
+	//ticTacToe->PlaceSquare(0, 1, false);
+	//ticTacToe->PlaceSquare(0, 0, true);
+	//ticTacToe->PlaceSquare(1, 0, false);
+	//ticTacToe->PlaceSquare(1, 2, true);
+	//ticTacToe->PlaceSquare(2, 2, false);
+	//ticTacToe->PlaceSquare(2, 1, false);*/
 
-	oPlayer.SetMaxDepth(100);
-	ticTacToe->SetPlayers(&xPlayer, &oPlayer);
+	//oPlayer.SetMaxDepth(100);
+	//ticTacToe->SetPlayers(&xPlayer, &oPlayer);
+
+	snakeHeadTex = Texture(con::RESOURCE_PATH + "SnakeHead.png");
+	snakeBodyTex = Texture(con::RESOURCE_PATH + "SnakeBody.png");
+
+	headObject.transform.pos = Vector2(300, 300);
+	head = headObject.CreateComponent<SnakeHead>()->Init(&snakeHeadTex, &snakeBodyTex, 32);
 
 	//InitWFC();
 	//InitNavMesh();

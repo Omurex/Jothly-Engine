@@ -198,7 +198,10 @@
     <ClInclude Include="tests.h">
       <Filter>_SockLib</Filter>
     </ClInclude>
-    <ClInclude Include="Snake.h">
+    <ClInclude Include="SnakeHead.h">
+      <Filter>Header Files\Snake</Filter>
+    </ClInclude>
+    <ClInclude Include="SnakeBody.h">
       <Filter>Header Files\Snake</Filter>
     </ClInclude>
   </ItemGroup>
@@ -318,7 +321,10 @@
     <ClCompile Include="tests.cpp">
       <Filter>_SockLib</Filter>
     </ClCompile>
-    <ClCompile Include="Snake.cpp">
+    <ClCompile Include="SnakeHead.cpp">
+      <Filter>Source Files\Snake</Filter>
+    </ClCompile>
+    <ClCompile Include="SnakeBody.cpp">
       <Filter>Source Files\Snake</Filter>
     </ClCompile>
   </ItemGroup>

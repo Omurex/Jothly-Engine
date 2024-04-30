@@ -283,8 +283,9 @@
     <ClInclude Include="QuaternionTestSet.h" />
     <ClInclude Include="ShapeDrawing2D.h" />
     <ClInclude Include="ShapeRenderer2D.h" />
+    <ClInclude Include="SnakeBody.h" />
     <ClInclude Include="socklib.h" />
-    <ClInclude Include="Snake.h" />
+    <ClInclude Include="SnakeHead.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="SquareNavMeshObstacle.h" />
     <ClInclude Include="TestRunner.h" />
@@ -308,7 +309,8 @@
   <ItemGroup>
     <ClCompile Include="AStarGraph.cpp" />
     <ClCompile Include="AStarNode.cpp" />
-    <ClCompile Include="Snake.cpp" />
+    <ClCompile Include="SnakeBody.cpp" />
+    <ClCompile Include="SnakeHead.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ColorTestSet.cpp" />
     <ClCompile Include="Component.cpp" />

@@ -10,6 +10,7 @@ namespace jothly
 		NAVMESH,
 		NAVMESH_AGENT,
 		TIC_TAC_TOE_BOARD,
-		BALL_PLAYER
+		SNAKE_HEAD,
+		SNAKE_BODY
 	};
 }
