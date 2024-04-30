@@ -12,6 +12,8 @@ namespace jothly
 		SnakeBody* parent = nullptr;
 		SnakeBody* child = nullptr;
 
+		float radius = 8;
+
 		Vector2 prevFramePosition = Vector2(0);
 
 		void UpdateLocation();
@@ -21,7 +23,7 @@ namespace jothly
 
 		public:
 		SnakeBody(GameObject* _owner) : Component(_owner) {}
-		void Init(SnakeBody* _parent, SnakeBody* _child = nullptr) { parent = _parent; child = _child; prevFramePosition = owner->transform.pos; }
+		SnakeBody* Init(float _radius, SnakeBody* _parent, SnakeBody* _child = nullptr) { radius = _radius;  parent = _parent; child = _child; prevFramePosition = owner->transform.pos; return this; }
 
 		// Inherited via Component
 		ComponentID GetID() const override;

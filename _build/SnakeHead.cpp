@@ -14,6 +14,7 @@ namespace jothly
 		end = this; 
 
 		GetOwner()->CreateComponent<SpriteRenderer>()->Init(headTexture);
+		prevFramePosition = owner->transform.pos;
 
 		return this;
 	}
@@ -43,7 +44,7 @@ namespace jothly
 			child = _child;
 		}
 
-		_child->Init(end);
+		_child->Init(radius, end);
 		end = _child;
 		
 	}
@@ -59,9 +60,25 @@ namespace jothly
 			AddChild(body);
 		}
 
+
+		if (Input::GetKeyDown(KeyCode::W))
+		{
+			vel += Vector2(0, -accelerationSpeed) * dt;
+		}
+
+		if (Input::GetKeyDown(KeyCode::S))
+		{
+			vel += Vector2(0, accelerationSpeed) * dt;
+		}
+
 		if (Input::GetKeyDown(KeyCode::D))
 		{
 			vel += Vector2(accelerationSpeed, 0) * dt;
+		}
+
+		if (Input::GetKeyDown(KeyCode::A))
+		{
+			vel += Vector2(-accelerationSpeed, 0) * dt;
 		}
 	}
 

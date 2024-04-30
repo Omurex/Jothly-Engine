@@ -314,7 +314,7 @@ void Init()
 	snakeBodyTex = Texture(con::RESOURCE_PATH + "SnakeBody.png");
 
 	headObject.transform.pos = Vector2(300, 300);
-	head = headObject.CreateComponent<SnakeHead>()->Init(&snakeHeadTex, &snakeBodyTex, 32);
+	head = headObject.CreateComponent<SnakeHead>()->Init(&snakeHeadTex, &snakeBodyTex, 8);
 
 	//InitWFC();
 	//InitNavMesh();

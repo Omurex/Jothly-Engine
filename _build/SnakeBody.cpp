@@ -1,11 +1,24 @@
 #include "SnakeBody.h"
+#include "Math.h"
 
 
 namespace jothly
 {
 	void SnakeBody::UpdateLocation()
 	{
-		if(parent != nullptr) owner->transform.pos = parent->prevFramePosition;
+		if (parent != nullptr)
+		{
+			Vector2 vec = (owner->transform.pos - parent->prevFramePosition);
+			float mag = vec.GetMagnitude();
+
+			if (Approx(mag, 0) == false)
+			{
+				Vector2 dir = vec / mag;
+			
+ 				owner->transform.pos = parent->prevFramePosition + (dir * radius) + (dir * parent->radius);
+			}
+		}
+
 		if(child != nullptr) child->UpdateLocation();
 		prevFramePosition = owner->transform.pos;
 	}
