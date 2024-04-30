@@ -75,7 +75,8 @@ struct Server
 		std::string send = "HELLO WORLD";
 		serverSock.Bind(Address("127.0.0.1", 5550));
 		serverSock.Listen();
-		Socket recvdSock = serverSock.Accept();
+		Socket recvdSock;
+		serverSock.AcceptInto(recvdSock);
 		int recvdBytes = recvdSock.Recv(buffer, sizeof(buffer));
 		recvdSock.Send(send.c_str(), send.size());
 	}
@@ -330,8 +331,8 @@ int main(int argc, char* argv[])
 	char buffer[4096];
 	std::string sendStr = "Hello World!";
 
-	std::string input;
-	std::cin >> input;
+	/*std::string input;
+	std::cin >> input;*/
 
 	// NOT FIXED, ASK FOR HELP
 	//if (input == "0") // Server
@@ -349,8 +350,6 @@ int main(int argc, char* argv[])
 	//	std::string recvd(buffer, recvdBytes);
 	//	std::cout << recvd << std::endl;
 	//}
-	//sock.Connect(Address("0.0.0.0", 9079));
-	//sock.Send(sendStr.c_str(), sendStr.size());
 
 	// Initialize resource path
 	std::string resourcePath = argv[0];

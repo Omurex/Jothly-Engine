@@ -5,7 +5,7 @@ namespace jothly
 {
 	bool Snake::CheckIfDead()
 	{
-		
+		return false;
 	}
 
 

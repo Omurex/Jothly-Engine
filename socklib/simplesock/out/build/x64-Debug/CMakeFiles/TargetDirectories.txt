@@ -1,0 +1,3 @@
+C:/Users/joseph.lyons/Projects/Jothly-Engine/simplesock/out/build/x64-Debug/CMakeFiles/SimpleSock.dir
+C:/Users/joseph.lyons/Projects/Jothly-Engine/simplesock/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/joseph.lyons/Projects/Jothly-Engine/simplesock/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
