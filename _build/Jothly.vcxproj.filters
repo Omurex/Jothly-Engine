@@ -67,6 +67,9 @@
     <Filter Include="Source Files\Snake">
       <UniqueIdentifier>{30ab23df-6619-4654-adb2-9b62ea2fde6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Networking">
+      <UniqueIdentifier>{e469827e-c1f9-4470-9377-19d61e4fb03a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -202,6 +205,9 @@
       <Filter>Header Files\Snake</Filter>
     </ClInclude>
     <ClInclude Include="SnakeBody.h">
+      <Filter>Header Files\Snake</Filter>
+    </ClInclude>
+    <ClInclude Include="SnakeServer.h">
       <Filter>Header Files\Snake</Filter>
     </ClInclude>
   </ItemGroup>
