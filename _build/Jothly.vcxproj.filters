@@ -58,6 +58,15 @@
     <Filter Include="_SockLib">
       <UniqueIdentifier>{7aef08c3-40dc-4d4a-a27a-02d0108d0f10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{d0b20d93-f4fa-43c1-9b19-d7644733fd82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Snake">
+      <UniqueIdentifier>{c3be3640-f6e3-4c3d-8d64-0b51a3b4d5e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Snake">
+      <UniqueIdentifier>{30ab23df-6619-4654-adb2-9b62ea2fde6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -189,6 +198,9 @@
     <ClInclude Include="tests.h">
       <Filter>_SockLib</Filter>
     </ClInclude>
+    <ClInclude Include="Snake.h">
+      <Filter>Header Files\Snake</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -305,6 +317,9 @@
     </ClCompile>
     <ClCompile Include="tests.cpp">
       <Filter>_SockLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Snake.cpp">
+      <Filter>Source Files\Snake</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -62,6 +62,26 @@ TicTacToeMiniMaxPlayer oPlayer;
 Socket sock;
 
 
+struct Server
+{
+	Socket serverSock;
+	char buffer[4096];
+
+	Server() : serverSock(Socket::Family::INET, Socket::Type::STREAM) 
+	{}
+
+	void Update()
+	{
+		std::string send = "HELLO WORLD";
+		serverSock.Bind(Address("127.0.0.1", 5550));
+		serverSock.Listen();
+		Socket recvdSock = serverSock.Accept();
+		int recvdBytes = recvdSock.Recv(buffer, sizeof(buffer));
+		recvdSock.Send(send.c_str(), send.size());
+	}
+};
+
+
 
 void UpdateWFC()
 {
@@ -310,10 +330,25 @@ int main(int argc, char* argv[])
 	char buffer[4096];
 	std::string sendStr = "Hello World!";
 
-	sock.Create(Socket::Family::INET, Socket::Type::STREAM);
-	sock.Bind(Address("0.0.0.0", 1293));
-	sock.Listen();
-	sock.Accept();
+	std::string input;
+	std::cin >> input;
+
+	// NOT FIXED, ASK FOR HELP
+	//if (input == "0") // Server
+	//{
+	//	Server server;
+	//	server.Update();
+	//}
+	//else
+	//{
+	//	std::string send = "hello world";
+	//	sock.Create(Socket::Family::INET, Socket::Type::STREAM);
+	//	sock.Connect(Address("127.0.0.1", 5550));
+	//	sock.Send(send.c_str(), send.size());
+	//	int recvdBytes = sock.Recv(buffer, sizeof(buffer));
+	//	std::string recvd(buffer, recvdBytes);
+	//	std::cout << recvd << std::endl;
+	//}
 	//sock.Connect(Address("0.0.0.0", 9079));
 	//sock.Send(sendStr.c_str(), sendStr.size());
 
