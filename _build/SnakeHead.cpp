@@ -2,6 +2,8 @@
 #include "Input.h"
 #include "SpriteRenderer.h"
 
+#include <iostream>
+
 
 namespace jothly
 {
@@ -25,6 +27,9 @@ namespace jothly
 		HandleInput(dt);
 		owner->transform.pos += vel;
 		UpdateLocation();
+		
+		if (CheckIfCollidingWithSnake(this)) std::cout << "COLLIDING" << std::endl;
+		
 	}
 
 	void SnakeHead::Draw()
@@ -89,8 +94,20 @@ namespace jothly
 	}
 
 
-	bool SnakeHead::CheckIfCollidingWithSnake(Vector2 pos, float radius)
+	bool SnakeHead::CheckIfCollidingWithSnake(SnakeHead* head) // Note: Heads can't collide
 	{
+		if (head == this) // Don't collide with immediate child
+		{
+			if (child != nullptr && child->child != nullptr)
+			{
+				return child->child->IsOverlappingBody(head->GetOwner()->transform.pos, head->radius);
+			}
+
+			return false;
+		}
+
+		if (child != nullptr) return child->IsOverlappingBody(head->GetOwner()->transform.pos, head->radius);
+
 		return false;
 	}
 

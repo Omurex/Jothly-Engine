@@ -30,6 +30,22 @@ namespace jothly
 		if (child != nullptr) child->DrawObject();
 	}
 
+
+	bool SnakeBody::IsOverlappingBody(Vector2 pos, float radius)
+	{
+		if ((pos - owner->transform.pos).GetMagnitude() < radius + this->radius)
+		{ 
+			return true;
+		}
+
+		if (child != nullptr)
+		{
+			return child->IsOverlappingBody(pos, radius);
+		}
+
+		return false;
+	}
+
 	
 	void SnakeBody::AddChild(SnakeBody* _child)
 	{

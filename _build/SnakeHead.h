@@ -34,7 +34,7 @@ namespace jothly
 
 
 		bool CheckIfDead();
-		bool CheckIfCollidingWithSnake(Vector2 pos, float radius);
+		bool CheckIfCollidingWithSnake(SnakeHead* head);
 
 		// Inherited via Component
 		ComponentID GetID() const override;
