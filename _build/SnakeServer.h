@@ -30,7 +30,7 @@ namespace jothly
 		bool gameOver = false;
 		bool player1Win = false;
 
-		bool restarted = false;
+		bool shouldRestart = false;
 
 		Vector2 screenSize;
 
@@ -46,12 +46,12 @@ namespace jothly
 
 		void ResetSnakePositions()
 		{
-			player1.transform.pos = Vector2(screenSize.x / 3, 300);
-			player2.transform.pos = Vector2(screenSize.x * 2 / 3, 300);
+			player1.transform.pos = Vector2(screenSize.x / 3, screenSize.y / 2);
+			player2.transform.pos = Vector2(screenSize.x * 2 / 3, screenSize.y / 2);
 		}
 
 
-		void TempInit(Texture* _snakeHeadTexture, Texture* _snakeBodyTexture, Vector2 _screenSize, float _timeForGrowth)
+		void Init(Texture* _snakeHeadTexture, Texture* _snakeBodyTexture, Vector2 _screenSize, float _timeForGrowth)
 		{
 			serverSock.Create(Socket::Family::INET, Socket::Type::STREAM);
 
@@ -68,15 +68,20 @@ namespace jothly
 
 			serverSock.AcceptInto(player1Socket);
 			player1Socket.Send("0", 1);
+			player1Connected = true;
 
 			std::cout << "Player 1 connected!" << std::endl;
 
 			serverSock.AcceptInto(player2Socket);
 			player2Socket.Send("1", 1);
+			player2Connected = true;
 
 			std::cout << "Player 2 connected!" << std::endl;
 
 			ResetSnakePositions();
+
+			SetUpSnake(player1, true, &player1Snake);
+			SetUpSnake(player2, false, &player2Snake);
 		}
 
 
@@ -88,37 +93,31 @@ namespace jothly
 
 		void TestConnect()
 		{
-			if ((player1Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_1)) || restarted)
+			if ((player1Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_1)) || shouldRestart)
 			{
 				player1Connected = true;
 				SetUpSnake(player1, true, &player1Snake);
 			}
 
-			if ((player2Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_2)) || restarted)
+			if ((player2Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_2)) || shouldRestart)
 			{
 				player2Connected = true;
 				SetUpSnake(player2, false, &player2Snake);
 			}
 
-			restarted = false;
+			shouldRestart = false;
 		}
 
 
-		void WaitForConnections()
+		void RestartGame()
 		{
-			if ((player1Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_1)) || restarted)
-			{
-				player1Connected = true;
-				SetUpSnake(player1, true, &player1Snake);
-			}
+			if (!shouldRestart) return;
 
-			if ((player2Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_2)) || restarted)
-			{
-				player2Connected = true;
-				SetUpSnake(player2, false, &player2Snake);
-			}
+			SetUpSnake(player1, true, &player1Snake);
 
-			restarted = false;
+			SetUpSnake(player2, false, &player2Snake);
+
+			shouldRestart = false;
 		}
 
 
@@ -160,7 +159,7 @@ namespace jothly
 			player1.DestroyAllComponents();
 			player2.DestroyAllComponents();
 
-			restarted = true;
+			shouldRestart = true;
 			gameOver = false;
 
 			timePassedSinceLastGrow = 0;

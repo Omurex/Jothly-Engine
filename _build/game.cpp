@@ -335,7 +335,7 @@ void Init()
 	//head = headObject.CreateComponent<SnakeHead>()->Init(&snakeHeadTex, &snakeBodyTex, 8);
 
 	if(isServer)
-		server.TempInit(&snakeHeadTex, &snakeBodyTex, screenSize, 1);
+		server.Init(&snakeHeadTex, &snakeBodyTex, screenSize, 1);
 	else
 		client.Init(KeyCode::W, KeyCode::S, KeyCode::A, KeyCode::D);
 
