@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "SnakeBody.h"
 #include "Texture.h"
+#include "InputCodes.hpp"
 
 
 namespace jothly
@@ -18,11 +19,13 @@ namespace jothly
 		Texture* headTexture = nullptr;
 		Texture* bodyTexture = nullptr;
 
+		bool debugWASDControls = true;
+
 		
 		public:
 		SnakeHead(GameObject* _owner) : SnakeBody(_owner) {}
 
-		SnakeHead* Init(Texture* _headTexture, Texture* _bodyTexture, float _radius = 8, float _accelerationSpeed = 5);
+		SnakeHead* Init(Texture* _headTexture, Texture* _bodyTexture, bool _debugWASDControls, float _radius = 8, float _accelerationSpeed = 5);
 
 		void Update(float dt) override;
 		void Draw() override;
@@ -30,10 +33,11 @@ namespace jothly
 		void AddChild(SnakeBody* _child) override;
 
 
+		void PerformActionsFromInput(KeyCode spawnBodyKey, KeyCode up, KeyCode down, KeyCode left, KeyCode right, float dt);
 		void HandleInput(float dt);
 
 
-		bool CheckIfCollidingWithSnake(SnakeHead* head);
+		bool CheckIfHeadCollidingWithSnake(SnakeHead* head);
 
 		// Inherited via Component
 		ComponentID GetID() const override;

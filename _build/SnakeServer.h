@@ -48,9 +48,9 @@ namespace jothly
 		}
 
 
-		void SetUpSnake(GameObject& obj, SnakeHead** out_snakeHeadVar)
+		void SetUpSnake(GameObject& obj, bool player1, SnakeHead** out_snakeHeadVar)
 		{
-			*out_snakeHeadVar = obj.CreateComponent<SnakeHead>()->Init(snakeHeadTexture, snakeBodyTexture);
+			*out_snakeHeadVar = obj.CreateComponent<SnakeHead>()->Init(snakeHeadTexture, snakeBodyTexture, player1);
 		}
 
 
@@ -59,13 +59,13 @@ namespace jothly
 			if (player1Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_1))
 			{
 				player1Connected = true;
-				SetUpSnake(player1, &player1Snake);
+				SetUpSnake(player1, true, &player1Snake);
 			}
 
 			if (player2Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_2))
 			{
 				player2Connected = true;
-				SetUpSnake(player2, &player2Snake);
+				SetUpSnake(player2, false, &player2Snake);
 			}
 		}
 
@@ -91,11 +91,11 @@ namespace jothly
 
 		void CheckForSnakeDead()
 		{
-			if (player1Snake->CheckIfCollidingWithSnake(player1Snake) || player1Snake->CheckIfCollidingWithSnake(player2Snake))
+			if (player1Snake->CheckIfHeadCollidingWithSnake(player1Snake) || player1Snake->CheckIfHeadCollidingWithSnake(player2Snake))
 			{
 				std::cout << "PLAYER 1 DIED" << std::endl;
 			}
-			else if (player2Snake->CheckIfCollidingWithSnake(player1Snake) || player2Snake->CheckIfCollidingWithSnake(player2Snake))
+			else if (player2Snake->CheckIfHeadCollidingWithSnake(player1Snake) || player2Snake->CheckIfHeadCollidingWithSnake(player2Snake))
 			{
 				std::cout << "PLAYER 2 DIED" << std::endl;
 			}

@@ -7,13 +7,15 @@
 
 namespace jothly
 {
-	SnakeHead* SnakeHead::Init(Texture* _headTexture, Texture* _bodyTexture, float _radius, float _accelerationSpeed)
+	SnakeHead* SnakeHead::Init(Texture* _headTexture, Texture* _bodyTexture, bool _debugWASDControls, float _radius, float _accelerationSpeed)
 	{
 		headTexture = _headTexture; 
 		bodyTexture = _bodyTexture;
 		radius = _radius;
 		accelerationSpeed = _accelerationSpeed;
 		end = this; 
+
+		debugWASDControls = _debugWASDControls;
 
 		GetOwner()->CreateComponent<SpriteRenderer>()->Init(headTexture);
 		prevFramePosition = owner->transform.pos;
@@ -55,9 +57,9 @@ namespace jothly
 	}
 
 
-	void SnakeHead::HandleInput(float dt)
+	void SnakeHead::PerformActionsFromInput(KeyCode spawnBodyKey, KeyCode up, KeyCode down, KeyCode left, KeyCode right, float dt)
 	{
-		if (Input::GetKeyJustPressed(KeyCode::SPACE))
+		if (Input::GetKeyJustPressed(spawnBodyKey))
 		{
 			GameObject* newBody = new GameObject("SnakeBody", end->GetOwner()->transform.pos);
 			newBody->CreateComponent<SpriteRenderer>()->Init(bodyTexture);
@@ -66,29 +68,43 @@ namespace jothly
 		}
 
 
-		if (Input::GetKeyDown(KeyCode::W))
+		if (Input::GetKeyDown(up))
 		{
 			vel += Vector2(0, -accelerationSpeed) * dt;
 		}
 
-		if (Input::GetKeyDown(KeyCode::S))
+		if (Input::GetKeyDown(down))
 		{
 			vel += Vector2(0, accelerationSpeed) * dt;
 		}
 
-		if (Input::GetKeyDown(KeyCode::D))
+		if (Input::GetKeyDown(left))
+		{
+			vel += Vector2(-accelerationSpeed, 0) * dt;
+		}
+
+		if (Input::GetKeyDown(right))
 		{
 			vel += Vector2(accelerationSpeed, 0) * dt;
 		}
 
-		if (Input::GetKeyDown(KeyCode::A))
+	}
+
+
+	void SnakeHead::HandleInput(float dt)
+	{
+		if (debugWASDControls)
 		{
-			vel += Vector2(-accelerationSpeed, 0) * dt;
+			PerformActionsFromInput(KeyCode::E, KeyCode::W, KeyCode::S, KeyCode::A, KeyCode::D, dt);
+		}
+		else
+		{
+			PerformActionsFromInput(KeyCode::U, KeyCode::I, KeyCode::K, KeyCode::J, KeyCode::L, dt);
 		}
 	}
 
 
-	bool SnakeHead::CheckIfCollidingWithSnake(SnakeHead* head) // Note: Heads can't collide
+	bool SnakeHead::CheckIfHeadCollidingWithSnake(SnakeHead* head) // Note: Heads can't collide
 	{
 		if (head == this) // Don't collide with immediate child
 		{
@@ -100,7 +116,7 @@ namespace jothly
 			return false;
 		}
 
-		if (child != nullptr) return child->IsOverlappingBody(head->GetOwner()->transform.pos, head->radius);
+		if (head->child != nullptr) return head->child->IsOverlappingBody(GetOwner()->transform.pos, radius);
 
 		return false;
 	}
