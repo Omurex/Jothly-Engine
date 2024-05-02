@@ -168,9 +168,40 @@ namespace jothly
 		}
 
 
+		Vector2 GetInputFromPlayer()
+		{
+			//int numBytesRecvd = serverSock.Recv(buffer, sizeof(buffer));
+
+			//serverSock.AcceptInto(player1Socket);
+			//int numBytesRecvd = player1Socket.Recv(buffer, sizeof(buffer));
+
+			//if (numBytesRecvd == -1) // Some sort of error
+			//{
+			//	int errCode = serverSock.GetLastError();
+			//	if (errCode != Socket::Error::SOCKLIB_ETIMEDOUT)
+			//	{
+			//		std::cerr << "Unexpected error, terminating" << std::endl;
+			//		abort();
+			//	}
+			//}
+			//else if (numBytesRecvd == 0) // Connection closed
+			//{
+			//	std::cerr << "Unexpected connection closure, terminating" << std::endl;
+			//	abort();
+			//}
+
+			std::string message = "hello world, constant connection";
+			player1Socket.Send(message.c_str(), message.size());
+
+			return Vector2(0);
+		}
+
+
 		void Update(float dt)
 		{
 			//WaitForConnections();
+
+			std::cout << "PLAYER 1 RECVD: " << GetInputFromPlayer().ToString() << std::endl;
 
 			if (player1Connected && player2Connected)
 			{

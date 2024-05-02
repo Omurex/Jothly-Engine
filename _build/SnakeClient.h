@@ -103,6 +103,10 @@ namespace jothly
 				std::cerr << "Unexpected connection closure, terminating" << std::endl;
 				abort();
 			}
+			else
+			{
+				std::cout << numBytesRecvd << std::endl;
+			}
 		}
 
 
