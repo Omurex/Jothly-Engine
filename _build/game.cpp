@@ -29,6 +29,7 @@
 #include "TicTacToeMiniMaxPlayer.h"
 #include "socklib.h"
 #include "SnakeHead.h"
+#include "SnakeServer.h"
 
 
 using namespace jothly;
@@ -65,6 +66,7 @@ GameObject headObject;
 SnakeHead* head;
 Texture snakeHeadTex;
 Texture snakeBodyTex;
+SnakeServer server;
 
 
 
@@ -122,7 +124,9 @@ void Update()
 
 	//ticTacToeObject.Update(GetFrameTime());
 
-	headObject.Update(GetFrameTime());
+	//headObject.Update(GetFrameTime());
+
+	server.Update(GetFrameTime());
 }
 
 
@@ -250,7 +254,8 @@ void Draw()
 {
 	//ticTacToeObject.Draw();
 
-	headObject.Draw();
+	//headObject.Draw();
+	server.Draw();
 
 	//DrawWFC();
 	//DrawNavMesh();
@@ -293,7 +298,9 @@ void Init()
 	snakeBodyTex = Texture(con::RESOURCE_PATH + "SnakeBody.png");
 
 	headObject.transform.pos = Vector2(300, 300);
-	head = headObject.CreateComponent<SnakeHead>()->Init(&snakeHeadTex, &snakeBodyTex, 8);
+	//head = headObject.CreateComponent<SnakeHead>()->Init(&snakeHeadTex, &snakeBodyTex, 8);
+
+	server.TempInit(&snakeHeadTex, &snakeBodyTex);
 
 	//InitWFC();
 	//InitNavMesh();

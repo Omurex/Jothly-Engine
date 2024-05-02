@@ -28,7 +28,7 @@ namespace jothly
 		owner->transform.pos += vel;
 		UpdateLocation();
 		
-		if (CheckIfCollidingWithSnake(this)) std::cout << "COLLIDING" << std::endl;
+		//if (CheckIfCollidingWithSnake(this)) std::cout << "COLLIDING" << std::endl;
 		
 	}
 
@@ -85,12 +85,6 @@ namespace jothly
 		{
 			vel += Vector2(-accelerationSpeed, 0) * dt;
 		}
-	}
-
-
-	bool SnakeHead::CheckIfDead()
-	{
-		return false;
 	}
 
 

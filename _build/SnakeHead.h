@@ -33,7 +33,6 @@ namespace jothly
 		void HandleInput(float dt);
 
 
-		bool CheckIfDead();
 		bool CheckIfCollidingWithSnake(SnakeHead* head);
 
 		// Inherited via Component
