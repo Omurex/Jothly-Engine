@@ -268,8 +268,8 @@ void Init()
 	TestRunner testRunner = TestRunner(true, true);
 	testRunner.RunTests();
 
-
-	raylib::Window win = raylib::Window(600, 600, "Jothly");
+	Vector2 screenSize = Vector2(600, 600);
+	raylib::Window win = raylib::Window(screenSize.x, screenSize.y, "Jothly");
 
 	win.SetTargetFPS(60);
 
@@ -300,7 +300,7 @@ void Init()
 	headObject.transform.pos = Vector2(300, 300);
 	//head = headObject.CreateComponent<SnakeHead>()->Init(&snakeHeadTex, &snakeBodyTex, 8);
 
-	server.TempInit(&snakeHeadTex, &snakeBodyTex);
+	server.TempInit(&snakeHeadTex, &snakeBodyTex, screenSize);
 
 	//InitWFC();
 	//InitNavMesh();

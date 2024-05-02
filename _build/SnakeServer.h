@@ -32,6 +32,8 @@ namespace jothly
 
 		bool restarted = false;
 
+		Vector2 screenSize;
+
 
 		SnakeServer()
 		{
@@ -39,18 +41,26 @@ namespace jothly
 		}
 
 
-		void TempInit(Texture* _snakeHeadTexture, Texture* _snakeBodyTexture)
+		void ResetSnakePositions()
+		{
+			player1.transform.pos = Vector2(screenSize.x / 3, 300);
+			player2.transform.pos = Vector2(screenSize.x * 2 / 3, 300);
+		}
+
+
+		void TempInit(Texture* _snakeHeadTexture, Texture* _snakeBodyTexture, Vector2 _screenSize)
 		{
 			serverSock.Create(Socket::Family::INET, Socket::Type::STREAM);
 
 			serverSock.Bind(Address("127.0.0.1", 5643));
 			serverSock.Listen();
 
-			player1.transform.pos = Vector2(150, 300);
-			player2.transform.pos = Vector2(450, 300);
-
 			snakeHeadTexture = _snakeHeadTexture;
 			snakeBodyTexture = _snakeBodyTexture;
+
+			screenSize = _screenSize;
+
+			ResetSnakePositions();
 		}
 
 
@@ -121,6 +131,8 @@ namespace jothly
 
 			restarted = true;
 			gameOver = false;
+
+			ResetSnakePositions();
 		}
 
 
