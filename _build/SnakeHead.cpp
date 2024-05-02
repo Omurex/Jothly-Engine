@@ -82,8 +82,7 @@ namespace jothly
 			AddChild(body);
 		}*/
 
-
-		if (Input::GetKeyDown(up))
+		/*if (Input::GetKeyDown(up))
 		{
 			vel += Vector2(0, -accelerationSpeed) * dt;
 		}
@@ -101,8 +100,7 @@ namespace jothly
 		if (Input::GetKeyDown(right))
 		{
 			vel += Vector2(accelerationSpeed, 0) * dt;
-		}
-
+		}*/
 	}
 
 

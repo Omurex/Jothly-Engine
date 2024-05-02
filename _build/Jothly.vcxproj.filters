@@ -210,6 +210,9 @@
     <ClInclude Include="SnakeServer.h">
       <Filter>Header Files\Snake</Filter>
     </ClInclude>
+    <ClInclude Include="SnakeClient.h">
+      <Filter>Header Files\Snake</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">

@@ -64,6 +64,18 @@ namespace jothly
 			screenSize = _screenSize;
 			timeForGrowth = _timeForGrowth;
 
+			std::cout << "Waiting for connections..." << std::endl;
+
+			serverSock.AcceptInto(player1Socket);
+			player1Socket.Send("0", 1);
+
+			std::cout << "Player 1 connected!" << std::endl;
+
+			serverSock.AcceptInto(player2Socket);
+			player2Socket.Send("1", 1);
+
+			std::cout << "Player 2 connected!" << std::endl;
+
 			ResetSnakePositions();
 		}
 
@@ -94,6 +106,19 @@ namespace jothly
 
 		void WaitForConnections()
 		{
+			if ((player1Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_1)) || restarted)
+			{
+				player1Connected = true;
+				SetUpSnake(player1, true, &player1Snake);
+			}
+
+			if ((player2Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_2)) || restarted)
+			{
+				player2Connected = true;
+				SetUpSnake(player2, false, &player2Snake);
+			}
+
+			restarted = false;
 		}
 
 
@@ -146,7 +171,7 @@ namespace jothly
 
 		void Update(float dt)
 		{
-			TestConnect();
+			//WaitForConnections();
 
 			if (player1Connected && player2Connected)
 			{

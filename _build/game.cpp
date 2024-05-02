@@ -30,6 +30,7 @@
 #include "socklib.h"
 #include "SnakeHead.h"
 #include "SnakeServer.h"
+#include "SnakeClient.h"
 
 
 using namespace jothly;
@@ -67,6 +68,11 @@ SnakeHead* head;
 Texture snakeHeadTex;
 Texture snakeBodyTex;
 SnakeServer server;
+SnakeClient client;
+void (*UpdateLoopFunction)(float dt);
+void (*DrawLoopFunction)();
+bool isServer;
+
 
 
 
@@ -117,6 +123,30 @@ void UpdateNavMesh()
 }
 
 
+void ServerUpdate(float dt)
+{
+	server.Update(dt);
+}
+
+
+void ServerDraw()
+{
+	server.Draw();
+}
+
+
+void ClientUpdate(float dt)
+{
+	client.Update(dt);
+}
+
+
+void ClientDraw()
+{
+	client.Draw();
+}
+
+
 void Update()
 {
 	//UpdateWFC();
@@ -126,7 +156,9 @@ void Update()
 
 	//headObject.Update(GetFrameTime());
 
-	server.Update(GetFrameTime());
+	//server.Update(GetFrameTime());
+	
+	UpdateLoopFunction(GetFrameTime());
 }
 
 
@@ -255,10 +287,12 @@ void Draw()
 	//ticTacToeObject.Draw();
 
 	//headObject.Draw();
-	server.Draw();
+	//server.Draw();
 
 	//DrawWFC();
 	//DrawNavMesh();
+
+	DrawLoopFunction();
 }
 
 
@@ -300,7 +334,10 @@ void Init()
 	headObject.transform.pos = Vector2(300, 300);
 	//head = headObject.CreateComponent<SnakeHead>()->Init(&snakeHeadTex, &snakeBodyTex, 8);
 
-	server.TempInit(&snakeHeadTex, &snakeBodyTex, screenSize, 1);
+	if(isServer)
+		server.TempInit(&snakeHeadTex, &snakeBodyTex, screenSize, 1);
+	else
+		client.Init(KeyCode::W, KeyCode::S, KeyCode::A, KeyCode::D);
 
 	//InitWFC();
 	//InitNavMesh();
@@ -361,7 +398,27 @@ int main(int argc, char* argv[])
 	con::RESOURCE_PATH = resourcePath;
 
 
+	std::cout << "Enter 0 for server, anything else for client" << std::endl;
+	
+	std::string input;
+	std::cin >> input;
+
+	if (input == "0")
+	{
+		UpdateLoopFunction = ServerUpdate;
+		DrawLoopFunction = ServerDraw;
+		isServer = true;
+	}
+	else
+	{
+		UpdateLoopFunction = ClientUpdate;
+		DrawLoopFunction = ClientDraw;
+		isServer = false;
+	}
+
+
 	Init();
+
 
 	SockLibShutdown();
 
