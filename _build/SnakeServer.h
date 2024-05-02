@@ -30,6 +30,8 @@ namespace jothly
 		bool gameOver = false;
 		bool player1Win = false;
 
+		bool restarted = false;
+
 
 		SnakeServer()
 		{
@@ -60,36 +62,24 @@ namespace jothly
 
 		void TestConnect()
 		{
-			if (player1Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_1))
+			if ((player1Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_1)) || restarted)
 			{
 				player1Connected = true;
 				SetUpSnake(player1, true, &player1Snake);
 			}
 
-			if (player2Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_2))
+			if ((player2Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_2)) || restarted)
 			{
 				player2Connected = true;
 				SetUpSnake(player2, false, &player2Snake);
 			}
+
+			restarted = false;
 		}
 
 
 		void WaitForConnections()
 		{
-			
-		}
-
-
-		void Update(float dt)
-		{
-			TestConnect();
-
-			if (player1Connected && player2Connected && gameOver == false)
-			{
-				player1.Update(dt);
-				player2.Update(dt);
-				CheckForSnakeDead();
-			}
 		}
 
 
@@ -117,6 +107,38 @@ namespace jothly
 				else
 				{
 					player1Snake->SetEnabled(false);
+				}
+			}
+		}
+
+
+		void CheckForRestart()
+		{
+			if (!Input::GetKeyJustPressed(KeyCode::SPACE)) return;
+
+			player1.DestroyAllComponents();
+			player2.DestroyAllComponents();
+
+			restarted = true;
+			gameOver = false;
+		}
+
+
+		void Update(float dt)
+		{
+			TestConnect();
+
+			if (player1Connected && player2Connected)
+			{
+				if (!gameOver)
+				{
+					player1.Update(dt);
+					player2.Update(dt);
+					CheckForSnakeDead();
+				}
+				else
+				{
+					CheckForRestart();
 				}
 			}
 		}
