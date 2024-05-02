@@ -41,6 +41,15 @@ namespace jothly
 	}
 
 
+	void SnakeHead::GrowSnake()
+	{
+		GameObject* newBody = new GameObject("SnakeBody", end->GetOwner()->transform.pos);
+		newBody->CreateComponent<SpriteRenderer>()->Init(bodyTexture);
+		SnakeBody* body = newBody->CreateComponent<SnakeBody>();
+		AddChild(body);
+	}
+
+
 	bool SnakeHead::AddChild(SnakeBody* _child)
 	{
 		if(Approx(vel, 0)) return false; // Don't add child of moving too slow, otherwise may spawn on top of head
@@ -65,13 +74,13 @@ namespace jothly
 
 	void SnakeHead::PerformActionsFromInput(KeyCode spawnBodyKey, KeyCode up, KeyCode down, KeyCode left, KeyCode right, float dt)
 	{
-		if (Input::GetKeyJustPressed(spawnBodyKey))
+		/*if (Input::GetKeyJustPressed(spawnBodyKey))
 		{
 			GameObject* newBody = new GameObject("SnakeBody", end->GetOwner()->transform.pos);
 			newBody->CreateComponent<SpriteRenderer>()->Init(bodyTexture);
 			SnakeBody* body = newBody->CreateComponent<SnakeBody>();
 			AddChild(body);
-		}
+		}*/
 
 
 		if (Input::GetKeyDown(up))

@@ -30,6 +30,8 @@ namespace jothly
 		void Update(float dt) override;
 		void Draw() override;
 
+		void GrowSnake();
+
 		bool AddChild(SnakeBody* _child) override;
 
 

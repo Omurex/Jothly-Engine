@@ -34,6 +34,9 @@ namespace jothly
 
 		Vector2 screenSize;
 
+		float timePassedSinceLastGrow = 0;
+		float timeForGrowth = 0;
+
 
 		SnakeServer()
 		{
@@ -48,7 +51,7 @@ namespace jothly
 		}
 
 
-		void TempInit(Texture* _snakeHeadTexture, Texture* _snakeBodyTexture, Vector2 _screenSize)
+		void TempInit(Texture* _snakeHeadTexture, Texture* _snakeBodyTexture, Vector2 _screenSize, float _timeForGrowth)
 		{
 			serverSock.Create(Socket::Family::INET, Socket::Type::STREAM);
 
@@ -59,6 +62,7 @@ namespace jothly
 			snakeBodyTexture = _snakeBodyTexture;
 
 			screenSize = _screenSize;
+			timeForGrowth = _timeForGrowth;
 
 			ResetSnakePositions();
 		}
@@ -95,13 +99,15 @@ namespace jothly
 
 		void CheckForSnakeDead()
 		{
-			if (player1Snake->CheckIfHeadCollidingWithSnake(player1Snake) || player1Snake->CheckIfHeadCollidingWithSnake(player2Snake))
+			if (player1Snake->CheckIfHeadCollidingWithSnake(player1Snake) || player1Snake->CheckIfHeadCollidingWithSnake(player2Snake) ||
+				player1.transform.pos.x < 0 || player1.transform.pos.x > screenSize.x || player1.transform.pos.y < 0 || player1.transform.pos.y > screenSize.y)
 			{
 				std::cout << "PLAYER 1 DIED" << std::endl;
 				gameOver = true;
 				player1Win = false;
 			}
-			else if (player2Snake->CheckIfHeadCollidingWithSnake(player1Snake) || player2Snake->CheckIfHeadCollidingWithSnake(player2Snake))
+			else if (player2Snake->CheckIfHeadCollidingWithSnake(player1Snake) || player2Snake->CheckIfHeadCollidingWithSnake(player2Snake) ||
+				player2.transform.pos.x < 0 || player2.transform.pos.x > screenSize.x || player2.transform.pos.y < 0 || player2.transform.pos.y > screenSize.y)
 			{
 				std::cout << "PLAYER 2 DIED" << std::endl;
 				gameOver = true;
@@ -132,6 +138,8 @@ namespace jothly
 			restarted = true;
 			gameOver = false;
 
+			timePassedSinceLastGrow = 0;
+
 			ResetSnakePositions();
 		}
 
@@ -151,6 +159,14 @@ namespace jothly
 				else
 				{
 					CheckForRestart();
+				}
+
+				timePassedSinceLastGrow += dt;
+				if (timePassedSinceLastGrow > timeForGrowth)
+				{
+					player1Snake->GrowSnake();
+					player2Snake->GrowSnake();
+					timePassedSinceLastGrow = 0;
 				}
 			}
 		}

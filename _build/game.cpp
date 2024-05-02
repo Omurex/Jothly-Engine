@@ -300,7 +300,7 @@ void Init()
 	headObject.transform.pos = Vector2(300, 300);
 	//head = headObject.CreateComponent<SnakeHead>()->Init(&snakeHeadTex, &snakeBodyTex, 8);
 
-	server.TempInit(&snakeHeadTex, &snakeBodyTex, screenSize);
+	server.TempInit(&snakeHeadTex, &snakeBodyTex, screenSize, 1);
 
 	//InitWFC();
 	//InitNavMesh();
