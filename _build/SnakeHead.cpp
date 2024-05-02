@@ -1,6 +1,7 @@
 #include "SnakeHead.h"
 #include "Input.h"
 #include "SpriteRenderer.h"
+#include "Math.h"
 
 #include <iostream>
 
@@ -40,11 +41,15 @@ namespace jothly
 	}
 
 
-	void SnakeHead::AddChild(SnakeBody* _child)
+	bool SnakeHead::AddChild(SnakeBody* _child)
 	{
+		if(Approx(vel, 0)) return false; // Don't add child of moving too slow, otherwise may spawn on top of head
+
+		bool result = true;
+
 		if (end != this)
 		{
-			end->AddChild(_child);
+			result = end->AddChild(_child);
 		}
 		else
 		{
@@ -53,7 +58,8 @@ namespace jothly
 
 		_child->Init(radius, end);
 		end = _child;
-		
+
+		return result;
 	}
 
 

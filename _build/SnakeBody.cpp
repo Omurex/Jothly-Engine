@@ -47,9 +47,10 @@ namespace jothly
 	}
 
 	
-	void SnakeBody::AddChild(SnakeBody* _child)
+	bool SnakeBody::AddChild(SnakeBody* _child)
 	{
 		child = _child;
+		return true;
 	}
 
 

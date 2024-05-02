@@ -30,7 +30,7 @@ namespace jothly
 		void Update(float dt) override;
 		void Draw() override;
 
-		void AddChild(SnakeBody* _child) override;
+		bool AddChild(SnakeBody* _child) override;
 
 
 		void PerformActionsFromInput(KeyCode spawnBodyKey, KeyCode up, KeyCode down, KeyCode left, KeyCode right, float dt);

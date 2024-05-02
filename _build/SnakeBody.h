@@ -21,7 +21,7 @@ namespace jothly
 
 		bool IsOverlappingBody(Vector2 pos, float radius);
 
-		virtual void AddChild(SnakeBody* _child);
+		virtual bool AddChild(SnakeBody* _child);
 
 		public:
 		SnakeBody(GameObject* _owner) : Component(_owner) {}

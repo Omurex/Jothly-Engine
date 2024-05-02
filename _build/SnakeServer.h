@@ -27,6 +27,10 @@ namespace jothly
 		Texture* snakeHeadTexture;
 		Texture* snakeBodyTexture;
 
+		bool gameOver = false;
+		bool player1Win = false;
+
+
 		SnakeServer()
 		{
 			// WaitForConnections
@@ -80,7 +84,7 @@ namespace jothly
 		{
 			TestConnect();
 
-			if (player1Connected && player2Connected)
+			if (player1Connected && player2Connected && gameOver == false)
 			{
 				player1.Update(dt);
 				player2.Update(dt);
@@ -94,10 +98,26 @@ namespace jothly
 			if (player1Snake->CheckIfHeadCollidingWithSnake(player1Snake) || player1Snake->CheckIfHeadCollidingWithSnake(player2Snake))
 			{
 				std::cout << "PLAYER 1 DIED" << std::endl;
+				gameOver = true;
+				player1Win = false;
 			}
 			else if (player2Snake->CheckIfHeadCollidingWithSnake(player1Snake) || player2Snake->CheckIfHeadCollidingWithSnake(player2Snake))
 			{
 				std::cout << "PLAYER 2 DIED" << std::endl;
+				gameOver = true;
+				player1Win = true;
+			}
+
+			if (gameOver)
+			{
+				if (player1Win)
+				{
+					player2Snake->SetEnabled(false);
+				}
+				else
+				{
+					player1Snake->SetEnabled(false);
+				}
 			}
 		}
 
