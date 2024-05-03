@@ -213,6 +213,9 @@
     <ClInclude Include="SnakeClient.h">
       <Filter>Header Files\Snake</Filter>
     </ClInclude>
+    <ClInclude Include="StringFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">

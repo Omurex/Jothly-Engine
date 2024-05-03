@@ -87,26 +87,30 @@ namespace jothly
 
 		void Update(float dt)
 		{
-			int numBytesRecvd = sock.Recv(buffer, sizeof(buffer));
+			//int numBytesRecvd = sock.Recv(buffer, sizeof(buffer));
 
-			if (numBytesRecvd == -1) // Some sort of error
-			{
-				int errCode = sock.GetLastError();
-				if (errCode != Socket::Error::SOCKLIB_ETIMEDOUT)
-				{
-					std::cerr << "Unexpected error, terminating" << std::endl;
-					abort();
-				}
-			}
-			else if (numBytesRecvd == 0) // Connection closed
-			{
-				std::cerr << "Unexpected connection closure, terminating" << std::endl;
-				abort();
-			}
-			else
-			{
-				std::cout << numBytesRecvd << std::endl;
-			}
+			//if (numBytesRecvd == -1) // Some sort of error
+			//{
+			//	int errCode = sock.GetLastError();
+			//	if (errCode != Socket::Error::SOCKLIB_ETIMEDOUT)
+			//	{
+			//		std::cerr << "Unexpected error, terminating" << std::endl;
+			//		abort();
+			//	}
+			//}
+			//else if (numBytesRecvd == 0) // Connection closed
+			//{
+			//	std::cerr << "Unexpected connection closure, terminating" << std::endl;
+			//	abort();
+			//}
+			//else
+			//{
+			//	std::cout << numBytesRecvd << std::endl;
+			//}
+
+			Vector2 input = GetMoveInput();
+			std::string sendStr = std::to_string(input.x) + "|" + std::to_string(input.y);
+			sock.Send(sendStr.c_str(), sendStr.size());
 		}
 
 

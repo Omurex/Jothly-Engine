@@ -3,6 +3,7 @@
 #include "SnakeHead.h"
 #include "Input.h"
 #include "SpriteRenderer.h"
+#include "StringFunctions.h"
 
 
 namespace jothly
@@ -68,12 +69,14 @@ namespace jothly
 
 			serverSock.AcceptInto(player1Socket);
 			player1Socket.Send("0", 1);
+			player1Socket.SetNonBlockingMode(true);
 			player1Connected = true;
 
 			std::cout << "Player 1 connected!" << std::endl;
 
 			serverSock.AcceptInto(player2Socket);
 			player2Socket.Send("1", 1);
+			player2Socket.SetNonBlockingMode(true);
 			player2Connected = true;
 
 			std::cout << "Player 2 connected!" << std::endl;
@@ -168,7 +171,7 @@ namespace jothly
 		}
 
 
-		Vector2 GetInputFromPlayer()
+		Vector2 GetInputFromPlayer(Socket& playerSocket)
 		{
 			//int numBytesRecvd = serverSock.Recv(buffer, sizeof(buffer));
 
@@ -190,11 +193,35 @@ namespace jothly
 			//	abort();
 			//}
 
-			std::string message = "hello world, constant connection";
-			int numBytesRecvd = player1Socket.Recv(buffer, sizeof(buffer));
+			int numBytesRecvd = playerSocket.Recv(buffer, sizeof(buffer));
 			//player1Socket.Send(message.c_str(), message.size());
 
-			return Vector2(0);
+			Vector2 input = Vector2(0);
+
+			if (numBytesRecvd == -1) // Some sort of error
+			{
+				int errCode = serverSock.GetLastError();
+				if (errCode != Socket::Error::SOCKLIB_ETIMEDOUT)
+				{
+					std::cerr << "Unexpected error, terminating" << std::endl;
+					abort();
+				}
+			}
+			else if (numBytesRecvd == 0) // Connection closed
+			{
+				std::cerr << "Unexpected connection closure, terminating" << std::endl;
+				abort();
+			}
+			else
+			{
+				std::string recvdStr(buffer, numBytesRecvd);
+
+				std::vector<std::string> strInput = SplitByDelimiter(recvdStr, "|");
+				char* end;
+				input = Vector2(strtof(strInput[0].data(), &end), strtof(strInput[1].data(), &end));
+			}
+
+			return input;
 		}
 
 
@@ -202,7 +229,8 @@ namespace jothly
 		{
 			//WaitForConnections();
 
-			std::cout << "PLAYER 1 RECVD: " << GetInputFromPlayer().ToString() << std::endl;
+			std::cout << "PLAYER 1 RECVD: " << GetInputFromPlayer(player1Socket).ToString() << std::endl;
+			std::cout << "PLAYER 2 RECVD: " << GetInputFromPlayer(player2Socket).ToString() << std::endl;
 
 			if (player1Connected && player2Connected)
 			{
@@ -228,7 +256,7 @@ namespace jothly
 		}
 
 
-		void Draw() // Note: This is for debugging what's happeniing on the server, theoretically don't
+		void Draw() // Note: This is for debugging what's happening on the server, theoretically don't need to draw on server
 		{
 			if (player1Connected && player2Connected)
 			{

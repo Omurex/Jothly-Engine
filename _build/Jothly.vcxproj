@@ -290,6 +290,7 @@
     <ClInclude Include="SnakeHead.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="SquareNavMeshObstacle.h" />
+    <ClInclude Include="StringFunctions.h" />
     <ClInclude Include="TestRunner.h" />
     <ClInclude Include="tests.h" />
     <ClInclude Include="TestSet.h" />
