@@ -218,6 +218,18 @@ namespace jothly
 		}
 
 
+		std::string CreateSnakeVisualString()
+		{
+			std::string ret = "";
+			ret += "PLAYER1|";
+			ret += player1Snake->CreateVisualRepresentationString();
+			ret += "|PLAYER2|";
+			ret += player2Snake->CreateVisualRepresentationString();
+
+			return ret;
+		}
+
+
 		void Update(float dt)
 		{
 			//WaitForConnections();
@@ -247,6 +259,11 @@ namespace jothly
 						player2Snake->GrowSnake();
 						timePassedSinceLastGrow = 0;
 					}
+
+					// SEND SNAKE POS DATA
+					std::string message = CreateSnakeVisualString();
+					player1Socket.Send(message.data(), message.size());
+					player2Socket.Send(message.data(), message.size());
 				}
 				else
 				{

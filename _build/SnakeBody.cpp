@@ -54,6 +54,20 @@ namespace jothly
 	}
 
 
+	std::string SnakeBody::CreateVisualRepresentationString()
+	{
+		std::string ret = "";
+		ret += std::to_string(owner->transform.pos.x) + "|" + std::to_string(owner->transform.pos.y);
+
+		if (child != nullptr)
+		{
+			ret += "|" + child->CreateVisualRepresentationString();
+		}
+
+		return ret;
+	}
+
+
 	ComponentID jothly::SnakeBody::GetID() const
 	{
 		return ComponentID::SNAKE_BODY;

@@ -27,6 +27,8 @@ namespace jothly
 		SnakeBody(GameObject* _owner) : Component(_owner) {}
 		~SnakeBody() { if (child != nullptr) delete child->GetOwner(); }
 
+		std::string CreateVisualRepresentationString();
+
 		SnakeBody* Init(float _radius, SnakeBody* _parent, SnakeBody* _child = nullptr) { radius = _radius;  parent = _parent; child = _child; prevFramePosition = owner->transform.pos; return this; }
 
 		// Inherited via Component

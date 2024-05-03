@@ -337,7 +337,7 @@ void Init()
 	if(isServer)
 		server.Init(&snakeHeadTex, &snakeBodyTex, screenSize, 1);
 	else
-		client.Init(KeyCode::W, KeyCode::S, KeyCode::A, KeyCode::D);
+		client.Init(KeyCode::W, KeyCode::S, KeyCode::A, KeyCode::D, &snakeHeadTex, &snakeBodyTex);
 
 	//InitWFC();
 	//InitNavMesh();
