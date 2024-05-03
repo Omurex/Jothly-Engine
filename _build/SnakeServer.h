@@ -92,7 +92,7 @@ namespace jothly
 		}
 
 
-		void CheckForSnakeDead()
+		bool CheckForSnakeDead()
 		{
 			if (player1Snake->CheckIfHeadCollidingWithSnake(player1Snake) || player1Snake->CheckIfHeadCollidingWithSnake(player2Snake) ||
 				player1.transform.pos.x < 0 || player1.transform.pos.x > screenSize.x || player1.transform.pos.y < 0 || player1.transform.pos.y > screenSize.y)
@@ -124,6 +124,8 @@ namespace jothly
 				player1Socket.Send(message.data(), message.size());
 				player2Socket.Send(message.data(), message.size());
 			}
+
+			return gameOver;
 		}
 
 
@@ -250,7 +252,6 @@ namespace jothly
 
 					player1.Update(dt);
 					player2.Update(dt);
-					CheckForSnakeDead();
 
 					timePassedSinceLastGrow += dt;
 					if (timePassedSinceLastGrow > timeForGrowth)
@@ -260,10 +261,13 @@ namespace jothly
 						timePassedSinceLastGrow = 0;
 					}
 
-					// SEND SNAKE POS DATA
-					std::string message = CreateSnakeVisualString();
-					player1Socket.Send(message.data(), message.size());
-					player2Socket.Send(message.data(), message.size());
+					if (CheckForSnakeDead() == false)
+					{
+						// SEND SNAKE POS DATA
+						std::string message = CreateSnakeVisualString();
+						player1Socket.Send(message.data(), message.size());
+						player2Socket.Send(message.data(), message.size());
+					}
 				}
 				else
 				{

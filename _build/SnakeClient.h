@@ -160,7 +160,20 @@ namespace jothly
 				else
 				{
 					char* end;
-					positions->push_back(Vector2(strtof(subStrs[i].data(), &end), strtof(subStrs[i + 1].data(), &end)));
+
+					float first = strtof(subStrs[i].data(), &end);
+					if (subStrs[i].data() + subStrs[i].size() != end)
+					{
+						return;
+					}
+
+					float second = strtof(subStrs[i + 1].data(), &end);
+					if (subStrs[i + 1].data() + subStrs[i + 1].size() != end)
+					{
+						return;
+					}
+
+					positions->push_back(Vector2(first, second));
 					i += 2;
 				}
 			}
@@ -199,6 +212,7 @@ namespace jothly
 				std::string message;
 				if (GetSocketRecv(sock, message))
 				{
+					std::cout << message << std::endl;
 					if (message == "DEAD")
 					{
 						gameOver = true;
