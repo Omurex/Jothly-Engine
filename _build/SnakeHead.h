@@ -23,7 +23,8 @@ namespace jothly
 
 		
 		public:
-		SnakeHead(GameObject* _owner) : SnakeBody(_owner) {}
+		SnakeHead(GameObject* _owner) : SnakeBody(_owner) { child = nullptr; }
+		~SnakeHead() { int a = 0; a++; }
 
 		SnakeHead* Init(Texture* _headTexture, Texture* _bodyTexture, bool _debugWASDControls, float _radius = 8, float _accelerationSpeed = 5);
 

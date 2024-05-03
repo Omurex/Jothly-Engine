@@ -210,7 +210,6 @@ namespace jothly
 
 			std::string message = "RESTART";
 			player1Socket.Send(message.data(), message.size());
-			player2Socket.Send(message.data(), message.size());
 
 			timePassedSinceLastGrow = 0;
 
