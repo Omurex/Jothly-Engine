@@ -191,7 +191,8 @@ namespace jothly
 			//}
 
 			std::string message = "hello world, constant connection";
-			player1Socket.Send(message.c_str(), message.size());
+			int numBytesRecvd = player1Socket.Recv(buffer, sizeof(buffer));
+			//player1Socket.Send(message.c_str(), message.size());
 
 			return Vector2(0);
 		}
