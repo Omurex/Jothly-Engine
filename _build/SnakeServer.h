@@ -94,24 +94,6 @@ namespace jothly
 		}
 
 
-		void TestConnect()
-		{
-			if ((player1Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_1)) || shouldRestart)
-			{
-				player1Connected = true;
-				SetUpSnake(player1, true, &player1Snake);
-			}
-
-			if ((player2Connected == false && Input::GetKeyJustPressed(KeyCode::NUM_2)) || shouldRestart)
-			{
-				player2Connected = true;
-				SetUpSnake(player2, false, &player2Snake);
-			}
-
-			shouldRestart = false;
-		}
-
-
 		void RestartGame()
 		{
 			if (!shouldRestart) return;
@@ -157,7 +139,7 @@ namespace jothly
 
 		void CheckForRestart()
 		{
-			if (!Input::GetKeyJustPressed(KeyCode::SPACE)) return;
+			//if (!Input::GetKeyJustPressed(KeyCode::SPACE)) return;
 
 			player1.DestroyAllComponents();
 			player2.DestroyAllComponents();
@@ -171,32 +153,9 @@ namespace jothly
 		}
 
 
-		Vector2 GetInputFromPlayer(Socket& playerSocket)
+		bool GetSocketRecv(Socket& socket, std::string& out_str) // True if successful
 		{
-			//int numBytesRecvd = serverSock.Recv(buffer, sizeof(buffer));
-
-			//serverSock.AcceptInto(player1Socket);
-			//int numBytesRecvd = player1Socket.Recv(buffer, sizeof(buffer));
-
-			//if (numBytesRecvd == -1) // Some sort of error
-			//{
-			//	int errCode = serverSock.GetLastError();
-			//	if (errCode != Socket::Error::SOCKLIB_ETIMEDOUT)
-			//	{
-			//		std::cerr << "Unexpected error, terminating" << std::endl;
-			//		abort();
-			//	}
-			//}
-			//else if (numBytesRecvd == 0) // Connection closed
-			//{
-			//	std::cerr << "Unexpected connection closure, terminating" << std::endl;
-			//	abort();
-			//}
-
-			int numBytesRecvd = playerSocket.Recv(buffer, sizeof(buffer));
-			//player1Socket.Send(message.c_str(), message.size());
-
-			Vector2 input = Vector2(0);
+			int numBytesRecvd = socket.Recv(buffer, sizeof(buffer));
 
 			if (numBytesRecvd == -1) // Some sort of error
 			{
@@ -206,6 +165,10 @@ namespace jothly
 					std::cerr << "Unexpected error, terminating" << std::endl;
 					abort();
 				}
+				else
+				{
+					return false;
+				}
 			}
 			else if (numBytesRecvd == 0) // Connection closed
 			{
@@ -214,8 +177,19 @@ namespace jothly
 			}
 			else
 			{
-				std::string recvdStr(buffer, numBytesRecvd);
+				out_str = std::string(buffer, numBytesRecvd);
+				return true;
+			}
+		}
 
+
+		Vector2 GetMoveInputFromPlayer(Socket& playerSocket)
+		{
+			Vector2 input = Vector2(0);
+			std::string recvdStr;
+
+			if(GetSocketRecv(playerSocket, recvdStr))
+			{
 				std::vector<std::string> strInput = SplitByDelimiter(recvdStr, "|");
 				char* end;
 				input = Vector2(strtof(strInput[0].data(), &end), strtof(strInput[1].data(), &end));
@@ -225,15 +199,31 @@ namespace jothly
 		}
 
 
+		bool GetRestartSignal(Socket& playerSocket)
+		{
+			std::string recvdStr;
+
+			if (GetSocketRecv(playerSocket, recvdStr))
+			{
+				if (recvdStr == " ")
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+
 		void Update(float dt)
 		{
 			//WaitForConnections();
 
-			Vector2 player1Input = GetInputFromPlayer(player1Socket);
-			Vector2 player2Input = GetInputFromPlayer(player2Socket);
+			Vector2 player1Input = GetMoveInputFromPlayer(player1Socket);
+			Vector2 player2Input = GetMoveInputFromPlayer(player2Socket);
 
-			std::cout << "PLAYER 1 RECVD: " << GetInputFromPlayer(player1Socket).ToString() << std::endl;
-			std::cout << "PLAYER 2 RECVD: " << GetInputFromPlayer(player2Socket).ToString() << std::endl;
+			std::cout << "PLAYER 1 RECVD: " << GetMoveInputFromPlayer(player1Socket).ToString() << std::endl;
+			std::cout << "PLAYER 2 RECVD: " << GetMoveInputFromPlayer(player2Socket).ToString() << std::endl;
 
 			if (player1Connected && player2Connected)
 			{
