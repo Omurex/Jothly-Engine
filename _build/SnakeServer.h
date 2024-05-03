@@ -229,6 +229,9 @@ namespace jothly
 		{
 			//WaitForConnections();
 
+			Vector2 player1Input = GetInputFromPlayer(player1Socket);
+			Vector2 player2Input = GetInputFromPlayer(player2Socket);
+
 			std::cout << "PLAYER 1 RECVD: " << GetInputFromPlayer(player1Socket).ToString() << std::endl;
 			std::cout << "PLAYER 2 RECVD: " << GetInputFromPlayer(player2Socket).ToString() << std::endl;
 
@@ -236,6 +239,10 @@ namespace jothly
 			{
 				if (!gameOver)
 				{
+					player1Snake->UpdateVelocityFromInput(player1Input, dt);
+					player2Snake->UpdateVelocityFromInput(player2Input, dt);
+
+
 					player1.Update(dt);
 					player2.Update(dt);
 					CheckForSnakeDead();

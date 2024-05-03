@@ -30,6 +30,8 @@ namespace jothly
 		void Update(float dt) override;
 		void Draw() override;
 
+		void UpdateVelocityFromInput(Vector2 input, float dt);
+
 		void GrowSnake();
 
 		bool AddChild(SnakeBody* _child) override;

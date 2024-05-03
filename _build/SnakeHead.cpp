@@ -27,7 +27,7 @@ namespace jothly
 
 	void SnakeHead::Update(float dt)
 	{
-		HandleInput(dt);
+		//HandleInput(dt);
 		owner->transform.pos += vel;
 		UpdateLocation();
 		
@@ -38,6 +38,12 @@ namespace jothly
 	void SnakeHead::Draw()
 	{
 		if (child != nullptr) child->DrawObject();
+	}
+
+
+	void SnakeHead::UpdateVelocityFromInput(Vector2 input, float dt)
+	{
+		vel += input.GetNormalized() * accelerationSpeed * dt;
 	}
 
 
