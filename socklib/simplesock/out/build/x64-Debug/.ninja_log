@@ -1,0 +1,7 @@
+# ninja log v5
+16	261	7360667221189053	CMakeFiles/SimpleSock.dir/pool.cpp.obj	43fa6049df41fe3
+4	481	7360667223382973	CMakeFiles/SimpleSock.dir/main.cpp.obj	45dedafb58123fe2
+11	482	7360667223402925	CMakeFiles/SimpleSock.dir/tests.cpp.obj	5dd86cde8a3ee1dc
+8	489	7360667223483218	CMakeFiles/SimpleSock.dir/socklib_generic.cpp.obj	6c4dfd686547f92c
+13	677	7360667225356127	CMakeFiles/SimpleSock.dir/socklib_win32.cpp.obj	b496f68cfa933762
+677	990	7360667228146398	SimpleSock.exe	95d91a5b1ddfbce7

@@ -27,6 +27,10 @@
 #include "TicTacToePlayer.h"
 #include "TicTacToeHumanPlayer.h"
 #include "TicTacToeMiniMaxPlayer.h"
+#include "socklib.h"
+#include "SnakeHead.h"
+#include "SnakeServer.h"
+#include "SnakeClient.h"
 
 
 using namespace jothly;
@@ -56,6 +60,19 @@ GameObject ticTacToeObject = GameObject("Tic Tac Toe Object", Vector2(300, 300),
 TicTacToeBoard* ticTacToe = nullptr;
 TicTacToeHumanPlayer xPlayer;
 TicTacToeMiniMaxPlayer oPlayer;
+
+// Networking
+Socket sock;
+GameObject headObject;
+SnakeHead* head;
+Texture snakeHeadTex;
+Texture snakeBodyTex;
+SnakeServer server;
+SnakeClient client;
+void (*UpdateLoopFunction)(float dt);
+void (*DrawLoopFunction)();
+bool isServer;
+
 
 
 
@@ -106,12 +123,42 @@ void UpdateNavMesh()
 }
 
 
+void ServerUpdate(float dt)
+{
+	server.Update(dt);
+}
+
+
+void ServerDraw()
+{
+	server.Draw();
+}
+
+
+void ClientUpdate(float dt)
+{
+	client.Update(dt);
+}
+
+
+void ClientDraw()
+{
+	client.Draw();
+}
+
+
 void Update()
 {
 	//UpdateWFC();
 	//UpdateNavMesh();
 
-	ticTacToeObject.Update(GetFrameTime());
+	//ticTacToeObject.Update(GetFrameTime());
+
+	//headObject.Update(GetFrameTime());
+
+	//server.Update(GetFrameTime());
+	
+	UpdateLoopFunction(GetFrameTime());
 }
 
 
@@ -237,10 +284,15 @@ void DrawNavMesh()
 
 void Draw()
 {
-	ticTacToeObject.Draw();
+	//ticTacToeObject.Draw();
+
+	//headObject.Draw();
+	//server.Draw();
 
 	//DrawWFC();
 	//DrawNavMesh();
+
+	DrawLoopFunction();
 }
 
 
@@ -250,8 +302,8 @@ void Init()
 	TestRunner testRunner = TestRunner(true, true);
 	testRunner.RunTests();
 
-
-	raylib::Window win = raylib::Window(600, 600, "Jothly");
+	Vector2 screenSize = Vector2(600, 600);
+	raylib::Window win = raylib::Window(screenSize.x, screenSize.y, "Jothly");
 
 	win.SetTargetFPS(60);
 
@@ -259,22 +311,33 @@ void Init()
 	testTex = Texture(con::RESOURCE_PATH + "test.png");
 	smallBlackDot = Texture(con::RESOURCE_PATH + "smallBlackDot.png");
 	
-	Texture ticTacToeXTex = Texture(con::RESOURCE_PATH + "TicTacToeX.png");
-	Texture ticTacToeOTex = Texture(con::RESOURCE_PATH + "TicTacToeO.png");
+	//Texture ticTacToeXTex = Texture(con::RESOURCE_PATH + "TicTacToeX.png");
+	//Texture ticTacToeOTex = Texture(con::RESOURCE_PATH + "TicTacToeO.png");
 
-	ticTacToe = ticTacToeObject.CreateComponent<TicTacToeBoard>()->Init(&ticTacToeXTex, &ticTacToeOTex);
-	/*ticTacToe->PlaceSquare(0, 2, false);
-	ticTacToe->PlaceSquare(1, 1, true);
-	ticTacToe->PlaceSquare(2, 0, true);
-	ticTacToe->PlaceSquare(0, 1, false);
-	ticTacToe->PlaceSquare(0, 0, true);
-	ticTacToe->PlaceSquare(1, 0, false);
-	ticTacToe->PlaceSquare(1, 2, true);
-	ticTacToe->PlaceSquare(2, 2, false);
-	ticTacToe->PlaceSquare(2, 1, false);*/
+	//ticTacToe = ticTacToeObject.CreateComponent<TicTacToeBoard>()->Init(&ticTacToeXTex, &ticTacToeOTex);
+	///*ticTacToe->PlaceSquare(0, 2, false);
+	//ticTacToe->PlaceSquare(1, 1, true);
+	//ticTacToe->PlaceSquare(2, 0, true);
+	//ticTacToe->PlaceSquare(0, 1, false);
+	//ticTacToe->PlaceSquare(0, 0, true);
+	//ticTacToe->PlaceSquare(1, 0, false);
+	//ticTacToe->PlaceSquare(1, 2, true);
+	//ticTacToe->PlaceSquare(2, 2, false);
+	//ticTacToe->PlaceSquare(2, 1, false);*/
 
-	oPlayer.SetMaxDepth(100);
-	ticTacToe->SetPlayers(&xPlayer, &oPlayer);
+	//oPlayer.SetMaxDepth(100);
+	//ticTacToe->SetPlayers(&xPlayer, &oPlayer);
+
+	snakeHeadTex = Texture(con::RESOURCE_PATH + "SnakeHead.png");
+	snakeBodyTex = Texture(con::RESOURCE_PATH + "SnakeBody.png");
+
+	headObject.transform.pos = Vector2(300, 300);
+	//head = headObject.CreateComponent<SnakeHead>()->Init(&snakeHeadTex, &snakeBodyTex, 8);
+
+	if(isServer)
+		server.Init(&snakeHeadTex, &snakeBodyTex, screenSize, 1);
+	else
+		client.Init(KeyCode::W, KeyCode::S, KeyCode::A, KeyCode::D, &snakeHeadTex, &snakeBodyTex);
 
 	//InitWFC();
 	//InitNavMesh();
@@ -297,10 +360,34 @@ void Init()
 
 int main(int argc, char* argv[])
 {
+	SockLibInit();
 	srand(time(NULL));
 	//srand(1710794466);
 
 	std::cout << "SEED: " + std::to_string(time(NULL)) << std::endl;
+
+	char buffer[4096];
+	std::string sendStr = "Hello World!";
+
+	/*std::string input;
+	std::cin >> input;*/
+
+	// NOT FIXED, ASK FOR HELP
+	//if (input == "0") // Server
+	//{
+	//	Server server;
+	//	server.Update();
+	//}
+	//else
+	//{
+	//	std::string send = "hello world";
+	//	sock.Create(Socket::Family::INET, Socket::Type::STREAM);
+	//	sock.Connect(Address("127.0.0.1", 5550));
+	//	sock.Send(send.c_str(), send.size());
+	//	int recvdBytes = sock.Recv(buffer, sizeof(buffer));
+	//	std::string recvd(buffer, recvdBytes);
+	//	std::cout << recvd << std::endl;
+	//}
 
 	// Initialize resource path
 	std::string resourcePath = argv[0];
@@ -311,7 +398,29 @@ int main(int argc, char* argv[])
 	con::RESOURCE_PATH = resourcePath;
 
 
+	std::cout << "Enter 0 for server, anything else for client" << std::endl;
+	
+	std::string input;
+	std::cin >> input;
+
+	if (input == "0")
+	{
+		UpdateLoopFunction = ServerUpdate;
+		DrawLoopFunction = ServerDraw;
+		isServer = true;
+	}
+	else
+	{
+		UpdateLoopFunction = ClientUpdate;
+		DrawLoopFunction = ClientDraw;
+		isServer = false;
+	}
+
+
 	Init();
+
+
+	SockLibShutdown();
 
 	return 0;
 }
