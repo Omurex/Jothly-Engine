@@ -19,6 +19,24 @@
     <Filter Include="Source Files\Core">
       <UniqueIdentifier>{7aa620c9-964f-4143-b8aa-6b3f0f7d939e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Structures">
+      <UniqueIdentifier>{77fc5a45-555a-457f-b2d9-cae2d499580a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Structures">
+      <UniqueIdentifier>{88cbcd7a-217f-4f4d-a329-651c89555e1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{9377ccd4-3a86-4d9e-8b4b-93eb51dbad59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Helper">
+      <UniqueIdentifier>{f19734f4-3977-4b5d-8a70-4642e8dab47b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Helper">
+      <UniqueIdentifier>{fcf66d68-aad6-4fb5-b678-a621fc56075f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Structures\Vectors">
+      <UniqueIdentifier>{f14a18ca-74a8-498d-b090-c038f5643168}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -30,6 +48,21 @@
     <ClCompile Include="Window.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Source Files\Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Source Files\Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>Source Files\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector4.cpp">
+      <Filter>Source Files\Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2i.cpp">
+      <Filter>Source Files\Structures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -37,6 +70,24 @@
     </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.hpp">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Header Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Header Files\Structures\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Header Files\Structures\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>Header Files\Structures\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2i.h">
+      <Filter>Header Files\Structures\Vectors</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

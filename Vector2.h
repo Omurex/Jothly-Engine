@@ -45,7 +45,6 @@ namespace jothly
 		Vector2& operator+=(Vector2 const& other);
 		Vector2& operator+=(Vector3 const& other);
 		Vector2 operator-(Vector2 const& other) const;
-		//Vector3 operator-(Vector3 const& other);
 		Vector2& operator-=(Vector2 const& other);
 		Vector2& operator-=(Vector3 const& other);
 		Vector2 operator*(float const& scale) const;

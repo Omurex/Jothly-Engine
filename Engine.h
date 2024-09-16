@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+#include "Vector2.h"
 #include "Window.h"
 
 
@@ -9,11 +11,14 @@ namespace jothly
 	/// </summary>
 	class Engine
 	{
-		Window* window = nullptr;
+		Window* _window = nullptr;
+
+		std::string _resourcePath = "./resources/";
 
 
 		public:
+
 		Engine(Window& window);
-		Engine();
+		Engine(Vector2 screenSize);
 	};
 }
