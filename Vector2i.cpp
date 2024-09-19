@@ -84,4 +84,10 @@ namespace jothly
 	{
 		return x == other.x && y == other.y;
 	}
+
+
+	Vector2i::operator Vector2() const
+	{
+		return Vector2((float) x, (float) y);
+	}
 }

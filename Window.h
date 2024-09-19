@@ -7,6 +7,9 @@ namespace jothly
 {
 	class Window
 	{
+		friend class Engine;
+
+
 		sf::RenderWindow _renderWindow;
 
 
@@ -16,5 +19,7 @@ namespace jothly
 		Window(Vector2i screenSize, const std::string& windowTitle);
 
 		int CreateNewWindow(Vector2i screenSize, const std::string& windowTitle);
+
+		bool IsOpen();
 	};
 }

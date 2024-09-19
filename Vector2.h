@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SFML/System/Vector2.hpp>
 #include <string>
 
 
@@ -27,6 +28,7 @@ namespace jothly
 		Vector2(float _x, float _y) : x(_x), y(_y) {}
 		Vector2(const Vector2& vec2) : Vector2(vec2.x, vec2.y) {}
 		Vector2(const Vector3& vec3);
+		Vector2(const sf::Vector2f& vec2) : Vector2(vec2.x, vec2.y) {}
 
 		void Normalize();
 		void Normalize(float precomputedMagnitudeSquared);
@@ -50,5 +52,7 @@ namespace jothly
 		Vector2 operator*(float const& scale) const;
 		Vector2 operator/(float const& scale) const;
 		bool operator==(Vector2 const& other);
+
+		operator sf::Vector2f() const { return sf::Vector2f(x, y); }
 	};
 }

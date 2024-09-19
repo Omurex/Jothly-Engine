@@ -26,4 +26,10 @@ namespace jothly
 		
 		return 1;
 	}
+
+
+    bool Window::IsOpen()
+    {
+        return _renderWindow.isOpen();
+    }
 }

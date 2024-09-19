@@ -37,6 +37,9 @@
     <Filter Include="Header Files\Structures\Vectors">
       <UniqueIdentifier>{f14a18ca-74a8-498d-b090-c038f5643168}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Enums">
+      <UniqueIdentifier>{9669cccd-6248-4f03-be5e-eef86a3d3b18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -63,6 +66,12 @@
     <ClCompile Include="Vector2i.cpp">
       <Filter>Source Files\Structures</Filter>
     </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="InputCodes.hpp">
+      <Filter>Enums</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -88,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="Vector2i.h">
       <Filter>Header Files\Structures\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
