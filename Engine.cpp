@@ -23,6 +23,25 @@ namespace jothly
 	}
 
 
+	void Engine::RunEngine()
+	{
+		while (_window->IsOpen())
+		{
+			/*sf::Event::
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+					window.close();
+			}
+
+			window.clear();
+			window.draw(shape);
+			window.display();*/
+		}
+	}
+
+
 	Vector2i Engine::GetMousePositionLocal()
 	{
 		return sf::Mouse::getPosition(_window->_renderWindow);;

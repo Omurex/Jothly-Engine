@@ -1,0 +1,20 @@
+Event class will have a member of SignalSubject, and Event will provide some sort of interface
+to have SignalObservers subscribe
+
+Use template function for SignalSubject
+https://www.quora.com/How-can-I-write-a-function-that-accepts-variable-number-of-arguments-in-C
+https://learn.microsoft.com/en-us/cpp/cpp/functions-with-variable-argument-lists-cpp?view=msvc-170
+https://stackoverflow.com/questions/4972157/is-a-pointer-to-a-function-which-have-unknown-number-of-parameters-possible
+
+Start with just key pressed and key released events
+
+Child event class for each variant?
+
+Maybe able to use something like memcpy to store variables somewhere for retrieval?
+
+https://www.google.com/search?q=variadic+templates&rlz=1C1VDKB_enUS1057US1057&sourceid=chrome&ie=UTF-8
+https://en.cppreference.com/w/cpp/language/parameter_pack
+
+https://www.reddit.com/r/cpp_questions/comments/13lvxy5/extracting_argument_of_a_given_type_from_a/
+https://devblogs.microsoft.com/oldnewthing/20240516-00/?p=109771
+https://en.cppreference.com/w/cpp/language/parameter_pack

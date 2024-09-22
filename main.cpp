@@ -2,6 +2,10 @@
 #include <iostream>
 #include "Engine.h"
 #include "Window.h"
+#include "SignalSubject.h"
+
+
+using namespace jothly;
 
 
 void TemplateFunction()
@@ -43,6 +47,16 @@ int main()
 
 	jothly::Engine engine;
 	jothly::Window& window = engine.CreateWindow(jothly::Vector2i(200, 200), "Engine works!");
+	
+	//SignalSubject a;
+	//SignalSubject<int> b;
+	SignalSubject<int, int> c;
+	SignalSubject<int, std::string> d;
+
+	//a.DoSomething();
+	//b.DoSomething(1);
+	c.DoSomething(2, 3);
+	d.DoSomething(3, "hi");
 
 	/*while (window.IsOpen())
 	{

@@ -29,6 +29,8 @@ namespace jothly
 
 		Window& CreateWindow(Vector2i screenSize, const std::string& windowName);
 
+		void RunEngine();
+
 		Vector2i GetMousePositionLocal();
 		Vector2 GetMousePositionWorld();
 	};

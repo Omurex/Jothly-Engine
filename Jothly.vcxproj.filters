@@ -40,6 +40,12 @@
     <Filter Include="Enums">
       <UniqueIdentifier>{9669cccd-6248-4f03-be5e-eef86a3d3b18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Signal">
+      <UniqueIdentifier>{ae36ec66-4e91-4edf-b8df-d64f5c959271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Signal">
+      <UniqueIdentifier>{8babe57e-884e-438f-a557-fee0fb801971}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -72,6 +78,15 @@
     <ClCompile Include="InputCodes.hpp">
       <Filter>Enums</Filter>
     </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SignalObserver.cpp">
+      <Filter>Source Files\Signal</Filter>
+    </ClCompile>
+    <ClCompile Include="SignalSubject.cpp">
+      <Filter>Source Files\Signal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -100,6 +115,15 @@
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SignalObserver.h">
+      <Filter>Header Files\Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="SignalSubject.h">
+      <Filter>Header Files\Signal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

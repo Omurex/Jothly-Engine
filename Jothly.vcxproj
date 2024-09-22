@@ -133,10 +133,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Event.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputCodes.hpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Math.cpp" />
+    <ClCompile Include="SignalObserver.cpp" />
+    <ClCompile Include="SignalSubject.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector2i.cpp" />
     <ClCompile Include="Vector3.cpp" />
@@ -146,8 +149,11 @@
   <ItemGroup>
     <ClInclude Include="Constants.hpp" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="SignalObserver.h" />
+    <ClInclude Include="SignalSubject.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector2i.h" />
     <ClInclude Include="Vector3.h" />
