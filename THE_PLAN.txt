@@ -18,3 +18,13 @@ https://en.cppreference.com/w/cpp/language/parameter_pack
 https://www.reddit.com/r/cpp_questions/comments/13lvxy5/extracting_argument_of_a_given_type_from_a/
 https://devblogs.microsoft.com/oldnewthing/20240516-00/?p=109771
 https://en.cppreference.com/w/cpp/language/parameter_pack
+
+Someone had same thought of using variadic templates for observer pattern
+https://github.com/Ansoulom/cpp-observe/blob/master/source/library/include/observe/cpp_observe.hpp
+
+Use std::function for storing function in observer
+
+For maintaining observer list, have each observer hold on to its index in the _observers array.
+Then, when one is removed, just swap it to the back of the array and lower a numElements variable
+by one. When we want to add one, check if numElements < _observers.size(). If it is, increment numElements
+and put new observer at that index. If it isn't, push_back on _observers vector.

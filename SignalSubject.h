@@ -5,29 +5,53 @@
 
 namespace jothly
 {
+	template<typename... Args>
 	class SignalObserver;
 
 
-	template<typename T, typename... Args>
+	template<typename... Args>
 	class SignalSubject
 	{
+		//std::vector<SignalObserver<Args...>> _observers;
+
+
 		public:
-			void DoSomething(Args... argPack)
-			{
-				//std::cout << argPack[0];
-			}
+		SignalSubject() {}
+		void Emit(Args... args);
+		
 
 
-			/*void DoSomething(T base)
-			{
+		//void DoSomething(Args... argPack)
+		//{
+		//	//std::cout << argPack[0];
+		//}
+
+
+		/*void DoSomething(T base)
+		{
 				
-			}
+		}
 
 
-			void DoSomething(T curr, Args... argPack)
-			{
-				std::cout << curr << std::endl;
-			}*/
+		void DoSomething(T curr, Args... argPack)
+		{
+			std::cout << curr << std::endl;
+		}*/
+
+
+		/*auto DoSomething(Args ...args)
+		{
+			std::cout << args << std::endl;
+			return ...;
+		}*/
+
+
+		/*auto sum(Args ...args)
+		{
+			std::cout << (args + ...) << std::endl;
+			return (args + ...);
+		}*/
+
 	};
 
 
