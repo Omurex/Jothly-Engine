@@ -3,6 +3,7 @@
 #include "Engine.h"
 #include "Window.h"
 #include "SignalSubject.h"
+#include "SignalObserver.h"
 
 
 using namespace jothly;
@@ -48,6 +49,13 @@ int main()
 	SignalSubject<int, int> c;
 	SignalSubject<int, int, int, int> d;
 	SignalSubject<int, std::string> e;
+
+	SignalObserver<int> b_obs;
+	SignalObserver<int, int> c_obs;
+
+	// b.Register(b_obs); // Works!
+	// c.Register(c_obs); // Works!
+	//b.Register(c_obs); // THROWS ERROR LETS GO
 
 	//b.DoSomething(3).size();
 

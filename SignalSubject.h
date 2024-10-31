@@ -14,10 +14,13 @@ namespace jothly
 	{
 		//std::vector<SignalObserver<Args...>> _observers;
 
+		std::vector<SignalObserver<Args...>*> observers;
 
 		public:
 		SignalSubject() {}
 		void Emit(Args... args);
+
+		int Register(SignalObserver<Args...>& _observer);
 		
 
 
@@ -53,6 +56,18 @@ namespace jothly
 		}*/
 
 	};
+
+
+	// Solved linker error with this link:
+	// https://www.reddit.com/r/cpp_questions/comments/i2u4tt/linker_error_when_using_templates/
+	// Templates apparently cannot be split like normal code, must be defined in same file
+	template<typename ...Args>
+	int SignalSubject<Args...>::Register(SignalObserver<Args...>& _observer)
+	{
+		observers.push_back(& _observer);
+
+		return 0;
+	}
 
 
 	//template<typename T>
