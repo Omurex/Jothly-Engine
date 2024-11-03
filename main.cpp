@@ -41,6 +41,12 @@ void TemplateFunction()
 }
 
 
+void TestFunction(int a)
+{
+	std::cout << a << std::endl;
+}
+
+
 int main()
 {
 	//SignalSubject a;
@@ -55,7 +61,12 @@ int main()
 	// Linker error because doing template stuff in cpp - need to 
 	// find way to handle circularly dependency
 	b.Register(b_obs);
-	b.Emit(0);
+	//b.Emit(0);
+
+	b_obs.linkedFunction = &TestFunction;
+	b_obs.linkedFunction(120);
+
+	b.Emit(99);
 
 	//c_obs.Test(0, 1);
 

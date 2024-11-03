@@ -3,6 +3,7 @@
 
 namespace jothly
 {
+	#pragma region Forward Declarations
 	template<typename ...Args>
 	class SignalObserver;
 
@@ -17,12 +18,13 @@ namespace jothly
 	template<typename ...Args>
 	class SignalObserver
 	{
-		// Linked function - look up syntax
 
-		// SignalNode* headNode;
+		SignalNode<Args...>* headNode;
 
 	public:
-		void Test(Args...);
+		void CallFunction(Args... args);
+		void (*linkedFunction)(Args... args);
+
 	};
 	#pragma endregion End of SignalObserver.h
 
@@ -49,13 +51,13 @@ namespace jothly
 	template<typename ...Args>
 	class SignalNode
 	{
-		// SignalObserver<Args...>* observer;
+		SignalObserver<Args...>* observer;
 
-		// SignalNode<Args...>* prevSubjectNode;
-		// SignalNode<Args...>* nextSubjectNode;
+		SignalNode<Args...>* prevSubjectNode;
+		SignalNode<Args...>* nextSubjectNode;
 
-		// SignalNode<Args...>* prevObserverNode;
-		// SignalNode<Args...>* nextObserverNode;
+		SignalNode<Args...>* prevObserverNode;
+		SignalNode<Args...>* nextObserverNode;
 	};
 	#pragma endregion End of SignalNode.h
 
@@ -64,9 +66,9 @@ namespace jothly
 
 	#pragma region SignalObserver.cpp
 	template<typename ...Args>
-	void SignalObserver<Args...>::Test(Args ...)
+	void SignalObserver<Args...>::CallFunction(Args ...args)
 	{
-		std::cout << "hello world!" << std::endl;
+		linkedFunction(args...);
 	}
 	#pragma endregion End of SignalObserver.cpp
 
@@ -87,7 +89,7 @@ namespace jothly
 	template<typename ...Args>
 	void SignalSubject<Args...>::Emit(Args ...args)
 	{
-		observers[0]->Test(args...);
+		observers[0]->CallFunction(args...);
 
 		//for (int i = 0; i < _observers.size(); i++)
 		//{
