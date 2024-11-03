@@ -4,7 +4,7 @@
 namespace jothly
 {
 	template<typename ...Args>
-	class SignalNode
+	class [[deprecated]] SignalNode
 	{
 		// SignalObserver<Args...>* observer;
 		

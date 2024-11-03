@@ -5,7 +5,7 @@
 namespace jothly
 {
 	template<typename ...Args>
-	class SignalObserver
+	class [[deprecated]] SignalObserver
 	{
 		// Linked function - look up syntax
 

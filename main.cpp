@@ -2,8 +2,7 @@
 #include <iostream>
 #include "Engine.h"
 #include "Window.h"
-#include "SignalSubject.h"
-#include "SignalObserver.h"
+#include "Signal.hpp"
 
 
 using namespace jothly;
@@ -55,13 +54,13 @@ int main()
 
 	// Linker error because doing template stuff in cpp - need to 
 	// find way to handle circularly dependency
-	/*b.Register(b_obs);
-	b.Emit(0);*/
+	b.Register(b_obs);
+	b.Emit(0);
 
 	//c_obs.Test(0, 1);
 
-	// b.Register(b_obs); // Works!
-	// c.Register(c_obs); // Works!
+	//b.Register(b_obs); // Works!
+	//c.Register(c_obs); // Works!
 	//b.Register(c_obs); // THROWS ERROR LETS GO
 
 	//b.DoSomething(3).size();

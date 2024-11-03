@@ -10,7 +10,7 @@ namespace jothly
 
 
 	template<typename... Args>
-	class SignalSubject
+	class [[deprecated]] SignalSubject
 	{
 		// Get rid of
 		std::vector<SignalObserver<Args...>*> observers;
