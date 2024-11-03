@@ -18,17 +18,23 @@ namespace jothly
 	template<typename ...Args>
 	class SignalObserver
 	{
+		typedef void (*FunctionType)(Args...);
+
 		friend class SignalSubject<Args...>;
 		friend class SignalNode<Args...>;
 
+		void (*linkedFunction)(Args... args);
 		SignalNode<Args...>* headNode = nullptr;
 
 		void AddNodeToFront(SignalNode<Args...>* node);
 
 	public:
-		void CallFunction(Args... args);
-		void (*linkedFunction)(Args... args);
 
+		SignalObserver(FunctionType fn);
+
+		void CallFunction(Args... args);
+
+		void BindFunction(FunctionType fn);
 	};
 	#pragma endregion End of SignalObserver.h
 
@@ -37,6 +43,8 @@ namespace jothly
 	template<typename... Args>
 	class SignalSubject
 	{
+		//typedef void (*FunctionType)(Args...);
+
 		friend class SignalObserver<Args...>;
 		friend class SignalNode<Args...>;
 
@@ -94,9 +102,23 @@ namespace jothly
 
 
 	template<typename ...Args>
+	SignalObserver<Args...>::SignalObserver(FunctionType fn)
+	{
+		BindFunction(fn);
+	}
+
+
+	template<typename ...Args>
 	void SignalObserver<Args...>::CallFunction(Args ...args)
 	{
 		linkedFunction(args...);
+	}
+
+
+	template<typename ...Args>
+	void SignalObserver<Args...>::BindFunction(FunctionType fn)
+	{
+		linkedFunction = fn;
 	}
 	#pragma endregion End of SignalObserver.cpp
 
@@ -119,11 +141,6 @@ namespace jothly
 	template<typename ...Args>
 	int SignalSubject<Args...>::Register(SignalObserver<Args...>& observer)
 	{
-		// TODO: Make this take function as parameter and return new signal observer (reference that node owns?)
-
-		SignalNode<Args...>* nextSubjectNode = headNode;
-		SignalNode<Args...>* nextObserverNode = observer.headNode;
-
 		new SignalNode<Args...>(this, &observer);
 
 		return 0;
@@ -140,13 +157,6 @@ namespace jothly
 			node->_observer->CallFunction(args...);
 			node = node->_nextSubjectNode;
 		}
-
-		//observers[0]->CallFunction(args...);
-
-		//for (int i = 0; i < _observers.size(); i++)
-		//{
-		//	//_observers[i].Test(args);
-		//}
 	}
 	#pragma endregion End of SignalSubject.cpp
 
