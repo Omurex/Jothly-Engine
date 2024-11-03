@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 
 namespace jothly
@@ -6,8 +7,19 @@ namespace jothly
 	template<typename ...Args>
 	class SignalObserver
 	{
+		// Linked function - look up syntax
+
+		// SignalNode* headNode;
+
 		public:
 		void Test(Args...);
 	};
+
+
+	template<typename ...Args>
+	void SignalObserver<Args...>::Test(Args ...)
+	{
+		std::cout << "hello world!" << std::endl;
+	}
 }
 

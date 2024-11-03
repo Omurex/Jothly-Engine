@@ -152,6 +152,7 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="SignalNode.h" />
     <ClInclude Include="SignalObserver.h" />
     <ClInclude Include="SignalSubject.h" />
     <ClInclude Include="Vector2.h" />

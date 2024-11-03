@@ -12,9 +12,10 @@ namespace jothly
 	template<typename... Args>
 	class SignalSubject
 	{
-		//std::vector<SignalObserver<Args...>> _observers;
-
+		// Get rid of
 		std::vector<SignalObserver<Args...>*> observers;
+
+		// SignalNode<Args...>* headNode;
 
 		public:
 		SignalSubject() {}

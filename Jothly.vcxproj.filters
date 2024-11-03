@@ -125,5 +125,8 @@
     <ClInclude Include="SignalSubject.h">
       <Filter>Header Files\Signal</Filter>
     </ClInclude>
+    <ClInclude Include="SignalNode.h">
+      <Filter>Header Files\Signal</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

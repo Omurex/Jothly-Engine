@@ -53,6 +53,13 @@ int main()
 	SignalObserver<int> b_obs;
 	SignalObserver<int, int> c_obs;
 
+	// Linker error because doing template stuff in cpp - need to 
+	// find way to handle circularly dependency
+	/*b.Register(b_obs);
+	b.Emit(0);*/
+
+	//c_obs.Test(0, 1);
+
 	// b.Register(b_obs); // Works!
 	// c.Register(c_obs); // Works!
 	//b.Register(c_obs); // THROWS ERROR LETS GO
