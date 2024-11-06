@@ -1,4 +1,5 @@
 #pragma once
+#include <unordered_map>
 
 
 namespace jothly
@@ -43,10 +44,12 @@ namespace jothly
 	template<typename... Args>
 	class SignalSubject
 	{
-		//typedef void (*FunctionType)(Args...);
+		typedef void (*FunctionType)(Args...);
 
 		friend class SignalObserver<Args...>;
 		friend class SignalNode<Args...>;
+
+		std::unordered_map<FunctionType, SignalNode<Args...>*> funcToNode;
 
 		SignalNode<Args...>* headNode = nullptr;
 
@@ -56,7 +59,7 @@ namespace jothly
 		SignalSubject() {}
 		void Emit(Args... args);
 
-		int Register(SignalObserver<Args...>& observer);
+		int Register(FunctionType observer);
 	};
 	#pragma endregion End of SignalSubject.h
 
@@ -65,10 +68,12 @@ namespace jothly
 	template<typename ...Args>
 	class SignalNode
 	{
+		typedef void (*FunctionType)(Args...);
+
 		friend class SignalSubject<Args...>;
 		friend class SignalObserver<Args...>;
 
-		SignalObserver<Args...>* _observer;
+		FunctionType _observer;
 
 		SignalNode<Args...>* _prevSubjectNode;
 		SignalNode<Args...>* _nextSubjectNode;
@@ -81,7 +86,7 @@ namespace jothly
 
 
 		public:
-		SignalNode(SignalSubject<Args...>* subject, SignalObserver<Args...>* observer);
+		SignalNode(SignalSubject<Args...>* subject, FunctionType observer);
 
 		~SignalNode();
 	};
@@ -139,9 +144,9 @@ namespace jothly
 	
 	
 	template<typename ...Args>
-	int SignalSubject<Args...>::Register(SignalObserver<Args...>& observer)
+	int SignalSubject<Args...>::Register(FunctionType observer)
 	{
-		new SignalNode<Args...>(this, &observer);
+		new SignalNode<Args...>(this, observer);
 
 		return 0;
 	}
@@ -154,7 +159,8 @@ namespace jothly
 
 		while (node != nullptr)
 		{
-			node->_observer->CallFunction(args...);
+			node->_observer(args...);
+			//node->_observer->CallFunction(args...);
 			node = node->_nextSubjectNode;
 		}
 	}
@@ -163,12 +169,11 @@ namespace jothly
 
 	#pragma region SignalNode.cpp
 	template<typename ...Args>
-	SignalNode<Args...>::SignalNode(SignalSubject<Args...>* subject, SignalObserver<Args...>* observer)
+	SignalNode<Args...>::SignalNode(SignalSubject<Args...>* subject, FunctionType observer)
 	{
 		_observer = observer;
 
 		subject->AddNodeToFront(this);
-		observer->AddNodeToFront(this);
 	}
 
 
