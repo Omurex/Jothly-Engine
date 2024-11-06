@@ -41,10 +41,14 @@ void TemplateFunction()
 }
 
 
-void TestFunction1(int a)
+class Test
 {
-	std::cout << a << std::endl;
-}
+	public:
+	void TestFunction1(int a)
+	{
+		std::cout << a << std::endl;
+	}
+};
 
 
 void TestFunction2(int a)
@@ -61,14 +65,17 @@ int main()
 	SignalSubject<int, int, int, int> d;
 	SignalSubject<int, std::string> e;
 
+	Test test;
+
 	//SignalObserver<int> b_obs(&TestFunction1);
 	//SignalObserver<int> b_obs2(&TestFunction2);
 	//SignalObserver<int, int> c_obs;
 
 	// Linker error because doing template stuff in cpp - need to 
 	// find way to handle circularly dependency
-	b.Register(&TestFunction1);
-	b.Register(&TestFunction2);
+	//b.Register(&TestFunction1);
+	//b.Register(&test.TestFunction1)
+	b.Register(nullptr, &TestFunction2);
 	//b.Emit(0);
 
 	//b_obs.linkedFunction(120);

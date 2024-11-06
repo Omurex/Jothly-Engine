@@ -6,38 +6,10 @@ namespace jothly
 {
 	#pragma region Forward Declarations
 	template<typename ...Args>
-	class SignalObserver;
-
-	template<typename ...Args>
 	class SignalSubject;
 
 	template<typename ...Args>
 	class SignalNode;
-	
-
-	#pragma region SignalObserver.h
-	template<typename ...Args>
-	class SignalObserver
-	{
-		typedef void (*FunctionType)(Args...);
-
-		friend class SignalSubject<Args...>;
-		friend class SignalNode<Args...>;
-
-		void (*linkedFunction)(Args... args);
-		SignalNode<Args...>* headNode = nullptr;
-
-		void AddNodeToFront(SignalNode<Args...>* node);
-
-	public:
-
-		SignalObserver(FunctionType fn);
-
-		void CallFunction(Args... args);
-
-		void BindFunction(FunctionType fn);
-	};
-	#pragma endregion End of SignalObserver.h
 
 
 	#pragma region SignalSubject.h
@@ -46,7 +18,6 @@ namespace jothly
 	{
 		typedef void (*FunctionType)(Args...);
 
-		friend class SignalObserver<Args...>;
 		friend class SignalNode<Args...>;
 
 		std::unordered_map<FunctionType, SignalNode<Args...>*> funcToNode;
@@ -59,7 +30,8 @@ namespace jothly
 		SignalSubject() {}
 		void Emit(Args... args);
 
-		int Register(FunctionType observer);
+		int Register(void* obj, FunctionType func);
+		int Unregister(FunctionType observer);
 	};
 	#pragma endregion End of SignalSubject.h
 
@@ -71,9 +43,9 @@ namespace jothly
 		typedef void (*FunctionType)(Args...);
 
 		friend class SignalSubject<Args...>;
-		friend class SignalObserver<Args...>;
 
-		FunctionType _observer;
+		void* _obj;
+		FunctionType _func;
 
 		SignalNode<Args...>* _prevSubjectNode;
 		SignalNode<Args...>* _nextSubjectNode;
@@ -82,50 +54,17 @@ namespace jothly
 		SignalNode<Args...>* _nextObserverNode;
 
 		
+		void CallFunction(Args... args);
 		void OnRemove();
 
 
 		public:
-		SignalNode(SignalSubject<Args...>* subject, FunctionType observer);
+		SignalNode(SignalSubject<Args...>* subject, void* obj, FunctionType func);
 
 		~SignalNode();
 	};
 	#pragma endregion End of SignalNode.h
 
-
-
-
-	#pragma region SignalObserver.cpp
-	template<typename ...Args>
-	void SignalObserver<Args...>::AddNodeToFront(SignalNode<Args...>* node)
-	{
-		SignalNode<Args...>* nextNode = headNode;
-		headNode = node;
-		headNode->_prevObserverNode = nullptr;
-		headNode->_nextObserverNode = nextNode;
-	}
-
-
-	template<typename ...Args>
-	SignalObserver<Args...>::SignalObserver(FunctionType fn)
-	{
-		BindFunction(fn);
-	}
-
-
-	template<typename ...Args>
-	void SignalObserver<Args...>::CallFunction(Args ...args)
-	{
-		linkedFunction(args...);
-	}
-
-
-	template<typename ...Args>
-	void SignalObserver<Args...>::BindFunction(FunctionType fn)
-	{
-		linkedFunction = fn;
-	}
-	#pragma endregion End of SignalObserver.cpp
 
 
 	#pragma region SignalSubject.cpp
@@ -144,10 +83,18 @@ namespace jothly
 	
 	
 	template<typename ...Args>
-	int SignalSubject<Args...>::Register(FunctionType observer)
+	int SignalSubject<Args...>::Register(void* obj, FunctionType observer)
 	{
-		new SignalNode<Args...>(this, observer);
+		SignalNode<Args...>* node = new SignalNode<Args...>(this, obj, observer);
 
+		funcToNode[observer] = node;
+
+		return 0;
+	}
+
+	template<typename ...Args>
+	int SignalSubject<Args...>::Unregister(FunctionType observer)
+	{
 		return 0;
 	}
 
@@ -159,8 +106,8 @@ namespace jothly
 
 		while (node != nullptr)
 		{
-			node->_observer(args...);
-			//node->_observer->CallFunction(args...);
+			node->CallFunction(args...);
+
 			node = node->_nextSubjectNode;
 		}
 	}
@@ -169,9 +116,10 @@ namespace jothly
 
 	#pragma region SignalNode.cpp
 	template<typename ...Args>
-	SignalNode<Args...>::SignalNode(SignalSubject<Args...>* subject, FunctionType observer)
+	SignalNode<Args...>::SignalNode(SignalSubject<Args...>* subject, void* obj, FunctionType func)
 	{
-		_observer = observer;
+		_obj = obj;
+		_func = func;
 
 		subject->AddNodeToFront(this);
 	}
@@ -187,8 +135,24 @@ namespace jothly
 
 
 	template<typename ...Args>
+	void SignalNode<Args...>::CallFunction(Args ...args)
+	{
+		if (_obj != nullptr)
+		{
+			_obj->*_func(args...);
+		}
+		else
+		{
+			_func(args...);
+		}
+
+	}
+
+
+	template<typename ...Args>
 	void SignalNode<Args...>::OnRemove()
 	{
+		
 	}
 	#pragma endregion End of SignalNode.cpp
 }
