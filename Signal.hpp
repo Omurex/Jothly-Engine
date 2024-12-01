@@ -20,9 +20,7 @@ namespace jothly
 
 		friend class SignalNode<Args...>;
 
-		std::unordered_map<FunctionType, SignalNode<Args...>*> funcToNode;
-
-		SignalNode<Args...>* headNode = nullptr;
+		SignalNode<Args...>* _head = nullptr;
 
 		void AddNodeToFront(SignalNode<Args...>* node);
 
@@ -31,7 +29,7 @@ namespace jothly
 		void Emit(Args... args);
 
 		int Register(void* obj, FunctionType func);
-		int Unregister(FunctionType observer);
+		int Unregister(void* obj, FunctionType func);
 	};
 	#pragma endregion End of SignalSubject.h
 
@@ -47,11 +45,10 @@ namespace jothly
 		void* _obj;
 		FunctionType _func;
 
-		SignalNode<Args...>* _prevSubjectNode;
-		SignalNode<Args...>* _nextSubjectNode;
+		SignalNode<Args...>* _prev;
+		SignalNode<Args...>* _next;
 
-		SignalNode<Args...>* _prevObserverNode;
-		SignalNode<Args...>* _nextObserverNode;
+		SignalSubject<Args...>* _subject;
 
 		
 		void CallFunction(Args... args);
@@ -75,26 +72,39 @@ namespace jothly
 	template<typename ...Args>
 	void SignalSubject<Args...>::AddNodeToFront(SignalNode<Args...>* node)
 	{
-		SignalNode<Args...>* nextNode = headNode;
-		headNode = node;
-		headNode->_prevSubjectNode = nullptr;
-		headNode->_nextSubjectNode = nextNode;
+		SignalNode<Args...>* nextNode = _head;
+		_head = node;
+		_head->_prev = nullptr;
+		_head->_next = nextNode;
 	}
 	
 	
 	template<typename ...Args>
-	int SignalSubject<Args...>::Register(void* obj, FunctionType observer)
+	int SignalSubject<Args...>::Register(void* obj, FunctionType func)
 	{
-		SignalNode<Args...>* node = new SignalNode<Args...>(this, obj, observer);
+		SignalNode<Args...>* node = new SignalNode<Args...>(this, obj, func);
 
-		funcToNode[observer] = node;
+		AddNodeToFront(node);
 
 		return 0;
 	}
 
 	template<typename ...Args>
-	int SignalSubject<Args...>::Unregister(FunctionType observer)
+	int SignalSubject<Args...>::Unregister(void* obj, FunctionType func)
 	{
+		SignalNode<Args...>* node = _head;
+
+		while (node != nullptr)
+		{
+			if (node->_obj == obj && node->_func == func)
+			{
+				delete node;
+				return 1;
+			}
+
+			node = node->next;
+		}
+
 		return 0;
 	}
 
@@ -102,13 +112,13 @@ namespace jothly
 	template<typename ...Args>
 	void SignalSubject<Args...>::Emit(Args ...args)
 	{
-		SignalNode<Args...>* node = headNode;
+		SignalNode<Args...>* node = _head;
 
 		while (node != nullptr)
 		{
 			node->CallFunction(args...);
 
-			node = node->_nextSubjectNode;
+			node = node->_next;
 		}
 	}
 	#pragma endregion End of SignalSubject.cpp
@@ -118,17 +128,16 @@ namespace jothly
 	template<typename ...Args>
 	SignalNode<Args...>::SignalNode(SignalSubject<Args...>* subject, void* obj, FunctionType func)
 	{
+		_subject = subject;
 		_obj = obj;
 		_func = func;
-
-		subject->AddNodeToFront(this);
 	}
 
 
 	template<typename ...Args>
 	SignalNode<Args...>::~SignalNode()
 	{
-		// In theory when we implement object pooling, shouldn't actualy have to delete node
+		// In theory when we implement object pooling, shouldn't actually have to delete node
 		// Do all logic in OnRemove so hopefully it can just be transferred over when object pooling exists
 		OnRemove();
 	}
@@ -139,7 +148,8 @@ namespace jothly
 	{
 		if (_obj != nullptr)
 		{
-			_obj->*_func(args...);
+			//_obj->*_func(args...);
+			_obj->_func(args...);
 		}
 		else
 		{
@@ -152,7 +162,15 @@ namespace jothly
 	template<typename ...Args>
 	void SignalNode<Args...>::OnRemove()
 	{
+		if (_prev != nullptr)
+		{
+			_prev->_next = _next;
+		}
 		
+		if(_next != nullptr)
+		{
+			_next->_prev = _prev;
+		}
 	}
 	#pragma endregion End of SignalNode.cpp
 }
