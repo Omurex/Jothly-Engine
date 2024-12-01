@@ -58,24 +58,27 @@ void TestFunction2(int a)
 }
 
 
-template<typename ObjectType, typename... Args>
-class SignalSubject
-{
-	public:
-	typedef void (ObjectType::*FunctionType)(Args...);
-
-	ObjectType* obj;
-	FunctionType fn;
-
-	void CallFunction(Args... args)
-	{
-		(*obj.*fn)(args...);
-	}
-};
+//template<typename ObjectType, typename... Args>
+//class SignalSubject
+//{
+//	public:
+//	typedef void (ObjectType::*FunctionType)(Args...);
+//
+//	ObjectType* obj;
+//	FunctionType fn;
+//
+//	void CallFunction(Args... args)
+//	{
+//		(*obj.*fn)(args...);
+//	}
+//};
 
 
 int main()
 {
+	SignalSubject<int> a;
+	/*a.Register(&TestFunction2); */
+
 	//SignalSubject a;
 	/*SignalSubject<int> b;
 	SignalSubject<int, int> c;
@@ -90,11 +93,11 @@ int main()
 	(*test.*a)(4);*/
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-	Test test;
+	/*Test test;
 	SignalSubject<Test, int> a;
 	a.obj = &test;
 	a.fn = &Test::TestFunction1;
-	a.CallFunction(10);
+	a.CallFunction(10);*/
 
 	//SignalObserver<int> b_obs(&TestFunction1);
 	//SignalObserver<int> b_obs2(&TestFunction2);

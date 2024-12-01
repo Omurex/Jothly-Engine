@@ -81,12 +81,6 @@
     <ClCompile Include="Event.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="SignalObserver.cpp">
-      <Filter>Source Files\Signal</Filter>
-    </ClCompile>
-    <ClCompile Include="SignalSubject.cpp">
-      <Filter>Source Files\Signal</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -118,15 +112,6 @@
     </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="SignalObserver.h">
-      <Filter>Header Files\Signal</Filter>
-    </ClInclude>
-    <ClInclude Include="SignalSubject.h">
-      <Filter>Header Files\Signal</Filter>
-    </ClInclude>
-    <ClInclude Include="SignalNode.h">
-      <Filter>Header Files\Signal</Filter>
     </ClInclude>
     <ClInclude Include="Signal.hpp">
       <Filter>Header Files\Signal</Filter>

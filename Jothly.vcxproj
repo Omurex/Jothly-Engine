@@ -138,8 +138,6 @@
     <ClCompile Include="InputCodes.hpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Math.cpp" />
-    <ClCompile Include="SignalObserver.cpp" />
-    <ClCompile Include="SignalSubject.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector2i.cpp" />
     <ClCompile Include="Vector3.cpp" />
@@ -153,9 +151,6 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Signal.hpp" />
-    <ClInclude Include="SignalNode.h" />
-    <ClInclude Include="SignalObserver.h" />
-    <ClInclude Include="SignalSubject.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector2i.h" />
     <ClInclude Include="Vector3.h" />
