@@ -43,10 +43,11 @@ void TemplateFunction()
 
 class Test
 {
+	int mult = 4;
 	public:
 	void TestFunction1(int a)
 	{
-		std::cout << a << std::endl;
+		std::cout << a * mult << std::endl;
 	}
 };
 
@@ -57,15 +58,43 @@ void TestFunction2(int a)
 }
 
 
+template<typename ObjectType, typename... Args>
+class SignalSubject
+{
+	public:
+	typedef void (ObjectType::*FunctionType)(Args...);
+
+	ObjectType* obj;
+	FunctionType fn;
+
+	void CallFunction(Args... args)
+	{
+		(*obj.*fn)(args...);
+	}
+};
+
+
 int main()
 {
 	//SignalSubject a;
-	SignalSubject<int> b;
+	/*SignalSubject<int> b;
 	SignalSubject<int, int> c;
 	SignalSubject<int, int, int, int> d;
-	SignalSubject<int, std::string> e;
+	SignalSubject<int, std::string> e;*/
+
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	// Correctly working member function pointer
+	/*typedef void (Test::*FunctionType)(int);
+	Test* test = new Test();
+	FunctionType a = &Test::TestFunction1;
+	(*test.*a)(4);*/
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	Test test;
+	SignalSubject<Test, int> a;
+	a.obj = &test;
+	a.fn = &Test::TestFunction1;
+	a.CallFunction(10);
 
 	//SignalObserver<int> b_obs(&TestFunction1);
 	//SignalObserver<int> b_obs2(&TestFunction2);
@@ -75,12 +104,12 @@ int main()
 	// find way to handle circularly dependency
 	//b.Register(&TestFunction1);
 	//b.Register(&test.TestFunction1)
-	b.Register(nullptr, &TestFunction2);
+	//b.Register(nullptr, &TestFunction2);
 	//b.Emit(0);
 
 	//b_obs.linkedFunction(120);
 
-	b.Emit(99);
+	//b.Emit(99);
 
 	//c_obs.Test(0, 1);
 
