@@ -45,6 +45,10 @@ class Test
 {
 	int mult = 4;
 	public:
+
+	Test(int _mult) : mult(_mult)
+	{}
+
 	void TestFunction1(int a)
 	{
 		std::cout << a * mult << std::endl;
@@ -55,6 +59,12 @@ class Test
 void TestFunction2(int a)
 {
 	std::cout << (a * 2) << std::endl;
+}
+
+
+void TestFunction3(int a)
+{
+	std::cout << (a * 3) << std::endl;
 }
 
 
@@ -76,20 +86,25 @@ void TestFunction2(int a)
 
 int main()
 {
-	Test test;
+	// Works!
+	/*Test test1(1);
+	Test test2(2);
+
 	SignalSubject<int> a;
-	a.Register<Test>(&test, &Test::TestFunction1);
-	a.Register<Test>(&test, &Test::TestFunction1);
-	a.Emit(20);
-	a.Unregister<Test>(&test, &Test::TestFunction1);
-	a.Emit(10);
+
+	a.Register<Test>(&test1, &Test::TestFunction1);
+	a.Register<Test>(&test2, &Test::TestFunction1);
+	a.Emit(1);
+	a.Unregister<Test>(&test2, &Test::TestFunction1);
+	a.Emit(1);*/
 	
 	// Works!
-	/*a.Register(&TestFunction2);
+	SignalSubject<int> a;
 	a.Register(&TestFunction2);
-	a.Emit(10);
-	a.Unregister(&TestFunction2);
-	a.Emit(20);*/
+	a.Register(&TestFunction3);
+	a.Emit(1);
+	a.Unregister(&TestFunction3);
+	a.Emit(1);
 
 	//SignalSubject a;
 	/*SignalSubject<int> b;

@@ -134,10 +134,19 @@ namespace jothly
 	template<typename ...Args>
 	void SignalSubject<Args...>::AddNodeToFront(SignalNode<Args...>* node)
 	{
+		if (_head == nullptr)
+		{
+			_head = node;
+			return;
+		}
+
 		SignalNode<Args...>* nextNode = _head;
+
 		_head = node;
 		_head->_prev = nullptr;
 		_head->_next = nextNode;
+
+		nextNode->_prev = _head;
 	}
 
 
@@ -173,15 +182,18 @@ namespace jothly
 
 		while (node != nullptr)
 		{
-			if(node->GetSignalNodeType() != SignalNodeType::FUNCTION) continue;
+			SignalNode<Args...>* currNode = node;
+			node = node->_next;
 
-			FunctionSignalNode<Args...>* functionNode = (FunctionSignalNode<Args...>*) node;
+			if(currNode->GetSignalNodeType() != SignalNodeType::FUNCTION) continue;
+
+			FunctionSignalNode<Args...>* functionNode = (FunctionSignalNode<Args...>*) currNode;
 
 			if (functionNode->_func != func) continue;
 
-			if(node == _head) _head = node->_next;
+			if (currNode == _head) _head = currNode->_next;
 
-			delete node;
+			delete currNode;
 
 			return 1;
 		}
@@ -210,16 +222,19 @@ namespace jothly
 
 		while (node != nullptr)
 		{
-			if (node->GetSignalNodeType() != SignalNodeType::OBJECT) continue;
+			SignalNode<Args...>* currNode = node;
+			node = node->_next;
 
-			ObjectSignalNode<ObjectType, Args...>* objectNode = (ObjectSignalNode<ObjectType, Args...>*) node;
+			if (currNode->GetSignalNodeType() != SignalNodeType::OBJECT) continue;
+
+			ObjectSignalNode<ObjectType, Args...>* objectNode = (ObjectSignalNode<ObjectType, Args...>*) currNode;
 
 			if(objectNode->_obj != obj) continue;
 			if (objectNode->_func != func) continue;
 
-			if (node == _head) _head = node->_next;
+			if (currNode == _head) _head = currNode->_next;
 
-			delete node;
+			delete currNode;
 
 			return 1;
 		}
