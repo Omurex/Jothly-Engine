@@ -76,12 +76,21 @@ void TestFunction2(int a)
 
 int main()
 {
+	Test test;
 	SignalSubject<int> a;
-	a.Register(&TestFunction2);
+	a.Register<Test>(&test, &Test::TestFunction1);
+	a.Register<Test>(&test, &Test::TestFunction1);
+	a.Emit(20);
+	a.Unregister<Test>(&test, &Test::TestFunction1);
+	a.Emit(10);
+	
+	// Works!
+	/*a.Register(&TestFunction2);
 	a.Register(&TestFunction2);
 	a.Emit(10);
 	a.Unregister(&TestFunction2);
-	a.Emit(20);
+	a.Emit(20);*/
+
 	//SignalSubject a;
 	/*SignalSubject<int> b;
 	SignalSubject<int, int> c;
