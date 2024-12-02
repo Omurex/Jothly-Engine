@@ -4,6 +4,14 @@
 
 namespace jothly
 {
+	enum SignalNodeType
+	{
+		FUNCTION,
+		OBJECT
+	};
+
+
+
 	#pragma region Forward Declarations
 	template<typename ...Args>
 	class SignalSubject;
@@ -58,6 +66,8 @@ namespace jothly
 	{
 		friend class SignalSubject<Args...>;
 
+		protected:
+
 		SignalNode<Args...>* _prev;
 		SignalNode<Args...>* _next;
 
@@ -66,13 +76,14 @@ namespace jothly
 		SignalNode(SignalSubject<Args...>* subject);
 		~SignalNode() { OnRemove(); }
 
-		protected:
+		virtual SignalNodeType GetSignalNodeType() const = 0;
+
 		virtual void CallFunction(Args... args) = 0;
 		void OnRemove();
 
 		
 	};
-	#pragma endregion End of SignalNode.h
+	#pragma endregion
 
 
 
@@ -87,6 +98,11 @@ namespace jothly
 		FunctionType _func;
 
 		protected:
+		FunctionSignalNode(SignalSubject<Args...>* subject, FunctionType func);
+		~FunctionSignalNode();
+
+		SignalNodeType GetSignalNodeType() const override;
+
 		void CallFunction(Args... args) override;
 	};
 	#pragma endregion
@@ -98,9 +114,10 @@ namespace jothly
 	class ObjectSignalNode : public SignalNode<Args...>
 	{
 		friend class SignalSubject<Args...>;
+		typedef void (ObjectType::*FunctionType)(Args...);
 
 		ObjectType* _obj;
-		typedef void (ObjectType::*FunctionType)(Args...);
+		FunctionType _func;
 
 		protected:
 		// void (ObjectType::* func)(Args...)
@@ -137,14 +154,48 @@ namespace jothly
 			node = node->_next;
 		}
 	}
+
+
+	template<typename ...Args>
+	int SignalSubject<Args...>::Register(FunctionType func)
+	{
+		FunctionSignalNode<Args...>* node = new FunctionSignalNode<Args...>(this, func);
+
+		AddNodeToFront(node);
+
+		return 0;
+	}
+
+
+	template<typename ...Args>
+	int SignalSubject<Args...>::Unregister(FunctionType func)
+	{
+		SignalNode<Args...>* node = _head;
+
+		while (node != nullptr)
+		{
+			if(node->GetSignalNodeType() != SignalNodeType::FUNCTION) continue;
+
+			FunctionSignalNode<Args...>* functionNode = (FunctionSignalNode<Args...>*) node;
+
+			if (functionNode->_func != func) continue;
+
+			if(node == _head) _head = node->_next;
+
+			delete node;
+
+			return 1;
+		}
+
+		return 0;
+	}
 	#pragma endregion
 
 
 	#pragma region SignalNode.cpp
 	template<typename ...Args>
-	SignalNode<Args...>::SignalNode(SignalSubject<Args...>* subject)
+	SignalNode<Args...>::SignalNode(SignalSubject<Args...>* subject) : _subject(subject)
 	{
-		_subject = subject;
 	}
 
 
@@ -160,6 +211,29 @@ namespace jothly
 		{
 			_next->_prev = _prev;
 		}
+	}
+	#pragma endregion
+
+
+	#pragma region FunctionSignalNode.cpp
+	template<typename ...Args>
+	FunctionSignalNode<Args...>::FunctionSignalNode(SignalSubject<Args...>* subject, FunctionType func) : 
+		SignalNode<Args...>(subject), _func(func)
+	{
+	}
+
+
+	template<typename ...Args>
+	SignalNodeType FunctionSignalNode<Args...>::GetSignalNodeType() const
+	{
+		return SignalNodeType::FUNCTION;
+	}
+
+
+	template<typename ...Args>
+	void FunctionSignalNode<Args...>::CallFunction(Args ...args)
+	{
+		_func(args...);
 	}
 	#pragma endregion
 }
