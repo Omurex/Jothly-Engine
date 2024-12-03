@@ -43,11 +43,15 @@ void TemplateFunction()
 
 int main()
 {
-	TemplateFunction();
+	//TemplateFunction();
 
 	jothly::Engine engine;
-	jothly::Window& window = engine.CreateWindow(jothly::Vector2i(200, 200), "Engine works!");
-	
+
+	std::string title = "Engine works!";
+
+	jothly::Window& window = engine.CreateWindow(jothly::Vector2i(200, 200), title);
+	engine.RunEngine();
+
 
 	/*while (window.IsOpen())
 	{

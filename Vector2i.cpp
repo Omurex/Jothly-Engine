@@ -80,7 +80,7 @@ namespace jothly
 	}
 
 
-	bool Vector2i::operator==(Vector2i const& other)
+	bool Vector2i::operator==(Vector2i const& other) const
 	{
 		return x == other.x && y == other.y;
 	}

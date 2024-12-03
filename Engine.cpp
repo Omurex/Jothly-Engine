@@ -27,17 +27,16 @@ namespace jothly
 	{
 		while (_window->IsOpen())
 		{
-			/*sf::Event::
 			sf::Event event;
-			while (window.pollEvent(event))
+			while (_window->_renderWindow.pollEvent(event))
 			{
 				if (event.type == sf::Event::Closed)
-					window.close();
+					_window->Close();
 			}
 
-			window.clear();
-			window.draw(shape);
-			window.display();*/
+			_window->Clear();
+			//_window.draw(shape);
+			_window->Display();
 		}
 	}
 

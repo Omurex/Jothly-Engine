@@ -37,11 +37,11 @@ namespace jothly
 
 		void Scale(float const& scale);
 
-		Vector4 operator+(Vector4 const& other);
-		Vector4 operator-(Vector4 const& other);
-		Vector4 operator*(float const& scale);
-		Vector4 operator/(float const& scale);
-		bool operator==(Vector4 const& other);
+		Vector4 operator+(Vector4 const& other) const;
+		Vector4 operator-(Vector4 const& other) const;
+		Vector4 operator*(float const& scale) const;
+		Vector4 operator/(float const& scale) const;
+		bool operator==(Vector4 const& other) const;
 
 		operator Vector3() const;
 	};

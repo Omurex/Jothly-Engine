@@ -68,13 +68,13 @@ namespace jothly
 	}
 
 
-	Vector3 Vector3::operator+(Vector3 const& other)
+	Vector3 Vector3::operator+(Vector3 const& other) const
 	{
 		return Vector3(x + other.x, y + other.y, z + other.z);
 	}
 
 
-	Vector3 Vector3::operator+(Vector2 const& other)
+	Vector3 Vector3::operator+(Vector2 const& other) const
 	{
 		return Vector3(x + other.x, y + other.y, z);
 	}
@@ -95,13 +95,13 @@ namespace jothly
 	}
 
 
-	Vector3 Vector3::operator-(Vector3 const& other)
+	Vector3 Vector3::operator-(Vector3 const& other) const
 	{
 		return Vector3(x - other.x, y - other.y, z - other.z);
 	}
 
 
-	Vector3 Vector3::operator-(Vector2 const& other)
+	Vector3 Vector3::operator-(Vector2 const& other) const
 	{
 		return Vector3(x - other.x, y - other.y, z);
 	}
@@ -124,19 +124,19 @@ namespace jothly
 	}
 
 
-	Vector3 Vector3::operator*(float const& scale)
+	Vector3 Vector3::operator*(float const& scale) const
 	{
 		return Vector3(x * scale, y * scale, z * scale);
 	}
 
 
-	Vector3 Vector3::operator/(float const& scale)
+	Vector3 Vector3::operator/(float const& scale) const
 	{
 		return Vector3(x / scale, y / scale, z / scale);
 	}
 
 
-	bool Vector3::operator==(Vector3 const& other)
+	bool Vector3::operator==(Vector3 const& other) const
 	{
 		return x == other.x && y == other.y && z == other.z;
 	}

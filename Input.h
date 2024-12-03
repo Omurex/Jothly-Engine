@@ -8,10 +8,7 @@ namespace jothly
 {
 	class Input
 	{
-		// Have additional array + 
-
-
-		static bool _justPressedKeys[];
+		static bool _justPressedKeys[(unsigned short)KeyCode::KeyCount];
 		static bool _justReleasedKeys[(unsigned short) KeyCode::KeyCount];
 
 		static bool _justPressedMouseButton[(unsigned short) MouseCode::ButtonCount];

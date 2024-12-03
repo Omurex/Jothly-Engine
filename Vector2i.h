@@ -45,7 +45,7 @@ namespace jothly
 		Vector2i& operator-=(Vector2i const& other);
 		Vector2 operator*(float const& scale) const;
 		Vector2 operator/(float const& scale) const;
-		bool operator==(Vector2i const& other);
+		bool operator==(Vector2i const& other) const;
 
 		operator Vector2() const;
 		operator sf::Vector2f() const { return sf::Vector2f((float) x, (float) y); }

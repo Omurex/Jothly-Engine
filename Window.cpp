@@ -9,7 +9,8 @@ namespace jothly
 	}
 
 
-	Window::Window(Vector2i screenSize, const std::string& windowTitle)
+	Window::Window(Vector2i screenSize, const std::string& windowTitle, const Color& backgroundColor) :
+		_backgroundColor(backgroundColor)
 	{
 		CreateNewWindow(screenSize, windowTitle);
 	}
@@ -32,4 +33,22 @@ namespace jothly
     {
         return _renderWindow.isOpen();
     }
+
+
+	void Window::Close()
+	{
+		_renderWindow.close();
+	}
+
+
+	void Window::Clear()
+	{
+		_renderWindow.clear((sf::Color) _backgroundColor);
+	}
+
+
+	void Window::Display()
+	{
+		_renderWindow.display();
+	}
 }
