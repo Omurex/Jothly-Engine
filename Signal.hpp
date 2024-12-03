@@ -4,6 +4,11 @@
 
 namespace jothly
 {
+	// Solved linker error with this link:
+	// https://www.reddit.com/r/cpp_questions/comments/i2u4tt/linker_error_when_using_templates/
+	// Templates apparently cannot be split like normal code, must be defined in same file
+
+
 	enum SignalNodeType
 	{
 		FUNCTION,
@@ -29,27 +34,42 @@ namespace jothly
 
 
 	#pragma region SignalSubject.h
+	// Class responsible for sending out notification
+
 	template<typename... Args>
 	class SignalSubject
 	{
+		// Define function pointer type for easier-to-read parameters
 		typedef void (*FunctionType)(Args...);
 
 		friend class SignalNode<Args...>;
 
+		// Start of linked list of signal nodes, which can be either function or object
 		SignalNode<Args...>* _head = nullptr;
 
+		// Appends a node to the front of the linked list, replacing _head with node
 		void AddNodeToFront(SignalNode<Args...>* node);
 
 	public:
 		SignalSubject() {}
+
+		// Call the functions tied to each subscribed node using the arguments provided
 		void Emit(Args... args);
 
+		// Create new function node using provided function
+		// Returns 1 on success
 		int Register(FunctionType func);
+
+		// Remove existing node that matches the passed in function
+		// Returns 1 on success, 0 on fail
 		int Unregister(FunctionType func);
 
+		// Create new object node using provided object and member function
+		// Returns 1 on success
 		template<typename ObjectType>
 		int Register(ObjectType* obj, void (ObjectType::*func)(Args...));
 
+		// Remove existing node that matches passed in object and member function
 		template<typename ObjectType>
 		int Unregister(ObjectType* obj, void (ObjectType::* func)(Args...));
 	};
@@ -58,6 +78,9 @@ namespace jothly
 
 
 	#pragma region SignalNode.h
+	// Abstract class representing a node in a linked list that
+	// is able to call functionality using passed in parameters
+
 	template<typename ...Args>
 	class SignalNode
 	{
@@ -65,6 +88,7 @@ namespace jothly
 
 		protected:
 
+		// Stores the previous and next nodes in the linked list
 		SignalNode<Args...>* _prev = nullptr;
 		SignalNode<Args...>* _next = nullptr;
 
@@ -73,9 +97,13 @@ namespace jothly
 		SignalNode(SignalSubject<Args...>* subject);
 		~SignalNode() { OnRemove(); }
 
+		// Abstract function, used to identify node type using enum
 		virtual SignalNodeType GetSignalNodeType() const = 0;
 
+		// Abstract function, call functionality tied to node using parameters
 		virtual void CallFunction(Args... args) = 0;
+
+		// Properly remove self from linked list
 		void OnRemove();
 	};
 	#pragma endregion
@@ -83,13 +111,17 @@ namespace jothly
 
 
 	#pragma region FunctionSignalNode.h
+	// Version of a SignalNode used to call functions (no object associated with them)
+
 	template<typename ...Args>
 	class FunctionSignalNode : public SignalNode<Args...>
 	{
 		friend class SignalSubject<Args...>;
 
+		// Define function type we store for clarity
 		typedef void (*FunctionType)(Args...);
 
+		// Stored function
 		FunctionType _func;
 
 		protected:
@@ -105,13 +137,20 @@ namespace jothly
 
 
 	#pragma region ObjectSignalNode.h
+	// Version of a SignalNode used to call methods (functions in a class definition, tied to an object)
+
 	template<class ObjectType, typename ...Args>
 	class ObjectSignalNode : public SignalNode<Args...>
 	{
 		friend class SignalSubject<Args...>;
+
+		// Define function type we store for clarity
 		typedef void (ObjectType::*FunctionType)(Args...);
 
+		// Object we will call _func on
 		ObjectType* _obj;
+
+		// Stored member function
 		FunctionType _func;
 
 		protected:
@@ -127,13 +166,10 @@ namespace jothly
 
 
 	#pragma region SignalSubject.cpp
-	// Solved linker error with this link:
-	// https://www.reddit.com/r/cpp_questions/comments/i2u4tt/linker_error_when_using_templates/
-	// Templates apparently cannot be split like normal code, must be defined in same file
-	// TODO: Add object pooling so we don't have constant dynamic memory allocation
 	template<typename ...Args>
 	void SignalSubject<Args...>::AddNodeToFront(SignalNode<Args...>* node)
 	{
+		// If we don't have a linked list, start one using node
 		if (_head == nullptr)
 		{
 			_head = node;
@@ -142,10 +178,9 @@ namespace jothly
 
 		SignalNode<Args...>* nextNode = _head;
 
+		// Update references to follow linked list requirements
 		_head = node;
-		_head->_prev = nullptr;
 		_head->_next = nextNode;
-
 		nextNode->_prev = _head;
 	}
 
@@ -155,6 +190,7 @@ namespace jothly
 	{
 		SignalNode<Args...>* node = _head;
 
+		// Go through all nodes and call their associated function for each one
 		while (node != nullptr)
 		{
 			node->CallFunction(args...);
@@ -171,7 +207,7 @@ namespace jothly
 
 		AddNodeToFront(node);
 
-		return 0;
+		return 1;
 	}
 
 
@@ -180,6 +216,7 @@ namespace jothly
 	{
 		SignalNode<Args...>* node = _head;
 
+		// Loop through linked list searching for matching node, then delete it when found
 		while (node != nullptr)
 		{
 			SignalNode<Args...>* currNode = node;
@@ -198,6 +235,7 @@ namespace jothly
 			return 1;
 		}
 
+		// If we search whole linked list without finding match, fail
 		return 0;
 	}
 
@@ -210,7 +248,7 @@ namespace jothly
 
 		AddNodeToFront(node);
 
-		return 0;
+		return 1;
 	}
 
 
@@ -220,6 +258,7 @@ namespace jothly
 	{
 		SignalNode<Args...>* node = _head;
 
+		// Loop through linked list searching for matching node, then delete it when found
 		while (node != nullptr)
 		{
 			SignalNode<Args...>* currNode = node;
@@ -239,6 +278,7 @@ namespace jothly
 			return 1;
 		}
 
+		// If we search whole linked list without finding match, fail
 		return 0;
 	}
 	#pragma endregion
@@ -247,8 +287,7 @@ namespace jothly
 	#pragma region SignalNode.cpp
 	template<typename ...Args>
 	SignalNode<Args...>::SignalNode(SignalSubject<Args...>* subject) : _subject(subject)
-	{
-	}
+	{}
 
 
 	template<typename ...Args>
